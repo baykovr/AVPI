@@ -110,7 +110,7 @@ namespace AVPI
                 ship.max_pwr_g3();
 
                 println(10, '>', "channeling power to G3");
-                _play_sound("vaglad/complete.wav","complete");
+                print_say("completed");
             }
             #region Targeting
             else if (voice.Contains("target nearest") || voice.Contains("scan"))
