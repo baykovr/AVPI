@@ -2,7 +2,8 @@
 Artificial Virtual Pilot Interface, an open source alternative to VoiceAttack
 
 #### Version .02 
-Link https://github.com/baykovr/AVPI/releases/tag/v0.2
+Release Page https://github.com/baykovr/AVPI/releases/tag/v0.2
+Direct Link: https://github.com/baykovr/AVPI/releases/download/v0.2/AVPI_v02.7z
 
 ### Introduction
 
