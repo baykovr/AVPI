@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="InputManager">
+      <HintPath>deps\InputManager.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,16 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GAVPI.cs">
+    <Compile Include="frmGAVPI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GAVPI.Designer.cs">
-      <DependentUpon>GAVPI.cs</DependentUpon>
+    <Compile Include="frmGAVPI.Designer.cs">
+      <DependentUpon>frmGAVPI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="GAVPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="GAVPI.resx">
-      <DependentUpon>GAVPI.cs</DependentUpon>
+    <Compile Include="VI_Action.cs" />
+    <EmbeddedResource Include="frmGAVPI.resx">
+      <DependentUpon>frmGAVPI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
