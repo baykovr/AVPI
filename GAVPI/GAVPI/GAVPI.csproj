@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmActionSequence.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmActionSequence.Designer.cs">
+      <DependentUpon>frmActionSequence.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmProfile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,7 +66,8 @@
     <Compile Include="frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="VI_DB.cs" />
+    <Compile Include="VI_Data.cs" />
+    <Compile Include="VI_Profile.cs" />
     <Compile Include="frmGAVPI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +78,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VI.cs" />
     <Compile Include="VI_Action_Sequence.cs" />
+    <Compile Include="VI_Settings.cs" />
+    <Compile Include="VI_Trigger.cs" />
+    <EmbeddedResource Include="frmActionSequence.resx">
+      <DependentUpon>frmActionSequence.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmGAVPI.resx">
       <DependentUpon>frmGAVPI.cs</DependentUpon>
     </EmbeddedResource>
