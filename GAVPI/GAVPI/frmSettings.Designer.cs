@@ -40,7 +40,7 @@
             // lblSettingsRecognizerLang
             // 
             this.lblSettingsRecognizerLang.AutoSize = true;
-            this.lblSettingsRecognizerLang.Location = new System.Drawing.Point(12, 58);
+            this.lblSettingsRecognizerLang.Location = new System.Drawing.Point(12, 12);
             this.lblSettingsRecognizerLang.Name = "lblSettingsRecognizerLang";
             this.lblSettingsRecognizerLang.Size = new System.Drawing.Size(146, 13);
             this.lblSettingsRecognizerLang.TabIndex = 0;
@@ -50,7 +50,7 @@
             // 
             this.cbxSettingsSpeechRecognizer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxSettingsSpeechRecognizer.FormattingEnabled = true;
-            this.cbxSettingsSpeechRecognizer.Location = new System.Drawing.Point(166, 55);
+            this.cbxSettingsSpeechRecognizer.Location = new System.Drawing.Point(164, 9);
             this.cbxSettingsSpeechRecognizer.Name = "cbxSettingsSpeechRecognizer";
             this.cbxSettingsSpeechRecognizer.Size = new System.Drawing.Size(121, 21);
             this.cbxSettingsSpeechRecognizer.TabIndex = 1;
@@ -88,7 +88,7 @@
             // lblSettingsSpeechSynthesizer
             // 
             this.lblSettingsSpeechSynthesizer.AutoSize = true;
-            this.lblSettingsSpeechSynthesizer.Location = new System.Drawing.Point(12, 87);
+            this.lblSettingsSpeechSynthesizer.Location = new System.Drawing.Point(12, 52);
             this.lblSettingsSpeechSynthesizer.Name = "lblSettingsSpeechSynthesizer";
             this.lblSettingsSpeechSynthesizer.Size = new System.Drawing.Size(101, 13);
             this.lblSettingsSpeechSynthesizer.TabIndex = 5;
@@ -98,7 +98,7 @@
             // 
             this.cbxSettingsSynthesizer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxSettingsSynthesizer.FormattingEnabled = true;
-            this.cbxSettingsSynthesizer.Location = new System.Drawing.Point(166, 84);
+            this.cbxSettingsSynthesizer.Location = new System.Drawing.Point(164, 49);
             this.cbxSettingsSynthesizer.Name = "cbxSettingsSynthesizer";
             this.cbxSettingsSynthesizer.Size = new System.Drawing.Size(121, 21);
             this.cbxSettingsSynthesizer.TabIndex = 6;

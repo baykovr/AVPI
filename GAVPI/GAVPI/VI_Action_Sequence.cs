@@ -44,7 +44,7 @@ namespace GAVPI
         {
             action_sequence.Remove(rm_Action);
         }
-        public void run_sequence()
+        public void run()
         {
             foreach (Action action in action_sequence)
             {

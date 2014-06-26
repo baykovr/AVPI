@@ -28,5 +28,6 @@ namespace GAVPI
             vi_sre = new SpeechRecognitionEngine(settings.recognizer_info);
 
         }
+
     }
 }

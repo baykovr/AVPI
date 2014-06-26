@@ -19,6 +19,5 @@ namespace GAVPI
             MaximizeBox = false;
             this.vi_settings = vi_settings;
         }
-
     }
 }
