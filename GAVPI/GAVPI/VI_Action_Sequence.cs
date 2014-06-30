@@ -17,15 +17,19 @@ using InputManager;
 
 namespace GAVPI
 {
-    public class VI_Action_Sequence
+    public class VI_Action_Sequence : VI_TriggerEvent
     {
-        public string name;
-        private List<Action> action_sequence;
+        public string name {get; set;}
+        public string type { get; set; }
+        public string comment { get; set; }
+        public List<Action> action_sequence;
+        
 
         public VI_Action_Sequence(string name)
         {
             action_sequence = new List<Action>();
             this.name = name;
+            this.type = "Action Sequence";
         }
         public List<Action> get_Action_sequence()
         {
@@ -36,11 +40,11 @@ namespace GAVPI
             this.action_sequence = new_Action_sequence;
         }
 
-        public void add_Action(Action new_Action)
+        public void Add(Action new_Action)
         {
             action_sequence.Add(new_Action);
         }
-        public void remove_Action(Action rm_Action)
+        public void Remove(Action rm_Action)
         {
             action_sequence.Remove(rm_Action);
         }
@@ -64,108 +68,104 @@ namespace GAVPI
      */
     public abstract class Action
     {
+        public string type { get; set; }
+        public string value { get; set; }
+
         public abstract void run();
-    }
-    public partial class KeyDownAction : Action
-    {
-        Keys kd_Key;
-        public KeyDownAction(Keys keydown)
-        {
-            this.kd_Key = keydown;
-        }
-        public override void run()
-        {
-            Keyboard.KeyDown(kd_Key);
-        }
-    }
-    public partial class KeyUpAction : Action
-    {
-        Keys ku_Key;
-        public KeyUpAction(Keys keyup)
-        {
-            this.ku_Key = keyup;
-        }
-        public override void run()
-        {
-            Keyboard.KeyDown(ku_Key);
-        }
-    }
-    public partial class KeyPressAction : Action
-    {
-        Keys kp_Key;
 
-        public KeyPressAction(Keys keypress)
+        public Action(string value)
         {
-            this.kp_Key = keypress;
+            this.value = value;
+            this.type = this.GetType().Name;
+        }
+    }
+    public partial class KeyDown : Action
+    {
+        public KeyDown(string value) : base(value)
+        {
+
         }
         public override void run()
         {
-            Keyboard.KeyPress(kp_Key);
+            Keyboard.KeyDown((Keys)Enum.Parse(typeof(Keys), value));
+        }
+    }
+    public partial class KeyUp : Action
+    {
+        public KeyUp(string value): base(value)
+        {
+        }
+        public override void run()
+        {
+            Keyboard.KeyDown((Keys)Enum.Parse(typeof(Keys), value));
+        }
+    }
+    public partial class KeyPress : Action
+    {
+        public KeyPress(string value): base(value)
+        {
+           
+        }
+        public override void run()
+        {
+            Keyboard.KeyDown((Keys)Enum.Parse(typeof(Keys), value));
         }
     }
 
-    public partial class MouseKeyDownAction : Action
+    public partial class MouseKeyDown : Action
     {
-        Mouse.MouseKeys md_Key;
-        public MouseKeyDownAction(Mouse.MouseKeys mousedown)
+        public MouseKeyDown(string value): base(value)
         {
-            this.md_Key = mousedown;
+            
         }
         public override void run()
         {
-            Mouse.ButtonDown(md_Key);
+            Mouse.ButtonDown((Mouse.MouseKeys)Enum.Parse(typeof(Mouse.MouseKeys), value));
         }
     }
-    public partial class MouseKeyUpAction : Action
+    public partial class MouseKeyUp : Action
     {
-        Mouse.MouseKeys mu_Key;
-        public MouseKeyUpAction(Mouse.MouseKeys mouseup)
+        public MouseKeyUp(string value) : base(value)
         {
-            this.mu_Key = mouseup;
+           
         }
         public override void run()
         {
-            Mouse.ButtonUp(mu_Key);
+            Mouse.ButtonDown((Mouse.MouseKeys)Enum.Parse(typeof(Mouse.MouseKeys), value));
         }
     }
-    public partial class MouseKeyPressAction : Action
+    public partial class MouseKeyPress : Action
     {
-        Mouse.MouseKeys mp_Key;
-        public MouseKeyPressAction(Mouse.MouseKeys mousepress)
+        public MouseKeyPress(string value) : base(value)
         {
-            this.mp_Key = mousepress;
         }
         public override void run()
         {
-            Mouse.PressButton(mp_Key);
+            Mouse.ButtonDown((Mouse.MouseKeys)Enum.Parse(typeof(Mouse.MouseKeys), value));
         }
     }
-    public partial class WaitAction : Action
+    public partial class Wait : Action
     {
-        Int32 ms_wait;
-        public WaitAction(Int32 ms_to_wait)
+        public Wait(string value) : base(value)
         {
-            this.ms_wait = ms_to_wait;
         }
         public override void run()
         {
-            Thread.Sleep(ms_wait);
+            Thread.Sleep( Int32.Parse(value));
         }
     }
-    public partial class SpeakAction : Action
+    public partial class Speak : Action
     {
-        string speech;
         SpeechSynthesizer synth;
-        public SpeakAction (SpeechSynthesizer synth, string speech)
+        public Speak(SpeechSynthesizer synth, string value) : base(value)
         {
             this.synth = synth;
-            this.speech = speech;
         }
         public override void run()
         {
             try
             {
-                synth.SpeakAsync(speech);
+                synth.SpeakAsync(value);
             }
             catch(Exception synth_err)
             {

@@ -31,6 +31,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>gavpi.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="InputManager">
       <HintPath>deps\InputManager.dll</HintPath>
@@ -54,6 +61,12 @@
     <Compile Include="frmActionSequence.Designer.cs">
       <DependentUpon>frmActionSequence.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAddtoTriggerEvent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddtoTriggerEvent.Designer.cs">
+      <DependentUpon>frmAddtoTriggerEvent.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmProfile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +78,12 @@
     </Compile>
     <Compile Include="frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTrigger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTrigger.Designer.cs">
+      <DependentUpon>frmTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="VI_Data.cs" />
     <Compile Include="VI_Profile.cs" />
@@ -80,8 +99,12 @@
     <Compile Include="VI_Action_Sequence.cs" />
     <Compile Include="VI_Settings.cs" />
     <Compile Include="VI_Trigger.cs" />
+    <Compile Include="VI_TriggerEvent.cs" />
     <EmbeddedResource Include="frmActionSequence.resx">
       <DependentUpon>frmActionSequence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddtoTriggerEvent.resx">
+      <DependentUpon>frmAddtoTriggerEvent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGAVPI.resx">
       <DependentUpon>frmGAVPI.cs</DependentUpon>
@@ -91,6 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTrigger.resx">
+      <DependentUpon>frmTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -113,6 +139,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="gavpi.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

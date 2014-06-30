@@ -13,10 +13,13 @@ namespace GAVPI
      * can have many action_sequences
      * can have many triggers
      */
-    public abstract class VI_Trigger
+    public abstract class VI_Trigger : VI_TriggerEvent
     {
         // Name must be unique
-        public string name;
+        public string type { get; set; }
+        public string name {get;set;}
+        public string value { get; set; }
+        public string comment { get; set; }
         // Hashset contains trigger/actseq names
         
         public VI_Profile profile;
@@ -26,8 +29,11 @@ namespace GAVPI
         public VI_Trigger(string name)
         {
             this.name = name;
+            this.type = this.GetType().Name;
+
             Triggers = new List<VI_Trigger>();
             Action_Sequences = new List<VI_Action_Sequence>();
+            
         }
 
         public void Add(VI_Trigger trigger)
@@ -52,11 +58,9 @@ namespace GAVPI
     }
     public partial class VI_Phrase : VI_Trigger
     {
-        public string phrase;
-
-        public VI_Phrase(string name ,string phrase) : base(name)
+        public VI_Phrase(string name ,string value) : base(name)
         {
-            this.phrase = phrase;
+            this.value = value;
         }
         public override void run()
         {

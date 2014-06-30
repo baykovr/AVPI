@@ -20,17 +20,37 @@ namespace GAVPI
             InitializeComponent();
             
             vi_settings = new VI_Settings("settings.gavpi");
-            vi_profile  = new VI_Profile("default.gavpi");
+            vi_profile  = new VI_Profile("TestProfile.gavpi");
 
             // Here we go.
             VI virtualinterface = new VI(vi_profile, vi_settings);
         }
-
+        #region Main form
+        private void frmGAVPI_Load(object sender, EventArgs e)
+        {
+            
+        }
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        
+        #endregion
         #region Profile
         private void modifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmProfile modProfileFrm = new frmProfile(vi_profile);
-            modProfileFrm.ShowDialog();
+            try
+            {
+                frmProfile modProfileFrm = new frmProfile(vi_profile);
+                modProfileFrm.ShowDialog();
+            }
+            catch (Exception profile_exception)
+            {
+                MessageBox.Show("Serious problem in profile.\n" + profile_exception.Message, "Error",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Exclamation,
+                   MessageBoxDefaultButton.Button1);
+            }
         }
         #endregion
         #region Settings
@@ -40,6 +60,11 @@ namespace GAVPI
             modSettingsFrm.ShowDialog();
         }
         #endregion
+
+        
+
+
+       
 
        
     }
