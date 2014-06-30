@@ -4,6 +4,8 @@ Graphical Artificial Virtual Pilot Interface, an open source alternative to Voic
 
 ![cap](https://baykovr.github.io/img/main.png)
 
+(WIP) News & Updates : https://baykovr.github.io/gavpi_news.html
+
 ###AVPI
 Artificial Virtual Pilot Interface, an open source alternative to VoiceAttack
 
