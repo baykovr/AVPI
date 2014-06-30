@@ -1,3 +1,9 @@
+###Coming Soon: GAVPI
+
+Graphical Artificial Virtual Pilot Interface, an open source alternative to VoiceAttack
+
+![cap](https://baykovr.github.io/img/main.png)
+
 ###AVPI
 Artificial Virtual Pilot Interface, an open source alternative to VoiceAttack
 
