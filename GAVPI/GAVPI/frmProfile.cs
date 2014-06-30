@@ -92,29 +92,88 @@ namespace GAVPI
         {
             if (dgActionSequences.MultiSelect == true)
             {
-                throw new NotImplementedException("Multiple sequences at once is unsupported.");
+                throw new NotImplementedException("Editing multiple sequences at once is unsupported.");
             }
             foreach (DataGridViewRow row in this.dgActionSequences.SelectedRows)
             {
                 VI_Action_Sequence sequence_to_edit = row.DataBoundItem as VI_Action_Sequence;
-
                 frmActionSequence newActionSequence = new frmActionSequence(profile, sequence_to_edit);
                 newActionSequence.ShowDialog();
-
-                
             }
             refresh_dgActionSequences();
             refresh_dgTriggerEvents();
         }
         private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            if (dgActionSequences.MultiSelect == true)
+            {
+                throw new NotImplementedException("Multiple sequence deletions are unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgActionSequences.SelectedRows)
+            {
+                VI_Action_Sequence sequence_to_remove = row.DataBoundItem as VI_Action_Sequence;
+                profile.Profile_ActionSequences.Remove(sequence_to_remove);
+                
+                // Remove references in other triggers
+                foreach (VI_Trigger current_trigger in profile.Profile_Triggers)
+                {
+                    current_trigger.Action_Sequences.Remove(sequence_to_remove);
+                }
+            }
+            refresh_dgActionSequences();
+            refresh_dgTriggerEvents();
+        }
+        #endregion
+
+
+        #region Triggers Context
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgTriggers.MultiSelect == true)
+            {
+                throw new NotImplementedException("Editing mutliple triggers at once is unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
+            {
+                VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
+                if (selected_trigger != null)
+                {
+                    frmTrigger newTrigger = new frmTrigger(profile, selected_trigger);
+                    newTrigger.ShowDialog();
+                    refresh_dgTriggers();
+                }
+            }
+        }
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgTriggers.MultiSelect == true)
+            {
+                throw new NotImplementedException("Editing mutliple triggers at once is unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
+            {
+                VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
+                if (selected_trigger != null)
+                {
+                    profile.Profile_Triggers.Remove(selected_trigger);
+
+                    // Remove any references to the removed trigger from other triggers
+                    foreach (VI_Trigger current_trigger in profile.Profile_Triggers)
+                    {
+                        current_trigger.Triggers.Remove(selected_trigger);
+                    }
+                    refresh_dgTriggers();
+                }
+            }
+        }
+        #endregion
+
+        
+        #region Trigger Events
+        private void deleteToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
 
         }
         #endregion
-        
-
-        #region Triggers Context
-        #endregion
-
     }
 }

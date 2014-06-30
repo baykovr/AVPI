@@ -57,11 +57,13 @@
             this.lblProfileActionSequences = new System.Windows.Forms.Label();
             this.dgActionSequences = new System.Windows.Forms.DataGridView();
             this.contextProfileActionSequences = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.taddtoeventToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusProfile = new System.Windows.Forms.StatusStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.taddtoeventToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextProfileTriggerEvents = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitProfile)).BeginInit();
             this.splitProfile.Panel1.SuspendLayout();
@@ -76,6 +78,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgTriggerEvents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgActionSequences)).BeginInit();
             this.contextProfileActionSequences.SuspendLayout();
+            this.contextProfileTriggerEvents.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuProfile
@@ -95,13 +98,13 @@
             this.stripProfileTrigger.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addNewToolStripMenuItem});
             this.stripProfileTrigger.Name = "stripProfileTrigger";
-            this.stripProfileTrigger.Size = new System.Drawing.Size(50, 20);
+            this.stripProfileTrigger.Size = new System.Drawing.Size(57, 20);
             this.stripProfileTrigger.Text = "Trigger";
             // 
             // addNewToolStripMenuItem
             // 
             this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
-            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.addNewToolStripMenuItem.Text = "New";
             this.addNewToolStripMenuItem.Click += new System.EventHandler(this.addNewToolStripMenuItem_Click);
             // 
@@ -110,20 +113,20 @@
             this.stripProfileActionSequence.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addNewToolStripMenuItem1});
             this.stripProfileActionSequence.Name = "stripProfileActionSequence";
-            this.stripProfileActionSequence.Size = new System.Drawing.Size(96, 20);
+            this.stripProfileActionSequence.Size = new System.Drawing.Size(108, 20);
             this.stripProfileActionSequence.Text = "Action Sequence";
             // 
             // addNewToolStripMenuItem1
             // 
             this.addNewToolStripMenuItem1.Name = "addNewToolStripMenuItem1";
-            this.addNewToolStripMenuItem1.Size = new System.Drawing.Size(95, 22);
+            this.addNewToolStripMenuItem1.Size = new System.Drawing.Size(98, 22);
             this.addNewToolStripMenuItem1.Text = "New";
             this.addNewToolStripMenuItem1.Click += new System.EventHandler(this.addNewToolStripMenuItem1_Click);
             // 
             // stripProfileHelp
             // 
             this.stripProfileHelp.Name = "stripProfileHelp";
-            this.stripProfileHelp.Size = new System.Drawing.Size(41, 20);
+            this.stripProfileHelp.Size = new System.Drawing.Size(44, 20);
             this.stripProfileHelp.Text = "Help";
             // 
             // splitProfile
@@ -228,19 +231,21 @@
             this.editToolStripMenuItem,
             this.deleteToolStripMenuItem});
             this.contextProfileTriggers.Name = "contextProfileTriggers";
-            this.contextProfileTriggers.Size = new System.Drawing.Size(107, 48);
+            this.contextProfileTriggers.Size = new System.Drawing.Size(108, 48);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // lblProfileTriggerEvents
             // 
@@ -255,6 +260,7 @@
             // 
             this.dgTriggerEvents.AllowUserToAddRows = false;
             this.dgTriggerEvents.AllowUserToDeleteRows = false;
+            this.dgTriggerEvents.AllowUserToResizeRows = false;
             this.dgTriggerEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -269,6 +275,7 @@
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgTriggerEvents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgTriggerEvents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgTriggerEvents.ContextMenuStrip = this.contextProfileTriggerEvents;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -308,7 +315,6 @@
             // 
             this.dgActionSequences.AllowUserToAddRows = false;
             this.dgActionSequences.AllowUserToDeleteRows = false;
-            this.dgActionSequences.AllowUserToResizeColumns = false;
             this.dgActionSequences.AllowUserToResizeRows = false;
             this.dgActionSequences.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -359,19 +365,31 @@
             this.editToolStripMenuItem1,
             this.deleteToolStripMenuItem1});
             this.contextProfileActionSequences.Name = "contextProfileActionSequences";
-            this.contextProfileActionSequences.Size = new System.Drawing.Size(166, 76);
+            this.contextProfileActionSequences.Size = new System.Drawing.Size(184, 76);
+            // 
+            // taddtoeventToolStripMenuItem1
+            // 
+            this.taddtoeventToolStripMenuItem1.Name = "taddtoeventToolStripMenuItem1";
+            this.taddtoeventToolStripMenuItem1.Size = new System.Drawing.Size(183, 22);
+            this.taddtoeventToolStripMenuItem1.Text = "Add to Trigger Event";
+            this.taddtoeventToolStripMenuItem1.Click += new System.EventHandler(this.taddtoeventToolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(180, 6);
             // 
             // editToolStripMenuItem1
             // 
             this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
-            this.editToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+            this.editToolStripMenuItem1.Size = new System.Drawing.Size(183, 22);
             this.editToolStripMenuItem1.Text = "Edit";
             this.editToolStripMenuItem1.Click += new System.EventHandler(this.editToolStripMenuItem1_Click);
             // 
             // deleteToolStripMenuItem1
             // 
             this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(183, 22);
             this.deleteToolStripMenuItem1.Text = "Delete";
             this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
             // 
@@ -383,17 +401,19 @@
             this.statusProfile.TabIndex = 2;
             this.statusProfile.Text = "statusStrip1";
             // 
-            // toolStripSeparator1
+            // contextProfileTriggerEvents
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(162, 6);
+            this.contextProfileTriggerEvents.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem2});
+            this.contextProfileTriggerEvents.Name = "contextProfileTriggerEvents";
+            this.contextProfileTriggerEvents.Size = new System.Drawing.Size(108, 26);
             // 
-            // taddtoeventToolStripMenuItem1
+            // deleteToolStripMenuItem2
             // 
-            this.taddtoeventToolStripMenuItem1.Name = "taddtoeventToolStripMenuItem1";
-            this.taddtoeventToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
-            this.taddtoeventToolStripMenuItem1.Text = "Add to Trigger Event";
-            this.taddtoeventToolStripMenuItem1.Click += new System.EventHandler(this.taddtoeventToolStripMenuItem1_Click);
+            this.deleteToolStripMenuItem2.Name = "deleteToolStripMenuItem2";
+            this.deleteToolStripMenuItem2.Size = new System.Drawing.Size(107, 22);
+            this.deleteToolStripMenuItem2.Text = "Delete";
+            this.deleteToolStripMenuItem2.Click += new System.EventHandler(this.deleteToolStripMenuItem2_Click);
             // 
             // frmProfile
             // 
@@ -427,6 +447,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgTriggerEvents)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgActionSequences)).EndInit();
             this.contextProfileActionSequences.ResumeLayout(false);
+            this.contextProfileTriggerEvents.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -457,5 +478,7 @@
         private System.Windows.Forms.ToolStripMenuItem stripProfileHelp;
         private System.Windows.Forms.ToolStripMenuItem taddtoeventToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ContextMenuStrip contextProfileTriggerEvents;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem2;
     }
 }

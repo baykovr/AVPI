@@ -76,7 +76,7 @@
             this.txtTriggerValue.Location = new System.Drawing.Point(52, 86);
             this.txtTriggerValue.Name = "txtTriggerValue";
             this.txtTriggerValue.Size = new System.Drawing.Size(371, 20);
-            this.txtTriggerValue.TabIndex = 3;
+            this.txtTriggerValue.TabIndex = 2;
             // 
             // btnTriggerOk
             // 
@@ -84,7 +84,7 @@
             this.btnTriggerOk.Location = new System.Drawing.Point(276, 144);
             this.btnTriggerOk.Name = "btnTriggerOk";
             this.btnTriggerOk.Size = new System.Drawing.Size(75, 23);
-            this.btnTriggerOk.TabIndex = 4;
+            this.btnTriggerOk.TabIndex = 3;
             this.btnTriggerOk.Text = "Ok";
             this.btnTriggerOk.UseVisualStyleBackColor = true;
             this.btnTriggerOk.Click += new System.EventHandler(this.btnTriggerOk_Click);
@@ -96,7 +96,7 @@
             this.btnTriggerCancel.Location = new System.Drawing.Point(357, 144);
             this.btnTriggerCancel.Name = "btnTriggerCancel";
             this.btnTriggerCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnTriggerCancel.TabIndex = 5;
+            this.btnTriggerCancel.TabIndex = 4;
             this.btnTriggerCancel.Text = "Cancel";
             this.btnTriggerCancel.UseVisualStyleBackColor = true;
             this.btnTriggerCancel.Click += new System.EventHandler(this.btnTriggerCancel_Click);
@@ -116,7 +116,7 @@
             this.txtTriggerName.Location = new System.Drawing.Point(52, 36);
             this.txtTriggerName.Name = "txtTriggerName";
             this.txtTriggerName.Size = new System.Drawing.Size(198, 20);
-            this.txtTriggerName.TabIndex = 7;
+            this.txtTriggerName.TabIndex = 0;
             // 
             // frmTrigger
             // 

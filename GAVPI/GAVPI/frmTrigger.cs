@@ -13,12 +13,32 @@ namespace GAVPI
     public partial class frmTrigger : Form
     {
         private VI_Profile profile;
+        private VI_Trigger existing_trigger;
+        private bool edit_mode; 
+
         public frmTrigger(VI_Profile profile)
         {
             InitializeComponent();
             this.profile = profile;
+            edit_mode = false;
+            populate_fields();
+        }
+        public frmTrigger(VI_Profile profile, VI_Trigger existing_trigger)
+        {
+            InitializeComponent();
+            this.profile = profile;
+            this.existing_trigger = existing_trigger;
+            edit_mode = true;
+            populate_fields();
+        }
+        private void populate_fields()
+        {
             cbTriggerType.DataSource = this.profile.Trigger_Types;
-
+            if (edit_mode)
+            {
+                txtTriggerName.Text = existing_trigger.name;
+                txtTriggerValue.Text = existing_trigger.value;
+            }
         }
 
         private void btnTriggerCancel_Click(object sender, EventArgs e)
@@ -28,6 +48,11 @@ namespace GAVPI
 
         private void btnTriggerOk_Click(object sender, EventArgs e)
         {
+            //if (edit_mode)
+            //{
+            //    profile.Profile_Triggers.Remove(existing_trigger);
+            //}
+
             // Check if exists with name
             string new_trigger_name = txtTriggerName.Text.Trim();
             string new_trigger_value = txtTriggerValue.Text.Trim();
