@@ -172,6 +172,35 @@ namespace GAVPI
         #region Trigger Events
         private void deleteToolStripMenuItem2_Click(object sender, EventArgs e)
         {
+            if (dgTriggerEvents.MultiSelect == true)
+            {
+                throw new NotImplementedException("Editing mutliple triggers at once is unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgTriggerEvents.SelectedRows)
+            {
+                VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
+                if (selected_trigger != null)
+                {
+                    profile.Profile_Triggers.Remove(selected_trigger);
+
+                    // Remove any references to the removed trigger from other triggers
+                    foreach (VI_Trigger current_trigger in profile.Profile_Triggers)
+                    {
+                        current_trigger.Triggers.Remove(selected_trigger);
+                    }
+                    refresh_dgTriggers();
+                }
+            }
+        }
+        #endregion
+        #region File
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            profile.save_profile("test.xml");
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
         }
         #endregion

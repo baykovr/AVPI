@@ -42,7 +42,7 @@
             // lblTriggerType
             // 
             this.lblTriggerType.AutoSize = true;
-            this.lblTriggerType.Location = new System.Drawing.Point(256, 39);
+            this.lblTriggerType.Location = new System.Drawing.Point(13, 19);
             this.lblTriggerType.Name = "lblTriggerType";
             this.lblTriggerType.Size = new System.Drawing.Size(31, 13);
             this.lblTriggerType.TabIndex = 0;
@@ -54,15 +54,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbTriggerType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTriggerType.FormattingEnabled = true;
-            this.cbTriggerType.Location = new System.Drawing.Point(293, 36);
+            this.cbTriggerType.Location = new System.Drawing.Point(50, 16);
             this.cbTriggerType.Name = "cbTriggerType";
             this.cbTriggerType.Size = new System.Drawing.Size(130, 21);
-            this.cbTriggerType.TabIndex = 1;
+            this.cbTriggerType.TabIndex = 0;
             // 
             // lblTriggerValue
             // 
             this.lblTriggerValue.AutoSize = true;
-            this.lblTriggerValue.Location = new System.Drawing.Point(13, 89);
+            this.lblTriggerValue.Location = new System.Drawing.Point(10, 97);
             this.lblTriggerValue.Name = "lblTriggerValue";
             this.lblTriggerValue.Size = new System.Drawing.Size(34, 13);
             this.lblTriggerValue.TabIndex = 2;
@@ -73,7 +73,7 @@
             this.txtTriggerValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTriggerValue.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.txtTriggerValue.Location = new System.Drawing.Point(52, 86);
+            this.txtTriggerValue.Location = new System.Drawing.Point(50, 94);
             this.txtTriggerValue.Name = "txtTriggerValue";
             this.txtTriggerValue.Size = new System.Drawing.Size(371, 20);
             this.txtTriggerValue.TabIndex = 2;
@@ -104,7 +104,7 @@
             // lblTriggerName
             // 
             this.lblTriggerName.AutoSize = true;
-            this.lblTriggerName.Location = new System.Drawing.Point(12, 39);
+            this.lblTriggerName.Location = new System.Drawing.Point(13, 59);
             this.lblTriggerName.Name = "lblTriggerName";
             this.lblTriggerName.Size = new System.Drawing.Size(35, 13);
             this.lblTriggerName.TabIndex = 6;
@@ -113,10 +113,10 @@
             // txtTriggerName
             // 
             this.txtTriggerName.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.txtTriggerName.Location = new System.Drawing.Point(52, 36);
+            this.txtTriggerName.Location = new System.Drawing.Point(50, 56);
             this.txtTriggerName.Name = "txtTriggerName";
             this.txtTriggerName.Size = new System.Drawing.Size(198, 20);
-            this.txtTriggerName.TabIndex = 0;
+            this.txtTriggerName.TabIndex = 1;
             // 
             // frmTrigger
             // 

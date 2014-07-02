@@ -121,8 +121,15 @@ namespace GAVPI
         private void btnActSeqAdd_Click(object sender, EventArgs e)
         {
             Type new_action_type = Type.GetType("GAVPI." + cbActSeqActionType.SelectedItem.ToString());
-            object action_instance = Activator.CreateInstance(new_action_type, cbActSeqActionValue.SelectedItem.ToString());
-
+            object action_instance;
+            if (new_action_type.ToString() == "GAVPI.Speak")
+            {
+                action_instance = Activator.CreateInstance(new_action_type, profile.synth ,cbActSeqActionValue.SelectedItem.ToString());
+            }
+            else
+            {
+                action_instance = Activator.CreateInstance(new_action_type, cbActSeqActionValue.SelectedItem.ToString());
+            }
             action_sequence.Add((Action)action_instance);
             refresh_editactionsequence();
         }

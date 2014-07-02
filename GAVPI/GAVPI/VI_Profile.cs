@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Speech.Synthesis;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +17,9 @@ namespace GAVPI
     public class VI_Profile
     {
         public string name;
-        
+
+        public SpeechSynthesizer synth;
+
         public List<VI_Trigger> Profile_Triggers;
         public List<string> Trigger_Types;
 
@@ -55,7 +58,7 @@ namespace GAVPI
                 Action_Types = new List<string>();
                 
                 Trigger_Types.Add("VI_Phrase");
-                //-
+
                 Action_Types.Add("KeyDown");
                 Action_Types.Add("KeyUp");
                 Action_Types.Add("KeyPress");
@@ -64,7 +67,6 @@ namespace GAVPI
                 Action_Types.Add("MouseKeyPress");
                 Action_Types.Add("Wait");
                 Action_Types.Add("Speak");
-
             }
         }
         public void Add_Trigger(VI_Trigger trigger_toAdd)
@@ -97,7 +99,7 @@ namespace GAVPI
                     string trigger_name = element.Attributes[0].Value;
  
                 }
-                else if (element.Name == "Action_Sequence")
+                else if (element.Name == "ActionSequence")
                 {
                     string action_sequence_name = element.Attributes[0].Value;
                     //Check existing
@@ -141,8 +143,46 @@ namespace GAVPI
         }
         public void save_profile(string filename)
         {
-            //parse to file
+            try 
+            {
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Indent = true;
+                XmlWriter writer = XmlWriter.Create(filename, settings);
+                writer.WriteStartDocument();
+                writer.WriteStartElement("gavpi");
+
+                foreach (VI_Action_Sequence ack_seq in Profile_ActionSequences)
+                {
+                    writer.WriteStartElement("ActionSequence");
+                    writer.WriteAttributeString("name", ack_seq.name);
+                    writer.WriteAttributeString("type", ack_seq.type);
+                    writer.WriteAttributeString("comment", ack_seq.comment);
+
+                    foreach (Action act in ack_seq.action_sequence)
+                    {
+                        writer.WriteStartElement("Action");
+                        writer.WriteAttributeString("type", act.type);
+                        writer.WriteAttributeString("value", act.value);
+                        writer.WriteEndElement();
+                    }
+                    writer.WriteEndElement();
+                }
+                foreach (VI_Trigger trig in Profile_Triggers)
+                {
+
  
+                }
+
+                writer.WriteEndElement();
+                writer.WriteEndDocument();
+
+                writer.Flush();
+                writer.Close();
+            }
+            catch (Exception err_saving)
+            {
+                MessageBox.Show("Error saving to file" + err_saving.Message);
+            }
         }
     }
 }
