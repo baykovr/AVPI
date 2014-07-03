@@ -46,7 +46,7 @@ namespace GAVPI
             }
             catch (Exception profile_exception)
             {
-                MessageBox.Show("Serious problem in profile.\n" + profile_exception.Message, "Error",
+                MessageBox.Show("Profile Editor Crashed.\n" + profile_exception.Message, "Error",
                    MessageBoxButtons.OK,
                    MessageBoxIcon.Exclamation,
                    MessageBoxDefaultButton.Button1);
