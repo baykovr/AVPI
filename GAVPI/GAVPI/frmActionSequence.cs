@@ -124,14 +124,32 @@ namespace GAVPI
             object action_instance;
             if (new_action_type.ToString() == "GAVPI.Speak")
             {
-                action_instance = Activator.CreateInstance(new_action_type, profile.synth ,cbActSeqActionValue.SelectedItem.ToString());
+                action_instance = Activator.CreateInstance(new_action_type, profile.synth ,cbActSeqActionValue.Text);
+                action_sequence.Add((Action)action_instance);
+                refresh_editactionsequence();
+            }
+            else if (new_action_type.ToString() == "GAVPI.Wait")
+            {
+                int test;
+                if (Int32.TryParse(cbActSeqActionValue.Text, out test) && test > 0)
+                {
+                    action_instance = Activator.CreateInstance(new_action_type, cbActSeqActionValue.Text);
+                    action_sequence.Add((Action)action_instance);
+                    refresh_editactionsequence();
+                }
+                else
+                {
+                    MessageBox.Show("Wait must be positive integer in milliseconds.");
+                    return;
+                }
             }
             else
             {
                 action_instance = Activator.CreateInstance(new_action_type, cbActSeqActionValue.SelectedItem.ToString());
+                action_sequence.Add((Action)action_instance);
+                refresh_editactionsequence();
             }
-            action_sequence.Add((Action)action_instance);
-            refresh_editactionsequence();
+            
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)

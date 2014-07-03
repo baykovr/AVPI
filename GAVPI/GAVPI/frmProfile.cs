@@ -34,35 +34,27 @@ namespace GAVPI
         }
         private void refresh_dgTriggerEvents()
         {
-            List<VI_TriggerEvent> test = new List<VI_TriggerEvent>();
+            List<VI_TriggerEvent> dg_data_trigger_events = new List<VI_TriggerEvent>();
             foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
             {
                 VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
                 if (selected_trigger != null)
                 {
-                    foreach (VI_Trigger meta_trigger in selected_trigger.Triggers)
+                    foreach (VI_TriggerEvent trigger_event in selected_trigger.TriggerEvents)
                     {
-                        test.Add(meta_trigger);
-                    }
-                    foreach (VI_Action_Sequence meta_sequence in selected_trigger.Action_Sequences)
-                    {
-                        test.Add(meta_sequence);
+                        dg_data_trigger_events.Add(trigger_event);
+ 
                     }
                 }
             }
             dgTriggerEvents.DataSource = null;
-            dgTriggerEvents.DataSource = test.ToArray();
+            dgTriggerEvents.DataSource = dg_data_trigger_events.ToArray();
         }
         private void dgTriggers_SelectionChanged(object sender, EventArgs e)
         {
             refresh_dgTriggerEvents();
         }
-        private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmTrigger newTrigger = new frmTrigger(profile);
-            newTrigger.ShowDialog();
-            refresh_dgTriggers();
-        }
+        
 
         private void addNewToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -73,9 +65,11 @@ namespace GAVPI
         }
 
         #region ActionSequences Context
+        // Add New Action Sequence
         private void taddtoeventToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //--wow there: multi select is off, it better stay that way
+            // otherwise you get X # popup windows to create action sequences.
             if (dgActionSequences.MultiSelect == true)
             {
                 throw new NotImplementedException("Adding multiple sequences at once is unsupported.");
@@ -88,6 +82,7 @@ namespace GAVPI
             }
             refresh_dgTriggerEvents();
         }
+        // Edit Action Sequence
         private void editToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (dgActionSequences.MultiSelect == true)
@@ -103,6 +98,7 @@ namespace GAVPI
             refresh_dgActionSequences();
             refresh_dgTriggerEvents();
         }
+        // Delete Action Sequence
         private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (dgActionSequences.MultiSelect == true)
@@ -114,10 +110,10 @@ namespace GAVPI
                 VI_Action_Sequence sequence_to_remove = row.DataBoundItem as VI_Action_Sequence;
                 profile.Profile_ActionSequences.Remove(sequence_to_remove);
                 
-                // Remove references in other triggers
-                foreach (VI_Trigger current_trigger in profile.Profile_Triggers)
+                // Remove this event from existing triggers.
+                foreach (VI_Trigger existing_trigger in profile.Profile_Triggers)
                 {
-                    current_trigger.Action_Sequences.Remove(sequence_to_remove);
+                    existing_trigger.TriggerEvents.Remove(sequence_to_remove);
                 }
             }
             refresh_dgActionSequences();
@@ -127,6 +123,21 @@ namespace GAVPI
 
 
         #region Triggers Context
+        // Add New Trigger (Top Menu)
+        private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmTrigger newTrigger = new frmTrigger(profile);
+            newTrigger.ShowDialog();
+            refresh_dgTriggers();
+        }
+        // Add New Trigger (Right Click Context Menu)
+        private void newStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmTrigger newTrigger = new frmTrigger(profile);
+            newTrigger.ShowDialog();
+            refresh_dgTriggers();
+        }
+        // Edit Trigger
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dgTriggers.MultiSelect == true)
@@ -144,6 +155,7 @@ namespace GAVPI
                 }
             }
         }
+        // Delete Trigger
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dgTriggers.MultiSelect == true)
@@ -157,10 +169,10 @@ namespace GAVPI
                 {
                     profile.Profile_Triggers.Remove(selected_trigger);
 
-                    // Remove any references to the removed trigger from other triggers
-                    foreach (VI_Trigger current_trigger in profile.Profile_Triggers)
+                    // Remove refernces of this trigger from existing triggers
+                    foreach (VI_Trigger existing_trigger in profile.Profile_Triggers)
                     {
-                        current_trigger.Triggers.Remove(selected_trigger);
+                        existing_trigger.TriggerEvents.Remove(selected_trigger);
                     }
                     refresh_dgTriggers();
                 }
@@ -186,7 +198,7 @@ namespace GAVPI
                     // Remove any references to the removed trigger from other triggers
                     foreach (VI_Trigger current_trigger in profile.Profile_Triggers)
                     {
-                        current_trigger.Triggers.Remove(selected_trigger);
+                        current_trigger.TriggerEvents.Remove(selected_trigger);
                     }
                     refresh_dgTriggers();
                 }
@@ -196,6 +208,7 @@ namespace GAVPI
         #region File
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //TODO : file picker
             profile.save_profile("test.xml");
         }
 

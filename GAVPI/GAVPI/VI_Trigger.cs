@@ -23,34 +23,24 @@ namespace GAVPI
         // Hashset contains trigger/actseq names
         
         public VI_Profile profile;
-        public List<VI_Trigger> Triggers;
-        public List<VI_Action_Sequence> Action_Sequences;
-        
+
+        public List<VI_TriggerEvent>TriggerEvents;
+
         public VI_Trigger(string name)
         {
             this.name = name;
             this.type = this.GetType().Name;
 
-            Triggers = new List<VI_Trigger>();
-            Action_Sequences = new List<VI_Action_Sequence>();
-            
+            TriggerEvents = new List<VI_TriggerEvent>();
         }
 
-        public void Add(VI_Trigger trigger)
+        public void Add(VI_TriggerEvent tevent)
         {
-            Triggers.Add(trigger);
+            TriggerEvents.Add(tevent);
         }
-        public bool Remove(VI_Trigger trigger)
+        public bool Remove(VI_TriggerEvent tevent)
         {
-            return Triggers.Remove(trigger);
-        }
-        public void Add(VI_Action_Sequence action_sequence)
-        {
-            Action_Sequences.Add(action_sequence);
-        }
-        public bool Remove(VI_Action_Sequence action_sequence)
-        {
-            return Action_Sequences.Remove(action_sequence);
+            return TriggerEvents.Remove(tevent);
         }
 
         public abstract void run();
@@ -64,13 +54,9 @@ namespace GAVPI
         }
         public override void run()
         {
-            foreach (VI_Trigger trigger in Triggers)
+            foreach (VI_TriggerEvent tevent in TriggerEvents)
             {
-                trigger.run();
-            }
-            foreach (VI_Action_Sequence action_sequence in Action_Sequences)
-            {
-                action_sequence.run();
+                tevent.run();
             }
             throw new NotImplementedException();
         }

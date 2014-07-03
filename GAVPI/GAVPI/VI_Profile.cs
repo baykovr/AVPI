@@ -34,9 +34,6 @@ namespace GAVPI
 
                 Profile_Triggers = new List<VI_Trigger>();
                 Profile_ActionSequences = new List<VI_Action_Sequence>();
-
-                //Profile_Triggers.Add(new VI_Phrase("fire", "fire missile"));
-
             }
             catch (Exception profile_err)
             {
@@ -49,8 +46,6 @@ namespace GAVPI
                 //ask if load defaults, then call that.
                 Profile_Triggers = new List<VI_Trigger>();
                 Profile_ActionSequences = new List<VI_Action_Sequence>();
-
-                Profile_Triggers.Add(new VI_Phrase("fire","fire missile"));
             }
             finally
             {
@@ -169,6 +164,7 @@ namespace GAVPI
                 }
                 foreach (VI_Trigger trig in Profile_Triggers)
                 {
+                    
 
  
                 }

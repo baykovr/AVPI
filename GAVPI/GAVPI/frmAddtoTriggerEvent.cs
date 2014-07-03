@@ -30,14 +30,14 @@ namespace GAVPI
         {
             VI_Trigger selected_trigger = cbAddtoTriggerEvent.SelectedItem as VI_Trigger;
 
-            if (selected_trigger.Action_Sequences.Contains(sequence_to_add))
+            if (selected_trigger.TriggerEvents.Contains(sequence_to_add))
             {
                 MessageBox.Show("Trigger " + selected_trigger.name + " already contains action sequence " + sequence_to_add.name);
                 return;
             }
             else
             {
-                selected_trigger.Action_Sequences.Add(sequence_to_add);
+                selected_trigger.TriggerEvents.Add(sequence_to_add);
                 this.Close();
             }
 
