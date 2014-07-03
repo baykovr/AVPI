@@ -13,13 +13,13 @@ namespace GAVPI
     public partial class frmAddtoTriggerEvent : Form
     {
         VI_Profile profile;
-        VI_Action_Sequence sequence_to_add;
+        VI_TriggerEvent event_to_add;
 
-        public frmAddtoTriggerEvent(VI_Profile profile,VI_Action_Sequence sequence_to_add)
+        public frmAddtoTriggerEvent(VI_Profile profile, VI_TriggerEvent event_to_add)
         {
             InitializeComponent();
             this.profile = profile;
-            this.sequence_to_add = sequence_to_add;
+            this.event_to_add = event_to_add;
 
             cbAddtoTriggerEvent.DataSource = profile.Profile_Triggers.ToArray();
             cbAddtoTriggerEvent.DisplayMember = "name";
@@ -30,14 +30,19 @@ namespace GAVPI
         {
             VI_Trigger selected_trigger = cbAddtoTriggerEvent.SelectedItem as VI_Trigger;
 
-            if (selected_trigger.TriggerEvents.Contains(sequence_to_add))
+            if (selected_trigger.TriggerEvents.Contains(event_to_add))
             {
-                MessageBox.Show("Trigger " + selected_trigger.name + " already contains action sequence " + sequence_to_add.name);
+                MessageBox.Show("Trigger " + selected_trigger.name + " already contains " + event_to_add.name);
                 return;
             }
+            else if ( (event_to_add.GetType().Name != "VI_Action_Sequence") && event_to_add.name == selected_trigger.name)
+            {
+                MessageBox.Show("You cannot add a trigger to itself.");
+                return;
+             }
             else
             {
-                selected_trigger.TriggerEvents.Add(sequence_to_add);
+                selected_trigger.TriggerEvents.Add(event_to_add);
                 this.Close();
             }
 

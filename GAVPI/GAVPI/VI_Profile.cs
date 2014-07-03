@@ -164,9 +164,22 @@ namespace GAVPI
                 }
                 foreach (VI_Trigger trig in Profile_Triggers)
                 {
-                    
+                    writer.WriteStartElement("Trigger");
+                    writer.WriteAttributeString("name", trig.name);
+                    writer.WriteAttributeString("value", trig.value);
+                    writer.WriteAttributeString("type", trig.type);
+                    writer.WriteAttributeString("comment", trig.comment);
 
- 
+                    //TriggerEvents (Events which this trigger will cause to happen)
+                    foreach(VI_TriggerEvent trigger_event in trig.TriggerEvents)
+                    {
+                    writer.WriteStartElement("TriggerEvent");
+                    writer.WriteAttributeString("name", trigger_event.name);
+                    writer.WriteAttributeString("type", trigger_event.type);
+                    writer.WriteEndElement();
+                    }
+                   
+                    writer.WriteEndElement();
                 }
 
                 writer.WriteEndElement();

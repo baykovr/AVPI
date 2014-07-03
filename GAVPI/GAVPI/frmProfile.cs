@@ -56,31 +56,39 @@ namespace GAVPI
         }
         
 
-        private void addNewToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            frmActionSequence newActionSequence = new frmActionSequence(profile);
-            newActionSequence.ShowDialog();
-
-            refresh_dgActionSequences();
-        }
+        
 
         #region ActionSequences Context
-        // Add New Action Sequence
+        // Add Action Sequence to Existing Trigger
         private void taddtoeventToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            //--wow there: multi select is off, it better stay that way
-            // otherwise you get X # popup windows to create action sequences.
             if (dgActionSequences.MultiSelect == true)
             {
                 throw new NotImplementedException("Adding multiple sequences at once is unsupported.");
             }
             foreach (DataGridViewRow row in this.dgActionSequences.SelectedRows)
             {
-                VI_Action_Sequence sequence_to_add = row.DataBoundItem as VI_Action_Sequence;
-                frmAddtoTriggerEvent newAddtoTriggerEvent = new frmAddtoTriggerEvent(profile, sequence_to_add);
+                //In this case an Action_Sequence is added to a Trigger's TriggerEvents List
+                VI_TriggerEvent event_to_add = row.DataBoundItem as VI_TriggerEvent;
+                frmAddtoTriggerEvent newAddtoTriggerEvent = new frmAddtoTriggerEvent(profile, event_to_add);
                 newAddtoTriggerEvent.ShowDialog();
             }
             refresh_dgTriggerEvents();
+        }
+        // Add New Action Sequence (top menu)
+        private void addNewToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            frmActionSequence newActionSequence = new frmActionSequence(profile);
+            newActionSequence.ShowDialog();
+            refresh_dgActionSequences();
+        }
+       
+        // Add New Action Sequence from Context
+        private void newToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            frmActionSequence newActionSequence = new frmActionSequence(profile);
+            newActionSequence.ShowDialog();
+            refresh_dgActionSequences();
         }
         // Edit Action Sequence
         private void editToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -123,6 +131,22 @@ namespace GAVPI
 
 
         #region Triggers Context
+        // Add Trigger to TriggerEvent
+        private void addtoeventToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (dgTriggers.MultiSelect == true)
+            {
+                throw new NotImplementedException("Adding multiple triggers at once is unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
+            {
+                // In this case it is a Trigger -> Trigger addition
+                VI_TriggerEvent event_to_add = row.DataBoundItem as VI_TriggerEvent;
+                frmAddtoTriggerEvent newAddtoTriggerEvent = new frmAddtoTriggerEvent(profile, event_to_add);
+                newAddtoTriggerEvent.ShowDialog();
+            }
+            refresh_dgTriggerEvents();
+        }
         // Add New Trigger (Top Menu)
         private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -214,8 +238,11 @@ namespace GAVPI
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
         #endregion
+
+
+        
     }
 }
