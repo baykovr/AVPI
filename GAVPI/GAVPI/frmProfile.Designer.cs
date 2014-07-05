@@ -56,6 +56,8 @@
             this.newStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.addtoeventToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.lblProfileTriggerEvents = new System.Windows.Forms.Label();
             this.dgTriggerEvents = new System.Windows.Forms.DataGridView();
             this.contextProfileTriggerEvents = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -63,14 +65,14 @@
             this.lblProfileActionSequences = new System.Windows.Forms.Label();
             this.dgActionSequences = new System.Windows.Forms.DataGridView();
             this.contextProfileActionSequences = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.taddtoeventToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.taddtoeventToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusProfile = new System.Windows.Forms.StatusStrip();
-            this.newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.addtoeventToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitProfile)).BeginInit();
             this.splitProfile.Panel1.SuspendLayout();
@@ -105,22 +107,24 @@
             // 
             this.stripProfileFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
+            this.saveAsToolStripMenuItem,
+            this.loadToolStripMenuItem,
             this.closeToolStripMenuItem});
             this.stripProfileFile.Name = "stripProfileFile";
-            this.stripProfileFile.Size = new System.Drawing.Size(37, 20);
+            this.stripProfileFile.Size = new System.Drawing.Size(36, 20);
             this.stripProfileFile.Text = "File";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -129,13 +133,13 @@
             this.stripProfileTrigger.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addNewToolStripMenuItem});
             this.stripProfileTrigger.Name = "stripProfileTrigger";
-            this.stripProfileTrigger.Size = new System.Drawing.Size(57, 20);
+            this.stripProfileTrigger.Size = new System.Drawing.Size(50, 20);
             this.stripProfileTrigger.Text = "Trigger";
             // 
             // addNewToolStripMenuItem
             // 
             this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
-            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.addNewToolStripMenuItem.Text = "New";
             this.addNewToolStripMenuItem.Click += new System.EventHandler(this.addNewToolStripMenuItem_Click);
             // 
@@ -144,20 +148,20 @@
             this.stripProfileActionSequence.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addNewToolStripMenuItem1});
             this.stripProfileActionSequence.Name = "stripProfileActionSequence";
-            this.stripProfileActionSequence.Size = new System.Drawing.Size(108, 20);
+            this.stripProfileActionSequence.Size = new System.Drawing.Size(96, 20);
             this.stripProfileActionSequence.Text = "Action Sequence";
             // 
             // addNewToolStripMenuItem1
             // 
             this.addNewToolStripMenuItem1.Name = "addNewToolStripMenuItem1";
-            this.addNewToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.addNewToolStripMenuItem1.Size = new System.Drawing.Size(95, 22);
             this.addNewToolStripMenuItem1.Text = "New";
             this.addNewToolStripMenuItem1.Click += new System.EventHandler(this.addNewToolStripMenuItem1_Click);
             // 
             // stripProfileHelp
             // 
             this.stripProfileHelp.Name = "stripProfileHelp";
-            this.stripProfileHelp.Size = new System.Drawing.Size(44, 20);
+            this.stripProfileHelp.Size = new System.Drawing.Size(41, 20);
             this.stripProfileHelp.Text = "Help";
             // 
             // splitProfile
@@ -265,28 +269,40 @@
             this.toolStripSeparator2,
             this.addtoeventToolStripMenuItem1});
             this.contextProfileTriggers.Name = "contextProfileTriggers";
-            this.contextProfileTriggers.Size = new System.Drawing.Size(193, 98);
+            this.contextProfileTriggers.Size = new System.Drawing.Size(171, 98);
             // 
             // newStripMenuItem
             // 
             this.newStripMenuItem.Name = "newStripMenuItem";
-            this.newStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.newStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.newStripMenuItem.Text = "New Trigger";
             this.newStripMenuItem.Click += new System.EventHandler(this.newStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(167, 6);
+            // 
+            // addtoeventToolStripMenuItem1
+            // 
+            this.addtoeventToolStripMenuItem1.Name = "addtoeventToolStripMenuItem1";
+            this.addtoeventToolStripMenuItem1.Size = new System.Drawing.Size(170, 22);
+            this.addtoeventToolStripMenuItem1.Text = "Add Trigger to Trigger";
+            this.addtoeventToolStripMenuItem1.Click += new System.EventHandler(this.addtoeventToolStripMenuItem1_Click);
             // 
             // lblProfileTriggerEvents
             // 
@@ -348,12 +364,12 @@
             this.contextProfileTriggerEvents.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteToolStripMenuItem2});
             this.contextProfileTriggerEvents.Name = "contextProfileTriggerEvents";
-            this.contextProfileTriggerEvents.Size = new System.Drawing.Size(108, 26);
+            this.contextProfileTriggerEvents.Size = new System.Drawing.Size(107, 26);
             // 
             // deleteToolStripMenuItem2
             // 
             this.deleteToolStripMenuItem2.Name = "deleteToolStripMenuItem2";
-            this.deleteToolStripMenuItem2.Size = new System.Drawing.Size(107, 22);
+            this.deleteToolStripMenuItem2.Size = new System.Drawing.Size(106, 22);
             this.deleteToolStripMenuItem2.Text = "Delete";
             this.deleteToolStripMenuItem2.Click += new System.EventHandler(this.deleteToolStripMenuItem2_Click);
             // 
@@ -421,33 +437,40 @@
             this.toolStripSeparator1,
             this.taddtoeventToolStripMenuItem1});
             this.contextProfileActionSequences.Name = "contextProfileActionSequences";
-            this.contextProfileActionSequences.Size = new System.Drawing.Size(153, 120);
+            this.contextProfileActionSequences.Size = new System.Drawing.Size(144, 98);
             // 
-            // taddtoeventToolStripMenuItem1
+            // newToolStripMenuItem1
             // 
-            this.taddtoeventToolStripMenuItem1.Name = "taddtoeventToolStripMenuItem1";
-            this.taddtoeventToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.taddtoeventToolStripMenuItem1.Text = "Add to Trigger";
-            this.taddtoeventToolStripMenuItem1.Click += new System.EventHandler(this.taddtoeventToolStripMenuItem1_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
+            this.newToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
+            this.newToolStripMenuItem1.Text = "New Sequence";
+            this.newToolStripMenuItem1.Click += new System.EventHandler(this.newToolStripMenuItem1_Click);
             // 
             // editToolStripMenuItem1
             // 
             this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
-            this.editToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
             this.editToolStripMenuItem1.Text = "Edit";
             this.editToolStripMenuItem1.Click += new System.EventHandler(this.editToolStripMenuItem1_Click);
             // 
             // deleteToolStripMenuItem1
             // 
             this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
             this.deleteToolStripMenuItem1.Text = "Delete";
             this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
+            // 
+            // taddtoeventToolStripMenuItem1
+            // 
+            this.taddtoeventToolStripMenuItem1.Name = "taddtoeventToolStripMenuItem1";
+            this.taddtoeventToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
+            this.taddtoeventToolStripMenuItem1.Text = "Add to Trigger";
+            this.taddtoeventToolStripMenuItem1.Click += new System.EventHandler(this.taddtoeventToolStripMenuItem1_Click);
             // 
             // statusProfile
             // 
@@ -457,24 +480,19 @@
             this.statusProfile.TabIndex = 2;
             this.statusProfile.Text = "statusStrip1";
             // 
-            // newToolStripMenuItem1
+            // loadToolStripMenuItem
             // 
-            this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
-            this.newToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.newToolStripMenuItem1.Text = "New Sequence";
-            this.newToolStripMenuItem1.Click += new System.EventHandler(this.newToolStripMenuItem1_Click);
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
-            // toolStripSeparator2
+            // saveAsToolStripMenuItem
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(189, 6);
-            // 
-            // addtoeventToolStripMenuItem1
-            // 
-            this.addtoeventToolStripMenuItem1.Name = "addtoeventToolStripMenuItem1";
-            this.addtoeventToolStripMenuItem1.Size = new System.Drawing.Size(192, 22);
-            this.addtoeventToolStripMenuItem1.Text = "Add Trigger to Trigger";
-            this.addtoeventToolStripMenuItem1.Click += new System.EventHandler(this.addtoeventToolStripMenuItem1_Click);
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Text = "Save As";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // frmProfile
             // 
@@ -548,5 +566,7 @@
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem addtoeventToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
     }
 }

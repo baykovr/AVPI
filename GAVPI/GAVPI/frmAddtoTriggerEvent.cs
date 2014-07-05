@@ -18,6 +18,7 @@ namespace GAVPI
         public frmAddtoTriggerEvent(VI_Profile profile, VI_TriggerEvent event_to_add)
         {
             InitializeComponent();
+            MaximizeBox = false;
             this.profile = profile;
             this.event_to_add = event_to_add;
 

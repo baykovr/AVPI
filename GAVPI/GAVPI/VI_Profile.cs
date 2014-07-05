@@ -32,7 +32,13 @@ namespace GAVPI
             {
                 Profile_Triggers = new List<VI_Trigger>();
                 Profile_ActionSequences = new List<VI_Action_Sequence>();
-                load_profile(filename);
+
+                synth = new SpeechSynthesizer(); //used by action Speak
+
+                if (filename != null)
+                { 
+                    load_profile(filename); 
+                }
             }
             catch (Exception profile_err)
             {
@@ -40,19 +46,12 @@ namespace GAVPI
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Exclamation,
                     MessageBoxDefaultButton.Button1);
-
-                //remove after load_profile
-                //ask if load defaults, then call that.
-                //Profile_Triggers = new List<VI_Trigger>();
-                //Profile_ActionSequences = new List<VI_Action_Sequence>();
             }
             finally
             {
                 Trigger_Types = new List<string>();
                 Action_Types = new List<string>();
-                
                 Trigger_Types.Add("VI_Phrase");
-
                 Action_Types.Add("KeyDown");
                 Action_Types.Add("KeyUp");
                 Action_Types.Add("KeyPress");
@@ -74,6 +73,9 @@ namespace GAVPI
 
         public void load_profile(string filename)
         {
+            //Clean Current
+            Profile_Triggers = new List<VI_Trigger>();
+            Profile_ActionSequences = new List<VI_Action_Sequence>();
             //Constructor will catch.
             XmlDocument profile_xml = new XmlDocument();
             profile_xml.Load(filename);
@@ -100,7 +102,10 @@ namespace GAVPI
                         object action_instance = Activator.CreateInstance(new_action_type, action_value);
                         ack_frm_file.Add((Action)action_instance);
                     }
-                    Profile_ActionSequences.Add(ack_frm_file);
+                    if (!Profile_ActionSequences.Any(ack => ack.name == ack_frm_file.name))
+                    {
+                        Profile_ActionSequences.Add(ack_frm_file);
+                    }
                 }
                 else if (element.Name == "VI_Trigger")
                 {
@@ -136,7 +141,11 @@ namespace GAVPI
                             trig_frm_file.Add(newMetaTrigger);
                         }
                     }
-                    Profile_Triggers.Add(trig_frm_file);
+                    // Malformed xml or double load, need to switch to dictionaries tbh
+                    if (!Profile_Triggers.Any(trig=>trig.name == trig_frm_file.name))
+                    { 
+                        Profile_Triggers.Add(trig_frm_file); 
+                    }
                 }
             }
         }

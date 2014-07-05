@@ -54,9 +54,7 @@ namespace GAVPI
         {
             refresh_dgTriggerEvents();
         }
-        
 
-        
 
         #region ActionSequences Context
         // Add Action Sequence to Existing Trigger
@@ -128,7 +126,6 @@ namespace GAVPI
             refresh_dgTriggerEvents();
         }
         #endregion
-
 
         #region Triggers Context
         // Add Trigger to TriggerEvent
@@ -232,15 +229,55 @@ namespace GAVPI
         #region File
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TODO : file picker
-            profile.save_profile("test.xml");
+            string file_path;
+            OpenFileDialog file = new OpenFileDialog();
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                file_path = file.FileName;
+                profile.save_profile(file_path);
+                refresh_dgActionSequences();
+                refresh_dgTriggers();
+                refresh_dgTriggerEvents();
+            }
         }
-
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog dialog = new SaveFileDialog())
+            {
+                dialog.Filter = "xml files (*.xml)| *.xml|All files (*.*)|*.*";
+                dialog.FilterIndex = 2;
+                dialog.RestoreDirectory = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    profile.save_profile(dialog.FileName);
+                    refresh_dgActionSequences();
+                    refresh_dgTriggers();
+                    refresh_dgTriggerEvents();
+                }
+            }
+        }
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string file_path;
+            OpenFileDialog file = new OpenFileDialog();
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                file_path = file.FileName;
+                profile.load_profile(file_path);
+                refresh_dgActionSequences();
+                refresh_dgTriggers();
+                refresh_dgTriggerEvents();
+            }
+        }
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
         #endregion
+
+       
+
+        
 
 
         

@@ -20,9 +20,8 @@ namespace GAVPI
         {
             InitializeComponent();
             
-            vi_settings = new VI_Settings("settings.gavpi");
-            vi_profile  = new VI_Profile("test.xml");
-            
+            vi_settings = new VI_Settings();
+            vi_profile = new VI_Profile(vi_settings.current_profile_path);
         }
         #region Main form
         private void frmGAVPI_Load(object sender, EventArgs e)

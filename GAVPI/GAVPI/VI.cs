@@ -30,7 +30,8 @@ namespace GAVPI
             this.settings = settings;
             this.statusContainer = statusContainer;
             //get speech rec/syn prefs from settings
-            vi_syn = new SpeechSynthesizer();
+            vi_syn = profile.synth;
+            vi_syn.SelectVoice(settings.voice_info);
             vi_sre = new SpeechRecognitionEngine(settings.recognizer_info);
 
             //--build grammar from vi_phrases
@@ -55,7 +56,6 @@ namespace GAVPI
             //set event function
             vi_sre.SpeechRecognized += phraseRecognized;
             vi_sre.SpeechRecognitionRejected += _recognizer_SpeechRecognitionRejected;
-            // TODO : Settings for non default audio
             vi_sre.SetInputToDefaultAudioDevice();
             vi_sre.RecognizeAsync(RecognizeMode.Multiple);
         }
