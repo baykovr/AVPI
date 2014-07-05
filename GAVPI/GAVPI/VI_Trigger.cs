@@ -58,7 +58,6 @@ namespace GAVPI
             {
                 tevent.run();
             }
-            throw new NotImplementedException();
         }
     }
     public partial class VI_Condition : VI_Trigger

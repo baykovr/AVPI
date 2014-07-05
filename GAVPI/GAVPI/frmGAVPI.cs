@@ -14,16 +14,15 @@ namespace GAVPI
     {
         VI_Settings vi_settings;
         VI_Profile vi_profile;
- 
+        VI virtualinterface;
+
         public frmGAVPI()
         {
             InitializeComponent();
             
             vi_settings = new VI_Settings("settings.gavpi");
-            vi_profile  = new VI_Profile("TestProfile.gavpi");
-
-            // Here we go.
-            VI virtualinterface = new VI(vi_profile, vi_settings);
+            vi_profile  = new VI_Profile("test.xml");
+            
         }
         #region Main form
         private void frmGAVPI_Load(object sender, EventArgs e)
@@ -61,11 +60,10 @@ namespace GAVPI
         }
         #endregion
 
-        
-
-
-       
-
-       
+        private void btnMainListen_Click(object sender, EventArgs e)
+        {
+            virtualinterface = new VI(vi_profile, vi_settings,lstMainHearing);
+            //btnMainListen.Enabled = false; 
+        }
     }
 }

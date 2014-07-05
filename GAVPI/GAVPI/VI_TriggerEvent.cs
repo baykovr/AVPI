@@ -11,6 +11,7 @@ namespace GAVPI
        string name { get; set; }
        string type { get; set; }
        string comment { get; set; }
+       string value { get; set; }
        void run();
     }
 }

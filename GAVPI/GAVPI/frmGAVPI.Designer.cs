@@ -45,9 +45,9 @@
             // 
             // mainStatStrip
             // 
-            this.mainStatStrip.Location = new System.Drawing.Point(0, 210);
+            this.mainStatStrip.Location = new System.Drawing.Point(0, 218);
             this.mainStatStrip.Name = "mainStatStrip";
-            this.mainStatStrip.Size = new System.Drawing.Size(669, 22);
+            this.mainStatStrip.Size = new System.Drawing.Size(675, 22);
             this.mainStatStrip.TabIndex = 0;
             this.mainStatStrip.Text = "statusStrip1";
             // 
@@ -60,7 +60,7 @@
             this.mainStripAbout});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(669, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(675, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "mainMenuStrip";
             // 
@@ -69,13 +69,13 @@
             this.mainStripFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.mainStripFile.Name = "mainStripFile";
-            this.mainStripFile.Size = new System.Drawing.Size(37, 20);
+            this.mainStripFile.Size = new System.Drawing.Size(36, 20);
             this.mainStripFile.Text = "File";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -84,27 +84,27 @@
             this.mainStripProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editToolStripMenuItem});
             this.mainStripProfile.Name = "mainStripProfile";
-            this.mainStripProfile.Size = new System.Drawing.Size(53, 20);
+            this.mainStripProfile.Size = new System.Drawing.Size(50, 20);
             this.mainStripProfile.Text = "Profile";
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.editToolStripMenuItem.Text = "Modify";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.modifyToolStripMenuItem_Click);
             // 
             // mainStripSettings
             // 
             this.mainStripSettings.Name = "mainStripSettings";
-            this.mainStripSettings.Size = new System.Drawing.Size(61, 20);
+            this.mainStripSettings.Size = new System.Drawing.Size(55, 20);
             this.mainStripSettings.Text = "Settings";
             this.mainStripSettings.Click += new System.EventHandler(this.mainStripSettings_Click);
             // 
             // mainStripAbout
             // 
             this.mainStripAbout.Name = "mainStripAbout";
-            this.mainStripAbout.Size = new System.Drawing.Size(52, 20);
+            this.mainStripAbout.Size = new System.Drawing.Size(47, 20);
             this.mainStripAbout.Text = "About";
             // 
             // lstMainHearing
@@ -129,6 +129,7 @@
             this.btnMainListen.TabIndex = 3;
             this.btnMainListen.Text = "Listen";
             this.btnMainListen.UseVisualStyleBackColor = true;
+            this.btnMainListen.Click += new System.EventHandler(this.btnMainListen_Click);
             // 
             // btnMainStop
             // 
@@ -145,7 +146,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(669, 232);
+            this.ClientSize = new System.Drawing.Size(675, 240);
             this.Controls.Add(this.btnMainStop);
             this.Controls.Add(this.btnMainListen);
             this.Controls.Add(this.lstMainHearing);

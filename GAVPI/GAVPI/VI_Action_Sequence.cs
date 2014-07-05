@@ -22,6 +22,7 @@ namespace GAVPI
         public string name {get; set;}
         public string type { get; set; }
         public string comment { get; set; }
+        public string value { get; set; }
         public List<Action> action_sequence;
         
 
@@ -29,7 +30,8 @@ namespace GAVPI
         {
             action_sequence = new List<Action>();
             this.name = name;
-            this.type = "Action Sequence";
+            this.type = this.GetType().Name;
+            this.value = "none";
         }
         public List<Action> get_Action_sequence()
         {

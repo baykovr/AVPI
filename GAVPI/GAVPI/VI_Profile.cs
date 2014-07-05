@@ -30,10 +30,9 @@ namespace GAVPI
         {
             try
             {
-                //load_profile(filename);
-
                 Profile_Triggers = new List<VI_Trigger>();
                 Profile_ActionSequences = new List<VI_Action_Sequence>();
+                load_profile(filename);
             }
             catch (Exception profile_err)
             {
@@ -44,8 +43,8 @@ namespace GAVPI
 
                 //remove after load_profile
                 //ask if load defaults, then call that.
-                Profile_Triggers = new List<VI_Trigger>();
-                Profile_ActionSequences = new List<VI_Action_Sequence>();
+                //Profile_Triggers = new List<VI_Trigger>();
+                //Profile_ActionSequences = new List<VI_Action_Sequence>();
             }
             finally
             {
@@ -76,65 +75,70 @@ namespace GAVPI
         public void load_profile(string filename)
         {
             //Constructor will catch.
-
-            XmlDocument profile = new XmlDocument();
-            profile.Load(filename);
-            if (profile.DocumentElement.Name != "gavpi")
-            {
+            XmlDocument profile_xml = new XmlDocument();
+            profile_xml.Load(filename);
+            //Check first element tag
+            if (profile_xml.DocumentElement.Name != "gavpi") {
                 throw new Exception("Malformed profile expected first tag gavpi got,"
-                + profile.DocumentElement.Name);
+                + profile_xml.DocumentElement.Name);
             }
-            XmlNodeList profile_elements = profile.DocumentElement.ChildNodes;
-            foreach (XmlNode element in profile_elements)
+            XmlNodeList profile_xml_elements = profile_xml.DocumentElement.ChildNodes;
+            foreach (XmlNode element in profile_xml_elements)
             {
-                // Elements are going to be Triggers and Action_Sequences
-                // each element must have a unique name attribute
-                if (element.Name == "Trigger")
+                if (element.Name == "VI_Action_Sequence")
                 {
-                    string trigger_name = element.Attributes[0].Value;
- 
-                }
-                else if (element.Name == "ActionSequence")
-                {
-                    string action_sequence_name = element.Attributes[0].Value;
-                    //Check existing
-                    foreach (VI_Action_Sequence act_seq in Profile_ActionSequences){
-                        if (act_seq.name == action_sequence_name){
-                            throw new Exception("Duplicate Action Sequence discovered: " 
-                                + act_seq.name);
-                        }
-                    }
-
-                    VI_Action_Sequence newActionSequence = new VI_Action_Sequence(action_sequence_name);
-
-                    XmlNodeList actions = element.ChildNodes;
-                    foreach (XmlNode action in actions)
+                    VI_Action_Sequence ack_frm_file;
+                    ack_frm_file = new VI_Action_Sequence(element.Attributes.GetNamedItem("name").Value);
+                    ack_frm_file.type = element.Attributes.GetNamedItem("type").Value;
+                    ack_frm_file.comment = element.Attributes.GetNamedItem("comment").Value;
+                    
+                    foreach (XmlNode action in element.ChildNodes)
                     {
-                        if (action.Name == "Action")
-                        {
-                            //ex <Action Type="MouseKeyPressAction" Value="Mouse.MouseKeys.Left">
-                            switch(action.Attributes[0].Value)
-                            {
-                                case "KeyDown":
-                                    newActionSequence.Add(new KeyDown(action.Attributes[1].Value));
-                                    break;
-                                //todo
+                        string action_type = action.Attributes.GetNamedItem("type").Value;
+                        string action_value = action.Attributes.GetNamedItem("value").Value;
+                        Type new_action_type = Type.GetType("GAVPI." + action_type );
+                        object action_instance = Activator.CreateInstance(new_action_type, action_value);
+                        ack_frm_file.Add((Action)action_instance);
+                    }
+                    Profile_ActionSequences.Add(ack_frm_file);
+                }
+                else if (element.Name == "VI_Trigger")
+                {
+                    VI_Trigger trig_frm_file;
+                    string trigger_name = element.Attributes.GetNamedItem("name").Value;
+                    string trigger_type = element.Attributes.GetNamedItem("type").Value;
+                    string trigger_value = element.Attributes.GetNamedItem("value").Value;
+                    string trigger_comment= element.Attributes.GetNamedItem("comment").Value;
 
-                            }
-                        }
-                        else
+                    Type new_trigger_type = Type.GetType("GAVPI." + trigger_type);
+                    object trigger_isntance = Activator.CreateInstance(new_trigger_type, trigger_name , trigger_value);
+                    trig_frm_file = (VI_Trigger)trigger_isntance;
+                    
+                    trig_frm_file.comment = trigger_comment;
+
+                    // Trigger Events
+                    foreach (XmlElement trigger_event in element.ChildNodes)
+                    {
+                        string event_type = trigger_event.Attributes.GetNamedItem("type").Value;
+                        string event_name = trigger_event.Attributes.GetNamedItem("name").Value;
+                        string event_value = trigger_event.Attributes.GetNamedItem("value").Value;
+                        if (event_type == "VI_Action_Sequence")
                         {
-                            throw new Exception("Unknown Action Sequence element: " + action.Name);
+                            trig_frm_file.Add(Profile_ActionSequences.Find( ackseq => ackseq.name == event_name));
+                        }
+                        else if (event_type == "VI_Phrase")
+                        {
+                            VI_Trigger newMetaTrigger;
+                            Type meta_trigger_type = Type.GetType("GAVPI." + event_type);
+                            object meta_trigger_isntance = Activator.CreateInstance(meta_trigger_type,event_name, event_value);
+                            newMetaTrigger = (VI_Trigger)meta_trigger_isntance;
+
+                            trig_frm_file.Add(newMetaTrigger);
                         }
                     }
-
-                }
-                else
-                {
-                    throw new Exception("Unxpected element in profile: <" + element.Name+">");
+                    Profile_Triggers.Add(trig_frm_file);
                 }
             }
-
         }
         public void save_profile(string filename)
         {
@@ -148,7 +152,7 @@ namespace GAVPI
 
                 foreach (VI_Action_Sequence ack_seq in Profile_ActionSequences)
                 {
-                    writer.WriteStartElement("ActionSequence");
+                    writer.WriteStartElement("VI_Action_Sequence");
                     writer.WriteAttributeString("name", ack_seq.name);
                     writer.WriteAttributeString("type", ack_seq.type);
                     writer.WriteAttributeString("comment", ack_seq.comment);
@@ -162,23 +166,22 @@ namespace GAVPI
                     }
                     writer.WriteEndElement();
                 }
-                foreach (VI_Trigger trig in Profile_Triggers)
-                {
-                    writer.WriteStartElement("Trigger");
-                    writer.WriteAttributeString("name", trig.name);
-                    writer.WriteAttributeString("value", trig.value);
-                    writer.WriteAttributeString("type", trig.type);
-                    writer.WriteAttributeString("comment", trig.comment);
-
-                    //TriggerEvents (Events which this trigger will cause to happen)
-                    foreach(VI_TriggerEvent trigger_event in trig.TriggerEvents)
-                    {
-                    writer.WriteStartElement("TriggerEvent");
-                    writer.WriteAttributeString("name", trigger_event.name);
-                    writer.WriteAttributeString("type", trigger_event.type);
-                    writer.WriteEndElement();
-                    }
-                   
+                foreach (VI_Trigger trig in Profile_Triggers){
+                    writer.WriteStartElement("VI_Trigger");
+                        writer.WriteAttributeString("name", trig.name);
+                        writer.WriteAttributeString("value", trig.value);
+                        writer.WriteAttributeString("type", trig.type);
+                        writer.WriteAttributeString("comment", trig.comment);
+                        //TriggerEvents (Events which this trigger will cause to happen)
+                   foreach(VI_TriggerEvent trigger_event in trig.TriggerEvents)
+                   {
+                       writer.WriteStartElement("VI_TriggerEvent");
+                       writer.WriteAttributeString("name", trigger_event.name);
+                       writer.WriteAttributeString("type", trigger_event.type);
+                       writer.WriteAttributeString("value", trigger_event.value);
+                       writer.WriteAttributeString("comment", trig.comment);
+                       writer.WriteEndElement();
+                   }
                     writer.WriteEndElement();
                 }
 

@@ -38,7 +38,8 @@ namespace GAVPI
             cbActSeqActionType.DataSource = profile.Action_Types;
             refresh_action_value_choices();
             txtActionSequenceName.Text = action_sequence.name;
-            //dgEditActionSequence.DataSource = action_sequence.action_sequence;
+            dgEditActionSequence.DataSource = null;
+            dgEditActionSequence.DataSource = action_sequence.action_sequence.ToArray();
         }
         private void refresh_editactionsequence()
         {
