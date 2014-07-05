@@ -40,6 +40,7 @@
             this.lstMainHearing = new System.Windows.Forms.ListView();
             this.btnMainListen = new System.Windows.Forms.Button();
             this.btnMainStop = new System.Windows.Forms.Button();
+            this.RecognizedColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,19 +107,22 @@
             this.mainStripAbout.Name = "mainStripAbout";
             this.mainStripAbout.Size = new System.Drawing.Size(47, 20);
             this.mainStripAbout.Text = "About";
+            this.mainStripAbout.Click += new System.EventHandler(this.mainStripAbout_Click);
             // 
             // lstMainHearing
             // 
             this.lstMainHearing.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstMainHearing.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.RecognizedColumn});
             this.lstMainHearing.GridLines = true;
             this.lstMainHearing.Location = new System.Drawing.Point(12, 27);
             this.lstMainHearing.Name = "lstMainHearing";
             this.lstMainHearing.Size = new System.Drawing.Size(545, 180);
             this.lstMainHearing.TabIndex = 2;
             this.lstMainHearing.UseCompatibleStateImageBehavior = false;
-            this.lstMainHearing.View = System.Windows.Forms.View.List;
+            this.lstMainHearing.View = System.Windows.Forms.View.Details;
             // 
             // btnMainListen
             // 
@@ -140,6 +144,12 @@
             this.btnMainStop.TabIndex = 4;
             this.btnMainStop.Text = "Stop";
             this.btnMainStop.UseVisualStyleBackColor = true;
+            this.btnMainStop.Click += new System.EventHandler(this.btnMainStop_Click);
+            // 
+            // RecognizedColumn
+            // 
+            this.RecognizedColumn.Text = "Recognized";
+            this.RecognizedColumn.Width = 94;
             // 
             // frmGAVPI
             // 
@@ -158,7 +168,7 @@
             this.MinimumSize = new System.Drawing.Size(685, 270);
             this.Name = "frmGAVPI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "GAVPI : Graphical Artifical Virtual Pilot Interface";
+            this.Text = "GAVPI : Graphical AVPI";
             this.Load += new System.EventHandler(this.frmGAVPI_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -180,6 +190,7 @@
         private System.Windows.Forms.ListView lstMainHearing;
         private System.Windows.Forms.Button btnMainListen;
         private System.Windows.Forms.Button btnMainStop;
+        private System.Windows.Forms.ColumnHeader RecognizedColumn;
     }
 }
 

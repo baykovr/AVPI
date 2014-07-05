@@ -21,26 +21,24 @@ namespace GAVPI
 
         SpeechSynthesizer vi_syn;
         SpeechRecognitionEngine vi_sre;
-        
         ListView statusContainer; // listview in main form
 
-        public VI(VI_Profile profile, VI_Settings settings, ListView statusContainer)
+        public VI()
+        {
+            
+        }
+        public void load_listen(VI_Profile profile, VI_Settings settings, ListView statusContainer)
         {
             this.profile = profile;
             this.settings = settings;
             this.statusContainer = statusContainer;
-            //get speech rec/syn prefs from settings
+
             vi_syn = profile.synth;
             vi_syn.SelectVoice(settings.voice_info);
             vi_sre = new SpeechRecognitionEngine(settings.recognizer_info);
 
-            //--build grammar from vi_phrases
-            // more complex grammar later, let the speech engine fight over
-            // blurry phrases for now
             GrammarBuilder phrases_grammar = new GrammarBuilder();
-
             List<string> glossory = new List<string>();
-
             foreach (VI_Phrase trigger in profile.Profile_Triggers)
             {
                 glossory.Add(trigger.value);
@@ -58,6 +56,13 @@ namespace GAVPI
             vi_sre.SpeechRecognitionRejected += _recognizer_SpeechRecognitionRejected;
             vi_sre.SetInputToDefaultAudioDevice();
             vi_sre.RecognizeAsync(RecognizeMode.Multiple);
+        }
+        public void stop_listen()
+        {
+            if (vi_sre!=null)
+            {
+                vi_sre.RecognizeAsyncStop();
+            }
         }
         private void phraseRecognized(object sender, SpeechRecognizedEventArgs e)
         {

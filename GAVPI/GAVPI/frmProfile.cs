@@ -275,6 +275,11 @@ namespace GAVPI
         }
         #endregion
 
+        private void stripProfileHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Nothing here yet");
+        }
+
        
 
         

@@ -99,7 +99,15 @@ namespace GAVPI
                         string action_type = action.Attributes.GetNamedItem("type").Value;
                         string action_value = action.Attributes.GetNamedItem("value").Value;
                         Type new_action_type = Type.GetType("GAVPI." + action_type );
-                        object action_instance = Activator.CreateInstance(new_action_type, action_value);
+                        object action_instance;
+                        if (action_type == "Speak")
+                        {
+                            action_instance = Activator.CreateInstance(new_action_type,this.synth, action_value);
+                        }
+                        else
+                        {
+                            action_instance = Activator.CreateInstance(new_action_type, action_value);
+                        }
                         ack_frm_file.Add((Action)action_instance);
                     }
                     if (!Profile_ActionSequences.Any(ack => ack.name == ack_frm_file.name))
@@ -116,9 +124,8 @@ namespace GAVPI
                     string trigger_comment= element.Attributes.GetNamedItem("comment").Value;
 
                     Type new_trigger_type = Type.GetType("GAVPI." + trigger_type);
-                    object trigger_isntance = Activator.CreateInstance(new_trigger_type, trigger_name , trigger_value);
+                    object trigger_isntance = trigger_isntance = Activator.CreateInstance(new_trigger_type, trigger_name, trigger_value);
                     trig_frm_file = (VI_Trigger)trigger_isntance;
-                    
                     trig_frm_file.comment = trigger_comment;
 
                     // Trigger Events

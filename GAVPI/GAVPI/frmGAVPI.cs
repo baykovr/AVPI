@@ -12,14 +12,16 @@ namespace GAVPI
 {
     public partial class frmGAVPI : Form
     {
+        string BUILD_VERSION = "GAVPI Test Build 0.01 07.05.14";
+
         VI_Settings vi_settings;
         VI_Profile vi_profile;
-        VI virtualinterface;
+        VI vi;
 
         public frmGAVPI()
         {
             InitializeComponent();
-            
+            vi = new VI();
             vi_settings = new VI_Settings();
             vi_profile = new VI_Profile(vi_settings.current_profile_path);
         }
@@ -61,8 +63,19 @@ namespace GAVPI
 
         private void btnMainListen_Click(object sender, EventArgs e)
         {
-            virtualinterface = new VI(vi_profile, vi_settings,lstMainHearing);
-            //btnMainListen.Enabled = false; 
+            vi.load_listen(vi_profile, vi_settings, lstMainHearing);
+            btnMainListen.Enabled = false; 
+        }
+
+        private void btnMainStop_Click(object sender, EventArgs e)
+        {
+            vi.stop_listen();
+            btnMainListen.Enabled = true; 
+        }
+
+        private void mainStripAbout_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(BUILD_VERSION);
         }
     }
 }
