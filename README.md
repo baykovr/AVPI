@@ -1,15 +1,65 @@
-###Coming Soon: GAVPI
+### Graphical AVPI : Test Build 01
 
-Graphical Artificial Virtual Pilot Interface, an open source alternative to VoiceAttack
+#####  Disclaimer: This is a very early build version, be kind.
 
-![cap](https://baykovr.github.io/img/main.png)
+![main](https://cloud.githubusercontent.com/assets/6128886/3487757/17659892-04a0-11e4-9e81-0e9356861113.PNG)
+#### Goal
 
-(WIP) News & Updates : https://baykovr.github.io/gavpi_news.html
+The purpose of this build is to involve user input at the earliest stage of development. There are probably many bugs and untested features, the idea is to get as much feedback as possible. 
+
+Feel free to make suggestions, contributions or bug reports.
+
+You can message me directly on reddit , /u/ Jebediah_Kerman or submit a git report.
+
+#### Usage
+
+##### Profile
+
+![profile](https://cloud.githubusercontent.com/assets/6128886/3487769/37d32a62-04a1-11e4-9719-b9c0f9055bb1.PNG)
+
+The profile is broken down into three sections.
+##### 1. Action Sequence
+
+An action sequence is composed of sequential "actions", one of keyboard or mouse press/down/up, wait or speak. The key or mouse presses are carried out at direct input level which can be thought of equivalent to your physical key presses. Action sequences are carried out very quickly, in some cases near instantly so it is helpful to use the wait (milliseconds) command if an application is failing to registered presses.
+
+Note that Key/Mouse Down action's will hold a specific key until an Up or Press action.
+
+![action_sequence](https://cloud.githubusercontent.com/assets/6128886/3487783/8164d18e-04a2-11e4-8f9f-46318d1a06be.PNG)
+
+##### 2. Trigger 
+
+Triggers are composed of three parts type, name and value.
+
+Currently only one type of trigger is implemented, VI_Phrase. This is the speech recognition trigger type.
+Given a trigger value (a spoken phrase) a trigger will execute all of its corresponding events[3] in order.
+
+![trigger](https://cloud.githubusercontent.com/assets/6128886/3487779/f40bece6-04a1-11e4-9142-adba700010e8.PNG)
+
+##### 3. Trigger Events
+
+Trigger events are carried out when a trigger runs, for example when a spoken phrase is recognized. 
+
+The events can be multiple Action Sequences or other Triggers, in this way an action sequence can be reused in multiple triggers
+
+##### Saving/Loading
+
+I know its annoying, but you need to load your profile each time the application starts for now. Profiles are stored in XML format and can be edited by hand in any text editor which supports it. You can also load profiles made by other people. I will be making a few profiles for myself which will be available on the main project [page](https://github.com/baykovr/AVPI).
+
+### Settings
+
+Settings are untested, since I only have en-us and one voice synthesizer to choose from. None the less it is included as requested but not verified to function properly. 
+
+![settings](https://cloud.githubusercontent.com/assets/6128886/3487803/750a8976-04a5-11e4-879e-c2393485907e.PNG)
+
+###### Thanks and have fun, if it works that is.
+
+
+
 
 ###AVPI
-Artificial Virtual Pilot Interface, an open source alternative to VoiceAttack
 
-#### Version .02 
+Artificial Virtual Pilot Interface, an open source alternative to VoiceAttack
+#### Version .00
 Release Page https://github.com/baykovr/AVPI/releases/tag/v0.2 
 
 Direct Link: https://github.com/baykovr/AVPI/releases/download/v0.2/AVPI_v02.7z
@@ -29,7 +79,7 @@ Email me at baykovr@gmail.com if you would like to contribute, have a suggestion
 Thanks, enjoy the program!
 
 
-### (From Release Readme v.02) Instructions
+### (From Release Readme v.00) Instructions
 
 ###### Usage
 
