@@ -1,5 +1,9 @@
 ### Graphical AVPI : Test Build 01
 
+https://github.com/baykovr/AVPI/releases/tag/v0.01
+
+Direct Link : https://github.com/baykovr/AVPI/releases/download/v0.01/GAVPI.zip
+
 #####  Disclaimer: This is a very early build version, be kind.
 
 ![main](https://cloud.githubusercontent.com/assets/6128886/3487757/17659892-04a0-11e4-9e81-0e9356861113.PNG)
