@@ -39,13 +39,14 @@ namespace GAVPI
 
             GrammarBuilder phrases_grammar = new GrammarBuilder();
             List<string> glossory = new List<string>();
+
             foreach (VI_Phrase trigger in profile.Profile_Triggers)
             {
                 glossory.Add(trigger.value);
             }
             if (glossory.Count == 0)
             {
-                MessageBox.Show("You need to add at least on Phrase");
+                MessageBox.Show("You need to add at least one Trigger");
                 return;
             }
             phrases_grammar.Append(new Choices(glossory.ToArray()));
@@ -61,7 +62,9 @@ namespace GAVPI
         {
             if (vi_sre!=null)
             {
-                vi_sre.RecognizeAsyncStop();
+                vi_sre.RecognizeAsyncCancel();
+                vi_sre.UnloadAllGrammars();
+                vi_sre.Dispose();
             }
         }
         private void phraseRecognized(object sender, SpeechRecognizedEventArgs e)

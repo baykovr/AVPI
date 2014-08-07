@@ -21,14 +21,13 @@ namespace GAVPI
         public frmGAVPI()
         {
             InitializeComponent();
-            vi = new VI();
-            vi_settings = new VI_Settings();
-            vi_profile = new VI_Profile(vi_settings.current_profile_path);
         }
         #region Main form
         private void frmGAVPI_Load(object sender, EventArgs e)
         {
-            
+            vi = new VI();
+            vi_settings = new VI_Settings();
+            vi_profile = new VI_Profile(vi_settings.current_profile_path);
         }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -43,6 +42,7 @@ namespace GAVPI
             {
                 frmProfile modProfileFrm = new frmProfile(vi_profile);
                 modProfileFrm.ShowDialog();
+                modProfileFrm.Dispose();
             }
             catch (Exception profile_exception)
             {
@@ -50,6 +50,10 @@ namespace GAVPI
                    MessageBoxButtons.OK,
                    MessageBoxIcon.Exclamation,
                    MessageBoxDefaultButton.Button1);
+            }
+            finally
+            {
+                
             }
         }
         #endregion
@@ -64,13 +68,19 @@ namespace GAVPI
         private void btnMainListen_Click(object sender, EventArgs e)
         {
             vi.load_listen(vi_profile, vi_settings, lstMainHearing);
-            btnMainListen.Enabled = false; 
+            btnMainListen.Enabled = false;
+            btmStripStatus.Text = "active";
         }
 
         private void btnMainStop_Click(object sender, EventArgs e)
         {
+            // Stop
             vi.stop_listen();
-            btnMainListen.Enabled = true; 
+            // Clean
+            vi = new VI();
+
+            btnMainListen.Enabled = true;
+            btmStripStatus.Text = "inactive";
         }
 
         private void mainStripAbout_Click(object sender, EventArgs e)

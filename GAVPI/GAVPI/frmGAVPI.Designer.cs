@@ -38,14 +38,18 @@
             this.mainStripSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStripAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.lstMainHearing = new System.Windows.Forms.ListView();
+            this.RecognizedColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnMainListen = new System.Windows.Forms.Button();
             this.btnMainStop = new System.Windows.Forms.Button();
-            this.RecognizedColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btmStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mainStatStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainStatStrip
             // 
+            this.mainStatStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btmStripStatus});
             this.mainStatStrip.Location = new System.Drawing.Point(0, 218);
             this.mainStatStrip.Name = "mainStatStrip";
             this.mainStatStrip.Size = new System.Drawing.Size(675, 22);
@@ -124,6 +128,11 @@
             this.lstMainHearing.UseCompatibleStateImageBehavior = false;
             this.lstMainHearing.View = System.Windows.Forms.View.Details;
             // 
+            // RecognizedColumn
+            // 
+            this.RecognizedColumn.Text = "Recognized";
+            this.RecognizedColumn.Width = 94;
+            // 
             // btnMainListen
             // 
             this.btnMainListen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -146,10 +155,11 @@
             this.btnMainStop.UseVisualStyleBackColor = true;
             this.btnMainStop.Click += new System.EventHandler(this.btnMainStop_Click);
             // 
-            // RecognizedColumn
+            // btmStripStatus
             // 
-            this.RecognizedColumn.Text = "Recognized";
-            this.RecognizedColumn.Width = 94;
+            this.btmStripStatus.Name = "btmStripStatus";
+            this.btmStripStatus.Size = new System.Drawing.Size(44, 17);
+            this.btmStripStatus.Text = "inactive";
             // 
             // frmGAVPI
             // 
@@ -170,6 +180,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GAVPI : Graphical AVPI";
             this.Load += new System.EventHandler(this.frmGAVPI_Load);
+            this.mainStatStrip.ResumeLayout(false);
+            this.mainStatStrip.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -191,6 +203,7 @@
         private System.Windows.Forms.Button btnMainListen;
         private System.Windows.Forms.Button btnMainStop;
         private System.Windows.Forms.ColumnHeader RecognizedColumn;
+        private System.Windows.Forms.ToolStripStatusLabel btmStripStatus;
     }
 }
 

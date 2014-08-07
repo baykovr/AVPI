@@ -209,21 +209,26 @@ namespace GAVPI
             {
                 throw new NotImplementedException("Editing mutliple triggers at once is unsupported.");
             }
-            foreach (DataGridViewRow row in this.dgTriggerEvents.SelectedRows)
+            VI_Trigger selected_trigger = null;
+            foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
             {
-                VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
-                if (selected_trigger != null)
+                 selected_trigger = row.DataBoundItem as VI_Trigger;
+            }
+            if (selected_trigger != null)
+            {
+                foreach (DataGridViewRow row in this.dgTriggerEvents.SelectedRows)
                 {
-                    profile.Profile_Triggers.Remove(selected_trigger);
-
-                    // Remove any references to the removed trigger from other triggers
-                    foreach (VI_Trigger current_trigger in profile.Profile_Triggers)
+                    VI_TriggerEvent selected_event = row.DataBoundItem as VI_TriggerEvent;
+                    if (selected_event != null)
                     {
-                        current_trigger.TriggerEvents.Remove(selected_trigger);
+                        //Remove Event
+                        selected_trigger.Remove(selected_event);
+                        
                     }
-                    refresh_dgTriggers();
                 }
             }
+            refresh_dgTriggers();
+            refresh_dgTriggerEvents();
         }
         #endregion
         #region File
@@ -279,12 +284,5 @@ namespace GAVPI
         {
             MessageBox.Show("Nothing here yet");
         }
-
-       
-
-        
-
-
-        
     }
 }

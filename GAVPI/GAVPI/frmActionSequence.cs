@@ -94,8 +94,10 @@ namespace GAVPI
             {
                 if (new_action_sequence_name == existing_sequence.name)
                 {
-                    MessageBox.Show("An action sequence named " + existing_sequence.name+ " already exists.");
-                    return;
+                    profile.Profile_ActionSequences.Remove(existing_sequence);
+                    profile.Profile_ActionSequences.Add(action_sequence);
+                    // Replace and break
+                    break;
                 }
             }
             action_sequence.name = new_action_sequence_name;
