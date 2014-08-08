@@ -1,15 +1,15 @@
 ### [GAVPI](https://baykovr.github.io/gavpi.html) Alpha v0.02
 
 08/07/2014 Latest build [available directly here] (https://github.com/baykovr/AVPI/releases/download/v0.02/GAVPI.zip)
-[ (Relase Notes) ]
+[ (Release Notes) ]
 (https://github.com/baykovr/AVPI/releases/latest) 
 
 #### About
 
-GAVPI is an open source alternative to VoiceAttack, a popular speech recognition key bind tool. Using gavpi you can execute repetative or complex tasks using your voice.
+GAVPI is an open source alternative to VoiceAttack, a popular speech recognition key bind tool. Using gavpi you can execute repetitive or complex tasks using your voice.
 
 You can:
-+ Bind a set of action sequences (mouse/keyboard presses or text-to-speach events) to arbitrary phrases.
++ Bind a set of action sequences (mouse/keyboard presses or text-to-speech events) to arbitrary phrases.
 + Create profiles for different games or applications.
 + Enjoy the program for free.
 
@@ -26,7 +26,7 @@ The profile is broken down into three sections.
 
 ##### 1. Action Sequence
 
-An action sequence is composed of sequential "actions", one of keyboard or mouse press/down/up, wait or speak. The key or mouse presses are carried out at direct input level which is equivilent to your physical key presses. Action sequences are carried out very quickly, in some cases near instantly so it is helpful to use the wait (milliseconds) command if an application is failing to registered presses.
+An action sequence is composed of sequential "actions", one of keyboard or mouse press/down/up, wait or speak. The key or mouse presses are carried out at direct input level which is equivalent to your physical key presses. Action sequences are carried out very quickly, in some cases near instantly so it is helpful to use the wait (milliseconds) command if an application is failing to registered presses.
 
 Note that Key/Mouse Down action's will hold a specific key until an Up or Press action.
 
@@ -37,7 +37,7 @@ Note that Key/Mouse Down action's will hold a specific key until an Up or Press 
 Triggers are composed of three parts type, name and value.
 
 Currently only one type of trigger is implemented, VI_Phrase. This is the speech recognition trigger type its value being a spoken word or phrase.
-When the speach value is recodnized the trigger will execute all of its corresponding events[3] in order.
+When the speech value is recognized the trigger will execute all of its corresponding events[3] in order.
 
 ![trigger](https://cloud.githubusercontent.com/assets/6128886/3487779/f40bece6-04a1-11e4-9142-adba700010e8.PNG)
 
