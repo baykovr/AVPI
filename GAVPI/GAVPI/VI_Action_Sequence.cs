@@ -99,7 +99,7 @@ namespace GAVPI
         }
         public override void run()
         {
-            Keyboard.KeyDown((Keys)Enum.Parse(typeof(Keys), value));
+            Keyboard.KeyUp((Keys)Enum.Parse(typeof(Keys), value));
         }
     }
     public partial class KeyPress : Action
@@ -110,7 +110,7 @@ namespace GAVPI
         }
         public override void run()
         {
-            Keyboard.KeyDown((Keys)Enum.Parse(typeof(Keys), value));
+            Keyboard.KeyPress((Keys)Enum.Parse(typeof(Keys), value));
         }
     }
 
@@ -133,7 +133,7 @@ namespace GAVPI
         }
         public override void run()
         {
-            Mouse.ButtonDown((Mouse.MouseKeys)Enum.Parse(typeof(Mouse.MouseKeys), value));
+            Mouse.ButtonUp((Mouse.MouseKeys)Enum.Parse(typeof(Mouse.MouseKeys), value));
         }
     }
     public partial class MouseKeyPress : Action
@@ -143,7 +143,7 @@ namespace GAVPI
         }
         public override void run()
         {
-            Mouse.ButtonDown((Mouse.MouseKeys)Enum.Parse(typeof(Mouse.MouseKeys), value));
+            Mouse.PressButton((Mouse.MouseKeys)Enum.Parse(typeof(Mouse.MouseKeys), value));
         }
     }
     public partial class Wait : Action
