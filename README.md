@@ -4,6 +4,8 @@
 [ (Release Notes) ]
 (https://github.com/baykovr/AVPI/releases/latest) 
 
+08/08/2014 If you are having issues with gavpi being unresponsive in games, try running it as administrator (right click run as...)
+
 #### About
 
 GAVPI is an open source alternative to VoiceAttack, a popular speech recognition key bind tool. Using gavpi you can execute repetitive or complex tasks using your voice.
