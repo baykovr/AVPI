@@ -40,6 +40,7 @@ namespace GAVPI
             txtActionSequenceName.Text = action_sequence.name;
             dgEditActionSequence.DataSource = null;
             dgEditActionSequence.DataSource = action_sequence.action_sequence.ToArray();
+            txtActionXTimes.Text = "1";
         }
         private void refresh_editactionsequence()
         {
@@ -124,11 +125,34 @@ namespace GAVPI
         private void btnActSeqAdd_Click(object sender, EventArgs e)
         {
             Type new_action_type = Type.GetType("GAVPI." + cbActSeqActionType.SelectedItem.ToString());
+
+            // Number of Times to Add particular action
+            int times_to_add = 1; //by default it is one unless the check fails
+            if (Int32.TryParse(txtActionXTimes.Text, out times_to_add))
+            {
+                if (times_to_add <= 0)
+                {
+                    MessageBox.Show("Times to add value cannot be less than or equal to 0.");
+                    return;
+                }
+            }
+            else 
+            {
+                MessageBox.Show("Times to add value must be a valid integer greater than one. (Max size 32bits)");
+                return;
+            }
+
+
             object action_instance;
             if (new_action_type.ToString() == "GAVPI.Speak")
             {
                 action_instance = Activator.CreateInstance(new_action_type, profile.synth ,cbActSeqActionValue.Text);
-                action_sequence.Add((Action)action_instance);
+                
+                for (uint i = 0; i < times_to_add; i++)
+                {
+                    action_sequence.Add((Action)action_instance);
+                }
+                
                 refresh_editactionsequence();
             }
             else if (new_action_type.ToString() == "GAVPI.Wait")
@@ -137,7 +161,10 @@ namespace GAVPI
                 if (Int32.TryParse(cbActSeqActionValue.Text, out test) && test > 0)
                 {
                     action_instance = Activator.CreateInstance(new_action_type, cbActSeqActionValue.Text);
-                    action_sequence.Add((Action)action_instance);
+                    for (uint i = 0; i < times_to_add; i++)
+                    {
+                        action_sequence.Add((Action)action_instance);
+                    }
                     refresh_editactionsequence();
                 }
                 else
@@ -149,7 +176,10 @@ namespace GAVPI
             else
             {
                 action_instance = Activator.CreateInstance(new_action_type, cbActSeqActionValue.SelectedItem.ToString());
-                action_sequence.Add((Action)action_instance);
+                for (uint i = 0; i < times_to_add; i++)
+                {
+                    action_sequence.Add((Action)action_instance);
+                }
                 refresh_editactionsequence();
             }
             

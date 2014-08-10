@@ -55,6 +55,8 @@ namespace GAVPI
             foreach (Action action in action_sequence)
             {
                 action.run();
+                // A little hotfix for starcitizen, it cant handle going fast.
+                Thread.Sleep(20);
             }
         }
     }
@@ -153,7 +155,8 @@ namespace GAVPI
         }
         public override void run()
         {
-            Thread.Sleep( Int32.Parse(value));
+            //Thread.Sleep( Int32.Parse(value) );
+            Thread.Sleep(50);
         }
     }
     public partial class Speak : Action

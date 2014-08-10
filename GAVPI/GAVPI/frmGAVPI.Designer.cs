@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGAVPI));
             this.mainStatStrip = new System.Windows.Forms.StatusStrip();
+            this.btmStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mainStripFile = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,7 +42,6 @@
             this.RecognizedColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnMainListen = new System.Windows.Forms.Button();
             this.btnMainStop = new System.Windows.Forms.Button();
-            this.btmStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainStatStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +55,12 @@
             this.mainStatStrip.Size = new System.Drawing.Size(675, 22);
             this.mainStatStrip.TabIndex = 0;
             this.mainStatStrip.Text = "statusStrip1";
+            // 
+            // btmStripStatus
+            // 
+            this.btmStripStatus.Name = "btmStripStatus";
+            this.btmStripStatus.Size = new System.Drawing.Size(44, 17);
+            this.btmStripStatus.Text = "inactive";
             // 
             // menuStrip1
             // 
@@ -154,12 +160,6 @@
             this.btnMainStop.Text = "Stop";
             this.btnMainStop.UseVisualStyleBackColor = true;
             this.btnMainStop.Click += new System.EventHandler(this.btnMainStop_Click);
-            // 
-            // btmStripStatus
-            // 
-            this.btmStripStatus.Name = "btmStripStatus";
-            this.btmStripStatus.Size = new System.Drawing.Size(44, 17);
-            this.btmStripStatus.Text = "inactive";
             // 
             // frmGAVPI
             // 

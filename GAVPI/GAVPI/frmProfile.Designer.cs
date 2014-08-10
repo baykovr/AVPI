@@ -47,6 +47,8 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stripProfileTrigger = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.phraseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logicalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stripProfileActionSequence = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.stripProfileHelp = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +75,10 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.taddtoeventToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusProfile = new System.Windows.Forms.StatusStrip();
+            this.tabProfile = new System.Windows.Forms.TabControl();
+            this.tabPageEvents = new System.Windows.Forms.TabPage();
+            this.tabPageData = new System.Windows.Forms.TabPage();
+            this.dgData = new System.Windows.Forms.DataGridView();
             this.menuProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitProfile)).BeginInit();
             this.splitProfile.Panel1.SuspendLayout();
@@ -88,6 +94,10 @@
             this.contextProfileTriggerEvents.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgActionSequences)).BeginInit();
             this.contextProfileActionSequences.SuspendLayout();
+            this.tabProfile.SuspendLayout();
+            this.tabPageEvents.SuspendLayout();
+            this.tabPageData.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
             this.SuspendLayout();
             // 
             // menuProfile
@@ -99,7 +109,7 @@
             this.stripProfileHelp});
             this.menuProfile.Location = new System.Drawing.Point(0, 0);
             this.menuProfile.Name = "menuProfile";
-            this.menuProfile.Size = new System.Drawing.Size(986, 24);
+            this.menuProfile.Size = new System.Drawing.Size(1032, 24);
             this.menuProfile.TabIndex = 0;
             this.menuProfile.Text = "menuStrip1";
             // 
@@ -152,10 +162,25 @@
             // 
             // addNewToolStripMenuItem
             // 
+            this.addNewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.phraseToolStripMenuItem,
+            this.logicalToolStripMenuItem});
             this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
             this.addNewToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.addNewToolStripMenuItem.Text = "New";
-            this.addNewToolStripMenuItem.Click += new System.EventHandler(this.addNewToolStripMenuItem_Click);
+            // 
+            // phraseToolStripMenuItem
+            // 
+            this.phraseToolStripMenuItem.Name = "phraseToolStripMenuItem";
+            this.phraseToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.phraseToolStripMenuItem.Text = "Phrase";
+            this.phraseToolStripMenuItem.Click += new System.EventHandler(this.phraseToolStripMenuItem_Click);
+            // 
+            // logicalToolStripMenuItem
+            // 
+            this.logicalToolStripMenuItem.Name = "logicalToolStripMenuItem";
+            this.logicalToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.logicalToolStripMenuItem.Text = "Logical";
             // 
             // stripProfileActionSequence
             // 
@@ -182,7 +207,7 @@
             // splitProfile
             // 
             this.splitProfile.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitProfile.Location = new System.Drawing.Point(0, 24);
+            this.splitProfile.Location = new System.Drawing.Point(3, 3);
             this.splitProfile.Name = "splitProfile";
             // 
             // splitProfile.Panel1
@@ -193,8 +218,8 @@
             // 
             this.splitProfile.Panel2.Controls.Add(this.lblProfileActionSequences);
             this.splitProfile.Panel2.Controls.Add(this.dgActionSequences);
-            this.splitProfile.Size = new System.Drawing.Size(986, 544);
-            this.splitProfile.SplitterDistance = 669;
+            this.splitProfile.Size = new System.Drawing.Size(990, 487);
+            this.splitProfile.SplitterDistance = 671;
             this.splitProfile.TabIndex = 1;
             // 
             // splitProfileTriggers
@@ -211,11 +236,11 @@
             // 
             // splitProfileTriggers.Panel2
             // 
-            this.splitProfileTriggers.Panel2.BackColor = System.Drawing.Color.MintCream;
+            this.splitProfileTriggers.Panel2.BackColor = System.Drawing.Color.White;
             this.splitProfileTriggers.Panel2.Controls.Add(this.lblProfileTriggerEvents);
             this.splitProfileTriggers.Panel2.Controls.Add(this.dgTriggerEvents);
-            this.splitProfileTriggers.Size = new System.Drawing.Size(669, 544);
-            this.splitProfileTriggers.SplitterDistance = 196;
+            this.splitProfileTriggers.Size = new System.Drawing.Size(671, 487);
+            this.splitProfileTriggers.SplitterDistance = 218;
             this.splitProfileTriggers.TabIndex = 2;
             // 
             // lblProfileTriggers
@@ -257,6 +282,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgTriggers.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgTriggers.Location = new System.Drawing.Point(6, 16);
+            this.dgTriggers.Margin = new System.Windows.Forms.Padding(5);
             this.dgTriggers.MultiSelect = false;
             this.dgTriggers.Name = "dgTriggers";
             this.dgTriggers.ReadOnly = true;
@@ -271,7 +297,7 @@
             this.dgTriggers.RowHeadersVisible = false;
             this.dgTriggers.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgTriggers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgTriggers.Size = new System.Drawing.Size(660, 177);
+            this.dgTriggers.Size = new System.Drawing.Size(662, 199);
             this.dgTriggers.TabIndex = 0;
             this.dgTriggers.SelectionChanged += new System.EventHandler(this.dgTriggers_SelectionChanged);
             // 
@@ -322,7 +348,7 @@
             // lblProfileTriggerEvents
             // 
             this.lblProfileTriggerEvents.AutoSize = true;
-            this.lblProfileTriggerEvents.Location = new System.Drawing.Point(12, 0);
+            this.lblProfileTriggerEvents.Location = new System.Drawing.Point(3, 0);
             this.lblProfileTriggerEvents.Name = "lblProfileTriggerEvents";
             this.lblProfileTriggerEvents.Size = new System.Drawing.Size(76, 13);
             this.lblProfileTriggerEvents.TabIndex = 2;
@@ -358,6 +384,7 @@
             this.dgTriggerEvents.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgTriggerEvents.GridColor = System.Drawing.Color.White;
             this.dgTriggerEvents.Location = new System.Drawing.Point(6, 16);
+            this.dgTriggerEvents.Margin = new System.Windows.Forms.Padding(5);
             this.dgTriggerEvents.MultiSelect = false;
             this.dgTriggerEvents.Name = "dgTriggerEvents";
             this.dgTriggerEvents.ReadOnly = true;
@@ -371,7 +398,7 @@
             this.dgTriggerEvents.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgTriggerEvents.RowHeadersVisible = false;
             this.dgTriggerEvents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgTriggerEvents.Size = new System.Drawing.Size(660, 303);
+            this.dgTriggerEvents.Size = new System.Drawing.Size(662, 224);
             this.dgTriggerEvents.TabIndex = 3;
             // 
             // contextProfileTriggerEvents
@@ -427,6 +454,7 @@
             this.dgActionSequences.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgActionSequences.GridColor = System.Drawing.Color.White;
             this.dgActionSequences.Location = new System.Drawing.Point(6, 16);
+            this.dgActionSequences.Margin = new System.Windows.Forms.Padding(5);
             this.dgActionSequences.MultiSelect = false;
             this.dgActionSequences.Name = "dgActionSequences";
             this.dgActionSequences.ReadOnly = true;
@@ -440,7 +468,7 @@
             this.dgActionSequences.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dgActionSequences.RowHeadersVisible = false;
             this.dgActionSequences.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgActionSequences.Size = new System.Drawing.Size(304, 503);
+            this.dgActionSequences.Size = new System.Drawing.Size(306, 446);
             this.dgActionSequences.TabIndex = 0;
             // 
             // contextProfileActionSequences
@@ -489,19 +517,66 @@
             // 
             // statusProfile
             // 
-            this.statusProfile.Location = new System.Drawing.Point(0, 546);
+            this.statusProfile.Location = new System.Drawing.Point(0, 551);
             this.statusProfile.Name = "statusProfile";
-            this.statusProfile.Size = new System.Drawing.Size(986, 22);
+            this.statusProfile.Size = new System.Drawing.Size(1032, 22);
             this.statusProfile.TabIndex = 2;
             this.statusProfile.Text = "statusStrip1";
+            // 
+            // tabProfile
+            // 
+            this.tabProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabProfile.Controls.Add(this.tabPageEvents);
+            this.tabProfile.Controls.Add(this.tabPageData);
+            this.tabProfile.Location = new System.Drawing.Point(14, 27);
+            this.tabProfile.Margin = new System.Windows.Forms.Padding(5);
+            this.tabProfile.Name = "tabProfile";
+            this.tabProfile.SelectedIndex = 0;
+            this.tabProfile.Size = new System.Drawing.Size(1004, 519);
+            this.tabProfile.TabIndex = 3;
+            // 
+            // tabPageEvents
+            // 
+            this.tabPageEvents.Controls.Add(this.splitProfile);
+            this.tabPageEvents.Location = new System.Drawing.Point(4, 22);
+            this.tabPageEvents.Name = "tabPageEvents";
+            this.tabPageEvents.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageEvents.Size = new System.Drawing.Size(996, 493);
+            this.tabPageEvents.TabIndex = 0;
+            this.tabPageEvents.Text = "Events";
+            this.tabPageEvents.UseVisualStyleBackColor = true;
+            // 
+            // tabPageData
+            // 
+            this.tabPageData.Controls.Add(this.dgData);
+            this.tabPageData.Location = new System.Drawing.Point(4, 22);
+            this.tabPageData.Name = "tabPageData";
+            this.tabPageData.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageData.Size = new System.Drawing.Size(996, 493);
+            this.tabPageData.TabIndex = 1;
+            this.tabPageData.Text = "Data";
+            this.tabPageData.UseVisualStyleBackColor = true;
+            // 
+            // dgData
+            // 
+            this.dgData.AllowUserToAddRows = false;
+            this.dgData.AllowUserToDeleteRows = false;
+            this.dgData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgData.Location = new System.Drawing.Point(6, 26);
+            this.dgData.Name = "dgData";
+            this.dgData.ReadOnly = true;
+            this.dgData.Size = new System.Drawing.Size(984, 464);
+            this.dgData.TabIndex = 0;
             // 
             // frmProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(986, 568);
+            this.ClientSize = new System.Drawing.Size(1032, 573);
+            this.Controls.Add(this.tabProfile);
             this.Controls.Add(this.statusProfile);
-            this.Controls.Add(this.splitProfile);
             this.Controls.Add(this.menuProfile);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuProfile;
@@ -528,6 +603,10 @@
             this.contextProfileTriggerEvents.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgActionSequences)).EndInit();
             this.contextProfileActionSequences.ResumeLayout(false);
+            this.tabProfile.ResumeLayout(false);
+            this.tabPageEvents.ResumeLayout(false);
+            this.tabPageData.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgData)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -569,5 +648,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem phraseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem logicalToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabProfile;
+        private System.Windows.Forms.TabPage tabPageEvents;
+        private System.Windows.Forms.TabPage tabPageData;
+        private System.Windows.Forms.DataGridView dgData;
     }
 }

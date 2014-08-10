@@ -60,10 +60,15 @@ namespace GAVPI
             }
         }
     }
-    public partial class VI_Condition : VI_Trigger
-    {
 
-        public VI_Condition(string name) : base(name)
+    public partial class VI_Logical : VI_Trigger
+    {
+        // Logical trigger compare VI_Data obj
+        // to some value
+        // has CONDITION ( < , > , === etc)
+        // runs if CONDITION
+        public VI_Logical(string name, string value)
+            : base(name)
         {
  
         }

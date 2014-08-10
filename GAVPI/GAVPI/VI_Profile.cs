@@ -51,7 +51,10 @@ namespace GAVPI
             {
                 Trigger_Types = new List<string>();
                 Action_Types = new List<string>();
+                
                 Trigger_Types.Add("VI_Phrase");
+                //Trigger_Types.Add("VI_Logical");
+
                 Action_Types.Add("KeyDown");
                 Action_Types.Add("KeyUp");
                 Action_Types.Add("KeyPress");

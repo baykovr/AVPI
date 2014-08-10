@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<gavpi>
+  <VI_Action_Sequence name="say_complete" type="VI_Action_Sequence" comment="">
+    <Action type="Speak" value="complete" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="PWR_bottom_to_center" type="VI_Action_Sequence" comment="">
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="SEL_power" type="VI_Action_Sequence" comment="">
+    <Action type="KeyPress" value="NumPad7" />
+    <Action type="Wait" value="50" />
+    <Action type="KeyPress" value="NumPad7" />
+    <Action type="Wait" value="50" />
+    <Action type="KeyPress" value="NumPad7" />
+    <Action type="Wait" value="50" />
+    <Action type="KeyPress" value="NumPad7" />
+    <Action type="Wait" value="50" />
+    <Action type="KeyPress" value="NumPad5" />
+    <Action type="Wait" value="50" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="NAV_power" type="VI_Action_Sequence" comment="">
+    <Action type="KeyPress" value="F1" />
+    <Action type="Wait" value="300" />
+    <Action type="KeyPress" value="F3" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="PWR_bottom_to_g2" type="VI_Action_Sequence" comment="">
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+    <Action type="KeyPress" value="NumPad6" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="PWR_bottom_to_g1" type="VI_Action_Sequence" comment="">
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad8" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+    <Action type="KeyPress" value="NumPad4" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="PWR_to_bottom" type="VI_Action_Sequence" comment="">
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+    <Action type="KeyPress" value="NumPad2" />
+  </VI_Action_Sequence>
+  <VI_Trigger name="power g1" value="weapons" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="PWR_bottom_to_g1" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="none" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="power g2" value="avionics" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="PWR_bottom_to_g2" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="none" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="power g3" value="shields" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="none" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="center" value="center" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="PWR_bottom_to_center" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="none" comment="" />
+  </VI_Trigger>
+</gavpi>

@@ -62,7 +62,7 @@
             // lblTriggerValue
             // 
             this.lblTriggerValue.AutoSize = true;
-            this.lblTriggerValue.Location = new System.Drawing.Point(10, 97);
+            this.lblTriggerValue.Location = new System.Drawing.Point(12, 97);
             this.lblTriggerValue.Name = "lblTriggerValue";
             this.lblTriggerValue.Size = new System.Drawing.Size(34, 13);
             this.lblTriggerValue.TabIndex = 2;
@@ -124,7 +124,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnTriggerCancel;
-            this.ClientSize = new System.Drawing.Size(444, 179);
+            this.ClientSize = new System.Drawing.Size(446, 183);
             this.Controls.Add(this.txtTriggerName);
             this.Controls.Add(this.lblTriggerName);
             this.Controls.Add(this.btnTriggerCancel);

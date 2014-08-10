@@ -12,7 +12,7 @@ namespace GAVPI
 {
     public partial class frmGAVPI : Form
     {
-        string BUILD_VERSION = "GAVPI Test Build 0.01 07.05.14";
+        string BUILD_VERSION = "GAVPI Test Build 0.02 08.06.14";
 
         VI_Settings vi_settings;
         VI_Profile vi_profile;

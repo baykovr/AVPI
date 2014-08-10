@@ -144,8 +144,7 @@ namespace GAVPI
             }
             refresh_dgTriggerEvents();
         }
-        // Add New Trigger (Top Menu)
-        private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
+        private void phraseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmTrigger newTrigger = new frmTrigger(profile);
             newTrigger.ShowDialog();
@@ -284,5 +283,7 @@ namespace GAVPI
         {
             MessageBox.Show("Nothing here yet");
         }
+
+        
     }
 }

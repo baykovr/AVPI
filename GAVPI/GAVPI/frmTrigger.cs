@@ -48,11 +48,6 @@ namespace GAVPI
 
         private void btnTriggerOk_Click(object sender, EventArgs e)
         {
-            //if (edit_mode)
-            //{
-            //    profile.Profile_Triggers.Remove(existing_trigger);
-            //}
-
             // Check if exists with name
             string new_trigger_name = txtTriggerName.Text.Trim();
             string new_trigger_value = txtTriggerValue.Text.Trim();
@@ -62,28 +57,43 @@ namespace GAVPI
                 MessageBox.Show("Blank values not allowed");
                 return;
             }
-            foreach(VI_Trigger trigger in profile.Profile_Triggers)
-            {
-                if (trigger.name == new_trigger_name)
-                {
-                    MessageBox.Show("A trigger with name " + new_trigger_name + " already exists.");
-                    return;
-                }
-            }
 
             // Additional validation by type, ie cant have duplicate phrases
             // todo: abstract to VI_Profile.validate(vi_type,name,value)
+
+            // Check existings, remove if exisits (in which case the user is making an edit)
+            foreach(VI_Trigger current_trigger in profile.Profile_Triggers)
+            {
+                if (new_trigger_name == current_trigger.name)
+                {
+                    if ("VI_Phrase" == cbTriggerType.SelectedItem.ToString())
+                    {
+                        foreach (VI_Trigger trigger in profile.Profile_Triggers)
+                        {
+                            if ( (trigger.value == new_trigger_value) && (trigger.name != current_trigger.name) )
+                            {
+                                MessageBox.Show("Trigger " + trigger.name + " currently uses value " + new_trigger_value);
+                                return;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        profile.Profile_Triggers.Remove(current_trigger);
+                        break;
+                    }
+                }
+            }
             if ("VI_Phrase" == cbTriggerType.SelectedItem.ToString())
             {
                 foreach (VI_Trigger trigger in profile.Profile_Triggers)
                 {
                     if (trigger.value == new_trigger_value)
                     {
-                        MessageBox.Show("Trigger "+ trigger.name+" already has value "+ new_trigger_value);
+                        MessageBox.Show("Trigger " + trigger.name + " currently uses value " + new_trigger_value);
                         return;
                     }
                 }
- 
             }
 
             Type new_trigger_type = Type.GetType("GAVPI." + cbTriggerType.SelectedItem.ToString());

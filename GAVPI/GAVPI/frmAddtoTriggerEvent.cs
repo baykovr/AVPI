@@ -31,12 +31,13 @@ namespace GAVPI
         {
             VI_Trigger selected_trigger = cbAddtoTriggerEvent.SelectedItem as VI_Trigger;
 
-            if (selected_trigger.TriggerEvents.Contains(event_to_add))
-            {
-                MessageBox.Show("Trigger " + selected_trigger.name + " already contains " + event_to_add.name);
-                return;
-            }
-            else if ( (event_to_add.GetType().Name != "VI_Action_Sequence") && event_to_add.name == selected_trigger.name)
+            //if (selected_trigger.TriggerEvents.Contains(event_to_add))
+            //{
+            //    // Ignore Doubles
+            //    //MessageBox.Show("Trigger " + selected_trigger.name + " already contains " + event_to_add.name);
+            //    //return;
+            //}
+            if ( (event_to_add.GetType().Name != "VI_Action_Sequence") && event_to_add.name == selected_trigger.name)
             {
                 MessageBox.Show("You cannot add a trigger to itself.");
                 return;

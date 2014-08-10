@@ -8,15 +8,12 @@ namespace GAVPI
 {
     public abstract class VI_Data
     {
-
+        public string name;
     }
 
-    public partial class VI_String : VI_Data
+    public partial class VI_int : VI_Data
     {
- 
-    }
-    public partial class VI_Int32 : VI_Data
-    {
- 
+       
+        
     }
 }
