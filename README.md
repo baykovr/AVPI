@@ -4,7 +4,9 @@
 [ (Release Notes) ]
 (https://github.com/baykovr/AVPI/releases/latest) 
 
-08/08/2014 You should run gavpi as administrator for it work properly in most games. (right click run as...)
+You should run gavpi as administrator for it work properly in most games. (right click run as...)
+
+Check out the example [profile for StarCitizen](https://github.com/baykovr/AVPI/blob/master/Profiles/POWER.xml) to get started. (included in latest release)
 
 #### About
 
