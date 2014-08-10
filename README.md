@@ -1,10 +1,10 @@
-### [GAVPI](https://baykovr.github.io/gavpi.html) Alpha v0.02
+### [GAVPI](https://baykovr.github.io/gavpi.html) Alpha v0.03
 
-08/07/2014 Latest build [available directly here] (https://github.com/baykovr/AVPI/releases/download/v0.02/GAVPI.zip)
+08/10/2014 Latest build [available directly here](https://github.com/baykovr/AVPI/releases/download/v0.03/GAVPI_v0.03.zip)
 [ (Release Notes) ]
 (https://github.com/baykovr/AVPI/releases/latest) 
 
-08/08/2014 If you are having issues with gavpi being unresponsive in games, try running it as administrator (right click run as...)
+08/08/2014 You should run gavpi as administrator for it work properly in most games. (right click run as...)
 
 #### About
 
