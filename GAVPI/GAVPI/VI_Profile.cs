@@ -74,6 +74,37 @@ namespace GAVPI
             Profile_ActionSequences.Add(action_sequence_toAdd);
         }
 
+        #region Trigger Validation Function
+        public bool isTriggerValueTaken(string value_to_check)
+        {
+            // Predicate searches for the first match of value to vvalue_to_check
+            // it will return the object (trigger), if its not null then it must exist
+            // you could also for loop through all triggers here, runtime O(n)
+            if (Profile_Triggers.Find(trigger => trigger.value == value_to_check) != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool isTriggerNameTaken(string name_to_check)
+        {
+            // Predicate searches for the first match of name to name_to_check
+            // it will return the object (trigger), if its not null then it must exist
+            // you could also for loop through all triggers here, runtime O(n)
+            if (Profile_Triggers.Find(trigger => trigger.name == name_to_check) != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        #endregion
         public void load_profile(string filename)
         {
             //Clean Current

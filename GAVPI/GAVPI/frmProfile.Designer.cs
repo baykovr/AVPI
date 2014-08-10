@@ -109,7 +109,7 @@
             this.stripProfileHelp});
             this.menuProfile.Location = new System.Drawing.Point(0, 0);
             this.menuProfile.Name = "menuProfile";
-            this.menuProfile.Size = new System.Drawing.Size(1032, 24);
+            this.menuProfile.Size = new System.Drawing.Size(1108, 24);
             this.menuProfile.TabIndex = 0;
             this.menuProfile.Text = "menuStrip1";
             // 
@@ -218,8 +218,8 @@
             // 
             this.splitProfile.Panel2.Controls.Add(this.lblProfileActionSequences);
             this.splitProfile.Panel2.Controls.Add(this.dgActionSequences);
-            this.splitProfile.Size = new System.Drawing.Size(990, 487);
-            this.splitProfile.SplitterDistance = 671;
+            this.splitProfile.Size = new System.Drawing.Size(1066, 583);
+            this.splitProfile.SplitterDistance = 566;
             this.splitProfile.TabIndex = 1;
             // 
             // splitProfileTriggers
@@ -239,8 +239,8 @@
             this.splitProfileTriggers.Panel2.BackColor = System.Drawing.Color.White;
             this.splitProfileTriggers.Panel2.Controls.Add(this.lblProfileTriggerEvents);
             this.splitProfileTriggers.Panel2.Controls.Add(this.dgTriggerEvents);
-            this.splitProfileTriggers.Size = new System.Drawing.Size(671, 487);
-            this.splitProfileTriggers.SplitterDistance = 218;
+            this.splitProfileTriggers.Size = new System.Drawing.Size(566, 583);
+            this.splitProfileTriggers.SplitterDistance = 262;
             this.splitProfileTriggers.TabIndex = 2;
             // 
             // lblProfileTriggers
@@ -297,7 +297,7 @@
             this.dgTriggers.RowHeadersVisible = false;
             this.dgTriggers.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgTriggers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgTriggers.Size = new System.Drawing.Size(662, 199);
+            this.dgTriggers.Size = new System.Drawing.Size(557, 243);
             this.dgTriggers.TabIndex = 0;
             this.dgTriggers.SelectionChanged += new System.EventHandler(this.dgTriggers_SelectionChanged);
             // 
@@ -398,7 +398,7 @@
             this.dgTriggerEvents.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgTriggerEvents.RowHeadersVisible = false;
             this.dgTriggerEvents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgTriggerEvents.Size = new System.Drawing.Size(662, 224);
+            this.dgTriggerEvents.Size = new System.Drawing.Size(557, 276);
             this.dgTriggerEvents.TabIndex = 3;
             // 
             // contextProfileTriggerEvents
@@ -468,7 +468,7 @@
             this.dgActionSequences.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dgActionSequences.RowHeadersVisible = false;
             this.dgActionSequences.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgActionSequences.Size = new System.Drawing.Size(306, 446);
+            this.dgActionSequences.Size = new System.Drawing.Size(487, 542);
             this.dgActionSequences.TabIndex = 0;
             // 
             // contextProfileActionSequences
@@ -517,9 +517,9 @@
             // 
             // statusProfile
             // 
-            this.statusProfile.Location = new System.Drawing.Point(0, 551);
+            this.statusProfile.Location = new System.Drawing.Point(0, 647);
             this.statusProfile.Name = "statusProfile";
-            this.statusProfile.Size = new System.Drawing.Size(1032, 22);
+            this.statusProfile.Size = new System.Drawing.Size(1108, 22);
             this.statusProfile.TabIndex = 2;
             this.statusProfile.Text = "statusStrip1";
             // 
@@ -534,7 +534,7 @@
             this.tabProfile.Margin = new System.Windows.Forms.Padding(5);
             this.tabProfile.Name = "tabProfile";
             this.tabProfile.SelectedIndex = 0;
-            this.tabProfile.Size = new System.Drawing.Size(1004, 519);
+            this.tabProfile.Size = new System.Drawing.Size(1080, 615);
             this.tabProfile.TabIndex = 3;
             // 
             // tabPageEvents
@@ -543,7 +543,7 @@
             this.tabPageEvents.Location = new System.Drawing.Point(4, 22);
             this.tabPageEvents.Name = "tabPageEvents";
             this.tabPageEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageEvents.Size = new System.Drawing.Size(996, 493);
+            this.tabPageEvents.Size = new System.Drawing.Size(1072, 589);
             this.tabPageEvents.TabIndex = 0;
             this.tabPageEvents.Text = "Events";
             this.tabPageEvents.UseVisualStyleBackColor = true;
@@ -554,7 +554,7 @@
             this.tabPageData.Location = new System.Drawing.Point(4, 22);
             this.tabPageData.Name = "tabPageData";
             this.tabPageData.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageData.Size = new System.Drawing.Size(996, 493);
+            this.tabPageData.Size = new System.Drawing.Size(1072, 589);
             this.tabPageData.TabIndex = 1;
             this.tabPageData.Text = "Data";
             this.tabPageData.UseVisualStyleBackColor = true;
@@ -564,17 +564,17 @@
             this.dgData.AllowUserToAddRows = false;
             this.dgData.AllowUserToDeleteRows = false;
             this.dgData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgData.Location = new System.Drawing.Point(6, 26);
+            this.dgData.Location = new System.Drawing.Point(6, 6);
             this.dgData.Name = "dgData";
             this.dgData.ReadOnly = true;
-            this.dgData.Size = new System.Drawing.Size(984, 464);
+            this.dgData.Size = new System.Drawing.Size(1060, 577);
             this.dgData.TabIndex = 0;
             // 
             // frmProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1032, 573);
+            this.ClientSize = new System.Drawing.Size(1108, 669);
             this.Controls.Add(this.tabProfile);
             this.Controls.Add(this.statusProfile);
             this.Controls.Add(this.menuProfile);

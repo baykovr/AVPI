@@ -13,31 +13,31 @@ namespace GAVPI
     public partial class frmTrigger : Form
     {
         private VI_Profile profile;
-        private VI_Trigger existing_trigger;
-        private bool edit_mode; 
+        private VI_Trigger trigger_to_edit;
 
         public frmTrigger(VI_Profile profile)
         {
+            // Constructor passes no trigger, meaning create new
             InitializeComponent();
             this.profile = profile;
-            edit_mode = false;
             populate_fields();
         }
-        public frmTrigger(VI_Profile profile, VI_Trigger existing_trigger)
+        public frmTrigger(VI_Profile profile, VI_Trigger trigger_to_edit)
         {
+            // Passing a trigger to the contructor edits an existing
             InitializeComponent();
             this.profile = profile;
-            this.existing_trigger = existing_trigger;
-            edit_mode = true;
+            this.trigger_to_edit = trigger_to_edit;
             populate_fields();
         }
         private void populate_fields()
         {
             cbTriggerType.DataSource = this.profile.Trigger_Types;
-            if (edit_mode)
+            // If trigger to edit is not null, we are editing an existing trigger
+            if (trigger_to_edit != null)
             {
-                txtTriggerName.Text = existing_trigger.name;
-                txtTriggerValue.Text = existing_trigger.value;
+                txtTriggerName.Text = trigger_to_edit.name;
+                txtTriggerValue.Text = trigger_to_edit.value;
             }
         }
 
@@ -48,58 +48,59 @@ namespace GAVPI
 
         private void btnTriggerOk_Click(object sender, EventArgs e)
         {
-            // Check if exists with name
-            string new_trigger_name = txtTriggerName.Text.Trim();
-            string new_trigger_value = txtTriggerValue.Text.Trim();
+            // Validate fields for name and value
+            string trigger_name  = txtTriggerName.Text.Trim();
+            string trigger_value = txtTriggerValue.Text.Trim();
 
-            if ( (new_trigger_name.Length == 0) ||  (new_trigger_value.Length == 0))
-            {
-                MessageBox.Show("Blank values not allowed");
+            if ((trigger_name.Length == 0) || (trigger_value.Length == 0)){
+                MessageBox.Show("Blank name and/or value cannot be blank");
                 return;
             }
-
-            // Additional validation by type, ie cant have duplicate phrases
-            // todo: abstract to VI_Profile.validate(vi_type,name,value)
-
-            // Check existings, remove if exisits (in which case the user is making an edit)
-            foreach(VI_Trigger current_trigger in profile.Profile_Triggers)
+            
+            // Handle Trigger Edit/Insertion
+            // Case 1 : New Trigger
+            if (trigger_to_edit == null)
             {
-                if (new_trigger_name == current_trigger.name)
+                // check if name OR value is taken
+                // if not push new trigger into profile
+                if (profile.isTriggerNameTaken(trigger_name) || profile.isTriggerValueTaken(trigger_value))
                 {
-                    if ("VI_Phrase" == cbTriggerType.SelectedItem.ToString())
-                    {
-                        foreach (VI_Trigger trigger in profile.Profile_Triggers)
-                        {
-                            if ( (trigger.value == new_trigger_value) && (trigger.name != current_trigger.name) )
-                            {
-                                MessageBox.Show("Trigger " + trigger.name + " currently uses value " + new_trigger_value);
-                                return;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        profile.Profile_Triggers.Remove(current_trigger);
-                        break;
-                    }
+                    MessageBox.Show("A trigger with this name or value already exisits.");
+                    return;
+                }
+                else
+                {
+                    // Get type from dropdown and cast to object dynamically
+                    Type new_trigger_type = Type.GetType("GAVPI." + cbTriggerType.SelectedItem.ToString());
+                    object trigger_instance = Activator.CreateInstance(new_trigger_type, trigger_name, trigger_value);
+                    profile.Profile_Triggers.Add((VI_Trigger)trigger_instance);
                 }
             }
-            if ("VI_Phrase" == cbTriggerType.SelectedItem.ToString())
+            // Case 2 : Edit existing non-null initialized trigger
+            else
             {
-                foreach (VI_Trigger trigger in profile.Profile_Triggers)
+                // A bit more complex
+                // rm current from profile
+                // if name OR value is taken
+                //  insert current back in unchanged
+                // else
+                //  edit current trigger to have new name and value
+                //  push it into profile
+                profile.Profile_Triggers.Remove(trigger_to_edit);
+
+                if (profile.isTriggerNameTaken(trigger_name) || profile.isTriggerValueTaken(trigger_value))
                 {
-                    if (trigger.value == new_trigger_value)
-                    {
-                        MessageBox.Show("Trigger " + trigger.name + " currently uses value " + new_trigger_value);
-                        return;
-                    }
+                    MessageBox.Show("A trigger with this name or value already exisits.");
+                    profile.Profile_Triggers.Add(trigger_to_edit);
+                    return;
+                }
+                else
+                {
+                    trigger_to_edit.name = trigger_name;
+                    trigger_to_edit.value = trigger_value;
+                    profile.Profile_Triggers.Add(trigger_to_edit);
                 }
             }
-
-            Type new_trigger_type = Type.GetType("GAVPI." + cbTriggerType.SelectedItem.ToString());
-            object trigger_instance = Activator.CreateInstance(new_trigger_type, new_trigger_name, new_trigger_value);
-
-            profile.Profile_Triggers.Add((VI_Trigger)trigger_instance);
             this.Close();
         }
     }
