@@ -8,7 +8,12 @@ Use the built in editor or create your own editor conforming to specifications.
 
 POWER.XML
 
-An example profile to StarCitizen phrase triggers for "weapons","shields","center" and "avionics" transfer the power of the craft to one of the 4 areas. 
+An example profile to StarCitizen. 
+
+Phrase triggers:
+    "weapons","shields","center" and "avionics" 
+    
+transfer the power of the craft to one of the 4 areas. 
 
 
 
