@@ -13,8 +13,9 @@ An example profile to StarCitizen.
 Phrase triggers:
     "weapons","shields","center" and "avionics" 
     
-transfer the power of the craft to one of the 4 areas. 
+Each transfers the power of the craft to one of the corresponding subsystems areas. 
 
+Valid for star citizen build/default controls on 08/10/2014
 
 
 ### Profile Specification
