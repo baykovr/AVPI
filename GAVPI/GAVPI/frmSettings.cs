@@ -42,12 +42,24 @@ namespace GAVPI
             audio_devices.Add("Default Directsound device");
 
             cbSettingsRecordingDevice.DataSource = audio_devices;
+
+            List<string> pushtotalk_mode_list = new List<string>();
+            pushtotalk_mode_list.Add("Off");
+            pushtotalk_mode_list.Add("Hold");
+            pushtotalk_mode_list.Add("PressOnce");
+            cbSettingsPushToTalkMode.DataSource = pushtotalk_mode_list;
+            cbSettingsPushToTalkMode.SelectedItem = vi_settings.pushtotalk_mode;
+
+            cbSettingsPushToTalkKey.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();
+            cbSettingsPushToTalkKey.SelectedItem = Enum.Parse(typeof(Keys),vi_settings.pushtotalk_key);
         }
 
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
             vi_settings.recognizer_info = new CultureInfo(cbSettingsLanguage.SelectedItem.ToString());
             vi_settings.voice_info = cbSettingsSynthesizer.SelectedItem.ToString();
+            vi_settings.pushtotalk_mode = cbSettingsPushToTalkMode.SelectedItem.ToString();
+            vi_settings.pushtotalk_key = cbSettingsPushToTalkKey.SelectedItem.ToString();
             this.Close();
         }
     }
