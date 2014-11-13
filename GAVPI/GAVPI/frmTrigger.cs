@@ -43,17 +43,25 @@ namespace GAVPI
 
         private void btnTriggerCancel_Click(object sender, EventArgs e)
         {
+
+			this.DialogResult = DialogResult.Cancel;
+
             this.Close();
+			
         }
 
         private void btnTriggerOk_Click(object sender, EventArgs e)
         {
+
+			this.DialogResult = DialogResult.Cancel;  //  Unless otherwise stated, the Dialog was cancelled by the user.
+
             // Validate fields for name and value
             string trigger_name  = txtTriggerName.Text.Trim();
             string trigger_value = txtTriggerValue.Text.Trim();
 
             if ((trigger_name.Length == 0) || (trigger_value.Length == 0)){
                 MessageBox.Show("Blank name and/or value cannot be blank");
+								
                 return;
             }
             
@@ -66,6 +74,7 @@ namespace GAVPI
                 if (profile.isTriggerNameTaken(trigger_name) || profile.isTriggerValueTaken(trigger_value))
                 {
                     MessageBox.Show("A trigger with this name or value already exisits.");
+										
                     return;
                 }
                 else
@@ -92,6 +101,7 @@ namespace GAVPI
                 {
                     MessageBox.Show("A trigger with this name or value already exisits.");
                     profile.Profile_Triggers.Add(trigger_to_edit);
+									
                     return;
                 }
                 else
@@ -101,7 +111,13 @@ namespace GAVPI
                     profile.Profile_Triggers.Add(trigger_to_edit);
                 }
             }
+			
+            //  The user okay'd their edit, so the Dialog successfully accomplished something.
+
+			this.DialogResult = DialogResult.OK;
+			
             this.Close();
-        }
+			
+        }  //  private void btnTriggerOk_Click()
     }
 }

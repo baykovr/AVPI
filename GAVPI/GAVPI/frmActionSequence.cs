@@ -80,6 +80,9 @@ namespace GAVPI
         }
         private void btnActSeqCancel_Click(object sender, EventArgs e)
         {
+		
+			this.DialogResult = DialogResult.Cancel;
+		
             this.Close();
         }
 
@@ -89,6 +92,9 @@ namespace GAVPI
             if (new_action_sequence_name == "")
             {
                 MessageBox.Show("Blank value in name not allowed");
+
+				this.DialogResult = DialogResult.Cancel;				
+				
                 return;
             }
             foreach (VI_Action_Sequence existing_sequence in profile.Profile_ActionSequences)
@@ -113,6 +119,9 @@ namespace GAVPI
             {
                 profile.Profile_ActionSequences.Add(action_sequence);
             }
+			
+			this.DialogResult = DialogResult.OK;
+			
             this.Close();
         }
 
@@ -182,6 +191,10 @@ namespace GAVPI
                 }
                 refresh_editactionsequence();
             }
+			
+			//  We've updated the Action Sequence, so allow the user to save their changes...
+			
+			this.btnActSeqSave.Enabled = true;
             
         }
 

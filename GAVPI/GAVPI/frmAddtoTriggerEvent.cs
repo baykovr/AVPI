@@ -40,11 +40,17 @@ namespace GAVPI
             if ( (event_to_add.GetType().Name != "VI_Action_Sequence") && event_to_add.name == selected_trigger.name)
             {
                 MessageBox.Show("You cannot add a trigger to itself.");
+				
+				this.DialogResult = DialogResult.Cancel;
+				
                 return;
              }
             else
             {
                 selected_trigger.TriggerEvents.Add(event_to_add);
+				
+				this.DialogResult = DialogResult.OK;
+				
                 this.Close();
             }
 
@@ -52,6 +58,9 @@ namespace GAVPI
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+		
+			this.DialogResult = DialogResult.Cancel;
+		
             this.Close();
         }
     }

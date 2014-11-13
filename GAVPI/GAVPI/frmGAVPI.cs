@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,14 +13,26 @@ namespace GAVPI
 {
     public partial class frmGAVPI : Form
     {
+
         string BUILD_VERSION = "GAVPI Test Build 0.02 08.06.14";
 
         VI_Settings vi_settings;
         VI_Profile vi_profile;
         VI vi;
 
-        public frmGAVPI()
+        //
+        //  Our constructor expects a copy of an Interprocess Communication message we registered at the outset of execution
+        //  in the event a further instance of the program is run by the user (where we, instead of running more than one
+        //  instance, we simply display the existing instance's UI).
+        //
+
+        private int WM_OPEN_EXISTING_INSTANCE;
+
+        public frmGAVPI( int IPCMessage )
         {
+
+            WM_OPEN_EXISTING_INSTANCE = IPCMessage;
+
             InitializeComponent();
         }
         #region Main form
@@ -29,8 +42,64 @@ namespace GAVPI
             vi_settings = new VI_Settings();
             vi_profile = new VI_Profile(vi_settings.current_profile_path);
         }
+
+        //
+        //  private void frmGAVPI_FormClosing( object, FormClosingEventArgs )
+        //
+        //  If the Form is closed, either explicitly (by clicking the close window button) or implicitly (by calling Form.Close)
+        //  our frmGAVPI_FormClosing handler will prompt the user to save any unsaved Profile changes.
+        //
+
+        private void frmGAVPI_FormClosing( object sender, FormClosingEventArgs e )
+        {
+
+            //
+            //  If a Profile has been previously modified via the Profile editor but those changes haven't been saved, offer the
+            //  user an opportunity to save those changes before leaving the program.  (If the user cancels the ensuing Save File
+            //  Dialog then don't exit the application out of common courtesy.)
+            //
+
+            if( vi_profile.IsEdited() ) {
+
+                DialogResult save_changes = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
+                                                             "Would you like to save those changes now?",
+                                                             "Unsaved Profile",
+                                                              MessageBoxButtons.YesNo);
+
+                if( save_changes == DialogResult.Yes && !vi_profile.save_profile() ) e.Cancel = true;
+
+            }  //  if()
+
+        }  //  private void frmGAVPI_FormClosing
+
+		//
+		//  loadToolStripMenuItem_Click()
+		//
+		//  A handler for the Load Profile menu item in the File menu, allowing the user to select an existing Binding
+		//  Definition Profile.  The Binding Definition Profile may be edited and saved within frmProfile.
+		//
+		
+		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            //  Stop Listening since we may be about to open another Profile...
+
+            btnMainStop_Click( sender, e );
+
+            //  Attempt to open a Profile and, if successful, enable the Listen button.
+
+            if( vi_profile.load_profile() ) btnMainListen.Enabled = true;  //  Enable the "Listen" button.
+                			     
+            //  Maintain a consistent Form status...
+       
+            btmStripStatus.Text = "NOT LISTENING: " + ( vi_profile.IsEdited() ? "[UNSAVED] " : " " ) + Path.GetFileNameWithoutExtension( vi_profile.ProfileFilename );
+
+            return;
+        }
+		
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             this.Close();
         }
         
@@ -41,7 +110,21 @@ namespace GAVPI
             try
             {
                 frmProfile modProfileFrm = new frmProfile(vi_profile);
+
+                //
+                //  VI_Profile takes care of tracking changes and the saved/unsaved state of the current Profile.  We can
+                //  act on this knowledge to update the status in the UI and also inform the user of those unsaved changes
+                //  should they choose a potentially destructive act (exiting the program, opening an existing Profile).
+                //
+
                 modProfileFrm.ShowDialog();
+
+                btmStripStatus.Text = "NOT LISTENING: " + ( vi_profile.IsEdited() ? "[UNSAVED] " : " " ) + Path.GetFileNameWithoutExtension( vi_profile.ProfileFilename );
+
+                //  Allow the user to start issuing voice commands if we have an actual Profile...
+
+                if( vi_profile.IsEdited() ) btnMainListen.Enabled = true;
+
                 modProfileFrm.Dispose();
             }
             catch (Exception profile_exception)
@@ -67,9 +150,32 @@ namespace GAVPI
 
         private void btnMainListen_Click(object sender, EventArgs e)
         {
-            vi.load_listen(vi_profile, vi_settings, lstMainHearing);
-            btnMainListen.Enabled = false;
-            btmStripStatus.Text = "active";
+		
+			if( vi.load_listen(vi_profile, vi_settings, lstMainHearing) ) {
+				
+				//
+				//  We have successfully instantiated the speech recognition engine and we are ready to accept user
+				//  input, so let's update the Status Bar's state to show "LISTENING" (while retaining the filename
+				//  of the presently loaded Profile as a reminder for the user).  We also enable the "Stop" button,
+				//  disable the "Listen" button and disable the Profile->Modify menu item.
+				//
+				
+				btnMainStop.Enabled = true;
+				btnMainListen.Enabled = false;
+				editToolStripMenuItem.Enabled = false;
+
+                btmStripStatus.Text = "LISTENING" + (vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") + Path.GetFileNameWithoutExtension(vi_profile.ProfileFilename);
+			
+				return;
+			
+			}  //  if()
+				
+			//  TODO:  if load_listen() couldn't complete successfully, inform the user as to why.
+
+            btmStripStatus.Text = "NOT LISTENING" + (vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") + Path.GetFileNameWithoutExtension(vi_profile.ProfileFilename);
+
+			vi = new VI();
+			
         }
 
         private void btnMainStop_Click(object sender, EventArgs e)
@@ -79,13 +185,63 @@ namespace GAVPI
             // Clean
             vi = new VI();
 
+			//
+			//  Let's refresh the User Interface by enabling the "Listen" button (so the user may commence speech
+			//  recognition) and the Profile->Modify menu item, disable the "Stop" button (since we have already
+			//  stopped listening) and then update the Status Bar to reflect our current state.
+			//
+
             btnMainListen.Enabled = true;
-            btmStripStatus.Text = "inactive";
+			btnMainStop.Enabled = false;
+			editToolStripMenuItem.Enabled = true;
+			
+            btmStripStatus.Text = "NOT LISTENING" + ( vi_profile.IsEdited() ? ": [UNSAVED] " : ": " ) + Path.GetFileNameWithoutExtension( vi_profile.ProfileFilename );
         }
 
         private void mainStripAbout_Click(object sender, EventArgs e)
         {
             MessageBox.Show(BUILD_VERSION);
         }
+
+        //
+        //  protected override void WndProc( ref Message )
+        //
+        //  (See GAVPI.cs and Win32_APIs.cs)
+        //
+        //  In Win32 circles - for those who choose to program in C (or C++ but without the convenience of Microsoft's
+        //  object orientated APIs - WndProc is a function that receives messages sent to a Window and lets us act upon
+        //  them.  Win32 offers a far more powerful API than C# natively allows, which means if we want fine-grained
+        //  control over our application we must venture into arcana.  This implementation of WndProc is entirely for
+        //  the convenience of supporting IPC between an existing instance of the application and any future instances.
+        //
+
+        protected override void WndProc( ref Message message )
+        {
+
+            //  A trivial message handler, we're only interested in the message we have registered in GAVPI.cs that asks
+            //  us to open an existing instance of the application.
+
+            if( message.Msg == WM_OPEN_EXISTING_INSTANCE ) {
+
+                //  If we're minimized, let's unminimize ourself...
+
+                if( WindowState == FormWindowState.Minimized ) WindowState = FormWindowState.Normal;            
+
+                //  Pulse ourself as the topmost window...
+
+                TopMost = true;
+                TopMost = false;
+
+                //  ...Then active the window for the convenience of the user.
+
+                this.Activate();
+
+            }  //  if()
+
+            //  Be sure to pass the message to the base WndProc for behind-the-scenes post-processing.
+        
+            base.WndProc( ref message );
+
+        }  //  protected override void WndProc( ref Message )
     }
 }

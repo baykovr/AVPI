@@ -18,6 +18,14 @@ namespace GAVPI
     {
         public string name;
 
+		//  We retain a copy of the loaded (or saved) Profile's fully-qualified filename...
+
+		public string ProfileFilename;
+
+        //  ...And track whether changes have been made to an unsaved Profile.
+
+        private bool UnsavedProfileChanges = false;
+
         public SpeechSynthesizer synth;
 
         public List<VI_Trigger> Profile_Triggers;
@@ -35,10 +43,8 @@ namespace GAVPI
 
                 synth = new SpeechSynthesizer(); //used by action Speak
 
-                if (filename != null)
-                { 
-                    load_profile(filename); 
-                }
+                if( filename != null ) load_profile(); 
+
             }
             catch (Exception profile_err)
             {
@@ -105,14 +111,114 @@ namespace GAVPI
         }
 
         #endregion
-        public void load_profile(string filename)
+
+        //
+        //  public bool NewProfile()
+        //
+        //  Requesting a new Profile eliminates any existing Profile, and is therefore destructive.  If an existing Profile
+        //  contains unsaved changes the user will be asked if they wish to save the existing Profile before continuing.
+        //
+        //  Returns true if the new Profile was created of false if otherwise.
+        //
+
+        public bool NewProfile()
         {
+
+            if( UnsavedProfileChanges && !IsEmpty() ) {
+
+                DialogResult SaveChanges = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
+                                                            "Would you like to save those changes now?",
+                                                            "Unsaved Profile",
+                                                            MessageBoxButtons.YesNo );
+
+                if( SaveChanges == DialogResult.Yes && !save_profile() ) return false;
+
+            }  //  if()
+
+            //  Instantiate a fresh Profile...
+
+            Profile_Triggers = new List<VI_Trigger>();
+            Profile_ActionSequences = new List<VI_Action_Sequence>();
+
+            //  And reset any states...
+
+            UnsavedProfileChanges = false;
+            ProfileFilename = null;
+
+            return true;
+
+        }  //  public bool NewProfile()
+
+        public bool load_profile()
+        {
+
+            string filename;
+
+            //  If there are any unsaved changes to an existing Profile, offer the opportunity to save them before opening
+            //  another Profile...
+
+            if( UnsavedProfileChanges && !IsEmpty() ) {
+
+                DialogResult save_changes = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
+                                                             "Would you like to save those changes now?",
+                                                             "Unsaved Profile",
+                                                             MessageBoxButtons.YesNo );
+
+
+                if (save_changes == DialogResult.Yes && !save_profile()) return false;
+
+            }  //  if()
+
+            //
+            //  Present the user with a File Open Dialog through which they may choose a Profile to load.
+            //
+
+            using (OpenFileDialog profile_dialog = new OpenFileDialog()) {
+
+                //  Give the Dialog a title and then establish a filter to hide anything that isn't an XML file by default.
+
+                profile_dialog.Title = "Select a Profile to open";
+                profile_dialog.Filter = "Profiles (*.XML)|*.XML|All Files (*.*)|*.*";
+                profile_dialog.RestoreDirectory = true;
+
+                if ( profile_dialog.ShowDialog() == DialogResult.Cancel) return false;
+
+                //  Save the loaded Profile's filename for convenience sake.
+
+                filename = profile_dialog.FileName;
+
+            }
+
+            //  Reset any states...
+
+            UnsavedProfileChanges = false;
+
             //Clean Current
             Profile_Triggers = new List<VI_Trigger>();
             Profile_ActionSequences = new List<VI_Action_Sequence>();
             //Constructor will catch.
             XmlDocument profile_xml = new XmlDocument();
-            profile_xml.Load(filename);
+			
+			//  Let's ensure that the user has actually selected a well-formed XML document for us to navigate as
+			//  opposed to - oh, I don't know: a picture of their cat?
+			
+			try {
+			
+				profile_xml.Load(filename);
+				
+			} catch( XmlException exception ) {
+			
+				MessageBox.Show( "There appears to be a problem with the Profile you have chosen.\n\n" +
+				                 "It may not been an actual Profile, or it may have become corrupted.",
+								 "I cannot load the Profile",
+								 MessageBoxButtons.OK,
+								 MessageBoxIcon.Exclamation,
+		                         MessageBoxDefaultButton.Button1 );
+			
+				return false;
+				
+			}
+				
             //Check first element tag
             if (profile_xml.DocumentElement.Name != "gavpi") {
                 throw new Exception("Malformed profile expected first tag gavpi got,"
@@ -189,8 +295,62 @@ namespace GAVPI
                     }
                 }
             }
-        }
-        public void save_profile(string filename)
+			
+			//
+			//  We have successfully loaded the Profile, so retain the Profile's filename for future reference...
+			//
+			
+			ProfileFilename = filename;
+			
+			return true;
+			
+        }  //  public void load_profile()
+		
+		//
+		//  public bool save_profile()
+		//
+		//  Save the current Profile to the filename provided by ProfileFilename without explicity requesting a
+		//  filename from the user.  save_profile() should only ever be called if a Profile has been previously
+		//  loaded, or a profile has been previously saved with a filename, because no sanity checking is
+		//  performed.
+		//
+		//  Return boolean success or failure.
+		//
+		
+		public bool save_profile() {
+
+            if( IsEmpty() ) return false;
+
+            //  If the Profile either isn't an existing, opened Profile, or it hasn't been previously saved (therefore, in either
+            //  case, the Profile doesn't have a file name associated with it) present a File Dialog.
+
+            if( ProfileFilename == null ) {
+
+                using (SaveFileDialog dialog = new SaveFileDialog())
+                {
+
+                    //  Give the Dialog a title then establish a default filter to hide anything that isn't an XML file.
+
+                    dialog.Title = "Save your Profile as...";
+                    dialog.Filter = "Profiles (*.XML)|*.XML|All Files (*.*)|*.*";
+
+                    dialog.RestoreDirectory = true;
+
+                    if (dialog.ShowDialog() == DialogResult.Cancel) return false;  //  The user decided not to save after all.
+
+                    ProfileFilename = dialog.FileName;  //  Let's save the Profile's filename.
+
+                }  //  using()
+
+            }  //  if()
+
+            //  Save the profile.
+
+			return save_profile( ProfileFilename );
+		
+		}  //  public void save_profile()
+				
+        public bool save_profile(string filename)
         {
             try 
             {
@@ -244,7 +404,64 @@ namespace GAVPI
             catch (Exception err_saving)
             {
                 MessageBox.Show("Error saving to file" + err_saving.Message);
+				
+				return false;
+				
             }
-        }
+			
+			//
+			//  We have successfully saved the Profile, so retain the Profile's filename for future reference and record
+            //  that there are no pending changes at the moment.
+			//
+			
+			ProfileFilename = filename;			
+            UnsavedProfileChanges  = false;			
+
+			return true;
+			
+        }  //  public void save_profile()
+
+        //
+        //  public bool IsEmpty()
+        //
+        //  Return true if an empty Profile exists (perhaps a Profile that has been edited to oblivion), or false otherwise.
+        //
+
+        public bool IsEmpty()
+        {
+
+            return ( Profile_Triggers != null && Profile_Triggers.Any() ) ? false : true;
+
+        }  //  public bool IsEmpty()
+
+        //
+        //  public void Edited()
+        //
+        //  Since the Profile maintained within VI_Profile can be edited outside of the class (typically within frmProfile)
+        //  then we need a way for external methods to inform VI_Profile that changes are pending.  Ideally all editing
+        //  would take place within VI_Profile, but that isn't the case, therefore calling VI_Profile.Edited() allows us
+        //  to maintain consistent tracking.
+        //
+
+        public void Edited()
+        {
+
+           UnsavedProfileChanges = true;
+
+        }  //  public void Edited()
+
+        //
+        //  public bool IsEdited()
+        //
+        //  Return true if the Profile has been modified with changes to save, or false otherwise.
+        //
+
+        public bool IsEdited()
+        {
+
+            return IsEmpty() ? false : UnsavedProfileChanges;
+
+        }  //  public bool ChangesPending()
+
     }
 }
