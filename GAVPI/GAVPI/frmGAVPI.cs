@@ -123,7 +123,7 @@ namespace GAVPI
 
                 //  Allow the user to start issuing voice commands if we have an actual Profile...
 
-                if( vi_profile.IsEdited() ) btnMainListen.Enabled = true;
+                btnMainListen.Enabled = !vi_profile.IsEmpty();
 
                 modProfileFrm.Dispose();
             }
