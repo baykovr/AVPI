@@ -12,17 +12,17 @@ namespace GAVPI
 {
     public partial class frmAddtoTriggerEvent : Form
     {
-        VI_Profile profile;
+ 
         VI_TriggerEvent event_to_add;
 
-        public frmAddtoTriggerEvent(VI_Profile profile, VI_TriggerEvent event_to_add)
+        public frmAddtoTriggerEvent( VI_TriggerEvent event_to_add )
         {
             InitializeComponent();
             MaximizeBox = false;
-            this.profile = profile;
+
             this.event_to_add = event_to_add;
 
-            cbAddtoTriggerEvent.DataSource = profile.Profile_Triggers.ToArray();
+            cbAddtoTriggerEvent.DataSource = GAVPI.vi_profile.Profile_Triggers.ToArray();
             cbAddtoTriggerEvent.DisplayMember = "name";
             
         }

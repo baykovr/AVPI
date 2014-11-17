@@ -16,57 +16,39 @@ namespace GAVPI
 
         string BUILD_VERSION = "GAVPI Test Build 0.02 08.06.14";
 
-        VI_Settings vi_settings;
-        VI_Profile vi_profile;
-        VI vi;
-
-        //
-        //  Our constructor expects a copy of an Interprocess Communication message we registered at the outset of execution
-        //  in the event a further instance of the program is run by the user (where we, instead of running more than one
-        //  instance, we simply display the existing instance's UI).
-        //
-
-        private int WM_OPEN_EXISTING_INSTANCE;
-
-        public frmGAVPI( int IPCMessage )
+        public frmGAVPI()
         {
-
-            WM_OPEN_EXISTING_INSTANCE = IPCMessage;
 
             InitializeComponent();
+
         }
         #region Main form
-        private void frmGAVPI_Load(object sender, EventArgs e)
-        {
-            vi = new VI();
-            vi_settings = new VI_Settings();
-            vi_profile = new VI_Profile(vi_settings.current_profile_path);
-        }
 
         //
         //  private void frmGAVPI_FormClosing( object, FormClosingEventArgs )
         //
-        //  If the Form is closed, either explicitly (by clicking the close window button) or implicitly (by calling Form.Close)
-        //  our frmGAVPI_FormClosing handler will prompt the user to save any unsaved Profile changes.
+        //  If the Form is closed, either explicitly (by clicking the close window button) or implicitly (by
+        //  calling Form.Close) our frmGAVPI_FormClosing handler will prompt the user to save any unsaved Profile
+        //  changes.
         //
 
         private void frmGAVPI_FormClosing( object sender, FormClosingEventArgs e )
         {
 
             //
-            //  If a Profile has been previously modified via the Profile editor but those changes haven't been saved, offer the
-            //  user an opportunity to save those changes before leaving the program.  (If the user cancels the ensuing Save File
-            //  Dialog then don't exit the application out of common courtesy.)
+            //  If a Profile has been previously modified via the Profile editor but those changes haven't been
+            //  saved, offer the user an opportunity to save those changes before leaving the program.  (If the
+            //  user cancels the ensuing Save File Dialog then don't exit the application out of common courtesy.)
             //
 
-            if( vi_profile.IsEdited() ) {
+            if( GAVPI.vi_profile.IsEdited() ) {
 
                 DialogResult save_changes = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
                                                              "Would you like to save those changes now?",
                                                              "Unsaved Profile",
                                                               MessageBoxButtons.YesNo);
 
-                if( save_changes == DialogResult.Yes && !vi_profile.save_profile() ) e.Cancel = true;
+                if( save_changes == DialogResult.Yes && !GAVPI.vi_profile.save_profile() ) e.Cancel = true;
 
             }  //  if()
 
@@ -75,8 +57,8 @@ namespace GAVPI
 		//
 		//  loadToolStripMenuItem_Click()
 		//
-		//  A handler for the Load Profile menu item in the File menu, allowing the user to select an existing Binding
-		//  Definition Profile.  The Binding Definition Profile may be edited and saved within frmProfile.
+		//  A handler for the Load Profile menu item in the File menu, allowing the user to select an existing
+        //  Binding Definition Profile.  The Binding Definition Profile may be edited and saved within frmProfile.
 		//
 		
 		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -88,11 +70,12 @@ namespace GAVPI
 
             //  Attempt to open a Profile and, if successful, enable the Listen button.
 
-            if( vi_profile.load_profile() ) btnMainListen.Enabled = true;  //  Enable the "Listen" button.
+            if( GAVPI.vi_profile.load_profile() ) btnMainListen.Enabled = true;  //  Enable the "Listen" button.
                 			     
             //  Maintain a consistent Form status...
        
-            btmStripStatus.Text = "NOT LISTENING: " + ( vi_profile.IsEdited() ? "[UNSAVED] " : " " ) + Path.GetFileNameWithoutExtension( vi_profile.ProfileFilename );
+            btmStripStatus.Text = "NOT LISTENING: " + ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " " ) +
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
 
             return;
         }
@@ -109,21 +92,23 @@ namespace GAVPI
         {
             try
             {
-                frmProfile modProfileFrm = new frmProfile(vi_profile);
+                frmProfile modProfileFrm = new frmProfile();
 
                 //
-                //  VI_Profile takes care of tracking changes and the saved/unsaved state of the current Profile.  We can
-                //  act on this knowledge to update the status in the UI and also inform the user of those unsaved changes
-                //  should they choose a potentially destructive act (exiting the program, opening an existing Profile).
+                //  VI_Profile takes care of tracking changes and the saved/unsaved state of the current Profile.
+                //  We can act on this knowledge to update the status in the UI and also inform the user of those
+                //  unsaved changes should they choose a potentially destructive act (exiting the program, opening
+                //  an existing Profile).
                 //
 
                 modProfileFrm.ShowDialog();
 
-                btmStripStatus.Text = "NOT LISTENING: " + ( vi_profile.IsEdited() ? "[UNSAVED] " : " " ) + Path.GetFileNameWithoutExtension( vi_profile.ProfileFilename );
+                btmStripStatus.Text = "NOT LISTENING: " + ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " " ) +
+                    Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
 
                 //  Allow the user to start issuing voice commands if we have an actual Profile...
 
-                btnMainListen.Enabled = !vi_profile.IsEmpty();
+                btnMainListen.Enabled = !GAVPI.vi_profile.IsEmpty();
 
                 modProfileFrm.Dispose();
             }
@@ -143,7 +128,7 @@ namespace GAVPI
         #region Settings
         private void mainStripSettings_Click(object sender, EventArgs e)
         {
-            frmSettings modSettingsFrm = new frmSettings(vi_settings);
+            frmSettings modSettingsFrm = new frmSettings( GAVPI.vi_settings );
             modSettingsFrm.ShowDialog();
         }
         #endregion
@@ -151,7 +136,7 @@ namespace GAVPI
         private void btnMainListen_Click(object sender, EventArgs e)
         {
 		
-			if( vi.load_listen(vi_profile, vi_settings, lstMainHearing) ) {
+			if( GAVPI.vi.load_listen( lstMainHearing ) ) {
 				
 				//
 				//  We have successfully instantiated the speech recognition engine and we are ready to accept user
@@ -164,26 +149,26 @@ namespace GAVPI
 				btnMainListen.Enabled = false;
 				editToolStripMenuItem.Enabled = false;
 
-                btmStripStatus.Text = "LISTENING" + (vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") + Path.GetFileNameWithoutExtension(vi_profile.ProfileFilename);
+                btmStripStatus.Text = "LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") +
+                    Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename);
 			
 				return;
 			
 			}  //  if()
 				
-			//  TODO:  if load_listen() couldn't complete successfully, inform the user as to why.
+            btmStripStatus.Text = "NOT LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") +
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename);
 
-            btmStripStatus.Text = "NOT LISTENING" + (vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") + Path.GetFileNameWithoutExtension(vi_profile.ProfileFilename);
-
-			vi = new VI();
+			GAVPI.vi = new VI();
 			
         }
 
         private void btnMainStop_Click(object sender, EventArgs e)
         {
             // Stop
-            vi.stop_listen();
+            GAVPI.vi.stop_listen();
             // Clean
-            vi = new VI();
+            GAVPI.vi = new VI();
 
 			//
 			//  Let's refresh the User Interface by enabling the "Listen" button (so the user may commence speech
@@ -195,7 +180,9 @@ namespace GAVPI
 			btnMainStop.Enabled = false;
 			editToolStripMenuItem.Enabled = true;
 			
-            btmStripStatus.Text = "NOT LISTENING" + ( vi_profile.IsEdited() ? ": [UNSAVED] " : ": " ) + Path.GetFileNameWithoutExtension( vi_profile.ProfileFilename );
+            btmStripStatus.Text = "NOT LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": " ) +
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
+
         }
 
         private void mainStripAbout_Click(object sender, EventArgs e)
@@ -208,20 +195,21 @@ namespace GAVPI
         //
         //  (See GAVPI.cs and Win32_APIs.cs)
         //
-        //  In Win32 circles - for those who choose to program in C (or C++ but without the convenience of Microsoft's
-        //  object orientated APIs - WndProc is a function that receives messages sent to a Window and lets us act upon
-        //  them.  Win32 offers a far more powerful API than C# natively allows, which means if we want fine-grained
-        //  control over our application we must venture into arcana.  This implementation of WndProc is entirely for
-        //  the convenience of supporting IPC between an existing instance of the application and any future instances.
+        //  In Win32 circles - for those who choose to program in C (or C++ but without the convenience of
+        //  Microsoft's object orientated APIs - WndProc is a function that receives messages sent to a Window
+        //  and lets us act upon them.  Win32 offers a far more powerful API than C# natively allows, which
+        //  means if we want fine-grained control over our application we must venture into arcana.  This
+        //  implementation of WndProc is entirely for the convenience of supporting IPC between an existing
+        //  instance of the application and any future instances.
         //
 
         protected override void WndProc( ref Message message )
         {
 
-            //  A trivial message handler, we're only interested in the message we have registered in GAVPI.cs that asks
-            //  us to open an existing instance of the application.
+            //  A trivial message handler, we're only interested in the message we have registered in GAVPI.cs
+            //  that asks us to open an existing instance of the application: WM_OPEN_EXISTING_INSTANCE.
 
-            if( message.Msg == WM_OPEN_EXISTING_INSTANCE ) {
+            if( message.Msg == GAVPI.WM_OPEN_EXISTING_INSTANCE ) {
 
                 //  If we're minimized, let's unminimize ourself...
 

@@ -18,8 +18,6 @@ namespace GAVPI
 {
     public class VI
     {
-        VI_Profile profile;
-        VI_Settings settings;
 
         SpeechSynthesizer vi_syn;
         SpeechRecognitionEngine vi_sre;
@@ -47,20 +45,19 @@ namespace GAVPI
 		//  success.
 		//
 		
-        public bool load_listen(VI_Profile profile, VI_Settings settings, ListView statusContainer)
+        public bool load_listen( ListView statusContainer )
         {
-            this.profile = profile;
-            this.settings = settings;
+
             this.statusContainer = statusContainer;
 
-            vi_syn = profile.synth;
-            vi_syn.SelectVoice(settings.voice_info);
-            vi_sre = new SpeechRecognitionEngine(settings.recognizer_info);
+            vi_syn = GAVPI.vi_profile.synth;
+            vi_syn.SelectVoice( GAVPI.vi_settings.voice_info );
+            vi_sre = new SpeechRecognitionEngine( GAVPI.vi_settings.recognizer_info );
 
             GrammarBuilder phrases_grammar = new GrammarBuilder();
             List<string> glossory = new List<string>();
 
-            foreach (VI_Phrase trigger in profile.Profile_Triggers)
+            foreach (VI_Phrase trigger in GAVPI.vi_profile.Profile_Triggers)
             {
                 glossory.Add(trigger.value);
             }
@@ -117,7 +114,7 @@ namespace GAVPI
 			
 			}
 
-            if (settings.pushtotalk_mode != "Hold" && settings.pushtotalk_mode != "PressOnce")
+            if( GAVPI.vi_settings.pushtotalk_mode != "Hold" && GAVPI.vi_settings.pushtotalk_mode != "PressOnce")
             {
                 pushtotalk_active = true;
             }
@@ -148,7 +145,7 @@ namespace GAVPI
                 UpdateStatusLog( recognized_value.ToString() );
 
                 //predicates are cool
-                profile.Profile_Triggers.Find(trigger => trigger.value == recognized_value).run();
+                GAVPI.vi_profile.Profile_Triggers.Find(trigger => trigger.value == recognized_value).run();
                 //equivilent code below
                 //foreach (VI_Phrase phrase in profile.Profile_Triggers)
                 //{
@@ -169,16 +166,16 @@ namespace GAVPI
 
         void KeyboardHook_KeyDown(int vkCode)
         {
-            if (((Keys)vkCode).ToString() == settings.pushtotalk_key)
+            if (((Keys)vkCode).ToString() == GAVPI.vi_settings.pushtotalk_key)
             {
                 if (pushtotalk_keyIsDown == false)
                 {
-                    if (settings.pushtotalk_mode == "Hold")
+                    if ( GAVPI.vi_settings.pushtotalk_mode == "Hold")
                     {
                         pushtotalk_active = true;
                         UpdateStatusLog( "Start Listening" );
                     }
-                    else if (settings.pushtotalk_mode == "PressOnce")
+                    else if ( GAVPI.vi_settings.pushtotalk_mode == "PressOnce")
                     {
                         if (pushtotalk_active == false)
                         {
@@ -197,18 +194,18 @@ namespace GAVPI
         }
         void KeyboardHook_KeyUp(int vkCode)
         {
-            if (((Keys)vkCode).ToString() == settings.pushtotalk_key)
+            if (((Keys)vkCode).ToString() == GAVPI.vi_settings.pushtotalk_key)
             {
                 if (pushtotalk_keyIsDown == true)
                 {
-                    if (settings.pushtotalk_mode == "Hold")
+                    if (GAVPI.vi_settings.pushtotalk_mode == "Hold")
                     {
                         pushtotalk_keyIsDown = false;
                         pushtotalk_active = false;
 
                         UpdateStatusLog( "Stop Listening" );
                     }
-                    else if (settings.pushtotalk_mode == "PressOnce")
+                    else if (GAVPI.vi_settings.pushtotalk_mode == "PressOnce")
                     {
                         pushtotalk_keyIsDown = false;
                     }

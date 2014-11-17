@@ -14,11 +14,9 @@ namespace GAVPI
     public partial class frmProfile : Form
     {
 		
-        VI_Profile profile;
-        public frmProfile(VI_Profile profile)
+        public frmProfile()
         {
             InitializeComponent();
-            this.profile = profile;
 
             refresh_dgTriggers();
             refresh_dgActionSequences();
@@ -27,32 +25,33 @@ namespace GAVPI
         //
         //  private void frmProfile_Load( object, EventArgs )
         //
-        //  Prior to frmProfile being rendered, we may dynamically change the availability of, or modify the content of, UI
-        //  elements that offer indicators of the user's workflow.
+        //  Prior to frmProfile being rendered, we may dynamically change the availability of, or modify the
+        //  content of, UI elements that offer indicators of the user's workflow.
         //
 
         private void frmProfile_Load( object sender, EventArgs e )
         {
 
-            //  If we are re-modifying an existing Profile that has pending changes, ensure we re-enable File->Save and (if the
-            //  Profile has already been saved - and named) the File->File As menu items.
+            //  If we are re-modifying an existing Profile that has pending changes, ensure we re-enable
+            //  File->Save and (if the Profile has already been saved - and named) the File->File As menu items.
 
-            if( profile.IsEdited() ) ProfileEdited();
+            if( GAVPI.vi_profile.IsEdited() ) ProfileEdited();
 
-            btmStatusProfile.Text = ( profile.IsEdited() ? "[UNSAVED] " : "") + Path.GetFileNameWithoutExtension( profile.ProfileFilename );           
+            btmStatusProfile.Text = ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : "") +
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );           
 
         }  //  private void frmProfile_Load()
 
         private void refresh_dgTriggers()
         {
             dgTriggers.DataSource = null;
-            dgTriggers.DataSource = profile.Profile_Triggers.ToArray();
+            dgTriggers.DataSource = GAVPI.vi_profile.Profile_Triggers.ToArray();
 
         }
         private void refresh_dgActionSequences()
         {
             dgActionSequences.DataSource = null;
-            dgActionSequences.DataSource = profile.Profile_ActionSequences.ToArray();
+            dgActionSequences.DataSource = GAVPI.vi_profile.Profile_ActionSequences.ToArray();
         }
         private void refresh_dgTriggerEvents()
         {
@@ -90,7 +89,7 @@ namespace GAVPI
             {
                 //In this case an Action_Sequence is added to a Trigger's TriggerEvents List
                 VI_TriggerEvent event_to_add = row.DataBoundItem as VI_TriggerEvent;
-                frmAddtoTriggerEvent newAddtoTriggerEvent = new frmAddtoTriggerEvent(profile, event_to_add);
+                frmAddtoTriggerEvent newAddtoTriggerEvent = new frmAddtoTriggerEvent( event_to_add );
              	
 				if( newAddtoTriggerEvent.ShowDialog() == DialogResult.OK ) ProfileEdited();
             }
@@ -100,7 +99,7 @@ namespace GAVPI
         // Add New Action Sequence (top menu)
         private void addNewToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            frmActionSequence newActionSequence = new frmActionSequence(profile);
+            frmActionSequence newActionSequence = new frmActionSequence();
 			
             if( newActionSequence.ShowDialog() == DialogResult.OK ) ProfileEdited();
             
@@ -111,7 +110,7 @@ namespace GAVPI
         // Add New Action Sequence from Context
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            frmActionSequence newActionSequence = new frmActionSequence(profile);
+            frmActionSequence newActionSequence = new frmActionSequence();
 			
             if( newActionSequence.ShowDialog() == DialogResult.OK ) ProfileEdited();
             
@@ -127,7 +126,7 @@ namespace GAVPI
             foreach (DataGridViewRow row in this.dgActionSequences.SelectedRows)
             {
                 VI_Action_Sequence sequence_to_edit = row.DataBoundItem as VI_Action_Sequence;
-                frmActionSequence newActionSequence = new frmActionSequence(profile, sequence_to_edit);
+                frmActionSequence newActionSequence = new frmActionSequence( sequence_to_edit );
 				
 				if( newActionSequence.ShowDialog() == DialogResult.OK ) ProfileEdited();				
 				
@@ -145,10 +144,10 @@ namespace GAVPI
             foreach (DataGridViewRow row in this.dgActionSequences.SelectedRows)
             {
                 VI_Action_Sequence sequence_to_remove = row.DataBoundItem as VI_Action_Sequence;
-                profile.Profile_ActionSequences.Remove(sequence_to_remove);
+                GAVPI.vi_profile.Profile_ActionSequences.Remove(sequence_to_remove);
                 
                 // Remove this event from existing triggers.
-                foreach (VI_Trigger existing_trigger in profile.Profile_Triggers)
+                foreach (VI_Trigger existing_trigger in GAVPI.vi_profile.Profile_Triggers)
                 {
                     existing_trigger.TriggerEvents.Remove(sequence_to_remove);
                 }
@@ -173,7 +172,7 @@ namespace GAVPI
             {
                 // In this case it is a Trigger -> Trigger addition
                 VI_TriggerEvent event_to_add = row.DataBoundItem as VI_TriggerEvent;
-                frmAddtoTriggerEvent newAddtoTriggerEvent = new frmAddtoTriggerEvent(profile, event_to_add);
+                frmAddtoTriggerEvent newAddtoTriggerEvent = new frmAddtoTriggerEvent( event_to_add );
                 
 				if( newAddtoTriggerEvent.ShowDialog() == DialogResult.OK ) ProfileEdited();
 				
@@ -182,7 +181,7 @@ namespace GAVPI
         }
         private void phraseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmTrigger newTrigger = new frmTrigger(profile);
+            frmTrigger newTrigger = new frmTrigger();
             
 			if( newTrigger.ShowDialog() == DialogResult.OK ) {
 			
@@ -196,7 +195,7 @@ namespace GAVPI
         // Add New Trigger (Right Click Context Menu)
         private void newStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmTrigger newTrigger = new frmTrigger(profile);
+            frmTrigger newTrigger = new frmTrigger();
 			
             if( newTrigger.ShowDialog() == DialogResult.OK ) {
 			
@@ -219,7 +218,7 @@ namespace GAVPI
                 VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
                 if (selected_trigger != null)
                 {
-                    frmTrigger newTrigger = new frmTrigger(profile, selected_trigger);
+                    frmTrigger newTrigger = new frmTrigger( selected_trigger );
 					
                     if( newTrigger.ShowDialog() == DialogResult.OK ) {
 
@@ -244,10 +243,10 @@ namespace GAVPI
                 VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
                 if (selected_trigger != null)
                 {
-                    profile.Profile_Triggers.Remove(selected_trigger);
+                    GAVPI.vi_profile.Profile_Triggers.Remove(selected_trigger);
 
                     // Remove refernces of this trigger from existing triggers
-                    foreach (VI_Trigger existing_trigger in profile.Profile_Triggers)
+                    foreach (VI_Trigger existing_trigger in GAVPI.vi_profile.Profile_Triggers)
                     {
                         existing_trigger.TriggerEvents.Remove(selected_trigger);
                     }
@@ -307,7 +306,7 @@ namespace GAVPI
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            if( !profile.save_profile() ) return;
+            if( !GAVPI.vi_profile.save_profile() ) return;
 					
             refresh_dgActionSequences();
             refresh_dgTriggers();
@@ -315,22 +314,23 @@ namespace GAVPI
 
             //  Update the Form's status to reflect the Profile's state.
 
-            btmStatusProfile.Text = Path.GetFileNameWithoutExtension(profile.ProfileFilename);	
+            btmStatusProfile.Text = Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );	
 
         }
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            //  Attempt to load a Profile and then update the Form's UI elements and status.  (The Form's status bar should
-            //  display the name of the opened Profile.)
+            //  Attempt to load a Profile and then update the Form's UI elements and status.  (The Form's
+            //  status bar should display the name of the opened Profile.)
 
-            if( !profile.load_profile() ) return;
+            if( !GAVPI.vi_profile.load_profile() ) return;
 
              refresh_dgActionSequences();
              refresh_dgTriggers();
              refresh_dgTriggerEvents();
 
-             btmStatusProfile.Text = ( profile.IsEdited() ? "[UNSAVED] " : "" ) + Path.GetFileNameWithoutExtension( profile.ProfileFilename );
+             btmStatusProfile.Text = ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : "" ) +
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
 
         }
 
@@ -345,7 +345,7 @@ namespace GAVPI
 
             //  Request a new profile...
 
-            if( !profile.NewProfile() ) return;
+            if( !GAVPI.vi_profile.NewProfile() ) return;
 
             //  Refresh the UI...
 
@@ -353,8 +353,8 @@ namespace GAVPI
             refresh_dgTriggers();
             refresh_dgTriggerEvents();
 
-            //  The Profile hasn't been edited, so there are no changes to save, therefore let's disable the File menu's
-            //  Save As and Save buttons for now.
+            //  The Profile hasn't been edited, so there are no changes to save, therefore let's disable the
+            //  File menu's Save As and Save buttons for now.
 
             saveAsToolStripMenuItem.Enabled = false;
             saveToolStripMenuItem.Enabled = false;
@@ -379,9 +379,9 @@ namespace GAVPI
         //
         //  private void ProfileEdited()
 		//
-		//  To maintain a consistent workflow, let's recognise when the current Profile has been edited by the user.
-		//  We'll update the state within each method that adds or removes aspects of the Profile that require
-		//  persistence.
+		//  To maintain a consistent workflow, let's recognise when the current Profile has been edited by the
+        //  user.  We'll update the state within each method that adds or removes aspects of the Profile that
+        //  require persistence.
 		//
 	
 		private void ProfileEdited()
@@ -389,11 +389,11 @@ namespace GAVPI
 		
             //
 			//  Changes have been made to the Profile.  If the Profile is named, ensure File->Save menu item is
-			//  enabled.  Also ensure that File->Save As menu item is enabled.  We also need to indicate to the user,
-            //  in the Form's status bar, that the Profile is presently unsaved.
+			//  enabled.  Also ensure that File->Save As menu item is enabled.  We also need to indicate to the
+            //  user, in the Form's status bar, that the Profile is presently unsaved.
 			//
 
-            if( profile.IsEmpty() ) {
+            if( GAVPI.vi_profile.IsEmpty() ) {
 
                 btmStatusProfile.Text = null;
 
@@ -401,13 +401,13 @@ namespace GAVPI
 
             }
 
-			if( profile.ProfileFilename != null ) this.saveToolStripMenuItem.Enabled = true;
+			if( GAVPI.vi_profile.ProfileFilename != null ) this.saveToolStripMenuItem.Enabled = true;
 
-            profile.Edited();
+            GAVPI.vi_profile.Edited();
 
 			this.saveAsToolStripMenuItem.Enabled = true;
 
-            btmStatusProfile.Text = "[UNSAVED] " + Path.GetFileNameWithoutExtension(profile.ProfileFilename);
+            btmStatusProfile.Text = "[UNSAVED] " + Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
 
 		}  //  private void ProfileEdited()
         

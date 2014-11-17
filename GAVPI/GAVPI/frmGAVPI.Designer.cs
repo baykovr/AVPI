@@ -190,7 +190,6 @@
             this.Name = "frmGAVPI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GAVPI : Graphical AVPI";
-            this.Load += new System.EventHandler(this.frmGAVPI_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmGAVPI_FormClosing);
             this.mainStatStrip.ResumeLayout(false);
             this.mainStatStrip.PerformLayout();
