@@ -13,12 +13,8 @@ namespace GAVPI
 {
     public partial class frmGAVPI : Form
     {
-<<<<<<< HEAD
         string BUILD_VERSION = "GAVPI Alpha Build 0.03 08.10.14";
-=======
->>>>>>> 1511174d529fa5f688ceb5fce0cacfa8afb11ada
 
-        string BUILD_VERSION = "GAVPI Test Build 0.02 08.06.14";
 
         public frmGAVPI()
         {
