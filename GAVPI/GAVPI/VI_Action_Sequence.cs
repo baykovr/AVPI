@@ -155,8 +155,9 @@ namespace GAVPI
         }
         public override void run()
         {
-            //Thread.Sleep( Int32.Parse(value) );
-            Thread.Sleep(50);
+            //Thread.Sleep( Int32.Parse(value) ); // doesnt like this, why?
+            int sleep = Int32.Parse(value);
+            Thread.Sleep(sleep);
         }
     }
     public partial class Speak : Action
