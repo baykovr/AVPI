@@ -18,7 +18,6 @@ namespace GAVPI
 {
     public class VI
     {
-
         SpeechSynthesizer vi_syn;
         SpeechRecognitionEngine vi_sre;
         ListView statusContainer; // listview in main form
@@ -29,10 +28,10 @@ namespace GAVPI
 
         public VI()
         {
-            pushtotalk_active = false;
-            pushtotalk_keyIsDown = false;
+            pushtotalk_active      = false;
+            pushtotalk_keyIsDown   = false;
             pushtotalk_keyDownHook = new KeyboardHook.KeyDownEventHandler(KeyboardHook_KeyDown);
-            pushtotalk_keyUpHook = new KeyboardHook.KeyUpEventHandler(KeyboardHook_KeyUp);
+            pushtotalk_keyUpHook   = new KeyboardHook.KeyUpEventHandler(KeyboardHook_KeyUp);
         }
 		
 		//
@@ -55,6 +54,9 @@ namespace GAVPI
             vi_sre = new SpeechRecognitionEngine( GAVPI.vi_settings.recognizer_info );
 
             GrammarBuilder phrases_grammar = new GrammarBuilder();
+            // Grammer must match speech recognition language localization
+            phrases_grammar.Culture = GAVPI.vi_settings.recognizer_info;
+
             List<string> glossory = new List<string>();
 
             foreach (VI_Phrase trigger in GAVPI.vi_profile.Profile_Triggers)
@@ -98,7 +100,6 @@ namespace GAVPI
 
 			//  TODO:
 			//  Push-to-Talk keyboard hook.  Unimplemented.
-
 			try {
 
 				KeyboardHook.KeyDown += pushtotalk_keyDownHook;
