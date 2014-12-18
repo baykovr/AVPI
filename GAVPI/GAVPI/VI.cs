@@ -18,8 +18,6 @@ namespace GAVPI
 {
     public class VI
     {
-        VI_Profile profile;
-        VI_Settings settings;
 
         SpeechSynthesizer vi_syn;
         SpeechRecognitionEngine vi_sre;
@@ -36,46 +34,95 @@ namespace GAVPI
             pushtotalk_keyDownHook = new KeyboardHook.KeyDownEventHandler(KeyboardHook_KeyDown);
             pushtotalk_keyUpHook = new KeyboardHook.KeyUpEventHandler(KeyboardHook_KeyUp);
         }
-        public void load_listen(VI_Profile profile, VI_Settings settings, ListView statusContainer)
+		
+		//
+		//  public bool load_listen()
+		//
+		//  load_listen() establishes the speech recognition engine based on the command glossary stored within the
+		//  currently loaded Profile.  load_listen() may fail, returning Boolean FALSE, if a Profile's glossary does
+		//  not meet the engine's grammar requirements; load_listen() will also fail, returning Boolean FALSE, should
+		//  an exception occur that cannot be resolved within the method.  load_listen() will return Boolean TRUE upon
+		//  success.
+		//
+		
+        public bool load_listen( ListView statusContainer )
         {
-            this.profile = profile;
-            this.settings = settings;
+
             this.statusContainer = statusContainer;
 
-            vi_syn = profile.synth;
-            vi_syn.SelectVoice(settings.voice_info);
-            vi_sre = new SpeechRecognitionEngine(settings.recognizer_info);
+            vi_syn = GAVPI.vi_profile.synth;
+            vi_syn.SelectVoice( GAVPI.vi_settings.voice_info );
+            vi_sre = new SpeechRecognitionEngine( GAVPI.vi_settings.recognizer_info );
 
             GrammarBuilder phrases_grammar = new GrammarBuilder();
             List<string> glossory = new List<string>();
 
-            foreach (VI_Phrase trigger in profile.Profile_Triggers)
+            foreach (VI_Phrase trigger in GAVPI.vi_profile.Profile_Triggers)
             {
                 glossory.Add(trigger.value);
             }
             if (glossory.Count == 0)
             {
                 MessageBox.Show("You need to add at least one Trigger");
-                return;
+                return false;
             }
             phrases_grammar.Append(new Choices(glossory.ToArray()));
 
-            vi_sre.LoadGrammar(new Grammar(phrases_grammar));
-            //set event function
-            vi_sre.SpeechRecognized += phraseRecognized;
-            vi_sre.SpeechRecognitionRejected += _recognizer_SpeechRecognitionRejected;
-            vi_sre.SetInputToDefaultAudioDevice();
-            vi_sre.RecognizeAsync(RecognizeMode.Multiple);
+			vi_sre.LoadGrammar(new Grammar(phrases_grammar));
+			//set event function
+			vi_sre.SpeechRecognized += phraseRecognized;
+			vi_sre.SpeechRecognitionRejected += _recognizer_SpeechRecognitionRejected;
 
+			try {
 
-            KeyboardHook.KeyDown += pushtotalk_keyDownHook;
-            KeyboardHook.KeyUp += pushtotalk_keyUpHook;
-            KeyboardHook.InstallHook();
+				vi_sre.SetInputToDefaultAudioDevice();
 
-            if (settings.pushtotalk_mode != "Hold" && settings.pushtotalk_mode != "PressOnce")
+			} catch( InvalidOperationException exception ) {
+			
+				//  For the time being, we're only catching failures to address an input device (typically a
+				//  microphone).
+			
+				MessageBox.Show( "Have you connected a microphone to this computer?\n\n" +
+                                 "Please ensure that you have successfull connected and configured\n" +
+                                 "your microphone before trying again.",
+								 "I cannot hear you!",
+								 MessageBoxButtons.OK,
+								 MessageBoxIcon.Exclamation,
+		                         MessageBoxDefaultButton.Button1 );
+			
+				return false;
+			
+			}
+
+			vi_sre.RecognizeAsync(RecognizeMode.Multiple);
+
+			//  TODO:
+			//  Push-to-Talk keyboard hook.  Unimplemented.
+
+			try {
+
+				KeyboardHook.KeyDown += pushtotalk_keyDownHook;
+				KeyboardHook.KeyUp += pushtotalk_keyUpHook;
+				KeyboardHook.InstallHook();
+				
+			} catch( OverflowException exception ) {
+			
+				//  TODO:
+				//  InputManager library, which we rely upon, has issues with .Net 4.5 and throws an Overflow exception.
+				//  We'll catch it here and pretty much let it go for now (since Push-to-Talk isn't implemented yet)
+				//  with the intent of resolving it later.
+			
+			}
+
+            if( GAVPI.vi_settings.pushtotalk_mode != "Hold" && GAVPI.vi_settings.pushtotalk_mode != "PressOnce")
             {
                 pushtotalk_active = true;
             }
+			
+			//  We have successfully establish an instance of a SAPI engine with a well-formed grammar.
+			
+			return true;
+			
         }
         public void stop_listen()
         {
@@ -95,11 +142,10 @@ namespace GAVPI
             {
                 string recognized_value = e.Result.Text;
 
-                statusContainer.Items.Add(recognized_value.ToString());
-                statusContainer.Refresh();
+                UpdateStatusLog( recognized_value.ToString() );
 
                 //predicates are cool
-                profile.Profile_Triggers.Find(trigger => trigger.value == recognized_value).run();
+                GAVPI.vi_profile.Profile_Triggers.Find(trigger => trigger.value == recognized_value).run();
                 //equivilent code below
                 //foreach (VI_Phrase phrase in profile.Profile_Triggers)
                 //{
@@ -113,32 +159,33 @@ namespace GAVPI
         }
         private void _recognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
         {
-            statusContainer.Items.Add("?");
-            statusContainer.Refresh();
+
+            UpdateStatusLog( "?" );
+
         }
 
         void KeyboardHook_KeyDown(int vkCode)
         {
-            if (((Keys)vkCode).ToString() == settings.pushtotalk_key)
+            if (((Keys)vkCode).ToString() == GAVPI.vi_settings.pushtotalk_key)
             {
                 if (pushtotalk_keyIsDown == false)
                 {
-                    if (settings.pushtotalk_mode == "Hold")
+                    if ( GAVPI.vi_settings.pushtotalk_mode == "Hold")
                     {
                         pushtotalk_active = true;
-                        statusContainer.Items.Add("start listening");
+                        UpdateStatusLog( "Start Listening" );
                     }
-                    else if (settings.pushtotalk_mode == "PressOnce")
+                    else if ( GAVPI.vi_settings.pushtotalk_mode == "PressOnce")
                     {
                         if (pushtotalk_active == false)
                         {
                             pushtotalk_active = true;
-                            statusContainer.Items.Add("start listening");
+                            UpdateStatusLog( "Start Listening" );
                         }
                         else
                         {
                             pushtotalk_active = false;
-                            statusContainer.Items.Add("stop listening");
+                            UpdateStatusLog( "Stop Listening" );
                         }
                     }
                     pushtotalk_keyIsDown = true;
@@ -147,22 +194,46 @@ namespace GAVPI
         }
         void KeyboardHook_KeyUp(int vkCode)
         {
-            if (((Keys)vkCode).ToString() == settings.pushtotalk_key)
+            if (((Keys)vkCode).ToString() == GAVPI.vi_settings.pushtotalk_key)
             {
                 if (pushtotalk_keyIsDown == true)
                 {
-                    if (settings.pushtotalk_mode == "Hold")
+                    if (GAVPI.vi_settings.pushtotalk_mode == "Hold")
                     {
                         pushtotalk_keyIsDown = false;
                         pushtotalk_active = false;
-                        statusContainer.Items.Add("stop listening");
+
+                        UpdateStatusLog( "Stop Listening" );
                     }
-                    else if (settings.pushtotalk_mode == "PressOnce")
+                    else if (GAVPI.vi_settings.pushtotalk_mode == "PressOnce")
                     {
                         pushtotalk_keyIsDown = false;
                     }
                 }
             }
         }
+
+        //
+        //  private void UpdateStatusLog( string )
+        //
+        //  The main Form contains a ListView control maintains a running log of all recognised commands and keystrokes,
+        //  updated with a log message at each entry.
+        //
+
+        private void UpdateStatusLog( string LogMessage )
+        {
+
+            //  Add the passed message to the running log...
+
+            statusContainer.Items.Add( LogMessage );
+
+            //  ... And always ensure that the last entry added to the statusContainer list is visible...
+
+            statusContainer.EnsureVisible( statusContainer.Items.Count - 1 );
+
+            statusContainer.Refresh();
+
+        }  //  private void UpdateStatusLog( string )
+
     }
 }

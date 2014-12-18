@@ -33,6 +33,7 @@
             this.btmStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mainStripFile = new System.Windows.Forms.ToolStripMenuItem();
+			this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStripProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,7 +61,7 @@
             // 
             this.btmStripStatus.Name = "btmStripStatus";
             this.btmStripStatus.Size = new System.Drawing.Size(44, 17);
-            this.btmStripStatus.Text = "inactive";
+            this.btmStripStatus.Text = "NOT LISTENING";
             // 
             // menuStrip1
             // 
@@ -78,11 +79,19 @@
             // mainStripFile
             // 
             this.mainStripFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem});
+			this.loadToolStripMenuItem,
+            this.exitToolStripMenuItem });
             this.mainStripFile.Name = "mainStripFile";
             this.mainStripFile.Size = new System.Drawing.Size(36, 20);
             this.mainStripFile.Text = "File";
+			// 
+            // loadToolStripMenuItem
             // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
+            this.loadToolStripMenuItem.Text = "Open Profile";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+			// 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -149,6 +158,7 @@
             this.btnMainListen.Text = "Listen";
             this.btnMainListen.UseVisualStyleBackColor = true;
             this.btnMainListen.Click += new System.EventHandler(this.btnMainListen_Click);
+			this.btnMainListen.Enabled = false;
             // 
             // btnMainStop
             // 
@@ -160,6 +170,7 @@
             this.btnMainStop.Text = "Stop";
             this.btnMainStop.UseVisualStyleBackColor = true;
             this.btnMainStop.Click += new System.EventHandler(this.btnMainStop_Click);
+			this.btnMainStop.Enabled = false;			
             // 
             // frmGAVPI
             // 
@@ -179,7 +190,7 @@
             this.Name = "frmGAVPI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GAVPI : Graphical AVPI";
-            this.Load += new System.EventHandler(this.frmGAVPI_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmGAVPI_FormClosing);
             this.mainStatStrip.ResumeLayout(false);
             this.mainStatStrip.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -194,6 +205,7 @@
         private System.Windows.Forms.StatusStrip mainStatStrip;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem mainStripFile;
+		private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mainStripSettings;
         private System.Windows.Forms.ToolStripMenuItem mainStripAbout;

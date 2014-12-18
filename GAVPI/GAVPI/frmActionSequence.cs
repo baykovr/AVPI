@@ -13,29 +13,29 @@ namespace GAVPI
 {
     public partial class frmActionSequence : Form
     {
-        VI_Profile profile;
+
         VI_Action_Sequence action_sequence;
         bool edit_mode;
 
-        public frmActionSequence(VI_Profile profile)
+        public frmActionSequence()
         {
             InitializeComponent();
-            this.profile = profile;
+
             this.action_sequence = new VI_Action_Sequence("new sequence");
             populate_sequence();
             edit_mode = false;
         }
-        public frmActionSequence(VI_Profile profile, VI_Action_Sequence action_sequence)
+        public frmActionSequence( VI_Action_Sequence action_sequence )
         {
             InitializeComponent();
-            this.profile = profile;
+
             this.action_sequence = action_sequence;
             populate_sequence();
             edit_mode = true;
         }
         private void populate_sequence()
         {
-            cbActSeqActionType.DataSource = profile.Action_Types;
+            cbActSeqActionType.DataSource = GAVPI.vi_profile.Action_Types;
             refresh_action_value_choices();
             txtActionSequenceName.Text = action_sequence.name;
             dgEditActionSequence.DataSource = null;
@@ -80,6 +80,9 @@ namespace GAVPI
         }
         private void btnActSeqCancel_Click(object sender, EventArgs e)
         {
+		
+			this.DialogResult = DialogResult.Cancel;
+		
             this.Close();
         }
 
@@ -89,14 +92,17 @@ namespace GAVPI
             if (new_action_sequence_name == "")
             {
                 MessageBox.Show("Blank value in name not allowed");
+
+				this.DialogResult = DialogResult.Cancel;				
+				
                 return;
             }
-            foreach (VI_Action_Sequence existing_sequence in profile.Profile_ActionSequences)
+            foreach (VI_Action_Sequence existing_sequence in GAVPI.vi_profile.Profile_ActionSequences)
             {
                 if (new_action_sequence_name == existing_sequence.name)
                 {
-                    profile.Profile_ActionSequences.Remove(existing_sequence);
-                    profile.Profile_ActionSequences.Add(action_sequence);
+                    GAVPI.vi_profile.Profile_ActionSequences.Remove(existing_sequence);
+                    GAVPI.vi_profile.Profile_ActionSequences.Add(action_sequence);
                     // Replace and break
                     break;
                 }
@@ -106,13 +112,16 @@ namespace GAVPI
             if (edit_mode)
             {
                 //todo: suboptimal? But is find and replace any better?
-                profile.Profile_ActionSequences.Remove(action_sequence);
-                profile.Profile_ActionSequences.Add(action_sequence);
+                GAVPI.vi_profile.Profile_ActionSequences.Remove(action_sequence);
+                GAVPI.vi_profile.Profile_ActionSequences.Add(action_sequence);
             }
             else
             {
-                profile.Profile_ActionSequences.Add(action_sequence);
+                GAVPI.vi_profile.Profile_ActionSequences.Add(action_sequence);
             }
+			
+			this.DialogResult = DialogResult.OK;
+			
             this.Close();
         }
 
@@ -146,7 +155,7 @@ namespace GAVPI
             object action_instance;
             if (new_action_type.ToString() == "GAVPI.Speak")
             {
-                action_instance = Activator.CreateInstance(new_action_type, profile.synth ,cbActSeqActionValue.Text);
+                action_instance = Activator.CreateInstance(new_action_type, GAVPI.vi_profile.synth ,cbActSeqActionValue.Text);
                 
                 for (uint i = 0; i < times_to_add; i++)
                 {
@@ -182,6 +191,10 @@ namespace GAVPI
                 }
                 refresh_editactionsequence();
             }
+			
+			//  We've updated the Action Sequence, so allow the user to save their changes...
+			
+			this.btnActSeqSave.Enabled = true;
             
         }
 

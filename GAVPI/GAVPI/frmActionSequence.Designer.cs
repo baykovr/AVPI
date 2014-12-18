@@ -96,6 +96,7 @@
             this.btnActSeqSave.Size = new System.Drawing.Size(75, 23);
             this.btnActSeqSave.TabIndex = 6;
             this.btnActSeqSave.Text = "Save";
+			this.btnActSeqSave.Enabled = false;
             this.btnActSeqSave.UseVisualStyleBackColor = true;
             this.btnActSeqSave.Click += new System.EventHandler(this.btnActSeqSave_Click);
             // 

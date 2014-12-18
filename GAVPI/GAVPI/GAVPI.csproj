@@ -102,6 +102,7 @@
     <Compile Include="VI_Settings.cs" />
     <Compile Include="VI_Trigger.cs" />
     <Compile Include="VI_TriggerEvent.cs" />
+    <Compile Include="Win32_APIs.cs" />
     <EmbeddedResource Include="frmActionSequence.resx">
       <DependentUpon>frmActionSequence.cs</DependentUpon>
       <SubType>Designer</SubType>

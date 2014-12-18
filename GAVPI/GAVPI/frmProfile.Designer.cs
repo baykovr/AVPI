@@ -39,11 +39,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmProfile));
+            this.btmStatusProfile = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuProfile = new System.Windows.Forms.MenuStrip();
             this.stripProfileFile = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stripProfileTrigger = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,6 +102,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
             this.SuspendLayout();
             // 
+            // btmStatusProfile
+            //
+            this.btmStatusProfile.Name = "btmStatusProfile";
+            this.btmStatusProfile.Size = new System.Drawing.Size(44, 17);
+            // 
             // menuProfile
             // 
             this.menuProfile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -116,19 +123,35 @@
             // stripProfileFile
             // 
             this.stripProfileFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.loadToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
-            this.loadToolStripMenuItem,
             this.closeToolStripMenuItem});
             this.stripProfileFile.Name = "stripProfileFile";
             this.stripProfileFile.Size = new System.Drawing.Size(36, 20);
             this.stripProfileFile.Text = "File";
+			// 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.loadToolStripMenuItem.Text = "Open Profile";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+			// 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Enabled = false;			
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
@@ -136,14 +159,8 @@
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
+            this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
-            // 
-            // loadToolStripMenuItem
-            // 
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
-            this.loadToolStripMenuItem.Text = "Load";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
@@ -517,6 +534,8 @@
             // 
             // statusProfile
             // 
+            this.statusProfile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btmStatusProfile});
             this.statusProfile.Location = new System.Drawing.Point(0, 647);
             this.statusProfile.Name = "statusProfile";
             this.statusProfile.Size = new System.Drawing.Size(1108, 22);
@@ -584,6 +603,7 @@
             this.Name = "frmProfile";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Profile";
+            this.Load += new System.EventHandler(this.frmProfile_Load);
             this.menuProfile.ResumeLayout(false);
             this.menuProfile.PerformLayout();
             this.splitProfile.Panel1.ResumeLayout(false);
@@ -646,6 +666,7 @@
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem addtoeventToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem phraseToolStripMenuItem;
@@ -654,5 +675,6 @@
         private System.Windows.Forms.TabPage tabPageEvents;
         private System.Windows.Forms.TabPage tabPageData;
         private System.Windows.Forms.DataGridView dgData;
+        private System.Windows.Forms.ToolStripStatusLabel btmStatusProfile;
     }
 }
