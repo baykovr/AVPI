@@ -29,7 +29,6 @@ namespace GAVPI
         public SpeechSynthesizer synth;
 
         public List<VI_Trigger> Profile_Triggers;
-        public List<string> Trigger_Types;
 
         public List<VI_Action_Sequence> Profile_ActionSequences;
         public List<string> Action_Types;
@@ -55,11 +54,7 @@ namespace GAVPI
             }
             finally
             {
-                Trigger_Types = new List<string>();
                 Action_Types = new List<string>();
-                
-                Trigger_Types.Add("VI_Phrase");
-                //Trigger_Types.Add("VI_Logical");
 
                 Action_Types.Add("KeyDown");
                 Action_Types.Add("KeyUp");

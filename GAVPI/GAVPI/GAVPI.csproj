@@ -88,6 +88,7 @@
       <DependentUpon>frmTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="VI_Data.cs" />
+    <Compile Include="VI_DataBase.cs" />
     <Compile Include="VI_Profile.cs" />
     <Compile Include="frmGAVPI.cs">
       <SubType>Form</SubType>

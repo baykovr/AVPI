@@ -17,9 +17,7 @@ namespace GAVPI
 
         public frmGAVPI()
         {
-
             InitializeComponent();
-
         }
         #region Main form
 
@@ -81,29 +79,40 @@ namespace GAVPI
 		
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             this.Close();
         }
         
         #endregion
         #region Profile
+
+        // New Profile
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           // Exactly like modify, except we warn the user to save their current profile
+           // before creating a new one.
+            GAVPI.vi_profile.NewProfile();
+            invoke_profile_editor();
+        }
+        // Modify Existing
         private void modifyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            invoke_profile_editor();
+        }
+        private void invoke_profile_editor()
         {
             try
             {
                 frmProfile modProfileFrm = new frmProfile();
-
                 //
                 //  VI_Profile takes care of tracking changes and the saved/unsaved state of the current Profile.
                 //  We can act on this knowledge to update the status in the UI and also inform the user of those
                 //  unsaved changes should they choose a potentially destructive act (exiting the program, opening
                 //  an existing Profile).
                 //
-
                 modProfileFrm.ShowDialog();
 
-                btmStripStatus.Text = "NOT LISTENING: " + ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " " ) +
-                    Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
+                btmStripStatus.Text = "NOT LISTENING: " + (GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " ") +
+                    Path.GetFileNameWithoutExtension(GAVPI.vi_profile.ProfileFilename);
 
                 //  Allow the user to start issuing voice commands if we have an actual Profile...
 
@@ -118,11 +127,12 @@ namespace GAVPI
                    MessageBoxIcon.Exclamation,
                    MessageBoxDefaultButton.Button1);
             }
-            finally
-            {
-                
+            finally{
+                // Not much we can do for now, invoke new profile
+                // to attempt a clean up.
+                GAVPI.vi_profile.NewProfile();
             }
-        }
+        } // / private void invoke_profile_editor
         #endregion
         #region Settings
         private void mainStripSettings_Click(object sender, EventArgs e)
@@ -229,6 +239,8 @@ namespace GAVPI
         
             base.WndProc( ref message );
 
-        }  //  protected override void WndProc( ref Message )
+        }
+
+         //  protected override void WndProc( ref Message )
     }
 }

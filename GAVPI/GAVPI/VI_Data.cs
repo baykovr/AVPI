@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace GAVPI
 {
-    public abstract class VI_Data
+    public class VI_Data<T>
     {
-        public string name;
-    }
 
-    public partial class VI_int : VI_Data
-    {
-       
-        
+        public string name { get; set; }
+        T value            { get; set; }
+
+        public VI_Data(string name, T value)
+        {
+            this.name  = name;
+            this.value = value;
+        }
     }
 }

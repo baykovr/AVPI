@@ -62,7 +62,7 @@ namespace GAVPI
     }
 
      /*
-      *   Arbitrary abstract Action
+      *  Arbitrary abstract Action
       *  Currently one of 
       *  Keyboard up/down/press
       *  Mouse up/down/press

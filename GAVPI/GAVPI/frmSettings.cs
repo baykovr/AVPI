@@ -60,6 +60,8 @@ namespace GAVPI
             vi_settings.voice_info = cbSettingsSynthesizer.SelectedItem.ToString();
             vi_settings.pushtotalk_mode = cbSettingsPushToTalkMode.SelectedItem.ToString();
             vi_settings.pushtotalk_key = cbSettingsPushToTalkKey.SelectedItem.ToString();
+
+
             this.Close();
         }
     }
