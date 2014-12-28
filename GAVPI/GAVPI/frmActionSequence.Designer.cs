@@ -91,12 +91,12 @@
             // btnActSeqSave
             // 
             this.btnActSeqSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnActSeqSave.Enabled = false;
             this.btnActSeqSave.Location = new System.Drawing.Point(330, 462);
             this.btnActSeqSave.Name = "btnActSeqSave";
             this.btnActSeqSave.Size = new System.Drawing.Size(75, 23);
             this.btnActSeqSave.TabIndex = 6;
             this.btnActSeqSave.Text = "Save";
-			this.btnActSeqSave.Enabled = false;
             this.btnActSeqSave.UseVisualStyleBackColor = true;
             this.btnActSeqSave.Click += new System.EventHandler(this.btnActSeqSave_Click);
             // 
@@ -146,12 +146,12 @@
             this.stripActionSequence.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeToolStripMenuItem});
             this.stripActionSequence.Name = "contextMenuStrip1";
-            this.stripActionSequence.Size = new System.Drawing.Size(113, 26);
+            this.stripActionSequence.Size = new System.Drawing.Size(118, 26);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
@@ -200,6 +200,7 @@
             this.dgEditActionSequence.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgEditActionSequence.Size = new System.Drawing.Size(467, 401);
             this.dgEditActionSequence.TabIndex = 11;
+            this.dgEditActionSequence.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ActionSequenceList_CellMouseDown);
             // 
             // lblActionTimes
             // 

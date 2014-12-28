@@ -207,5 +207,13 @@ namespace GAVPI
             }
             refresh_editactionsequence();
         }
+
+        private void ActionSequenceList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                dgEditActionSequence.CurrentCell = dgEditActionSequence.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            }
+        }
     }
 }

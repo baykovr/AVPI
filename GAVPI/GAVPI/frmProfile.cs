@@ -309,7 +309,7 @@ namespace GAVPI
         {
 
             if( !GAVPI.SaveAsProfile() ) return;
-
+					
 			RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename ) );          	
 
         }
@@ -401,6 +401,22 @@ namespace GAVPI
 
 		}  //  private void ProfileEdited()
 
+        private void ActionSequences_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                this.dgActionSequences.CurrentCell = this.dgActionSequences.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            }
+        }
+
+        private void Triggers_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                this.dgTriggers.CurrentCell = this.dgTriggers.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            }
+        }
+        
 
 
         //
@@ -424,6 +440,13 @@ namespace GAVPI
 
         }  //  public void RefreshUI()
 
+        private void TriggerEvents_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                this.dgTriggerEvents.CurrentCell = this.dgTriggerEvents.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            }
+        }
     }
 
 }
