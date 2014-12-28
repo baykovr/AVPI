@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,9 @@ namespace GAVPI
 
         public static VI vi;
 
+        public static frmGAVPI MainForm;
+        public static frmProfile ProfileEditor;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -39,7 +43,10 @@ namespace GAVPI
             vi_profile = new VI_Profile( null );
 
             vi = new VI();
-
+            
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+           
             //
             //  To ensure that only a single instance of the application can be executed at a time, we'll use
             //  Mutex ownership to determine if we're already running.  I used http://www.guidgenerator.com/
@@ -85,10 +92,10 @@ namespace GAVPI
                 return;
 
             }  //  if()
+           
+            MainForm = new frmGAVPI();
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run( new frmGAVPI() );
+            Application.Run( MainForm );
 
             //  We don't want the garbage collector to think our Mutex is up for grabs before we close the program,
             //  so let's protect it.
@@ -98,5 +105,127 @@ namespace GAVPI
             LockApplicationInstance.ReleaseMutex();
 
         }  //  static void Main()
-    }
+
+        
+
+        //
+        //  static public void OpenProfileEditor
+        //
+        //  While not absolutely necessary at the moment, this method is the prefered way of instantiating the
+        //  Profile Editing form frmProfile.
+        //
+
+        static public void OpenProfileEditor()
+        {
+
+            ProfileEditor = new frmProfile();
+
+            if( ProfileEditor == null ) return;
+            
+            ProfileEditor.ShowDialog();
+
+            ProfileEditor.Dispose();
+
+            return;
+
+        }  //  static public void OpenProfileEditor
+
+
+
+        //
+        //  static public bool LoadProfile()
+        //
+        //  A convenient centralised method returning boolean success or failure, LoadProfile directs vi_profile
+        //  to read a Profile from disk while ensuring that any currently open form reflects the opened Profile
+        //  status in its UI.  This method is the prefered way of loading a Profile via the UI and will implement
+        //  vi_profile.load_profile's UI elements in the future.
+        //
+        //  LoadProfile returns boolean success or failure.
+        //
+
+        static public bool LoadProfile()
+        {
+           
+            if( !vi_profile.load_profile() ) return false;
+                        
+            if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
+                MainForm.RefreshUI( Path.GetFileNameWithoutExtension(GAVPI.vi_profile.ProfileFilename) );
+                
+            if( Application.OpenForms.OfType<frmProfile>().Count() > 0 )
+                ProfileEditor.RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename ) );
+
+            return true;
+
+        }  //  static public bool LoadProfile()
+
+
+
+        //
+        //  static public bool SaveAsProfile()
+        //
+        //  Assuming an existing Profile hasn't been previously saved, query the user for a filename then save
+        //  the Profile.  Returns a boolean value denoting success or failure.
+        //
+        //  This method should be used instead of vi_profile.save_profile which will become DEPRECIATED.
+        //
+
+        static public bool SaveAsProfile()
+        {
+
+            if( vi_profile.IsEmpty() ) return false;
+
+            using( SaveFileDialog dialog = new SaveFileDialog() ) {
+
+                //  Give the Dialog a title then establish a default filter to hide anything that isn't an XML file.
+
+                dialog.Title = "Save your Profile as...";
+                dialog.Filter = "Profiles (*.XML)|*.XML|All Files (*.*)|*.*";
+
+                dialog.RestoreDirectory = true;
+
+                if( dialog.ShowDialog() == DialogResult.Cancel ) return false;
+
+                return vi_profile.save_profile( dialog.FileName ) ? true : false;
+
+            }  //  using()           
+
+        }  //  static public bool SaveAsProfile()
+
+
+
+        //
+        //  static public bool SaveProfile()
+        //
+        //  Save the Profile as maintained by vi_profile to the existing filename maintained within vi_profile.
+        //  Returns a boolean value denoting success or failure.
+        //
+
+        static public bool SaveProfile()
+        {
+
+            if( vi_profile.IsEmpty() ) return false;
+
+            return vi_profile.save_profile( vi_profile.ProfileFilename ) ? true : false;
+
+        }  //  static public bool SaveProfile()
+    
+    
+
+        //
+        //  static public bool NewProfile()
+        //
+        //  A convenient stub to vi_profile.NewProfile, returning a boolean value for success or failure.  This
+        //  method should be used instead of vi_profile.NewProfile which may see UI elements relegated to this
+        //  method in the future.
+        //
+
+        static public bool NewProfile()
+        {
+
+            return vi_profile.NewProfile() ? true : false;
+            
+        }  //  static public bool NewProfile()
+
+    }  //  static class GAVPI
+
 }

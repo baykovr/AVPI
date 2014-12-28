@@ -165,7 +165,7 @@ namespace GAVPI
                                                              MessageBoxButtons.YesNo );
 
 
-                if (save_changes == DialogResult.Yes && !save_profile()) return false;
+                if( save_changes == DialogResult.Yes && !save_profile() ) return false;
 
             }  //  if()
 
@@ -173,7 +173,7 @@ namespace GAVPI
             //  Present the user with a File Open Dialog through which they may choose a Profile to load.
             //
 
-            using (OpenFileDialog profile_dialog = new OpenFileDialog()) {
+            using( OpenFileDialog profile_dialog = new OpenFileDialog() ) {
 
                 //  Give the Dialog a title and then establish a filter to hide anything that isn't an XML file by default.
 
@@ -181,7 +181,7 @@ namespace GAVPI
                 profile_dialog.Filter = "Profiles (*.XML)|*.XML|All Files (*.*)|*.*";
                 profile_dialog.RestoreDirectory = true;
 
-                if ( profile_dialog.ShowDialog() == DialogResult.Cancel) return false;
+                if ( profile_dialog.ShowDialog() == DialogResult.Cancel ) return false;
 
                 //  Save the loaded Profile's filename for convenience sake.
 
@@ -306,7 +306,12 @@ namespace GAVPI
 			
         }  //  public void load_profile()
 		
+
+
+
 		//
+        //  DEPRECIATED: Call GAVPI.SaveProfile or GAVPI.SaveAsProfile in future.
+        //
 		//  public bool save_profile()
 		//
 		//  Save the current Profile to the filename provided by ProfileFilename without explicity requesting a
@@ -315,7 +320,7 @@ namespace GAVPI
 		//  performed.
 		//
 		//  Return boolean success or failure.
-		//
+ 		//
 		
 		public bool save_profile() {
 

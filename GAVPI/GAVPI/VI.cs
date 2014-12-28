@@ -27,6 +27,8 @@ namespace GAVPI
         private KeyboardHook.KeyDownEventHandler pushtotalk_keyDownHook;
         private KeyboardHook.KeyUpEventHandler pushtotalk_keyUpHook;
 
+        public bool IsListening = false;
+
         public VI()
         {
             pushtotalk_active = false;
@@ -120,7 +122,9 @@ namespace GAVPI
             }
 			
 			//  We have successfully establish an instance of a SAPI engine with a well-formed grammar.
-			
+
+            IsListening = true;
+
 			return true;
 			
         }
@@ -135,6 +139,9 @@ namespace GAVPI
             KeyboardHook.UninstallHook();
             KeyboardHook.KeyDown -= pushtotalk_keyDownHook;
             KeyboardHook.KeyUp -= pushtotalk_keyUpHook;
+
+            IsListening = false;
+
         }
         private void phraseRecognized(object sender, SpeechRecognizedEventArgs e)
         {

@@ -37,6 +37,8 @@ namespace GAVPI
 
             if( GAVPI.vi_profile.IsEdited() ) ProfileEdited();
 
+            //  Reflect the Profile's current state in the Status Bar...
+
             btmStatusProfile.Text = ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : "") +
                 Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );           
 
@@ -297,42 +299,32 @@ namespace GAVPI
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            //  Let's refer to our general file saving handler....
+            if( !GAVPI.SaveProfile() ) return;
 
-            saveAsToolStripMenuItem_Click(sender, e);
+            RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename ) );   
 
         }
 		
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            if( !GAVPI.vi_profile.save_profile() ) return;
-					
-            refresh_dgActionSequences();
-            refresh_dgTriggers();
-            refresh_dgTriggerEvents();
+            if( !GAVPI.SaveAsProfile() ) return;
 
-            //  Update the Form's status to reflect the Profile's state.
-
-            btmStatusProfile.Text = Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );	
+			RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename ) );          	
 
         }
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void loadToolStripMenuItem_Click( object sender, EventArgs e )
         {
 
             //  Attempt to load a Profile and then update the Form's UI elements and status.  (The Form's
             //  status bar should display the name of the opened Profile.)
 
-            if( !GAVPI.vi_profile.load_profile() ) return;
-
-             refresh_dgActionSequences();
-             refresh_dgTriggers();
-             refresh_dgTriggerEvents();
-
-             btmStatusProfile.Text = ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : "" ) +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
+            if( !GAVPI.LoadProfile() ) return;
 
         }
+
+
 
         //
         //  private void newToolStripMenuItem_Click( object, EventArgs )
@@ -345,13 +337,9 @@ namespace GAVPI
 
             //  Request a new profile...
 
-            if( !GAVPI.vi_profile.NewProfile() ) return;
+            if( !GAVPI.NewProfile() ) return;
 
-            //  Refresh the UI...
-
-            refresh_dgActionSequences();
-            refresh_dgTriggers();
-            refresh_dgTriggerEvents();
+            RefreshUI( "[UNSAVED] " + Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename ) );
 
             //  The Profile hasn't been edited, so there are no changes to save, therefore let's disable the
             //  File menu's Save As and Save buttons for now.
@@ -375,6 +363,8 @@ namespace GAVPI
         {
             MessageBox.Show("Nothing here yet");
         }
+
+
 
         //
         //  private void ProfileEdited()
@@ -410,6 +400,30 @@ namespace GAVPI
             btmStatusProfile.Text = "[UNSAVED] " + Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
 
 		}  //  private void ProfileEdited()
-        
+
+
+
+        //
+        //  public void RefreshUI( string )
+        //
+        //  Request that the User Interface updates any elements that are dependant on states that may change
+        //  beyond the scope of the current thread of execution.  This method is typically called by way of the
+        //  GAVPI class.
+        //
+
+        public void RefreshUI( string Status )
+        {
+
+            //  Refresh the UI...
+
+            refresh_dgActionSequences();
+            refresh_dgTriggers();
+            refresh_dgTriggerEvents();
+
+            btmStatusProfile.Text = Status;
+
+        }  //  public void RefreshUI()
+
     }
+
 }
