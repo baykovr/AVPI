@@ -46,6 +46,8 @@ namespace GAVPI
         public abstract void run();
 
     }
+    // Tigger Types
+    // 
     public partial class VI_Phrase : VI_Trigger
     {
         public VI_Phrase(string name ,string value) : base(name)

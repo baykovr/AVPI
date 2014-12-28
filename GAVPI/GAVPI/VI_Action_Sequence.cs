@@ -162,20 +162,20 @@ namespace GAVPI
     }
     public partial class Speak : Action
     {
-        SpeechSynthesizer synth;
-        public Speak(SpeechSynthesizer synth, string value) : base(value)
+        SpeechSynthesizer Profile_Synthesis;
+        public Speak(SpeechSynthesizer Profile_Synthesis, string value) : base(value)
         {
-            this.synth = synth;
+            this.Profile_Synthesis = Profile_Synthesis;
         }
         public override void run()
         {
             try
             {
-                synth.SpeakAsync(value);
+                Profile_Synthesis.SpeakAsync(value);
             }
             catch(Exception synth_err)
             {
-                MessageBox.Show("Speech Synth Err : "+synth_err.Message,"Error",
+                MessageBox.Show("Speech Profile_Synthesis Err : "+synth_err.Message,"Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Exclamation,
                     MessageBoxDefaultButton.Button1);

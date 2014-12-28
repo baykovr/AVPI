@@ -36,7 +36,7 @@ namespace GAVPI
         {
 
             vi_settings = new VI_Settings();
-            vi_profile = new VI_Profile( null );
+            vi_profile = new VI_Profile(null);
 
             vi = new VI();
 
