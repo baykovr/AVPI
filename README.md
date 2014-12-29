@@ -1,12 +1,10 @@
-### [GAVPI](https://baykovr.github.io/gavpi.html) Alpha v0.03
+### [GAVPI](https://baykovr.github.io/gavpi.html) Alpha v0.04
 
-08/10/2014 Latest build [available directly here](https://github.com/baykovr/AVPI/releases/download/v0.03/GAVPI_v0.03.zip)
+12/18/2014 Latest build [available directly here](https://github.com/baykovr/AVPI/releases/download/v0.04/GAVPI_v0.04.zip)
 [ (Release Notes) ]
 (https://github.com/baykovr/AVPI/releases/latest) 
 
 You should run gavpi as administrator for it work properly in most games. (right click run as...)
-
-Check out the example profile for StarCitizen included in latest release to get started.
 
 #### About
 

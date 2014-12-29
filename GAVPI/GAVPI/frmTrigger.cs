@@ -30,7 +30,7 @@ namespace GAVPI
         }
         private void populate_fields()
         {
-            cbTriggerType.DataSource = GAVPI.vi_profile.Trigger_Types;
+            //cbTriggerType.DataSource = GAVPI.vi_profile.Trigger_Types;
             // If trigger to edit is not null, we are editing an existing trigger
             if (trigger_to_edit != null)
             {
@@ -78,7 +78,9 @@ namespace GAVPI
                 else
                 {
                     // Get type from dropdown and cast to object dynamically
-                    Type new_trigger_type = Type.GetType("GAVPI." + cbTriggerType.SelectedItem.ToString());
+                    //Type new_trigger_type = Type.GetType("GAVPI." + cbTriggerType.SelectedItem.ToString());
+                    // TODO logicals
+                    Type new_trigger_type = Type.GetType("GAVPI.VI_Phrase");
                     object trigger_instance = Activator.CreateInstance(new_trigger_type, trigger_name, trigger_value);
                     GAVPI.vi_profile.Profile_Triggers.Add((VI_Trigger)trigger_instance);
                 }

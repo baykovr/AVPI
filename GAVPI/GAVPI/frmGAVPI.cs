@@ -13,14 +13,11 @@ namespace GAVPI
 {
     public partial class frmGAVPI : Form
     {
-
-        string BUILD_VERSION = "GAVPI Test Build 0.02 08.06.14";
+        string BUILD_VERSION = "GAVPI Alpha Build 0.04 12.18.14";
 
         public frmGAVPI()
         {
-
             InitializeComponent();
-
         }
         #region Main form
 
@@ -88,14 +85,28 @@ namespace GAVPI
 		
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             this.Close();
         }
         
         #endregion
         #region Profile
+
+        // New Profile
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Exactly like modify, except we warn the user to save their current profile
+            // before creating a new one.
+
+            GAVPI.NewProfile();
+
+            GAVPI.OpenProfileEditor();
+
+        }
+
+        // Modify Existing
         private void modifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
+       
             try
             {
 
@@ -108,8 +119,8 @@ namespace GAVPI
                 //  an existing Profile).
                 //
                 
-                btmStripStatus.Text = "NOT LISTENING: " + ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " " ) +
-                    Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
+                btmStripStatus.Text = "NOT LISTENING: " + (GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " ") +
+                    Path.GetFileNameWithoutExtension(GAVPI.vi_profile.ProfileFilename);
 
                 //  Allow the user to start issuing voice commands if we have an actual Profile...
 
@@ -125,9 +136,16 @@ namespace GAVPI
             }
             finally
             {
-                
+
+                // Not much we can do for now, invoke new profile
+                // to attempt a clean up.
+
+                GAVPI.NewProfile();
+
             }
-        }
+
+        }  //  private void modifyToolStripMenuItem_Click( object, EventArgs )
+
         #endregion
         #region Settings
         private void mainStripSettings_Click(object sender, EventArgs e)
