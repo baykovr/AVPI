@@ -17,9 +17,38 @@ namespace GAVPI
 
         public frmGAVPI()
         {
+
             InitializeComponent();
+
         }
         #region Main form
+        
+
+
+
+        //
+        //  private void frmGAVPI_Activated( object, System.EventArgs )
+        //
+        //  Handling Activated events upon a Form offers the opportunty of a callback whenever the Form gains
+        //  focus.
+        //
+
+        private void frmGAVPI_Activated( object sender, System.EventArgs e )
+        {
+
+            //  If a Profile isn't loaded, disable Profile->Modify and the Listen button.
+
+            if( GAVPI.vi_profile.IsEmpty() ) {
+
+                btnMainListen.Enabled = false;
+                editToolStripMenuItem.Enabled = false;
+
+            }  //  if()
+
+        }  //  private void frmGAVPI_Activated( object, System.EventArgs )
+
+
+
 
         //
         //  private void frmGAVPI_FormClosing( object, FormClosingEventArgs )
@@ -48,7 +77,7 @@ namespace GAVPI
                 if( saveChanges == DialogResult.Yes ) {
 
                     if( GAVPI.vi_profile.ProfileFilename == null && !GAVPI.SaveAsProfile() ) e.Cancel = true;
-                    else if (!GAVPI.SaveProfile()) e.Cancel = true;
+                    else if( !GAVPI.SaveProfile() ) e.Cancel = true;
 
                 }  //  if()
 
@@ -71,10 +100,17 @@ namespace GAVPI
 
             if( GAVPI.vi.IsListening ) btnMainStop_Click( sender, e );
 
-            //  Attempt to open a Profile and, if successful, enable the Listen button.
+            //  Attempt to open a Profile and, if successful, enable the Listen button and the Profile->Modify
+            //  menu item (these items should both be disabled in the absense of a loaded Profile during
+            //  the frmGAVPI_Activated event handler).
 
-            if( GAVPI.LoadProfile() ) btnMainListen.Enabled = true;  //  Enable the "Listen" button.
-	     
+            if( GAVPI.LoadProfile() ) {
+
+                btnMainListen.Enabled = true;           
+                editToolStripMenuItem.Enabled = true;   
+
+            }  //  if()
+
             //  Maintain a consistent Form status...
        
             btmStripStatus.Text = "NOT LISTENING: " + ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " " ) +
@@ -97,9 +133,17 @@ namespace GAVPI
             // Exactly like modify, except we warn the user to save their current profile
             // before creating a new one.
 
-            GAVPI.NewProfile();
+            if( !GAVPI.NewProfile() ) return;          
 
             GAVPI.OpenProfileEditor();
+
+            //  Enable both the Listen button and the Profile->Modify menu item if the current Profile is
+            //  populated.
+
+            if( GAVPI.vi_profile.IsEmpty() ) return;
+
+            btnMainListen.Enabled = true;
+            editToolStripMenuItem.Enabled = true;
 
         }
 
