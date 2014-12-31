@@ -56,7 +56,7 @@
             this.txtActionSequenceName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtActionSequenceName.Location = new System.Drawing.Point(105, 464);
             this.txtActionSequenceName.Name = "txtActionSequenceName";
-            this.txtActionSequenceName.Size = new System.Drawing.Size(115, 20);
+            this.txtActionSequenceName.Size = new System.Drawing.Size(219, 20);
             this.txtActionSequenceName.TabIndex = 1;
             // 
             // lblActionSequenceName
@@ -91,12 +91,12 @@
             // btnActSeqSave
             // 
             this.btnActSeqSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnActSeqSave.Enabled = false;
             this.btnActSeqSave.Location = new System.Drawing.Point(330, 462);
             this.btnActSeqSave.Name = "btnActSeqSave";
             this.btnActSeqSave.Size = new System.Drawing.Size(75, 23);
             this.btnActSeqSave.TabIndex = 6;
             this.btnActSeqSave.Text = "Save";
-			this.btnActSeqSave.Enabled = false;
             this.btnActSeqSave.UseVisualStyleBackColor = true;
             this.btnActSeqSave.Click += new System.EventHandler(this.btnActSeqSave_Click);
             // 

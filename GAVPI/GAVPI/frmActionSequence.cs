@@ -80,9 +80,7 @@ namespace GAVPI
         }
         private void btnActSeqCancel_Click(object sender, EventArgs e)
         {
-		
 			this.DialogResult = DialogResult.Cancel;
-		
             this.Close();
         }
 

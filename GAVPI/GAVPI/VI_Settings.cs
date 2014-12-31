@@ -38,19 +38,18 @@ namespace GAVPI
 
         public VI_Settings()
         {
+            // Default values
             recognizer_info = CultureInfo.CurrentCulture;
             SpeechSynthesizer synthesizer = new SpeechSynthesizer();
             voice_info = new SpeechSynthesizer().GetInstalledVoices()[0].VoiceInfo.Name;
             pushtotalk_mode = "Off" ;
             pushtotalk_key  = "Scroll" ;
 
-
-            // Load from settings file, if possible.
+            // Try to load from settings file, overwriting default settings.
             this.load_settings();
         }
         public void load_settings()
         {
-            // TODO
             XmlDocument gavpi_settings = new XmlDocument();
             try
             {
@@ -82,25 +81,23 @@ namespace GAVPI
                              String.IsNullOrEmpty(xml_pushtotalk_key) &&
                              String.IsNullOrEmpty(xml_recognizer_info))
                         {
-                           default_profile_name = xml_default_profile_name;
-                           default_profile_filepath = xml_default_profile_filepath;
-                           voice_info = xml_voice_info;
-                           pushtotalk_mode = xml_pushtotalk_mode;
-                           pushtotalk_key = xml_pushtotalk_key;
-                           recognizer_info = new System.Globalization.CultureInfo(xml_recognizer_info);
+                            throw new Exception("Malformed settings file, some values are null.");
                         }
                         else
                         {
-                            throw new Exception("Malformed settings file, some values are null.");
+                            default_profile_name = xml_default_profile_name;
+                            default_profile_filepath = xml_default_profile_filepath;
+                            voice_info = xml_voice_info;
+                            pushtotalk_mode = xml_pushtotalk_mode;
+                            pushtotalk_key = xml_pushtotalk_key;
+                            recognizer_info = new System.Globalization.CultureInfo(xml_recognizer_info);
                         }
                     }
                     else
                     {
                         throw new Exception("Malformed settings file, unexpected element: " + element.Name);
                     }
-                    
                 }
-
             }
             catch (Exception loading_err){
                 // Likely the user moved the exe or deleted the settings,
@@ -118,7 +115,7 @@ namespace GAVPI
         {
             // Check for null values. (except profile)
             if (!validate_profile()){
-                MessageBox.Show("Cannot save profile, one or more values current uset.");
+                MessageBox.Show("Cannot save profile, one or more values currently unset.");
                 return;
             }
 
@@ -160,12 +157,13 @@ namespace GAVPI
             if (String.IsNullOrEmpty(voice_info) &&
                              String.IsNullOrEmpty(pushtotalk_mode) &&
                              String.IsNullOrEmpty(pushtotalk_key) &&
-                             String.IsNullOrEmpty(recognizer_info.ToString()))
+                             String.IsNullOrEmpty( (recognizer_info.ToString()) ))
             {
-                return true; 
-            }
-            else { 
                 return false; 
+            }
+            else 
+            { 
+                return true; 
             }
         } //public bool validate_profile()
     }
