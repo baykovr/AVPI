@@ -153,7 +153,6 @@
             // btnMainListen
             // 
             this.btnMainListen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMainListen.Enabled = false;
             this.btnMainListen.Location = new System.Drawing.Point(563, 27);
             this.btnMainListen.Name = "btnMainListen";
             this.btnMainListen.Size = new System.Drawing.Size(94, 23);
@@ -199,6 +198,7 @@
             this.Name = "frmGAVPI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GAVPI : Graphical AVPI";
+            this.Activated += new System.EventHandler( frmGAVPI_Activated );
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmGAVPI_FormClosing);
             this.mainStatStrip.ResumeLayout(false);
             this.mainStatStrip.PerformLayout();

@@ -17,9 +17,38 @@ namespace GAVPI
 
         public frmGAVPI()
         {
+
             InitializeComponent();
+
         }
         #region Main form
+        
+
+
+
+        //
+        //  private void frmGAVPI_Activated( object, System.EventArgs )
+        //
+        //  Handling Activated events upon a Form offers the opportunty of a callback whenever the Form gains
+        //  focus.
+        //
+
+        private void frmGAVPI_Activated( object sender, System.EventArgs e )
+        {
+
+            //  If a Profile isn't loaded, disable Profile->Modify and the Listen button.
+
+            if( GAVPI.vi_profile.IsEmpty() ) {
+
+                btnMainListen.Enabled = false;
+                editToolStripMenuItem.Enabled = false;
+
+            }  //  if()
+
+        }  //  private void frmGAVPI_Activated( object, System.EventArgs )
+
+
+
 
         //
         //  private void frmGAVPI_FormClosing( object, FormClosingEventArgs )
@@ -40,12 +69,17 @@ namespace GAVPI
 
             if( GAVPI.vi_profile.IsEdited() ) {
 
-                DialogResult save_changes = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
+                DialogResult saveChanges = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
                                                              "Would you like to save those changes now?",
                                                              "Unsaved Profile",
-                                                              MessageBoxButtons.YesNo);
+                                                              MessageBoxButtons.YesNo );
 
-                if( save_changes == DialogResult.Yes && !GAVPI.vi_profile.save_profile() ) e.Cancel = true;
+                if( saveChanges == DialogResult.Yes ) {
+
+                    if( GAVPI.vi_profile.GetProfileFilename() == null && !GAVPI.SaveAsProfile() ) e.Cancel = true;
+                    else if( !GAVPI.SaveProfile() ) e.Cancel = true;
+
+                }  //  if()
 
             }  //  if()
 
@@ -61,18 +95,26 @@ namespace GAVPI
 		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            //  Stop Listening since we may be about to open another Profile...
+            //  If we're Listening for voice commands, stop Listening since we may be about to open another
+            //  Profile...
 
-            btnMainStop_Click( sender, e );
+            if( GAVPI.vi.IsListening ) btnMainStop_Click( sender, e );
 
-            //  Attempt to open a Profile and, if successful, enable the Listen button.
+            //  Attempt to open a Profile and, if successful, enable the Listen button and the Profile->Modify
+            //  menu item (these items should both be disabled in the absense of a loaded Profile during
+            //  the frmGAVPI_Activated event handler).
 
-            if( GAVPI.vi_profile.load_profile() ) btnMainListen.Enabled = true;  //  Enable the "Listen" button.
-                			     
+            if( GAVPI.LoadProfile() ) {
+
+                btnMainListen.Enabled = true;           
+                editToolStripMenuItem.Enabled = true;   
+
+            }  //  if()
+
             //  Maintain a consistent Form status...
        
             btmStripStatus.Text = "NOT LISTENING: " + ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " " ) +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
 
             return;
         }
@@ -88,37 +130,46 @@ namespace GAVPI
         // New Profile
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // Exactly like modify, except we warn the user to save their current profile
-           // before creating a new one.
-            GAVPI.vi_profile.NewProfile();
-            invoke_profile_editor();
+            // Exactly like modify, except we warn the user to save their current profile
+            // before creating a new one.
+
+            if( !GAVPI.NewProfile() ) return;
+
+            //  Refer to our general Profile editing handler...
+
+            modifyToolStripMenuItem_Click( sender, e );
+
+           // GAVPI.OpenProfileEditor();
+            
         }
+
         // Modify Existing
         private void modifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            invoke_profile_editor();
-        }
-        private void invoke_profile_editor()
-        {
+       
             try
             {
-                frmProfile modProfileFrm = new frmProfile();
+
+                GAVPI.OpenProfileEditor();
+                
+                //  Enable both the Listen button and the Profile->Modify menu item if the current Profile is
+                //  populated.
+
+                if( GAVPI.vi_profile.IsEmpty() ) return;
+
+                btnMainListen.Enabled = true;
+                editToolStripMenuItem.Enabled = true;
+
                 //
                 //  VI_Profile takes care of tracking changes and the saved/unsaved state of the current Profile.
                 //  We can act on this knowledge to update the status in the UI and also inform the user of those
                 //  unsaved changes should they choose a potentially destructive act (exiting the program, opening
                 //  an existing Profile).
                 //
-                modProfileFrm.ShowDialog();
 
-                btmStripStatus.Text = "NOT LISTENING: " + (GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " ") +
-                    Path.GetFileNameWithoutExtension(GAVPI.vi_profile.ProfileFilename);
+                btmStripStatus.Text = "NOT LISTENING: " + ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " " ) +
+                    Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
 
-                //  Allow the user to start issuing voice commands if we have an actual Profile...
-
-                btnMainListen.Enabled = !GAVPI.vi_profile.IsEmpty();
-
-                modProfileFrm.Dispose();
             }
             catch (Exception profile_exception)
             {
@@ -126,13 +177,13 @@ namespace GAVPI
                    MessageBoxButtons.OK,
                    MessageBoxIcon.Exclamation,
                    MessageBoxDefaultButton.Button1);
-            }
-            finally{
-                // Not much we can do for now, invoke new profile
-                // to attempt a clean up.
+
                 GAVPI.vi_profile.NewProfile();
+
             }
-        } // / private void invoke_profile_editor
+
+        }  //  private void modifyToolStripMenuItem_Click( object, EventArgs )
+
         #endregion
         #region Settings
         private void mainStripSettings_Click(object sender, EventArgs e)
@@ -159,14 +210,14 @@ namespace GAVPI
 				editToolStripMenuItem.Enabled = false;
 
                 btmStripStatus.Text = "LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") +
-                    Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename);
+                    Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
 			
 				return;
 			
 			}  //  if()
 				
             btmStripStatus.Text = "NOT LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename);
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
 
 			GAVPI.vi = new VI();
 			
@@ -190,7 +241,7 @@ namespace GAVPI
 			editToolStripMenuItem.Enabled = true;
 			
             btmStripStatus.Text = "NOT LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": " ) +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
 
         }
 
@@ -198,6 +249,27 @@ namespace GAVPI
         {
             MessageBox.Show(BUILD_VERSION);
         }
+
+
+
+        //
+        //  public void RefreshUI( string )
+        //
+        //  Request that the User Interface updates any elements that are dependant on states that may change
+        //  beyond the scope of the current thread of execution.  This method is typically called by way of the
+        //  GAVPI class.
+        //
+
+        public void RefreshUI( string Status )
+        {
+
+            //  Refresh the UI...
+
+            btmStripStatus.Text = Status;
+
+        }  //  public void RefreshUI()
+
+
 
         //
         //  protected override void WndProc( ref Message )
@@ -239,8 +311,6 @@ namespace GAVPI
         
             base.WndProc( ref message );
 
-        }
-
-         //  protected override void WndProc( ref Message )
+        }  //  protected override void WndProc( ref Message )
     }
 }

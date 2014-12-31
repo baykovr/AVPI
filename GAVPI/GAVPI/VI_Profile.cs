@@ -20,7 +20,7 @@ namespace GAVPI
 
 		//  We retain a copy of the loaded (or saved) Profile's fully-qualified filename...
 
-		public string ProfileFilename;
+		private string ProfileFilename;
 
         //  ...And track whether changes have been made to an unsaved Profile.
 
@@ -110,26 +110,14 @@ namespace GAVPI
         //
         //  public bool NewProfile()
         //
-        //  Requesting a new Profile eliminates any existing Profile, and is therefore destructive.  If an existing Profile
-        //  contains unsaved changes the user will be asked if they wish to save the existing Profile before continuing.
+        //  Requesting a new Profile eliminates any existing Profile, and is therefore destructive.
         //
         //  Returns true if the new Profile was created of false if otherwise.
         //
 
         public bool NewProfile()
         {
-
-            if( UnsavedProfileChanges && !IsEmpty() ) {
-
-                DialogResult SaveChanges = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
-                                                            "Would you like to save those changes now?",
-                                                            "Unsaved Profile",
-                                                            MessageBoxButtons.YesNo );
-
-                if( SaveChanges == DialogResult.Yes && !save_profile() ) return false;
-
-            }  //  if()
-
+            
             //  Instantiate a fresh Profile...
 
             Profile_Triggers = new List<VI_Trigger>();
@@ -149,26 +137,11 @@ namespace GAVPI
 
             string filename;
 
-            //  If there are any unsaved changes to an existing Profile, offer the opportunity to save them before opening
-            //  another Profile...
-
-            if( UnsavedProfileChanges && !IsEmpty() ) {
-
-                DialogResult save_changes = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
-                                                             "Would you like to save those changes now?",
-                                                             "Unsaved Profile",
-                                                             MessageBoxButtons.YesNo );
-
-
-                if (save_changes == DialogResult.Yes && !save_profile()) return false;
-
-            }  //  if()
-
             //
             //  Present the user with a File Open Dialog through which they may choose a Profile to load.
             //
 
-            using (OpenFileDialog profile_dialog = new OpenFileDialog()) {
+            using( OpenFileDialog profile_dialog = new OpenFileDialog() ) {
 
                 //  Give the Dialog a title and then establish a filter to hide anything that isn't an XML file by default.
 
@@ -176,7 +149,7 @@ namespace GAVPI
                 profile_dialog.Filter = "Profiles (*.XML)|*.XML|All Files (*.*)|*.*";
                 profile_dialog.RestoreDirectory = true;
 
-                if ( profile_dialog.ShowDialog() == DialogResult.Cancel) return false;
+                if ( profile_dialog.ShowDialog() == DialogResult.Cancel ) return false;
 
                 //  Save the loaded Profile's filename for convenience sake.
 
@@ -301,7 +274,12 @@ namespace GAVPI
 			
         }  //  public void load_profile()
 		
+
+
+
 		//
+        //  DEPRECIATED: Call GAVPI.SaveProfile or GAVPI.SaveAsProfile in future.
+        //
 		//  public bool save_profile()
 		//
 		//  Save the current Profile to the filename provided by ProfileFilename without explicity requesting a
@@ -310,7 +288,7 @@ namespace GAVPI
 		//  performed.
 		//
 		//  Return boolean success or failure.
-		//
+ 		//
 		
 		public bool save_profile() {
 
@@ -410,11 +388,13 @@ namespace GAVPI
 			//
 			
 			ProfileFilename = filename;			
-            UnsavedProfileChanges  = false;			
+            UnsavedProfileChanges = false;			
 
 			return true;
 			
         }  //  public void save_profile()
+
+
 
         //
         //  public bool IsEmpty()
@@ -428,6 +408,8 @@ namespace GAVPI
             return ( Profile_Triggers != null && Profile_Triggers.Any() ) ? false : true;
 
         }  //  public bool IsEmpty()
+
+
 
         //
         //  public void Edited()
@@ -445,6 +427,8 @@ namespace GAVPI
 
         }  //  public void Edited()
 
+
+
         //
         //  public bool IsEdited()
         //
@@ -457,6 +441,21 @@ namespace GAVPI
             return IsEmpty() ? false : UnsavedProfileChanges;
 
         }  //  public bool ChangesPending()
+
+
+        //
+        //  public string GetProfileFilename()
+        //
+        //  Return the filename of the current Profile.  GetProfileFilename() will return null if a Profile has not
+        //  yet been established, or if a newly created Profile hasn't previously been saved (and thus named).
+        //
+
+        public string GetProfileFilename()
+        {
+
+            return ProfileFilename;
+
+        }  //  public string GetProfileFilename()
 
     }
 }
