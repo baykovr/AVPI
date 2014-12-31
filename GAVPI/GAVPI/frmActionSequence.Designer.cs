@@ -56,7 +56,7 @@
             this.txtActionSequenceName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtActionSequenceName.Location = new System.Drawing.Point(105, 464);
             this.txtActionSequenceName.Name = "txtActionSequenceName";
-            this.txtActionSequenceName.Size = new System.Drawing.Size(115, 20);
+            this.txtActionSequenceName.Size = new System.Drawing.Size(219, 20);
             this.txtActionSequenceName.TabIndex = 1;
             // 
             // lblActionSequenceName
