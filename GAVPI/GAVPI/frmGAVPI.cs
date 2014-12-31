@@ -76,7 +76,7 @@ namespace GAVPI
 
                 if( saveChanges == DialogResult.Yes ) {
 
-                    if( GAVPI.vi_profile.ProfileFilename == null && !GAVPI.SaveAsProfile() ) e.Cancel = true;
+                    if( GAVPI.vi_profile.GetProfileFilename() == null && !GAVPI.SaveAsProfile() ) e.Cancel = true;
                     else if( !GAVPI.SaveProfile() ) e.Cancel = true;
 
                 }  //  if()
@@ -114,7 +114,7 @@ namespace GAVPI
             //  Maintain a consistent Form status...
        
             btmStripStatus.Text = "NOT LISTENING: " + ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " " ) +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
 
             return;
         }
@@ -133,18 +133,14 @@ namespace GAVPI
             // Exactly like modify, except we warn the user to save their current profile
             // before creating a new one.
 
-            if( !GAVPI.NewProfile() ) return;          
+            if( !GAVPI.NewProfile() ) return;
 
-            GAVPI.OpenProfileEditor();
+            //  Refer to our general Profile editing handler...
 
-            //  Enable both the Listen button and the Profile->Modify menu item if the current Profile is
-            //  populated.
+            modifyToolStripMenuItem_Click( sender, e );
 
-            if( GAVPI.vi_profile.IsEmpty() ) return;
-
-            btnMainListen.Enabled = true;
-            editToolStripMenuItem.Enabled = true;
-
+           // GAVPI.OpenProfileEditor();
+            
         }
 
         // Modify Existing
@@ -155,6 +151,14 @@ namespace GAVPI
             {
 
                 GAVPI.OpenProfileEditor();
+                
+                //  Enable both the Listen button and the Profile->Modify menu item if the current Profile is
+                //  populated.
+
+                if( GAVPI.vi_profile.IsEmpty() ) return;
+
+                btnMainListen.Enabled = true;
+                editToolStripMenuItem.Enabled = true;
 
                 //
                 //  VI_Profile takes care of tracking changes and the saved/unsaved state of the current Profile.
@@ -162,14 +166,10 @@ namespace GAVPI
                 //  unsaved changes should they choose a potentially destructive act (exiting the program, opening
                 //  an existing Profile).
                 //
-                
-                btmStripStatus.Text = "NOT LISTENING: " + (GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " ") +
-                    Path.GetFileNameWithoutExtension(GAVPI.vi_profile.ProfileFilename);
 
-                //  Allow the user to start issuing voice commands if we have an actual Profile...
+                btmStripStatus.Text = "NOT LISTENING: " + ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " " ) +
+                    Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
 
-                btnMainListen.Enabled = !GAVPI.vi_profile.IsEmpty();
-                
             }
             catch (Exception profile_exception)
             {
@@ -177,14 +177,8 @@ namespace GAVPI
                    MessageBoxButtons.OK,
                    MessageBoxIcon.Exclamation,
                    MessageBoxDefaultButton.Button1);
-            }
-            finally
-            {
 
-                // Not much we can do for now, invoke new profile
-                // to attempt a clean up.
-
-                GAVPI.NewProfile();
+                GAVPI.vi_profile.NewProfile();
 
             }
 
@@ -216,14 +210,14 @@ namespace GAVPI
 				editToolStripMenuItem.Enabled = false;
 
                 btmStripStatus.Text = "LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") +
-                    Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename);
+                    Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
 			
 				return;
 			
 			}  //  if()
 				
             btmStripStatus.Text = "NOT LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename);
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
 
 			GAVPI.vi = new VI();
 			
@@ -247,7 +241,7 @@ namespace GAVPI
 			editToolStripMenuItem.Enabled = true;
 			
             btmStripStatus.Text = "NOT LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": " ) +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
 
         }
 

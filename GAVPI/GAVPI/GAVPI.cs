@@ -19,7 +19,7 @@ namespace GAVPI
         //  A message sent via IPC to an existing application instance.
 
         public static int WM_OPEN_EXISTING_INSTANCE;
-
+        
         //
         //  The application global configuration settings, voice recognition grammar and voice recognition engine.
         //
@@ -137,22 +137,40 @@ namespace GAVPI
         //
         //  A convenient centralised method returning boolean success or failure, LoadProfile directs vi_profile
         //  to read a Profile from disk while ensuring that any currently open form reflects the opened Profile
-        //  status in its UI.  This method is the prefered way of loading a Profile via the UI and will implement
-        //  vi_profile.load_profile's UI elements in the future.
+        //  status in its UI.  This method considers whether a currently open Profile has been edited yet remains
+        //  unsaved, offering the opportunity to persist the Profile.
         //
         //  LoadProfile returns boolean success or failure.
         //
 
         static public bool LoadProfile()
         {
-           
+
+            //  Offer to persist any unsaved Profile edits...
+
+            if( vi_profile.IsEdited() ) {
+                
+                DialogResult SaveChanges = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
+                                                            "Would you like to save those changes now?",
+                                                            "Unsaved Profile",
+                                                            MessageBoxButtons.YesNo );
+
+                if( SaveChanges == DialogResult.Yes ) {
+
+                    if( vi_profile.GetProfileFilename() == null && !SaveAsProfile() ) return false;
+                    else if( !SaveProfile() ) return false;
+
+                }  //  if()
+
+            }  //  if()
+
             if( !vi_profile.load_profile() ) return false;
                         
             if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
-                MainForm.RefreshUI( Path.GetFileNameWithoutExtension(GAVPI.vi_profile.ProfileFilename) );
+                MainForm.RefreshUI( Path.GetFileNameWithoutExtension(GAVPI.vi_profile.GetProfileFilename() ) );
                 
             if( Application.OpenForms.OfType<frmProfile>().Count() > 0 )
-                ProfileEditor.RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename ) );
+                ProfileEditor.RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() ) );
 
             return true;
 
@@ -205,7 +223,7 @@ namespace GAVPI
 
             if( vi_profile.IsEmpty() ) return false;
 
-            return vi_profile.save_profile( vi_profile.ProfileFilename ) ? true : false;
+            return vi_profile.save_profile( vi_profile.GetProfileFilename() ) ? true : false;
 
         }  //  static public bool SaveProfile()
     
@@ -215,12 +233,27 @@ namespace GAVPI
         //  static public bool NewProfile()
         //
         //  A convenient stub to vi_profile.NewProfile, returning a boolean value for success or failure.  This
-        //  method should be used instead of vi_profile.NewProfile which may see UI elements relegated to this
-        //  method in the future.
+        //  method offers the user an opportunity to persist an existing Profile if there are unsaved edits.
         //
 
         static public bool NewProfile()
         {
+
+            if( vi_profile.IsEdited() ) {
+
+                DialogResult SaveChanges = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
+                                                            "Would you like to save those changes now?",
+                                                            "Unsaved Profile",
+                                                            MessageBoxButtons.YesNo);
+
+                if( SaveChanges == DialogResult.Yes ) {
+                 
+                    if( vi_profile.GetProfileFilename() == null && !SaveAsProfile() ) return false;
+                    else if( !SaveProfile() ) return false;
+
+                }  //  if()
+
+            }  //  if()
 
             return vi_profile.NewProfile() ? true : false;
             

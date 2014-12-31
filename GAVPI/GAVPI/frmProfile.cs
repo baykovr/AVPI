@@ -40,7 +40,7 @@ namespace GAVPI
             //  Reflect the Profile's current state in the Status Bar...
 
             btmStatusProfile.Text = ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : "") +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );           
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );           
 
         }  //  private void frmProfile_Load()
 
@@ -301,7 +301,7 @@ namespace GAVPI
 
             if( !GAVPI.SaveProfile() ) return;
 
-            RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename ) );   
+            RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() ) );   
 
         }
 		
@@ -310,7 +310,7 @@ namespace GAVPI
 
             if( !GAVPI.SaveAsProfile() ) return;
 					
-			RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename ) );          	
+			RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() ) );          	
 
         }
 
@@ -339,7 +339,7 @@ namespace GAVPI
 
             if( !GAVPI.NewProfile() ) return;
 
-            RefreshUI( "[UNSAVED] " + Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename ) );
+            RefreshUI( "[UNSAVED] " + Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() ) );
 
             //  The Profile hasn't been edited, so there are no changes to save, therefore let's disable the
             //  File menu's Save As and Save buttons for now.
@@ -391,13 +391,14 @@ namespace GAVPI
 
             }
 
-			if( GAVPI.vi_profile.ProfileFilename != null ) this.saveToolStripMenuItem.Enabled = true;
+			if( GAVPI.vi_profile.GetProfileFilename() != null ) this.saveToolStripMenuItem.Enabled = true;
 
             GAVPI.vi_profile.Edited();
 
 			this.saveAsToolStripMenuItem.Enabled = true;
 
-            btmStatusProfile.Text = "[UNSAVED] " + Path.GetFileNameWithoutExtension( GAVPI.vi_profile.ProfileFilename );
+            btmStatusProfile.Text = "[UNSAVED] " +
+                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
 
 		}  //  private void ProfileEdited()
 
