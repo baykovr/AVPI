@@ -605,7 +605,7 @@
             this.MainMenuStrip = this.menuProfile;
             this.MinimumSize = new System.Drawing.Size(729, 291);
             this.Name = "frmProfile";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Profile";
             this.Load += new System.EventHandler(this.frmProfile_Load);
             this.menuProfile.ResumeLayout(false);

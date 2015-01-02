@@ -36,14 +36,14 @@
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStripProfile = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStripSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStripAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.lstMainHearing = new System.Windows.Forms.ListView();
+            this.lstMainHearing = new System.Windows.Forms.ListBox();
             this.RecognizedColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnMainListen = new System.Windows.Forms.Button();
             this.btnMainStop = new System.Windows.Forms.Button();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStatStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +61,7 @@
             // btmStripStatus
             // 
             this.btmStripStatus.Name = "btmStripStatus";
-            this.btmStripStatus.Size = new System.Drawing.Size(75, 17);
+            this.btmStripStatus.Size = new System.Drawing.Size(92, 17);
             this.btmStripStatus.Text = "NOT LISTENING";
             // 
             // menuStrip1
@@ -83,20 +83,20 @@
             this.loadToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.mainStripFile.Name = "mainStripFile";
-            this.mainStripFile.Size = new System.Drawing.Size(36, 20);
+            this.mainStripFile.Size = new System.Drawing.Size(37, 20);
             this.mainStripFile.Text = "File";
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.loadToolStripMenuItem.Text = "Open Profile";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -106,27 +106,34 @@
             this.newToolStripMenuItem,
             this.editToolStripMenuItem});
             this.mainStripProfile.Name = "mainStripProfile";
-            this.mainStripProfile.Size = new System.Drawing.Size(50, 20);
+            this.mainStripProfile.Size = new System.Drawing.Size(53, 20);
             this.mainStripProfile.Text = "Profile";
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.editToolStripMenuItem.Text = "Modify";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.modifyToolStripMenuItem_Click);
             // 
             // mainStripSettings
             // 
             this.mainStripSettings.Name = "mainStripSettings";
-            this.mainStripSettings.Size = new System.Drawing.Size(55, 20);
+            this.mainStripSettings.Size = new System.Drawing.Size(61, 20);
             this.mainStripSettings.Text = "Settings";
             this.mainStripSettings.Click += new System.EventHandler(this.mainStripSettings_Click);
             // 
             // mainStripAbout
             // 
             this.mainStripAbout.Name = "mainStripAbout";
-            this.mainStripAbout.Size = new System.Drawing.Size(47, 20);
+            this.mainStripAbout.Size = new System.Drawing.Size(52, 20);
             this.mainStripAbout.Text = "About";
             this.mainStripAbout.Click += new System.EventHandler(this.mainStripAbout_Click);
             // 
@@ -135,15 +142,10 @@
             this.lstMainHearing.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lstMainHearing.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.RecognizedColumn});
-            this.lstMainHearing.GridLines = true;
             this.lstMainHearing.Location = new System.Drawing.Point(12, 27);
             this.lstMainHearing.Name = "lstMainHearing";
-            this.lstMainHearing.Size = new System.Drawing.Size(545, 180);
-            this.lstMainHearing.TabIndex = 2;
-            this.lstMainHearing.UseCompatibleStateImageBehavior = false;
-            this.lstMainHearing.View = System.Windows.Forms.View.Details;
+            this.lstMainHearing.Size = new System.Drawing.Size(545, 173);
+             this.lstMainHearing.TabIndex = 2;
             // 
             // RecognizedColumn
             // 
@@ -173,13 +175,6 @@
             this.btnMainStop.UseVisualStyleBackColor = true;
             this.btnMainStop.Click += new System.EventHandler(this.btnMainStop_Click);
             // 
-            // newToolStripMenuItem
-            // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.newToolStripMenuItem.Text = "New";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
-            // 
             // frmGAVPI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -198,7 +193,7 @@
             this.Name = "frmGAVPI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GAVPI : Graphical AVPI";
-            this.Activated += new System.EventHandler( frmGAVPI_Activated );
+            this.Activated += new System.EventHandler(this.frmGAVPI_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmGAVPI_FormClosing);
             this.mainStatStrip.ResumeLayout(false);
             this.mainStatStrip.PerformLayout();
@@ -220,7 +215,7 @@
         private System.Windows.Forms.ToolStripMenuItem mainStripAbout;
         private System.Windows.Forms.ToolStripMenuItem mainStripProfile;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ListView lstMainHearing;
+        private System.Windows.Forms.ListBox lstMainHearing;
         private System.Windows.Forms.Button btnMainListen;
         private System.Windows.Forms.Button btnMainStop;
         private System.Windows.Forms.ColumnHeader RecognizedColumn;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ComponentModel;
+using TrivialLogging;
 
 namespace GAVPI
 {
@@ -15,7 +16,7 @@ namespace GAVPI
         //  The application's system-wide unique ID to facilitate single-instancing (see Mutex, later).
 
         const string APPLICATION_ID = "Global\\" + "{c3ab185c-d7f7-4bf9-bc81-0f0e93d52ac3}";
-
+        
         //  A message sent via IPC to an existing application instance.
 
         public static int WM_OPEN_EXISTING_INSTANCE;
@@ -29,8 +30,12 @@ namespace GAVPI
 
         public static VI vi;
 
-        public static frmGAVPI MainForm;
-        public static frmProfile ProfileEditor;
+        private static frmGAVPI MainForm;
+        private static frmProfile ProfileEditor;
+
+        //  Our running Log...
+
+        public static Logging< string > Log;
 
         /// <summary>
         /// The main entry point for the application.
@@ -39,14 +44,24 @@ namespace GAVPI
         static void Main()
         {
 
+            //  Instantiate a log that maintains a running record of the recognised voice commands.  This log
+            //  will be displayed within a ListBox in the main form, frmGAVPI.  We specify a callback method so
+            //  that we may inform an already open frmGAVPI to update the ListBox with the log content.
+
+            try { 
+
+                Log = new Logging< string >( GAVPI.OnLogMessage );
+
+            } catch(Exception e) { throw; }
+
             vi_settings = new VI_Settings();
-            vi_profile = new VI_Profile(null);
+            vi_profile = new VI_Profile( null );
 
             vi = new VI();
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-           
+
             //
             //  To ensure that only a single instance of the application can be executed at a time, we'll use
             //  Mutex ownership to determine if we're already running.  I used http://www.guidgenerator.com/
@@ -92,7 +107,7 @@ namespace GAVPI
                 return;
 
             }  //  if()
-           
+
             MainForm = new frmGAVPI();
 
             Application.Run( MainForm );
@@ -106,8 +121,25 @@ namespace GAVPI
 
         }  //  static void Main()
 
-        
 
+
+        //
+        //  static public void OnLogMessage( string )
+        //
+        //  Our logging class accepts OnLogMessage as a callback function, where we request that frmGAVPI update
+        //  the ListBox displaying the log content - via a call to frmGAVPI.RefreshUI().
+        //
+
+        static public void OnLogMessage( string loggedMessage )
+        {
+
+            if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
+                MainForm.RefreshUI( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );              
+            
+        }  //  static public void OnLogMessage( string )
+
+
+        
         //
         //  static public void OpenProfileEditor
         //
@@ -124,11 +156,59 @@ namespace GAVPI
             
             ProfileEditor.ShowDialog();
 
-            ProfileEditor.Dispose();
+            CloseProfileEditor();
 
             return;
 
         }  //  static public void OpenProfileEditor
+
+
+
+        //
+        //  static public void CloseProfileEditor()
+        //
+        //  CloseProfileEditor is the sanity-checking prefered way of closing the Profile editor form (frmProfile)
+        //  when opened via OpenProfileEditor().
+        //
+
+        static public void CloseProfileEditor()
+        {
+
+            if( ProfileEditor == null ) return;
+
+            ProfileEditor.Dispose();
+
+            ProfileEditor = null;
+
+        }  //  static public void CloseProfileEditor()
+
+
+
+        //
+        //  static private bool NotifyUnsavedChanges()
+        //
+        //  NotifyUnsavedChanges is employed by any method that acts destructively on an existing Profile with
+        //  unsaved edits, prompting the user to persist the Profile.
+        //
+
+        static private bool NotifyUnsavedChanges()
+        {
+
+            DialogResult SaveChanges = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
+                                                        "Would you like to save those changes now?",
+                                                        "Unsaved Profile",
+                                                        MessageBoxButtons.YesNo );
+
+            if( SaveChanges == DialogResult.Yes ) {
+
+                if( vi_profile.GetProfileFilename() == null && !SaveAsProfile() ) return false;
+                else if( !SaveProfile() ) return false;
+
+            }  //  if()
+
+            return true;
+
+        }  //  static private bool NotifyUnsavedChanges()
 
 
 
@@ -148,29 +228,19 @@ namespace GAVPI
 
             //  Offer to persist any unsaved Profile edits...
 
-            if( vi_profile.IsEdited() ) {
-                
-                DialogResult SaveChanges = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
-                                                            "Would you like to save those changes now?",
-                                                            "Unsaved Profile",
-                                                            MessageBoxButtons.YesNo );
-
-                if( SaveChanges == DialogResult.Yes ) {
-
-                    if( vi_profile.GetProfileFilename() == null && !SaveAsProfile() ) return false;
-                    else if( !SaveProfile() ) return false;
-
-                }  //  if()
-
-            }  //  if()
+            if (vi_profile.IsEdited() && NotifyUnsavedChanges() == false) return false;
 
             if( !vi_profile.load_profile() ) return false;
-                        
+
+            //  Clear the log before requesting frmGAVPI refresh its UI otherwise the ListBox may remain populated.
+
+            Log.Clear();            
+            
             if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
-                MainForm.RefreshUI( Path.GetFileNameWithoutExtension(GAVPI.vi_profile.GetProfileFilename() ) );
+                MainForm.RefreshUI( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );
                 
             if( Application.OpenForms.OfType<frmProfile>().Count() > 0 )
-                ProfileEditor.RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() ) );
+                ProfileEditor.RefreshUI( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );
 
             return true;
 
@@ -239,21 +309,14 @@ namespace GAVPI
         static public bool NewProfile()
         {
 
-            if( vi_profile.IsEdited() ) {
+            if( vi_profile.IsEdited() && !NotifyUnsavedChanges() ) return false;
 
-                DialogResult SaveChanges = MessageBox.Show( "It appears you have made changes to your Profile.\n\n" +
-                                                            "Would you like to save those changes now?",
-                                                            "Unsaved Profile",
-                                                            MessageBoxButtons.YesNo);
+            //  Clear the log before requesting frmGAVPI refresh its UI otherwise the ListBox may remain populated.
 
-                if( SaveChanges == DialogResult.Yes ) {
-                 
-                    if( vi_profile.GetProfileFilename() == null && !SaveAsProfile() ) return false;
-                    else if( !SaveProfile() ) return false;
+            Log.Clear();
 
-                }  //  if()
-
-            }  //  if()
+            if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
+                MainForm.RefreshUI( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );
 
             return vi_profile.NewProfile() ? true : false;
             
