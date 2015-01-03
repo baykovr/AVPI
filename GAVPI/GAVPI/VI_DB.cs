@@ -19,7 +19,7 @@ namespace GAVPI
 
         public VI_DB()
         { 
-            // null filename db? (perhaps you want a tempdb)
+            /*careful here*/
         }
         public VI_DB(string filename)
         {
@@ -34,6 +34,11 @@ namespace GAVPI
         }
         public void save()
         {
+            if(String.IsNullOrEmpty(DBFilename))
+            {
+                throw new Exception("No database filename specified");
+            }
+
  
         }
         public void save(string filename)

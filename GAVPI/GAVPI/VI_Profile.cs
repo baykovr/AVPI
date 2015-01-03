@@ -29,9 +29,7 @@ namespace GAVPI
         public SpeechSynthesizer synth;
 
         public List<VI_Trigger> Profile_Triggers;
-
         public List<VI_Action_Sequence> Profile_ActionSequences;
-        public List<string> Action_Types;
 
         public VI_Profile(string filename)
         {
@@ -54,16 +52,7 @@ namespace GAVPI
             }
             finally
             {
-                Action_Types = new List<string>();
-
-                Action_Types.Add("KeyDown");
-                Action_Types.Add("KeyUp");
-                Action_Types.Add("KeyPress");
-                Action_Types.Add("MouseKeyDown");
-                Action_Types.Add("MouseKeyUp");
-                Action_Types.Add("MouseKeyPress");
-                Action_Types.Add("Wait");
-                Action_Types.Add("Speak");
+               /**/ 
             }
         }
         public void Add_Trigger(VI_Trigger trigger_toAdd)
