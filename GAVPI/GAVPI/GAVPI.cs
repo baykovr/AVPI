@@ -134,12 +134,67 @@ namespace GAVPI
         {
 
             if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
-                MainForm.RefreshUI( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );              
+                MainForm.RefreshUI( null );              
             
         }  //  static public void OnLogMessage( string )
 
 
         
+        //
+        //  static public bool StartListening()
+        //
+        //  Returning boolean success or failure, StartListening() attempts to establish command recognition.
+        //
+
+        static public bool StartListening()
+        {
+
+            //  If we're not already listening on voice commands, try to start listening (this is a sanity check
+            //  that we shouldn't need, but to hell with it)...
+
+            if( vi.IsListening ) return true;
+
+            if( !vi.load_listen() ) return false;
+            
+            //  Update the main form's UI to reflect the listening state.
+
+            if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
+                MainForm.RefreshUI( "LISTENING:" + ( vi_profile.IsEdited() ? " [UNSAVED] " : " " ) +
+                    Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );
+
+            return true;
+            
+        }  //  static public bool StartListening()
+
+
+
+        //
+        //  static public void StopListening()
+        //
+        //  Typically called via the user interface, StopListening() requests that the voice recognition engine
+        //  stops listening for spoken commands.
+        //
+
+        static public void StopListening()
+        {
+
+            if( !vi.IsListening ) return;
+
+            //  Stop listening on voice commands...
+
+            vi.stop_listen();
+            vi = new VI();
+
+            //  Update the main form to reflect the stopped state...
+
+            if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
+                MainForm.RefreshUI( "NOT LISTENING:" + ( vi_profile.IsEdited() ? " [UNSAVED] " : " " ) + 
+                    Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );               
+
+        }  //  static public void StopListening()
+
+
+
         //
         //  static public void OpenProfileEditor
         //

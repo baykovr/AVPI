@@ -159,7 +159,7 @@ namespace GAVPI
                 //  populated.
 
                 if( GAVPI.vi_profile.IsEmpty() ) return;
-
+                
                 btnMainListen.Enabled = true;
                 editToolStripMenuItem.Enabled = true;
 
@@ -172,7 +172,7 @@ namespace GAVPI
 
                 btmStripStatus.Text = "NOT LISTENING: " + ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : " " ) +
                     Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
-
+                
             }
             catch (Exception profile_exception)
             {
@@ -199,53 +199,15 @@ namespace GAVPI
         private void btnMainListen_Click(object sender, EventArgs e)
         {
 		
-			if( GAVPI.vi.load_listen() ) {
-				
-				//
-				//  We have successfully instantiated the speech recognition engine and we are ready to accept user
-				//  input, so let's update the Status Bar's state to show "LISTENING" (while retaining the filename
-				//  of the presently loaded Profile as a reminder for the user).  We also enable the "Stop" button,
-				//  disable the "Listen" button and disable the Profile->Modify menu item.
-				//
-				
-				btnMainStop.Enabled = true;
-				btnMainListen.Enabled = false;
-				editToolStripMenuItem.Enabled = false;
-
-                btmStripStatus.Text = "LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") +
-                    Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
-			
-				return;
-			
-			}  //  if()
-				
-            btmStripStatus.Text = "NOT LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": ") +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
-
-			GAVPI.vi = new VI();
-			
+            GAVPI.StartListening();
+          			
         }
 
         private void btnMainStop_Click(object sender, EventArgs e)
         {
-            // Stop
-            GAVPI.vi.stop_listen();
-            // Clean
-            GAVPI.vi = new VI();
 
-			//
-			//  Let's refresh the User Interface by enabling the "Listen" button (so the user may commence speech
-			//  recognition) and the Profile->Modify menu item, disable the "Stop" button (since we have already
-			//  stopped listening) and then update the Status Bar to reflect our current state.
-			//
-
-            btnMainListen.Enabled = true;
-			btnMainStop.Enabled = false;
-			editToolStripMenuItem.Enabled = true;
-			
-            btmStripStatus.Text = "NOT LISTENING" + ( GAVPI.vi_profile.IsEdited() ? ": [UNSAVED] " : ": " ) +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
-
+            GAVPI.StopListening();
+            
         }
 
         private void mainStripAbout_Click(object sender, EventArgs e)
@@ -263,19 +225,36 @@ namespace GAVPI
         //  GAVPI class.
         //
 
-        public void RefreshUI( string Status )
+        public void RefreshUI( string status )
         {
 
-            //  Refresh the UI...
-
-            btmStripStatus.Text = Status;
-       
             //  Ensure the log is updated to reflect any additional entries and move to the last log item...
 
             lstMainHearing.DataSource = GAVPI.Log.ToArray();
             lstMainHearing.TopIndex = GAVPI.Log.Count() - 1;
 
-        }  //  public void RefreshUI()
+            //  The UI reflects a different workflow depending on whether it is currently listening on voice
+            //  recognition commands or otherwise.
+
+            if( GAVPI.vi.IsListening ) { 
+            
+                btnMainStop.Enabled = true;
+				btnMainListen.Enabled = false;
+				editToolStripMenuItem.Enabled = false;
+
+            } else { 
+            
+                btnMainListen.Enabled = true;
+	    		btnMainStop.Enabled = false;
+		    	editToolStripMenuItem.Enabled = true;
+			
+            }  //  if()
+
+            //  If we don't wish to update the status text, simply pass null as an argument to RefreshUI()
+
+            if( status != null ) btmStripStatus.Text = status;
+
+        }  //  public void RefreshUI( string )
 
 
 
