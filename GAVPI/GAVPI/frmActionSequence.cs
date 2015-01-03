@@ -35,7 +35,7 @@ namespace GAVPI
         }
         private void populate_sequence()
         {
-            cbActSeqActionType.DataSource = GAVPI.vi_profile.Action_Types;
+            cbActSeqActionType.DataSource = VI_Action_Sequence.Action_Types;
             refresh_action_value_choices();
             txtActionSequenceName.Text = action_sequence.name;
             dgEditActionSequence.DataSource = null;

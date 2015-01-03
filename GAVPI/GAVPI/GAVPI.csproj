@@ -102,6 +102,7 @@
     <Compile Include="frmTrigger.Designer.cs">
       <DependentUpon>frmTrigger.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logging.cs" />
     <Compile Include="VI_Data.cs" />
     <Compile Include="VI_DB.cs" />
     <Compile Include="VI_Profile.cs" />
