@@ -20,7 +20,7 @@ namespace GAVPI
     {
         SpeechSynthesizer vi_syn;
         SpeechRecognitionEngine vi_sre;
-        ListView statusContainer; // listview in main form
+        
         private bool pushtotalk_active;
         private bool pushtotalk_keyIsDown;
         private KeyboardHook.KeyDownEventHandler pushtotalk_keyDownHook;
@@ -46,10 +46,8 @@ namespace GAVPI
 		//  success.
 		//
 		
-        public bool load_listen( ListView statusContainer )
+        public bool load_listen()
         {
-
-            this.statusContainer = statusContainer;
 
             vi_syn = GAVPI.vi_profile.synth;
             vi_syn.SelectVoice( GAVPI.vi_settings.voice_info );
@@ -221,25 +219,19 @@ namespace GAVPI
             }
         }
 
+
+
         //
         //  private void UpdateStatusLog( string )
         //
-        //  The main Form contains a ListView control maintains a running log of all recognised commands and keystrokes,
+        //  The main Form contains a ListBox showing a running log of all recognised commands and keystrokes,
         //  updated with a log message at each entry.
         //
 
         private void UpdateStatusLog( string LogMessage )
         {
 
-            //  Add the passed message to the running log...
-
-            statusContainer.Items.Add( LogMessage );
-
-            //  ... And always ensure that the last entry added to the statusContainer list is visible...
-
-            statusContainer.EnsureVisible( statusContainer.Items.Count - 1 );
-
-            statusContainer.Refresh();
+            GAVPI.Log.Entry( LogMessage );
 
         }  //  private void UpdateStatusLog( string )
 

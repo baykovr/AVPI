@@ -35,7 +35,7 @@ namespace GAVPI
 
         private void frmGAVPI_Activated( object sender, System.EventArgs e )
         {
-
+            
             //  If a Profile isn't loaded, disable Profile->Modify and the Listen button.
 
             if( GAVPI.vi_profile.IsEmpty() ) {
@@ -44,6 +44,11 @@ namespace GAVPI
                 editToolStripMenuItem.Enabled = false;
 
             }  //  if()
+
+            //  Ensure the log is updated to reflect any additional entries and move to the last log item...
+
+            lstMainHearing.DataSource = GAVPI.Log.ToArray();
+            lstMainHearing.TopIndex = GAVPI.Log.Count() - 1;
 
         }  //  private void frmGAVPI_Activated( object, System.EventArgs )
 
@@ -138,9 +143,7 @@ namespace GAVPI
             //  Refer to our general Profile editing handler...
 
             modifyToolStripMenuItem_Click( sender, e );
-
-           // GAVPI.OpenProfileEditor();
-            
+                        
         }
 
         // Modify Existing
@@ -196,7 +199,7 @@ namespace GAVPI
         private void btnMainListen_Click(object sender, EventArgs e)
         {
 		
-			if( GAVPI.vi.load_listen( lstMainHearing ) ) {
+			if( GAVPI.vi.load_listen() ) {
 				
 				//
 				//  We have successfully instantiated the speech recognition engine and we are ready to accept user
@@ -266,6 +269,11 @@ namespace GAVPI
             //  Refresh the UI...
 
             btmStripStatus.Text = Status;
+       
+            //  Ensure the log is updated to reflect any additional entries and move to the last log item...
+
+            lstMainHearing.DataSource = GAVPI.Log.ToArray();
+            lstMainHearing.TopIndex = GAVPI.Log.Count() - 1;
 
         }  //  public void RefreshUI()
 
