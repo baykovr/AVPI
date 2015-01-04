@@ -183,7 +183,7 @@ namespace GAVPI
         }
         private void phraseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmTrigger newTrigger = new frmTrigger();
+            frmPhraseTrigger newTrigger = new frmPhraseTrigger();
             
 			if( newTrigger.ShowDialog() == DialogResult.OK ) {
 			
@@ -194,20 +194,8 @@ namespace GAVPI
 			}  //  if()
 				
         }
-        // Add New Trigger (Right Click Context Menu)
-        private void newStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmTrigger newTrigger = new frmTrigger();
-			
-            if( newTrigger.ShowDialog() == DialogResult.OK ) {
-			
-				ProfileEdited();
-			
-				refresh_dgTriggers();
-				
-			}  //  if()
-			
-        }
+        
+        /*Right Click Context Menu*/
         // Edit Trigger
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -220,7 +208,7 @@ namespace GAVPI
                 VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
                 if (selected_trigger != null)
                 {
-                    frmTrigger newTrigger = new frmTrigger( selected_trigger );
+                    frmPhraseTrigger newTrigger = new frmPhraseTrigger( selected_trigger );
 					
                     if( newTrigger.ShowDialog() == DialogResult.OK ) {
 
@@ -447,6 +435,20 @@ namespace GAVPI
             {
                 this.dgTriggerEvents.CurrentCell = this.dgTriggerEvents.Rows[e.RowIndex].Cells[e.ColumnIndex];
             }
+        }
+
+        private void phraseToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            frmPhraseTrigger newTrigger = new frmPhraseTrigger();
+
+            if (newTrigger.ShowDialog() == DialogResult.OK)
+            {
+
+                ProfileEdited();
+
+                refresh_dgTriggers();
+
+            }  //  if()
         }
     }
 

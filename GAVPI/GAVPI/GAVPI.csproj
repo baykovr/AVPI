@@ -99,11 +99,11 @@
     <Compile Include="frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmTrigger.cs">
+    <Compile Include="frmPhraseTrigger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmTrigger.Designer.cs">
-      <DependentUpon>frmTrigger.cs</DependentUpon>
+    <Compile Include="frmPhraseTrigger.Designer.cs">
+      <DependentUpon>frmPhraseTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging.cs" />
     <Compile Include="VI_Data.cs" />
@@ -139,8 +139,8 @@
     <EmbeddedResource Include="frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmTrigger.resx">
-      <DependentUpon>frmTrigger.cs</DependentUpon>
+    <EmbeddedResource Include="frmPhraseTrigger.resx">
+      <DependentUpon>frmPhraseTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
