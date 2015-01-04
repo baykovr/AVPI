@@ -10,18 +10,18 @@ using System.Windows.Forms;
 
 namespace GAVPI
 {
-    public partial class frmTrigger : Form
+    public partial class frmPhraseTrigger : Form
     {
      
         private VI_Trigger trigger_to_edit;
 
-        public frmTrigger()
+        public frmPhraseTrigger()
         {
             // Constructor passes no trigger, meaning create new
             InitializeComponent();
             populate_fields();
         }
-        public frmTrigger( VI_Trigger trigger_to_edit )
+        public frmPhraseTrigger( VI_Trigger trigger_to_edit )
         {
             // Passing a trigger to the contructor edits an existing
             InitializeComponent();
