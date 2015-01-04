@@ -21,8 +21,9 @@ namespace GAVPI
     {
         public static List<string> Action_Types = new List<string>(
             new string[] { 
-                "KeyDown", "KeyUp", "KeyPress","MouseKeyDown","MouseKeyUp",
-                "MouseKeyPress","Wait","Speak"
+                "KeyDown", "KeyUp", "KeyPress",
+                "MouseKeyDown","MouseKeyUp","MouseKeyPress",
+                "Wait","Speak"
             });
 
         public string name {get; set;}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace GAVPI
 {
@@ -29,21 +30,54 @@ namespace GAVPI
         #region FileIO
         public void load()
         {
+            XmlDocument dbxml = new XmlDocument();
+            try
+            {
+                dbxml.Load(DBFilename);
 
- 
+                // Attempt to parse and load
+                if (dbxml.DocumentElement.Name != "gavpidb")
+                {
+                    throw new Exception("Malformed settings file expected first tag gavpidb got,"
+                    + dbxml.DocumentElement.Name);
+                }
+                XmlNodeList dbxml_elements = dbxml.DocumentElement.ChildNodes;
+                foreach (XmlNode element in dbxml_elements)
+                {
+                    /*populate dictionary*/
+                }
+            }
+            catch (Exception loading_err)
+            {
+                /*Not good.*/
+            }
         }
         public void save()
         {
-            if(String.IsNullOrEmpty(DBFilename))
+            if (String.IsNullOrEmpty(DBFilename))
             {
                 throw new Exception("No database filename specified");
             }
-
- 
+            else
+            {
+                this.save(DBFilename);
+            }
         }
         public void save(string filename)
         {
- 
+            XmlWriterSettings dbxml = new XmlWriterSettings();
+            dbxml.Indent = true;
+            XmlWriter writer = XmlWriter.Create(filename, dbxml);
+            writer.WriteStartDocument();
+            writer.WriteStartElement("gavpidb");
+            writer.WriteStartElement("VI_DB");
+
+
+
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Flush();
+            writer.Close();
         }
         #endregion
         #region Insert/Remove
