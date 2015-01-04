@@ -29,7 +29,10 @@ namespace GAVPI
         public SpeechSynthesizer synth;
 
         public List<VI_Trigger> Profile_Triggers;
+
         public List<VI_Action_Sequence> Profile_ActionSequences;
+
+        public VI_DB ProfileDB;
 
         public VI_Profile(string filename)
         {
@@ -37,10 +40,15 @@ namespace GAVPI
             {
                 Profile_Triggers = new List<VI_Trigger>();
                 Profile_ActionSequences = new List<VI_Action_Sequence>();
+                
 
                 synth = new SpeechSynthesizer(); //used by action Speak
 
-                if( filename != null ) load_profile(); 
+                if (filename != null) 
+                { 
+                    load_profile();
+                    
+                }
 
             }
             catch (Exception profile_err)
