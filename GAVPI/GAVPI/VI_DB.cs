@@ -17,8 +17,11 @@ namespace GAVPI
          * (However we keep the db in a seperate file)
          */
         public string DBFilename;
-        private Dictionary<string, VI_Data> DB;
-
+        public Dictionary<string, VI_Data> DB;
+        public VI_DB()
+        {
+            DB = new Dictionary<string, VI_Data>();
+        }
         public VI_DB(string filename)
         {
             DBFilename = filename;

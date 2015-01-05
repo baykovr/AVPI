@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace GAVPI
 {
-    public partial class frmAddtoTriggerEvent : Form
+    public partial class frm_Add_to_TriggerEvent : Form
     {
  
         VI_TriggerEvent event_to_add;
 
-        public frmAddtoTriggerEvent( VI_TriggerEvent event_to_add )
+        public frm_Add_to_TriggerEvent( VI_TriggerEvent event_to_add )
         {
             InitializeComponent();
             MaximizeBox = false;

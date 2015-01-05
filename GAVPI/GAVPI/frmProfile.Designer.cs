@@ -60,6 +60,8 @@
             this.dgTriggers = new System.Windows.Forms.DataGridView();
             this.contextProfileTriggers = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.phraseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.logicalToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -80,9 +82,10 @@
             this.tabProfile = new System.Windows.Forms.TabControl();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.tabPageData = new System.Windows.Forms.TabPage();
-            this.dgData = new System.Windows.Forms.DataGridView();
-            this.phraseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.logicalToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dgDatabase = new System.Windows.Forms.DataGridView();
+            this.contextDatabase = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitProfile)).BeginInit();
             this.splitProfile.Panel1.SuspendLayout();
@@ -102,7 +105,8 @@
             this.tabProfile.SuspendLayout();
             this.tabPageEvents.SuspendLayout();
             this.tabPageData.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgDatabase)).BeginInit();
+            this.contextDatabase.SuspendLayout();
             this.SuspendLayout();
             // 
             // btmStatusProfile
@@ -331,7 +335,7 @@
             this.toolStripSeparator2,
             this.addtoeventToolStripMenuItem1});
             this.contextProfileTriggers.Name = "contextProfileTriggers";
-            this.contextProfileTriggers.Size = new System.Drawing.Size(171, 120);
+            this.contextProfileTriggers.Size = new System.Drawing.Size(171, 98);
             // 
             // newStripMenuItem
             // 
@@ -341,6 +345,19 @@
             this.newStripMenuItem.Name = "newStripMenuItem";
             this.newStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.newStripMenuItem.Text = "New";
+            // 
+            // phraseToolStripMenuItem1
+            // 
+            this.phraseToolStripMenuItem1.Name = "phraseToolStripMenuItem1";
+            this.phraseToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.phraseToolStripMenuItem1.Text = "Phrase";
+            this.phraseToolStripMenuItem1.Click += new System.EventHandler(this.phraseToolStripMenuItem1_Click);
+            // 
+            // logicalToolStripMenuItem1
+            // 
+            this.logicalToolStripMenuItem1.Name = "logicalToolStripMenuItem1";
+            this.logicalToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.logicalToolStripMenuItem1.Text = "Logical";
             // 
             // editToolStripMenuItem
             // 
@@ -577,7 +594,7 @@
             // 
             // tabPageData
             // 
-            this.tabPageData.Controls.Add(this.dgData);
+            this.tabPageData.Controls.Add(this.dgDatabase);
             this.tabPageData.Location = new System.Drawing.Point(4, 22);
             this.tabPageData.Name = "tabPageData";
             this.tabPageData.Padding = new System.Windows.Forms.Padding(3);
@@ -586,29 +603,38 @@
             this.tabPageData.Text = "Data";
             this.tabPageData.UseVisualStyleBackColor = true;
             // 
-            // dgData
+            // dgDatabase
             // 
-            this.dgData.AllowUserToAddRows = false;
-            this.dgData.AllowUserToDeleteRows = false;
-            this.dgData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgData.Location = new System.Drawing.Point(6, 6);
-            this.dgData.Name = "dgData";
-            this.dgData.ReadOnly = true;
-            this.dgData.Size = new System.Drawing.Size(1060, 577);
-            this.dgData.TabIndex = 0;
+            this.dgDatabase.AllowUserToAddRows = false;
+            this.dgDatabase.AllowUserToDeleteRows = false;
+            this.dgDatabase.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgDatabase.ContextMenuStrip = this.contextDatabase;
+            this.dgDatabase.Location = new System.Drawing.Point(6, 6);
+            this.dgDatabase.Name = "dgDatabase";
+            this.dgDatabase.ReadOnly = true;
+            this.dgDatabase.Size = new System.Drawing.Size(1060, 577);
+            this.dgDatabase.TabIndex = 0;
             // 
-            // phraseToolStripMenuItem1
+            // contextDatabase
             // 
-            this.phraseToolStripMenuItem1.Name = "phraseToolStripMenuItem1";
-            this.phraseToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.phraseToolStripMenuItem1.Text = "Phrase";
-            this.phraseToolStripMenuItem1.Click += new System.EventHandler(this.phraseToolStripMenuItem1_Click);
+            this.contextDatabase.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addToolStripMenuItem,
+            this.editToolStripMenuItem2});
+            this.contextDatabase.Name = "contextMenuStrip1";
+            this.contextDatabase.Size = new System.Drawing.Size(153, 70);
             // 
-            // logicalToolStripMenuItem1
+            // addToolStripMenuItem
             // 
-            this.logicalToolStripMenuItem1.Name = "logicalToolStripMenuItem1";
-            this.logicalToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.logicalToolStripMenuItem1.Text = "Logical";
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addToolStripMenuItem.Text = "Add";
+            this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
+            // 
+            // editToolStripMenuItem2
+            // 
+            this.editToolStripMenuItem2.Name = "editToolStripMenuItem2";
+            this.editToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem2.Text = "Edit";
             // 
             // frmProfile
             // 
@@ -649,7 +675,8 @@
             this.tabProfile.ResumeLayout(false);
             this.tabPageEvents.ResumeLayout(false);
             this.tabPageData.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgDatabase)).EndInit();
+            this.contextDatabase.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -697,9 +724,12 @@
         private System.Windows.Forms.TabControl tabProfile;
         private System.Windows.Forms.TabPage tabPageEvents;
         private System.Windows.Forms.TabPage tabPageData;
-        private System.Windows.Forms.DataGridView dgData;
+        private System.Windows.Forms.DataGridView dgDatabase;
         private System.Windows.Forms.ToolStripStatusLabel btmStatusProfile;
         private System.Windows.Forms.ToolStripMenuItem phraseToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem logicalToolStripMenuItem1;
+        private System.Windows.Forms.ContextMenuStrip contextDatabase;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem2;
     }
 }

@@ -11,13 +11,13 @@ using System.Windows.Forms;
 
 namespace GAVPI
 {
-    public partial class frmActionSequence : Form
+    public partial class frm_AddEdit_ActionSequence : Form
     {
 
         VI_Action_Sequence action_sequence;
         bool edit_mode;
 
-        public frmActionSequence()
+        public frm_AddEdit_ActionSequence()
         {
             InitializeComponent();
 
@@ -25,7 +25,7 @@ namespace GAVPI
             populate_sequence();
             edit_mode = false;
         }
-        public frmActionSequence( VI_Action_Sequence action_sequence )
+        public frm_AddEdit_ActionSequence( VI_Action_Sequence action_sequence )
         {
             InitializeComponent();
 
@@ -39,14 +39,14 @@ namespace GAVPI
             refresh_action_value_choices();
             txtActionSequenceName.Text = action_sequence.name;
             dgEditActionSequence.DataSource = null;
-            dgEditActionSequence.DataSource = action_sequence.action_sequence.ToArray();
+            dgEditActionSequence.DataSource = action_sequence.action_sequence.ToList();
             txtActionXTimes.Text = "1";
         }
         private void refresh_editactionsequence()
         {
             
             dgEditActionSequence.DataSource = null;
-            dgEditActionSequence.DataSource = action_sequence.action_sequence.ToArray();
+            dgEditActionSequence.DataSource = action_sequence.action_sequence.ToList();
         }
         private void refresh_action_value_choices()
         {

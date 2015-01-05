@@ -1,6 +1,6 @@
 ﻿namespace GAVPI
 {
-    partial class frmAddtoTriggerEvent
+    partial class frm_Add_to_TriggerEvent
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAddtoTriggerEvent));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_Add_to_TriggerEvent));
             this.lblAddtoTriggerName = new System.Windows.Forms.Label();
             this.cbAddtoTriggerEvent = new System.Windows.Forms.ComboBox();
             this.btnAdd = new System.Windows.Forms.Button();

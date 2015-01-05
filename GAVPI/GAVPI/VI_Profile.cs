@@ -40,7 +40,7 @@ namespace GAVPI
             {
                 Profile_Triggers = new List<VI_Trigger>();
                 Profile_ActionSequences = new List<VI_Action_Sequence>();
-                
+                ProfileDB = new VI_DB();
 
                 synth = new SpeechSynthesizer(); //used by action Speak
 

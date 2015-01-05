@@ -1,6 +1,6 @@
 ﻿namespace GAVPI
 {
-    partial class frmLogicalTrigger
+    partial class frm_AddEdit_LogicalTrigger
     {
         /// <summary>
         /// Required designer variable.

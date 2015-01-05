@@ -1,6 +1,6 @@
 ﻿namespace GAVPI
 {
-    partial class frmPhraseTrigger
+    partial class frm_AddEdit_PhraseTrigger
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPhraseTrigger));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_AddEdit_PhraseTrigger));
             this.btnTriggerOk = new System.Windows.Forms.Button();
             this.btnTriggerCancel = new System.Windows.Forms.Button();
             this.lblTriggerName = new System.Windows.Forms.Label();

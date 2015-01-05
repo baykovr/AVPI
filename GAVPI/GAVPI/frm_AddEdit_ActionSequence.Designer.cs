@@ -1,6 +1,6 @@
 ﻿namespace GAVPI
 {
-    partial class frmActionSequence
+    partial class frm_AddEdit_ActionSequence
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmActionSequence));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_AddEdit_ActionSequence));
             this.txtActionSequenceName = new System.Windows.Forms.TextBox();
             this.lblActionSequenceName = new System.Windows.Forms.Label();
             this.cbActSeqActionType = new System.Windows.Forms.ComboBox();
