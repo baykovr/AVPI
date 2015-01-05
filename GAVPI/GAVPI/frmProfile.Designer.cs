@@ -607,11 +607,20 @@
             // 
             this.dgDatabase.AllowUserToAddRows = false;
             this.dgDatabase.AllowUserToDeleteRows = false;
+            this.dgDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgDatabase.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgDatabase.BackgroundColor = System.Drawing.Color.White;
             this.dgDatabase.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgDatabase.ContextMenuStrip = this.contextDatabase;
             this.dgDatabase.Location = new System.Drawing.Point(6, 6);
+            this.dgDatabase.MultiSelect = false;
             this.dgDatabase.Name = "dgDatabase";
             this.dgDatabase.ReadOnly = true;
+            this.dgDatabase.RowHeadersVisible = false;
+            this.dgDatabase.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dgDatabase.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgDatabase.Size = new System.Drawing.Size(1060, 577);
             this.dgDatabase.TabIndex = 0;
             // 
@@ -621,19 +630,19 @@
             this.addToolStripMenuItem,
             this.editToolStripMenuItem2});
             this.contextDatabase.Name = "contextMenuStrip1";
-            this.contextDatabase.Size = new System.Drawing.Size(153, 70);
+            this.contextDatabase.Size = new System.Drawing.Size(93, 48);
             // 
             // addToolStripMenuItem
             // 
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.addToolStripMenuItem.Text = "Add";
             this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem2
             // 
             this.editToolStripMenuItem2.Name = "editToolStripMenuItem2";
-            this.editToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem2.Size = new System.Drawing.Size(92, 22);
             this.editToolStripMenuItem2.Text = "Edit";
             // 
             // frmProfile

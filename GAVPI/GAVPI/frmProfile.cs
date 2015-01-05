@@ -462,7 +462,7 @@ namespace GAVPI
         #region Database Context Strip
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //GAVPI.vi_profile.ProfileDB.Insert(new VI_INT("test",1,"asd"));
+            GAVPI.vi_profile.ProfileDB.Insert(new VI_INT("test",1,"asd"));
 
             refresh_dgDatabase();
         }

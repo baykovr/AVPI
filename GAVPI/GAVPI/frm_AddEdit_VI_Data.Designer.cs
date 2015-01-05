@@ -28,9 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_AddEdit_VI_Data));
+            this.SuspendLayout();
+            // 
+            // frm_AddEdit_VI_Data
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "frmAdd_Edit_VI_Data";
+            this.ClientSize = new System.Drawing.Size(626, 267);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "frm_AddEdit_VI_Data";
+            this.Text = "Data";
+            this.ResumeLayout(false);
+
         }
 
         #endregion

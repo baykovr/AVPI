@@ -75,23 +75,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmActionSequence.cs">
+    <Compile Include="frm_AddEdit_ActionSequence.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmActionSequence.Designer.cs">
-      <DependentUpon>frmActionSequence.cs</DependentUpon>
+    <Compile Include="frm_AddEdit_ActionSequence.Designer.cs">
+      <DependentUpon>frm_AddEdit_ActionSequence.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAddtoTriggerEvent.cs">
+    <Compile Include="frm_Add_to_TriggerEvent.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddtoTriggerEvent.Designer.cs">
-      <DependentUpon>frmAddtoTriggerEvent.cs</DependentUpon>
+    <Compile Include="frm_Add_to_TriggerEvent.Designer.cs">
+      <DependentUpon>frm_Add_to_TriggerEvent.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmLogicalTrigger.cs">
+    <Compile Include="frm_AddEdit_VI_Data.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLogicalTrigger.Designer.cs">
-      <DependentUpon>frmLogicalTrigger.cs</DependentUpon>
+    <Compile Include="frm_AddEdit_VI_Data.Designer.cs">
+      <DependentUpon>frm_AddEdit_VI_Data.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_AddEdit_LogicalTrigger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_AddEdit_LogicalTrigger.Designer.cs">
+      <DependentUpon>frm_AddEdit_LogicalTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="frmProfile.cs">
       <SubType>Form</SubType>
@@ -105,11 +111,11 @@
     <Compile Include="frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmPhraseTrigger.cs">
+    <Compile Include="frm_AddEdit_PhraseTrigger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPhraseTrigger.Designer.cs">
-      <DependentUpon>frmPhraseTrigger.cs</DependentUpon>
+    <Compile Include="frm_AddEdit_PhraseTrigger.Designer.cs">
+      <DependentUpon>frm_AddEdit_PhraseTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging.cs" />
     <Compile Include="VI_Data.cs" />
@@ -129,18 +135,21 @@
     <Compile Include="VI_Trigger.cs" />
     <Compile Include="VI_TriggerEvent.cs" />
     <Compile Include="Win32_APIs.cs" />
-    <EmbeddedResource Include="frmActionSequence.resx">
-      <DependentUpon>frmActionSequence.cs</DependentUpon>
+    <EmbeddedResource Include="frm_AddEdit_ActionSequence.resx">
+      <DependentUpon>frm_AddEdit_ActionSequence.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddtoTriggerEvent.resx">
-      <DependentUpon>frmAddtoTriggerEvent.cs</DependentUpon>
+    <EmbeddedResource Include="frm_AddEdit_VI_Data.resx">
+      <DependentUpon>frm_AddEdit_VI_Data.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Add_to_TriggerEvent.resx">
+      <DependentUpon>frm_Add_to_TriggerEvent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGAVPI.resx">
       <DependentUpon>frmGAVPI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLogicalTrigger.resx">
-      <DependentUpon>frmLogicalTrigger.cs</DependentUpon>
+    <EmbeddedResource Include="frm_AddEdit_LogicalTrigger.resx">
+      <DependentUpon>frm_AddEdit_LogicalTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmProfile.resx">
       <DependentUpon>frmProfile.cs</DependentUpon>
@@ -148,8 +157,8 @@
     <EmbeddedResource Include="frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPhraseTrigger.resx">
-      <DependentUpon>frmPhraseTrigger.cs</DependentUpon>
+    <EmbeddedResource Include="frm_AddEdit_PhraseTrigger.resx">
+      <DependentUpon>frm_AddEdit_PhraseTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

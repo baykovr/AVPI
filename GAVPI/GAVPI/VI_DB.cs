@@ -43,6 +43,7 @@ namespace GAVPI
         }
         public void load(string filename)
         {
+            //sample code
             //gavpi_root.Add(new XElement("Student",
             //           new XElement("FirstName", "David"),
             //           new XElement("LastName", "Smith")));
