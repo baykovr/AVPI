@@ -36,6 +36,7 @@ namespace GAVPI
             {
                 txtTriggerName.Text = trigger_to_edit.name;
                 txtTriggerValue.Text = trigger_to_edit.value;
+                txtTriggerComment.Text = trigger_to_edit.comment;
             }
         }
 
@@ -56,6 +57,7 @@ namespace GAVPI
             // Validate fields for name and value
             string trigger_name  = txtTriggerName.Text.Trim();
             string trigger_value = txtTriggerValue.Text.Trim();
+            string trigger_comment = txtTriggerComment.Text.Trim();
 
             if ((trigger_name.Length == 0) || (trigger_value.Length == 0)){
                 MessageBox.Show("Blank name and/or value cannot be blank");
@@ -81,7 +83,7 @@ namespace GAVPI
                     //Type new_trigger_type = Type.GetType("GAVPI." + cbTriggerType.SelectedItem.ToString());
                     // TODO logicals
                     Type new_trigger_type = Type.GetType("GAVPI.VI_Phrase");
-                    object trigger_instance = Activator.CreateInstance(new_trigger_type, trigger_name, trigger_value);
+                    object trigger_instance = Activator.CreateInstance(new_trigger_type, trigger_name, trigger_value, trigger_comment);
                     GAVPI.vi_profile.Profile_Triggers.Add((VI_Trigger)trigger_instance);
                 }
             }
@@ -108,6 +110,7 @@ namespace GAVPI
                 {
                     trigger_to_edit.name = trigger_name;
                     trigger_to_edit.value = trigger_value;
+                    trigger_to_edit.comment = trigger_comment;
                     GAVPI.vi_profile.Profile_Triggers.Add(trigger_to_edit);
                 }
             }

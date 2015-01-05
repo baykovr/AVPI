@@ -47,7 +47,6 @@ namespace GAVPI
                 if (filename != null) 
                 { 
                     load_profile();
-                    
                 }
 
             }
@@ -128,6 +127,7 @@ namespace GAVPI
             return true;
 
         }  //  public bool NewProfile()
+
 
         public bool load_profile()
         {
@@ -261,6 +261,10 @@ namespace GAVPI
                 }
             }
 			
+            // Load Database Components
+            // DB will parse out the VI_DB tag, allong with its children.
+            ProfileDB = new VI_DB(filename);
+
 			//
 			//  We have successfully loaded the Profile, so retain the Profile's filename for future reference...
 			//

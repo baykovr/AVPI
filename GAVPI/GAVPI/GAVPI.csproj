@@ -87,6 +87,12 @@
     <Compile Include="frmAddtoTriggerEvent.Designer.cs">
       <DependentUpon>frmAddtoTriggerEvent.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmLogicalTrigger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLogicalTrigger.Designer.cs">
+      <DependentUpon>frmLogicalTrigger.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmProfile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmGAVPI.resx">
       <DependentUpon>frmGAVPI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLogicalTrigger.resx">
+      <DependentUpon>frmLogicalTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmProfile.resx">
       <DependentUpon>frmProfile.cs</DependentUpon>

@@ -54,6 +54,12 @@ namespace GAVPI
         {
             this.value = value;
         }
+        public VI_Phrase(string name, string value, string comment)
+            : base(name)
+        {
+            this.value = value;
+            this.comment = comment;
+        }
         public override void run()
         {
             foreach (VI_TriggerEvent tevent in TriggerEvents)
