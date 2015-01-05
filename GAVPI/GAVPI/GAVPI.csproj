@@ -87,11 +87,11 @@
     <Compile Include="frm_Add_to_TriggerEvent.Designer.cs">
       <DependentUpon>frm_Add_to_TriggerEvent.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_AddEdit_VI_Data.cs">
+    <Compile Include="frm_AddEdit_Data.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_AddEdit_VI_Data.Designer.cs">
-      <DependentUpon>frm_AddEdit_VI_Data.cs</DependentUpon>
+    <Compile Include="frm_AddEdit_Data.Designer.cs">
+      <DependentUpon>frm_AddEdit_Data.cs</DependentUpon>
     </Compile>
     <Compile Include="frm_AddEdit_LogicalTrigger.cs">
       <SubType>Form</SubType>
@@ -139,8 +139,8 @@
       <DependentUpon>frm_AddEdit_ActionSequence.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_AddEdit_VI_Data.resx">
-      <DependentUpon>frm_AddEdit_VI_Data.cs</DependentUpon>
+    <EmbeddedResource Include="frm_AddEdit_Data.resx">
+      <DependentUpon>frm_AddEdit_Data.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_Add_to_TriggerEvent.resx">
       <DependentUpon>frm_Add_to_TriggerEvent.cs</DependentUpon>
