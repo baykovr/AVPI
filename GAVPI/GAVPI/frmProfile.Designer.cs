@@ -86,6 +86,7 @@
             this.contextDatabase = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitProfile)).BeginInit();
             this.splitProfile.Panel1.SuspendLayout();
@@ -628,22 +629,31 @@
             // 
             this.contextDatabase.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addToolStripMenuItem,
-            this.editToolStripMenuItem2});
+            this.editToolStripMenuItem2,
+            this.deleteToolStripMenuItem3});
             this.contextDatabase.Name = "contextMenuStrip1";
-            this.contextDatabase.Size = new System.Drawing.Size(93, 48);
+            this.contextDatabase.Size = new System.Drawing.Size(153, 92);
             // 
             // addToolStripMenuItem
             // 
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addToolStripMenuItem.Text = "Add";
             this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem2
             // 
             this.editToolStripMenuItem2.Name = "editToolStripMenuItem2";
-            this.editToolStripMenuItem2.Size = new System.Drawing.Size(92, 22);
+            this.editToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
             this.editToolStripMenuItem2.Text = "Edit";
+            this.editToolStripMenuItem2.Click += new System.EventHandler(this.editToolStripMenuItem2_Click);
+            // 
+            // deleteToolStripMenuItem3
+            // 
+            this.deleteToolStripMenuItem3.Name = "deleteToolStripMenuItem3";
+            this.deleteToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem3.Text = "Delete";
+            this.deleteToolStripMenuItem3.Click += new System.EventHandler(this.deleteToolStripMenuItem3_Click);
             // 
             // frmProfile
             // 
@@ -740,5 +750,6 @@
         private System.Windows.Forms.ContextMenuStrip contextDatabase;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem3;
     }
 }

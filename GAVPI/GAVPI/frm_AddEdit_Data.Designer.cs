@@ -48,7 +48,7 @@
             this.txtDataComment.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
             this.txtDataComment.Location = new System.Drawing.Point(14, 134);
             this.txtDataComment.Name = "txtDataComment";
-            this.txtDataComment.Size = new System.Drawing.Size(495, 20);
+            this.txtDataComment.Size = new System.Drawing.Size(494, 20);
             this.txtDataComment.TabIndex = 16;
             // 
             // lblTriggerComment
@@ -76,7 +76,7 @@
             this.txtDataValue.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
             this.txtDataValue.Location = new System.Drawing.Point(177, 82);
             this.txtDataValue.Name = "txtDataValue";
-            this.txtDataValue.Size = new System.Drawing.Size(332, 20);
+            this.txtDataValue.Size = new System.Drawing.Size(331, 20);
             this.txtDataValue.TabIndex = 10;
             // 
             // txtDataName
@@ -86,7 +86,7 @@
             this.txtDataName.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
             this.txtDataName.Location = new System.Drawing.Point(14, 27);
             this.txtDataName.Name = "txtDataName";
-            this.txtDataName.Size = new System.Drawing.Size(495, 20);
+            this.txtDataName.Size = new System.Drawing.Size(494, 20);
             this.txtDataName.TabIndex = 9;
             // 
             // lblDataName
@@ -100,24 +100,26 @@
             // 
             // btnTriggerCancel
             // 
-            this.btnTriggerCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTriggerCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTriggerCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnTriggerCancel.Location = new System.Drawing.Point(434, 160);
+            this.btnTriggerCancel.Location = new System.Drawing.Point(433, 164);
             this.btnTriggerCancel.Name = "btnTriggerCancel";
             this.btnTriggerCancel.Size = new System.Drawing.Size(75, 23);
             this.btnTriggerCancel.TabIndex = 13;
             this.btnTriggerCancel.Text = "Cancel";
             this.btnTriggerCancel.UseVisualStyleBackColor = true;
+            this.btnTriggerCancel.Click += new System.EventHandler(this.btnTriggerCancel_Click);
             // 
             // btnTriggerOk
             // 
-            this.btnTriggerOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTriggerOk.Location = new System.Drawing.Point(353, 160);
+            this.btnTriggerOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTriggerOk.Location = new System.Drawing.Point(352, 164);
             this.btnTriggerOk.Name = "btnTriggerOk";
             this.btnTriggerOk.Size = new System.Drawing.Size(75, 23);
             this.btnTriggerOk.TabIndex = 11;
             this.btnTriggerOk.Text = "Ok";
             this.btnTriggerOk.UseVisualStyleBackColor = true;
+            this.btnTriggerOk.Click += new System.EventHandler(this.btnTriggerOk_Click);
             // 
             // lblDataValue
             // 
@@ -130,6 +132,7 @@
             // 
             // cbDataType
             // 
+            this.cbDataType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDataType.FormattingEnabled = true;
             this.cbDataType.Location = new System.Drawing.Point(15, 82);
             this.cbDataType.Name = "cbDataType";
@@ -140,7 +143,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(521, 192);
+            this.ClientSize = new System.Drawing.Size(520, 200);
             this.Controls.Add(this.cbDataType);
             this.Controls.Add(this.lblDataValue);
             this.Controls.Add(this.txtDataComment);
@@ -152,7 +155,9 @@
             this.Controls.Add(this.btnTriggerCancel);
             this.Controls.Add(this.btnTriggerOk);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(530, 230);
             this.Name = "frm_AddEdit_Data";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Data";
             this.ResumeLayout(false);
             this.PerformLayout();

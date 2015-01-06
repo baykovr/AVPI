@@ -131,5 +131,11 @@ namespace GAVPI
 
         }
         #endregion
+        #region Validation
+        public bool isDataNameTaken(string name_to_check)
+        {
+            return DB.ContainsKey(name_to_check);
+        }
+        #endregion
     }
 }

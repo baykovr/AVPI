@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,10 +20,16 @@ namespace GAVPI
          * manipulate with some primitive functions: set, inc, dec etc.
          * Primary use is for logical triggers which have rely on comparator components.
          */
-        public string name { get; set; } // enforce UNIQ in DB
-        public string type { get; set; }
-        // public: one of {INT,FLOAT,STRING} value
+        public string name  { get; set; }
+        public string type  { get; set; }
+        public object value { get; set; }
         public string comment { get; set; }
+        
+        // Available data types
+        public static List<string> Data_Types = new List<string>(
+            new string[] { 
+                "VI_INT", "VI_FLOAT", "VI_STRING"
+            });
 
         // Operations (all optional)
         // dec by val
@@ -34,37 +41,66 @@ namespace GAVPI
             this.name = name;
             this.comment = comment;
         }
+        public static bool validate(string type, string value)
+        {
+            /* This is practically magic.*/
+            Type thisType = Type.GetType(type);
+            MethodInfo method = thisType.GetMethod("validate");
+            bool result = (bool)method.Invoke(null, new string[]{ value });
+            return result;
+        }
     }
     public partial class VI_INT : VI_Data
     {
-        int value { get; set; }
         public VI_INT(string name, int value, string comment)
             : base(name,comment)
         {
             this.value = value;
             this.type = "VI_INT";
         }
+        public static bool validate(string value)
+        {
+            int test;
+            return int.TryParse(value, out test);
+        }
+        public static object ToObject(string value)
+        {
+            return int.Parse(value);
+        }
     }
     public partial class VI_FLOAT : VI_Data
     {
-        float value { get; set; }
         public VI_FLOAT(string name, float value, string comment)
             : base(name, comment)
         {
             this.value = value;
             this.type = "VI_FLOAT";
         }
-
+        public static bool validate(string value)
+        {
+            float test;
+            return float.TryParse(value, out test);
+        }
+        public static object ToObject(string value)
+        {
+            return float.Parse(value);
+        }
     }
     public partial class VI_STRING : VI_Data
     {
-        string value { get; set; }
         public VI_STRING(string name, string value, string comment)
             : base(name, comment)
         {
             this.value = value;
             this.type = "VI_STRING";
         }
- 
+        public static bool validate(string value)
+        {
+            return !(String.IsNullOrEmpty(value));
+        }
+        public static object ToObject(string value)
+        {
+            return value;
+        }
     }
 }

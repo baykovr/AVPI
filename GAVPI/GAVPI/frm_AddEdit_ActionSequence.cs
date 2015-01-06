@@ -22,7 +22,7 @@ namespace GAVPI
             InitializeComponent();
 
             this.action_sequence = new VI_Action_Sequence("new sequence");
-            populate_sequence();
+            populate_fields();
             edit_mode = false;
         }
         public frm_AddEdit_ActionSequence( VI_Action_Sequence action_sequence )
@@ -30,10 +30,10 @@ namespace GAVPI
             InitializeComponent();
 
             this.action_sequence = action_sequence;
-            populate_sequence();
+            populate_fields();
             edit_mode = true;
         }
-        private void populate_sequence()
+        private void populate_fields()
         {
             cbActSeqActionType.DataSource = VI_Action_Sequence.Action_Types;
             refresh_action_value_choices();

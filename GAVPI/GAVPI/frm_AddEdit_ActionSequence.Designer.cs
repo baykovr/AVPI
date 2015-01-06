@@ -92,7 +92,7 @@
             // 
             this.btnActSeqSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnActSeqSave.Enabled = false;
-            this.btnActSeqSave.Location = new System.Drawing.Point(330, 462);
+            this.btnActSeqSave.Location = new System.Drawing.Point(332, 462);
             this.btnActSeqSave.Name = "btnActSeqSave";
             this.btnActSeqSave.Size = new System.Drawing.Size(75, 23);
             this.btnActSeqSave.TabIndex = 6;
@@ -104,7 +104,7 @@
             // 
             this.btnActSeqCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnActSeqCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnActSeqCancel.Location = new System.Drawing.Point(411, 462);
+            this.btnActSeqCancel.Location = new System.Drawing.Point(413, 462);
             this.btnActSeqCancel.Name = "btnActSeqCancel";
             this.btnActSeqCancel.Size = new System.Drawing.Size(75, 23);
             this.btnActSeqCancel.TabIndex = 7;
@@ -115,9 +115,9 @@
             // btnActSeqAdd
             // 
             this.btnActSeqAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnActSeqAdd.Location = new System.Drawing.Point(411, 26);
+            this.btnActSeqAdd.Location = new System.Drawing.Point(404, 26);
             this.btnActSeqAdd.Name = "btnActSeqAdd";
-            this.btnActSeqAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnActSeqAdd.Size = new System.Drawing.Size(80, 23);
             this.btnActSeqAdd.TabIndex = 8;
             this.btnActSeqAdd.Text = "Add";
             this.btnActSeqAdd.UseVisualStyleBackColor = true;
@@ -146,12 +146,12 @@
             this.stripActionSequence.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeToolStripMenuItem});
             this.stripActionSequence.Name = "contextMenuStrip1";
-            this.stripActionSequence.Size = new System.Drawing.Size(118, 26);
+            this.stripActionSequence.Size = new System.Drawing.Size(113, 26);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
@@ -198,7 +198,7 @@
             this.dgEditActionSequence.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgEditActionSequence.RowHeadersVisible = false;
             this.dgEditActionSequence.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgEditActionSequence.Size = new System.Drawing.Size(467, 401);
+            this.dgEditActionSequence.Size = new System.Drawing.Size(469, 401);
             this.dgEditActionSequence.TabIndex = 11;
             this.dgEditActionSequence.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ActionSequenceList_CellMouseDown);
             // 
@@ -218,13 +218,13 @@
             this.txtActionXTimes.Size = new System.Drawing.Size(110, 20);
             this.txtActionXTimes.TabIndex = 13;
             // 
-            // frmActionSequence
+            // frm_AddEdit_ActionSequence
             // 
             this.AcceptButton = this.btnActSeqSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnActSeqCancel;
-            this.ClientSize = new System.Drawing.Size(494, 493);
+            this.ClientSize = new System.Drawing.Size(496, 493);
             this.Controls.Add(this.txtActionXTimes);
             this.Controls.Add(this.lblActionTimes);
             this.Controls.Add(this.dgEditActionSequence);
@@ -238,8 +238,8 @@
             this.Controls.Add(this.lblActionSequenceName);
             this.Controls.Add(this.txtActionSequenceName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(408, 523);
-            this.Name = "frmActionSequence";
+            this.MinimumSize = new System.Drawing.Size(506, 523);
+            this.Name = "frm_AddEdit_ActionSequence";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Action Sequence";
             this.stripActionSequence.ResumeLayout(false);

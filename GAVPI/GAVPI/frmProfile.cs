@@ -460,13 +460,64 @@ namespace GAVPI
         }
 
         #region Database Context Strip
+        
+        // Add DataItem
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GAVPI.vi_profile.ProfileDB.Insert(new VI_INT("test",1,"asd"));
+            frm_AddEdit_Data newData = new frm_AddEdit_Data();
+
+            if (newData.ShowDialog() == DialogResult.OK)
+            {
+                ProfileEdited();
+                refresh_dgDatabase();
+            }  //  if()
 
             refresh_dgDatabase();
         }
+
+        // Edit DataItem
+        private void editToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (dgDatabase.MultiSelect == true)
+            {
+                throw new NotImplementedException("Editing mutliple data items at once is unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgDatabase.SelectedRows)
+            {
+                VI_Data selected_data = row.DataBoundItem as VI_Data;
+                if (selected_data != null)
+                {
+                    frm_AddEdit_Data newData = new frm_AddEdit_Data(selected_data);
+                    if (newData.ShowDialog() == DialogResult.OK)
+                    {
+                        ProfileEdited();
+                        refresh_dgDatabase();
+                    }  //  if()
+                }
+            }
+        }
+
+        // Delete DataItem
+        private void deleteToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            if (dgDatabase.MultiSelect == true)
+            {
+                throw new NotImplementedException("Editing mutliple data items at once is unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgDatabase.SelectedRows)
+            {
+                VI_Data selected_data = row.DataBoundItem as VI_Data;
+                if (selected_data != null)
+                {
+                    GAVPI.vi_profile.ProfileDB.Remove(selected_data);
+                    ProfileEdited();
+                    refresh_dgDatabase();
+                }
+            }
+        }
         #endregion
+
+       
     }
 
 }
