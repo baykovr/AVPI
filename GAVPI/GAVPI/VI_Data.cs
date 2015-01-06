@@ -19,6 +19,13 @@ namespace GAVPI
          * VI_Data represents a simple data element which we will allow the user to 
          * manipulate with some primitive functions: set, inc, dec etc.
          * Primary use is for logical triggers which have rely on comparator components.
+         * 
+         * WARNING : New partical classes MUST implement static functions:
+         * failure to do so will result in misbehavior or crash in DB form frm_AddEdit_Data.cs
+         *  public static bool validate(string type, string value)
+         *      (return indicates true if string value can be converted to inner value ex: int)
+         *  public static object ToObject(string value)
+         *      (returns converted object to type of inner value ex: int)
          */
         public string name  { get; set; }
         public string type  { get; set; }

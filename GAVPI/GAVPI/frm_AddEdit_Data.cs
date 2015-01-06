@@ -85,16 +85,16 @@ namespace GAVPI
                      */
                     try
                     {
-                        Type new_data_type = Type.GetType(data_type);
+                        
 
                         if (VI_Data.validate(data_type, data_value))
                         {
                             // ex: GAVPI.VI_INT 
-                            Type thisType = Type.GetType(data_type);
+                            Type new_data_type = Type.GetType(data_type);
 
                             // (ToObject) is static method which will cast a string value to 
                             // the appropriate value type.
-                            MethodInfo method = thisType.GetMethod("ToObject");
+                            MethodInfo method = new_data_type.GetMethod("ToObject");
 
                             // invokes the static method, cast_data_value will match value of VI_Data, ex: VI_INT.value is an int
                             object cast_data_value = method.Invoke(null, new string[] { data_value }); 

@@ -34,14 +34,21 @@ namespace GAVPI
         public string voice_info;
         public string pushtotalk_mode;
         public string pushtotalk_key;
+
         public System.Globalization.CultureInfo recognizer_info;
 
         public VI_Settings()
         {
             // Default values
             recognizer_info = CultureInfo.CurrentCulture;
+            
             SpeechSynthesizer synthesizer = new SpeechSynthesizer();
-            voice_info = new SpeechSynthesizer().GetInstalledVoices()[0].VoiceInfo.Name;
+            
+            //Can also get it from her
+            //voice_info = new SpeechSynthesizer().GetInstalledVoices()[0].VoiceInfo.Name;
+
+            voice_info = synthesizer.Voice.Name;
+
             pushtotalk_mode = "Off" ;
             pushtotalk_key  = "Scroll" ;
 

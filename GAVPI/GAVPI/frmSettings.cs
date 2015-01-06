@@ -22,6 +22,13 @@ namespace GAVPI
             MaximizeBox = false;
             this.vi_settings = vi_settings;
 
+            populate_fields();
+
+            // Update fields to show settings loaded from file
+            populate_from_settings();
+        }
+        private void populate_fields()
+        {
             List<String> localizations = new List<String>();
             foreach (RecognizerInfo ri in SpeechRecognitionEngine.InstalledRecognizers())
             {
@@ -38,6 +45,7 @@ namespace GAVPI
             cbSettingsSynthesizer.DataSource = voices;
 
             List<string> audio_devices = new List<string>();
+
             //TODO: actually enumerate audio devices.
             audio_devices.Add("Default Directsound device");
 
@@ -51,19 +59,37 @@ namespace GAVPI
             cbSettingsPushToTalkMode.SelectedItem = vi_settings.pushtotalk_mode;
 
             cbSettingsPushToTalkKey.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();
-            cbSettingsPushToTalkKey.SelectedItem = Enum.Parse(typeof(Keys),vi_settings.pushtotalk_key);
+            cbSettingsPushToTalkKey.SelectedItem = Enum.Parse(typeof(Keys), vi_settings.pushtotalk_key);
+
+        }
+
+        private void populate_from_settings()
+        {
+            cbSettingsLanguage.SelectedItem        = vi_settings.recognizer_info.Name;
+            cbSettingsSynthesizer.SelectedItem     = vi_settings.voice_info;
+            cbSettingsPushToTalkMode.SelectedItem  = vi_settings.pushtotalk_mode;
+            cbSettingsPushToTalkKey.SelectedItem   = vi_settings.pushtotalk_key;
+            // TODO
+            // unhandled recording devices
+            //cbSettingsRecordingDevice.SelectedItem =
+            
         }
 
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
             vi_settings.recognizer_info = new CultureInfo(cbSettingsLanguage.SelectedItem.ToString());
-            vi_settings.voice_info = cbSettingsSynthesizer.SelectedItem.ToString();
+            vi_settings.voice_info      = cbSettingsSynthesizer.SelectedItem.ToString();
             vi_settings.pushtotalk_mode = cbSettingsPushToTalkMode.SelectedItem.ToString();
-            vi_settings.pushtotalk_key = cbSettingsPushToTalkKey.SelectedItem.ToString();
+            vi_settings.pushtotalk_key  = cbSettingsPushToTalkKey.SelectedItem.ToString();
 
             vi_settings.save_settings();
-
             this.Close();
         }
+
+        private void btnSettingsCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        
     }
 }
