@@ -141,8 +141,10 @@
             // 
             // frm_AddEdit_Data
             // 
+            this.AcceptButton = this.btnTriggerOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnTriggerCancel;
             this.ClientSize = new System.Drawing.Size(520, 200);
             this.Controls.Add(this.cbDataType);
             this.Controls.Add(this.lblDataValue);

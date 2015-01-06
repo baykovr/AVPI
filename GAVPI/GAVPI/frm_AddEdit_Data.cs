@@ -49,7 +49,16 @@ namespace GAVPI
             string data_value = txtDataValue.Text.Trim();
             string data_comment = txtDataComment.Text.Trim();
 
-            // Validate
+            // Basic Validation
+            if ( (data_name.Length  == 0) || 
+                 (data_value.Length == 0) ||
+                 (data_type.Length  == 0))
+            {
+                MessageBox.Show("Data name, type or value cannot be blank.");				
+                return;
+            }
+
+
             // Case 1: New Data Item
             if (data_to_edit == null)
             {
@@ -96,13 +105,13 @@ namespace GAVPI
                         }
                         else
                         {
-                            MessageBox.Show(data_value + " is not a valid value for the selected data type.");
+                            invalid_data_value_msg(data_value);
                             return;
                         }
                     }
                     catch
                     {
-                        MessageBox.Show(data_value + " is not a valid value for the selected data type.");
+                        invalid_data_value_msg(data_value);
                         return;
                     }
                 }
@@ -111,11 +120,57 @@ namespace GAVPI
             // Case 2: Existing item (edit mode)
             else
             {
+                GAVPI.vi_profile.ProfileDB.Remove(data_to_edit);
 
+                if (GAVPI.vi_profile.ProfileDB.isDataNameTaken(data_name))
+                {
+                    MessageBox.Show("A data element with this name already exists.");
+                    GAVPI.vi_profile.ProfileDB.Insert(data_to_edit);
+                    return;
+                }
+                else
+                {
+                    data_to_edit.name = data_name;
+                    data_to_edit.type = cbDataType.SelectedItem.ToString();
+                    data_to_edit.comment = data_comment;
 
-              
+                    try
+                    {
+                        Type new_data_type = Type.GetType(data_type);
+
+                        if (VI_Data.validate(data_type, data_value))
+                        {
+                            // ex: GAVPI.VI_INT 
+                            Type thisType = Type.GetType(data_type);
+
+                            // (ToObject) is static method which will cast a string value to 
+                            // the appropriate value type.
+                            MethodInfo method = thisType.GetMethod("ToObject");
+
+                            // invokes the static method, cast_data_value will match value of VI_Data, ex: VI_INT.value is an int
+                            object cast_data_value = method.Invoke(null, new string[] { data_value });
+
+                            data_to_edit.value = cast_data_value;
+
+                            //object data_instance = Activator.CreateInstance(new_data_type, data_name, cast_data_value, data_comment);
+                            //GAVPI.vi_profile.ProfileDB.Insert((VI_Data)data_instance);
+
+                            GAVPI.vi_profile.ProfileDB.Insert(data_to_edit);
+                        }
+                        else
+                        {
+                            invalid_data_value_msg(data_value);
+                            return;
+                        }
+                    }
+                    catch
+                    {
+                        invalid_data_value_msg(data_value);
+                        return;
+                    }
+                }
             }
-            //
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -125,7 +180,10 @@ namespace GAVPI
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
-
-
+        private void invalid_data_value_msg(string data_value)
+        {
+            MessageBox.Show(data_value + " is not a valid value for the selected data type.");
+        }
+        //private 
     }
 }

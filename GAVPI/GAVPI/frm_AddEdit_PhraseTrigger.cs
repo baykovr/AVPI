@@ -51,8 +51,8 @@ namespace GAVPI
 
         private void btnTriggerOk_Click(object sender, EventArgs e)
         {
-
-			this.DialogResult = DialogResult.Cancel;  //  Unless otherwise stated, the Dialog was cancelled by the user.
+            // This causes edit to close the form if validation fails.
+			//this.DialogResult = DialogResult.Cancel;  //  Unless otherwise stated, the Dialog was cancelled by the user.
 
             // Validate fields for name and value
             string trigger_name  = txtTriggerName.Text.Trim();
@@ -60,7 +60,7 @@ namespace GAVPI
             string trigger_comment = txtTriggerComment.Text.Trim();
 
             if ((trigger_name.Length == 0) || (trigger_value.Length == 0)){
-                MessageBox.Show("Blank name and/or value cannot be blank");
+                MessageBox.Show("Trigger name or value cannot be blank.");
 								
                 return;
             }
