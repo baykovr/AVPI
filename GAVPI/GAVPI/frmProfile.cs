@@ -21,6 +21,7 @@ namespace GAVPI
             refresh_dgTriggers();
             refresh_dgActionSequences();
             refresh_dgDatabase();
+            refresh_dgTriggerEvents();
         }
 
         //

@@ -23,7 +23,8 @@ namespace GAVPI
             new string[] { 
                 "KeyDown", "KeyUp", "KeyPress",
                 "MouseKeyDown","MouseKeyUp","MouseKeyPress",
-                "Wait","Speak"
+                "Wait","Speak",
+                "Data Set","Data Speak","Data Decrement","Data Increment"
             });
 
         public string name {get; set;}
@@ -38,7 +39,7 @@ namespace GAVPI
             action_sequence = new List<Action>();
             this.name = name;
             this.type = this.GetType().Name;
-            this.value = "none";
+            this.value = null;
         }
         public List<Action> get_Action_sequence()
         {
@@ -189,4 +190,58 @@ namespace GAVPI
             }
         }
     }
+#region Data Actions
+    public partial class Data_Decrement : Action 
+    {
+        public Data_Decrement( VI_Data data, string value) : base(value) 
+        {
+           
+ 
+        }
+        public override void run()
+        {
+            
+        }
+    }
+    public partial class Data_Increment : Action
+    {
+        public Data_Increment(VI_Data data, string value)
+            : base(value)
+        {
+
+
+        }
+        public override void run()
+        {
+
+        }
+    }
+    public partial class Data_Set : Action
+    {
+        public Data_Set(VI_Data data, string value)
+            : base(value)
+        {
+
+
+        }
+        public override void run()
+        {
+
+        }
+    }
+    public partial class Data_Speak : Action
+    {
+        public Data_Speak(VI_Data data, string value)
+            : base(value)
+        {
+
+
+        }
+        public override void run()
+        {
+
+        }
+    }
+
+#endregion
 }

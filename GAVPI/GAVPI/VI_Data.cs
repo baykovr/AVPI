@@ -59,11 +59,30 @@ namespace GAVPI
     }
     public partial class VI_INT : VI_Data
     {
+        //int value;
         public VI_INT(string name, int value, string comment)
             : base(name,comment)
         {
             this.value = value;
             this.type = "VI_INT";
+        }
+        public void decrement(int val)
+        {
+            // sigh ...
+            int temp_cast = (int)this.value;
+            temp_cast -= val;
+            this.value = temp_cast;
+        }
+        public void increment(int val)
+        {
+            // sigh ...
+            int temp_cast = (int)this.value;
+            temp_cast += val;
+            this.value = temp_cast;
+        }
+        public void set(int val)
+        {
+            this.value = val;
         }
         public static bool validate(string value)
         {
@@ -72,8 +91,18 @@ namespace GAVPI
         }
         public static object ToObject(string value)
         {
-            return int.Parse(value);
+            // Incase someone makes a ToObject call without validation
+            // at all cost don't crash.
+            if (validate(value))
+            {
+                return int.Parse(value);
+            }
+            else
+            {
+                return null;
+            }
         }
+
     }
     public partial class VI_FLOAT : VI_Data
     {
@@ -83,6 +112,24 @@ namespace GAVPI
             this.value = value;
             this.type = "VI_FLOAT";
         }
+        public void decrement(float val)
+        {
+            // sigh ...
+            float temp_cast = (float)this.value;
+            temp_cast -= val;
+            this.value = temp_cast;
+        }
+        public void increment(float val)
+        {
+            // sigh ...
+            float temp_cast = (float)this.value;
+            temp_cast += val;
+            this.value = temp_cast;
+        }
+        public void set(float val)
+        {
+            this.value = val;
+        }
         public static bool validate(string value)
         {
             float test;
@@ -90,7 +137,16 @@ namespace GAVPI
         }
         public static object ToObject(string value)
         {
-            return float.Parse(value);
+            // Incase someone makes a ToObject call without validation
+            // at all cost don't crash.
+            if (validate(value))
+            {
+                return float.Parse(value);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
     public partial class VI_STRING : VI_Data
@@ -100,6 +156,10 @@ namespace GAVPI
         {
             this.value = value;
             this.type = "VI_STRING";
+        }
+        public void set(string val)
+        {
+            this.value = val;
         }
         public static bool validate(string value)
         {

@@ -81,6 +81,12 @@
     <Compile Include="frm_AddEdit_ActionSequence.Designer.cs">
       <DependentUpon>frm_AddEdit_ActionSequence.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_AddEdit_KeyAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_AddEdit_KeyAction.Designer.cs">
+      <DependentUpon>frm_AddEdit_KeyAction.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm_Add_to_TriggerEvent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frm_AddEdit_Data.resx">
       <DependentUpon>frm_AddEdit_Data.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_AddEdit_KeyAction.resx">
+      <DependentUpon>frm_AddEdit_KeyAction.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_Add_to_TriggerEvent.resx">
       <DependentUpon>frm_Add_to_TriggerEvent.cs</DependentUpon>

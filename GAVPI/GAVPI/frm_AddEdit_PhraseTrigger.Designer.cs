@@ -45,7 +45,7 @@
             this.btnTriggerOk.Location = new System.Drawing.Point(270, 181);
             this.btnTriggerOk.Name = "btnTriggerOk";
             this.btnTriggerOk.Size = new System.Drawing.Size(75, 23);
-            this.btnTriggerOk.TabIndex = 3;
+            this.btnTriggerOk.TabIndex = 4;
             this.btnTriggerOk.Text = "Ok";
             this.btnTriggerOk.UseVisualStyleBackColor = true;
             this.btnTriggerOk.Click += new System.EventHandler(this.btnTriggerOk_Click);
@@ -57,7 +57,7 @@
             this.btnTriggerCancel.Location = new System.Drawing.Point(351, 181);
             this.btnTriggerCancel.Name = "btnTriggerCancel";
             this.btnTriggerCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnTriggerCancel.TabIndex = 4;
+            this.btnTriggerCancel.TabIndex = 5;
             this.btnTriggerCancel.Text = "Cancel";
             this.btnTriggerCancel.UseVisualStyleBackColor = true;
             this.btnTriggerCancel.Click += new System.EventHandler(this.btnTriggerCancel_Click);
@@ -89,7 +89,7 @@
             this.txtTriggerValue.Location = new System.Drawing.Point(15, 85);
             this.txtTriggerValue.Name = "txtTriggerValue";
             this.txtTriggerValue.Size = new System.Drawing.Size(411, 20);
-            this.txtTriggerValue.TabIndex = 3;
+            this.txtTriggerValue.TabIndex = 2;
             // 
             // lblTriggerValue
             // 
@@ -117,9 +117,9 @@
             this.txtTriggerComment.Location = new System.Drawing.Point(15, 137);
             this.txtTriggerComment.Name = "txtTriggerComment";
             this.txtTriggerComment.Size = new System.Drawing.Size(411, 20);
-            this.txtTriggerComment.TabIndex = 8;
+            this.txtTriggerComment.TabIndex = 3;
             // 
-            // frmPhraseTrigger
+            // frm_AddEdit_PhraseTrigger
             // 
             this.AcceptButton = this.btnTriggerOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -136,7 +136,7 @@
             this.Controls.Add(this.btnTriggerOk);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(450, 250);
-            this.Name = "frmPhraseTrigger";
+            this.Name = "frm_AddEdit_PhraseTrigger";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trigger";
             this.ResumeLayout(false);
