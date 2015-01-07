@@ -83,13 +83,7 @@ namespace GAVPI
 
         private void refresh_action_value_choices()
         {
-            //if (cbActionType.SelectedItem.ToString() == "KeyDown" ||
-            //    cbActionType.SelectedItem.ToString() == "KeyUp" ||
-            //    cbActionType.SelectedItem.ToString() == "KeyPress")
-            //{
-            //    cbActSeqActionValue.DropDownStyle = ComboBoxStyle.DropDownList;
-            //    cbActSeqActionValue.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();
-            //}
+            
 
             //else if (
             //    cbActionType.SelectedItem.ToString() == "MouseKeyDown" ||
@@ -188,7 +182,7 @@ namespace GAVPI
         {
             // TODO
             // switch on type
-            frm_AddEdit_KeyAction newKeyAction = new frm_AddEdit_KeyAction();
+            frm_AddEdit_PressAction newKeyAction = new frm_AddEdit_PressAction();
             if (newKeyAction.ShowDialog() == DialogResult.OK)
             {
                 ActionSequenceEdited = true;
@@ -300,6 +294,9 @@ namespace GAVPI
         #region Action Add : Edit : Remove
         private void btnAddAction_Click(object sender, EventArgs e)
         {
+            //TODO on type
+            //switch
+            frm_AddEdit_PressAction newPressAction = new frm_AddEdit_PressAction();
 
         }
 

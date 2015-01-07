@@ -1,6 +1,6 @@
 ﻿namespace GAVPI
 {
-    partial class frm_AddEdit_KeyAction
+    partial class frm_AddEdit_PressAction
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_AddEdit_KeyAction));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_AddEdit_PressAction));
             this.lblPressType = new System.Windows.Forms.Label();
             this.cbPressType = new System.Windows.Forms.ComboBox();
             this.lblPressValue = new System.Windows.Forms.Label();
@@ -60,6 +60,7 @@
             this.cbPressType.Name = "cbPressType";
             this.cbPressType.Size = new System.Drawing.Size(283, 21);
             this.cbPressType.TabIndex = 1;
+            this.cbPressType.SelectedIndexChanged += new System.EventHandler(this.cbPressType_SelectedIndexChanged);
             // 
             // lblPressValue
             // 
