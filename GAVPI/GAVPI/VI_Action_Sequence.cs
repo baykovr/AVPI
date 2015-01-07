@@ -31,9 +31,9 @@ namespace GAVPI
         public string type { get; set; }
         public string comment { get; set; }
         public string value { get; set; }
+
         public List<Action> action_sequence;
         
-
         public VI_Action_Sequence(string name)
         {
             action_sequence = new List<Action>();

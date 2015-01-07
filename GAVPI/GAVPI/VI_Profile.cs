@@ -28,8 +28,13 @@ namespace GAVPI
 
         public SpeechSynthesizer synth;
 
-        public List<VI_Trigger> Profile_Triggers;
+       
+        // TODO : This would of made a lot of sense a long time ago, since we enforce 
+        // unique names anyway...
+        //public Dictionary<string, VI_Trigger> Profile_Triggers;
+        //public Dictionary<string, VI_Action_Sequence> Profile_ActionSequences;
 
+        public List<VI_Trigger> Profile_Triggers;
         public List<VI_Action_Sequence> Profile_ActionSequences;
 
         public VI_DB ProfileDB;
@@ -100,9 +105,21 @@ namespace GAVPI
                 return false;
             }
         }
-
         #endregion
 
+        #region Action Sequence Validation Functions
+        public bool isActionSequenceNameTaken(string name_to_check)
+        {
+            if (Profile_ActionSequences.Find(aseq => aseq.name == name_to_check) != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        #endregion
         //
         //  public bool NewProfile()
         //

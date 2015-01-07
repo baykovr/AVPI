@@ -110,6 +110,7 @@
             // txtTimesToAdd
             // 
             this.txtTimesToAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtTimesToAdd.Enabled = false;
             this.txtTimesToAdd.Location = new System.Drawing.Point(12, 123);
             this.txtTimesToAdd.Name = "txtTimesToAdd";
             this.txtTimesToAdd.Size = new System.Drawing.Size(115, 20);
@@ -125,6 +126,7 @@
             this.chckMultiAdd.TabIndex = 13;
             this.chckMultiAdd.Text = "Add Multiple Times";
             this.chckMultiAdd.UseVisualStyleBackColor = true;
+            this.chckMultiAdd.CheckedChanged += new System.EventHandler(this.chckMultiAdd_CheckedChanged);
             // 
             // frm_AddEdit_PressAction
             // 

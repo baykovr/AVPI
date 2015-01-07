@@ -10,23 +10,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GAVPI
-{
-
-    //cbActionSequenceData.DataSource = GAVPI.vi_profile.ProfileDB.DB.Keys.ToList();
-    //cbActionSequenceData.Enabled = true;
-    
+{   
     public partial class frm_AddEdit_ActionSequence : Form
     {
         public bool ActionSequenceEdited;
 
         private VI_Action_Sequence sequence_to_edit;
 
+        private List<Action> actions_to_edit;
+
         public static List<string> Action_Groups = new List<string>(
             new string[] { 
-                "Mouse/Key Press",
-                "Timing (Waiting)",
+                "Key/Mouse Press",
+                "Wait",
                 "Speak Text",
-                "Data Interaction"
+                "Data Action"
             });
 
         public frm_AddEdit_ActionSequence()
@@ -52,25 +50,22 @@ namespace GAVPI
             
             // Null the data grid, later we will bind actions to it (as list)
             dgActionSequence.DataSource = null;
-
-            // set default # times to insert to 1
-            // txtActionXTimes.Text = "1";
-
             
-
             // if we have a sequence to edit, populate the fields with existing values
             if (sequence_to_edit != null)
             {
                 txtActionSequenceName.Text = sequence_to_edit.name;
 
-                dgActionSequence.DataSource = sequence_to_edit.action_sequence.ToList();
+                actions_to_edit = sequence_to_edit.action_sequence.ToList();
 
                 txtActionSequenceComment.Text = sequence_to_edit.comment;
             }
             else
             {
-                /*Leave the present values blank.*/
+                actions_to_edit = new List<Action>();
             }
+
+            dgActionSequence.DataSource = actions_to_edit;
         }
         private void refresh_dgActionSequence()
         {
@@ -83,7 +78,7 @@ namespace GAVPI
 
         private void refresh_action_value_choices()
         {
-            
+            // DEPRECIATED
 
             //else if (
             //    cbActionType.SelectedItem.ToString() == "MouseKeyDown" ||
@@ -130,17 +125,44 @@ namespace GAVPI
 
         private void btnActSeqSave_Click(object sender, EventArgs e)
         {
-            //string new_action_sequence_name = txtActionSequenceName.Text.Trim();
-            //string new_action_sequence_comment = txtActionSequenceComment.Text.Trim();
+            string aseq_name = txtActionSequenceName.Text.Trim();
+            string aseq_comment = txtActionSequenceComment.Text.Trim();
 
-            //if (String.IsNullOrEmpty(new_action_sequence_name))
-            //{
-            //    MessageBox.Show("Blank value in name not allowed");
+            // Validate name field
+            if (String.IsNullOrEmpty(aseq_name))
+            {
+                MessageBox.Show("Blank value in name not allowed");
 
-            //    this.DialogResult = DialogResult.Cancel;				
-				
-            //    return;
-            //}
+                return;
+            }
+            // New Sequence
+            if (sequence_to_edit == null)
+            {
+
+            }
+            // Editing Existing Sequence
+            else
+            {
+                // 
+                GAVPI.vi_profile.Profile_ActionSequences.Remove(sequence_to_edit);
+
+                if (GAVPI.vi_profile.isActionSequenceNameTaken(aseq_name))
+                {
+                    // Reinsert without modifications
+                    GAVPI.vi_profile.Profile_ActionSequences.Add(sequence_to_edit);
+                    MessageBox.Show("An action sequence with this name already exists.");
+                    return;
+                }
+                else
+                {
+                    sequence_to_edit.name = aseq_name;
+                    sequence_to_edit.comment = aseq_comment;
+                    
+                    // TODO : Testing
+                    sequence_to_edit.action_sequence = actions_to_edit;
+                }
+ 
+            }
 
             //foreach (VI_Action_Sequence existing_sequence in GAVPI.vi_profile.Profile_ActionSequences)
             //{
@@ -178,36 +200,21 @@ namespace GAVPI
         }
         
 
-        private void btnActSeqAdd_Click(object sender, EventArgs e)
-        {
+        // void btnActSeqAdd_Click(object sender, EventArgs e)
+        //{
             // TODO
             // switch on type
-            frm_AddEdit_PressAction newKeyAction = new frm_AddEdit_PressAction();
-            if (newKeyAction.ShowDialog() == DialogResult.OK)
-            {
-                ActionSequenceEdited = true;
-                refresh_dgActionSequence();
-            } // if()
+            //frm_AddEdit_PressAction newKeyAction = new frm_AddEdit_PressAction();
+            //if (newKeyAction.ShowDialog() == DialogResult.OK)
+            //{
+            //    ActionSequenceEdited = true;
+               //refresh_dgActionSequence();
+            //} // if()
+
+            
 
             //--
             //Type new_action_type = Type.GetType("GAVPI." + cbActSeqActionType.SelectedItem.ToString());
-
-            //// Number of Times to Add particular action
-            //int times_to_add = 1; //by default it is one unless the check fails
-            //if (Int32.TryParse(txtActionXTimes.Text, out times_to_add))
-            //{
-            //    if (times_to_add <= 0)
-            //    {
-            //        MessageBox.Show("Times to add value cannot be less than or equal to 0.");
-            //        return;
-            //    }
-            //}
-            //else 
-            //{
-            //    MessageBox.Show("Times to add value must be a valid integer greater than one. (Max size 32bits)");
-            //    return;
-            //}
-
 
             //object action_instance;
             //if (new_action_type.ToString() == "GAVPI.Speak")
@@ -254,7 +261,7 @@ namespace GAVPI
             // TODO
 			//this.btnActSeqSave.Enabled = true;
             
-        }
+       // }
 
 
         #region Action Selection
@@ -294,14 +301,38 @@ namespace GAVPI
         #region Action Add : Edit : Remove
         private void btnAddAction_Click(object sender, EventArgs e)
         {
-            //TODO on type
-            //switch
-            frm_AddEdit_PressAction newPressAction = new frm_AddEdit_PressAction();
-            if (newPressAction.ShowDialog() == DialogResult.OK)
+            switch (cbActionType.SelectedItem.ToString())
             {
-                ActionSequenceEdited = true;
-                refresh_dgActionSequence();
+                case "Key/Mouse Press":
+                    {
+                        frm_AddEdit_PressAction newPressAction = new frm_AddEdit_PressAction();
+                        if (newPressAction.ShowDialog() == DialogResult.OK)
+                        {
+                            ActionSequenceEdited = true;
+                            refresh_dgActionSequence();
+                        }
+
+                        break;
+                    }
+                case "Wait":
+                    {
+                        break;
+                    }
+                case "Speak Text":
+                    {
+                        break;
+                    }
+                case "Data Action":
+                    {
+                        break;
+                    }
+                default:
+                    {
+                        MessageBox.Show("WARNING: This action type is not implemented!");
+                        break;
+                    }
             }
+            
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
