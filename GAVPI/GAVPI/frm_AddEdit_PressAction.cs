@@ -12,6 +12,8 @@ namespace GAVPI
 {
     public partial class frm_AddEdit_PressAction : Form
     {
+        public Action action_to_add;
+
         private Action action_to_edit;
 
         public frm_AddEdit_PressAction()
@@ -32,7 +34,7 @@ namespace GAVPI
         public void populate_fields()
         {
             // Populate initial values for drop down boxes.
-            cbPressType.DataSource  = VI_Action_Sequence.Action_Types;
+            cbPressType.DataSource  = VI_Action_Sequence.Press_Types;
             
             // default to keys.
             cbPressValue.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();
@@ -48,27 +50,40 @@ namespace GAVPI
         // UI Event : Type Drop Down Selection has changed
         private void cbPressType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // if the cb selected is one of Key then cbvalues values must be keys
-            // if the cb selected is one of Mouse then cbvalues must be mouse buttons.
-
+            // Set drop down choices appropriately
             if (cbPressType.SelectedItem.ToString() == "KeyDown" ||
-                cbPressType.SelectedItem.ToString() == "KeyUp" ||
+                cbPressType.SelectedItem.ToString() == "KeyUp"   ||
                 cbPressType.SelectedItem.ToString() == "KeyPress")
             {
-
+                // if the cb selected is one of Key then cbvalues values must be keys
                 cbPressValue.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();
             }
             else if (
                 cbPressType.SelectedItem.ToString() == "MouseKeyDown" ||
-                cbPressType.SelectedItem.ToString() == "MouseKeyUp" ||
+                cbPressType.SelectedItem.ToString() == "MouseKeyUp"   ||
                 cbPressType.SelectedItem.ToString() == "MouseKeyPress")
             {
-                cbPressValue.DataSource = Enum.GetValues(typeof(InputManager.Mouse.MouseKeys)).Cast<InputManager.Mouse.MouseKeys>();
+                // if the cb selected is one of Mouse then cbvalues must be mouse buttons.
+                cbPressValue.DataSource = Enum.GetValues(
+                    typeof(InputManager.Mouse.MouseKeys)).Cast<InputManager.Mouse.MouseKeys>();
             }
             else
             {
                 MessageBox.Show("WARNING: This action type is not implemented!");
             }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            action_to_add = null;
+
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 }

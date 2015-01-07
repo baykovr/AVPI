@@ -297,7 +297,11 @@ namespace GAVPI
             //TODO on type
             //switch
             frm_AddEdit_PressAction newPressAction = new frm_AddEdit_PressAction();
-
+            if (newPressAction.ShowDialog() == DialogResult.OK)
+            {
+                ActionSequenceEdited = true;
+                refresh_dgActionSequence();
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -321,5 +325,10 @@ namespace GAVPI
 
         }
         #endregion
+
+        private void dgActionSequence_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

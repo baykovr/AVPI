@@ -94,6 +94,7 @@
             this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnAdd
             // 
@@ -104,11 +105,12 @@
             this.btnAdd.TabIndex = 3;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // txtTimesToAdd
             // 
             this.txtTimesToAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtTimesToAdd.Location = new System.Drawing.Point(12, 124);
+            this.txtTimesToAdd.Location = new System.Drawing.Point(12, 123);
             this.txtTimesToAdd.Name = "txtTimesToAdd";
             this.txtTimesToAdd.Size = new System.Drawing.Size(115, 20);
             this.txtTimesToAdd.TabIndex = 12;
@@ -124,7 +126,7 @@
             this.chckMultiAdd.Text = "Add Multiple Times";
             this.chckMultiAdd.UseVisualStyleBackColor = true;
             // 
-            // frm_AddEdit_KeyAction
+            // frm_AddEdit_PressAction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -140,7 +142,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(381, 186);
             this.MinimumSize = new System.Drawing.Size(381, 186);
-            this.Name = "frm_AddEdit_KeyAction";
+            this.Name = "frm_AddEdit_PressAction";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Key/Mouse Press Action";
             this.ResumeLayout(false);
             this.PerformLayout();

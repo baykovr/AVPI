@@ -61,15 +61,15 @@
             this.txtActionSequenceName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtActionSequenceName.Location = new System.Drawing.Point(105, 6);
+            this.txtActionSequenceName.Location = new System.Drawing.Point(111, 15);
             this.txtActionSequenceName.Name = "txtActionSequenceName";
-            this.txtActionSequenceName.Size = new System.Drawing.Size(348, 20);
+            this.txtActionSequenceName.Size = new System.Drawing.Size(329, 20);
             this.txtActionSequenceName.TabIndex = 1;
             // 
             // lblActionSequenceName
             // 
             this.lblActionSequenceName.AutoSize = true;
-            this.lblActionSequenceName.Location = new System.Drawing.Point(12, 9);
+            this.lblActionSequenceName.Location = new System.Drawing.Point(18, 18);
             this.lblActionSequenceName.Name = "lblActionSequenceName";
             this.lblActionSequenceName.Size = new System.Drawing.Size(87, 13);
             this.lblActionSequenceName.TabIndex = 2;
@@ -78,7 +78,7 @@
             // btnActSeqSave
             // 
             this.btnActSeqSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnActSeqSave.Location = new System.Drawing.Point(459, 551);
+            this.btnActSeqSave.Location = new System.Drawing.Point(365, 551);
             this.btnActSeqSave.Name = "btnActSeqSave";
             this.btnActSeqSave.Size = new System.Drawing.Size(75, 23);
             this.btnActSeqSave.TabIndex = 6;
@@ -90,9 +90,9 @@
             // 
             this.btnActSeqCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnActSeqCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnActSeqCancel.Location = new System.Drawing.Point(545, 551);
+            this.btnActSeqCancel.Location = new System.Drawing.Point(446, 551);
             this.btnActSeqCancel.Name = "btnActSeqCancel";
-            this.btnActSeqCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnActSeqCancel.Size = new System.Drawing.Size(83, 23);
             this.btnActSeqCancel.TabIndex = 7;
             this.btnActSeqCancel.Text = "Cancel";
             this.btnActSeqCancel.UseVisualStyleBackColor = true;
@@ -166,7 +166,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgActionSequence.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgActionSequence.GridColor = System.Drawing.Color.White;
-            this.dgActionSequence.Location = new System.Drawing.Point(12, 58);
+            this.dgActionSequence.Location = new System.Drawing.Point(12, 114);
             this.dgActionSequence.Name = "dgActionSequence";
             this.dgActionSequence.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -179,8 +179,9 @@
             this.dgActionSequence.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgActionSequence.RowHeadersVisible = false;
             this.dgActionSequence.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgActionSequence.Size = new System.Drawing.Size(441, 485);
+            this.dgActionSequence.Size = new System.Drawing.Size(428, 430);
             this.dgActionSequence.TabIndex = 11;
+            this.dgActionSequence.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgActionSequence_CellContentClick);
             this.dgActionSequence.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ActionSequenceList_CellMouseDown);
             // 
             // lblActionSequenceComment
@@ -189,7 +190,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblActionSequenceComment.AutoSize = true;
-            this.lblActionSequenceComment.Location = new System.Drawing.Point(48, 35);
+            this.lblActionSequenceComment.Location = new System.Drawing.Point(54, 44);
             this.lblActionSequenceComment.Name = "lblActionSequenceComment";
             this.lblActionSequenceComment.Size = new System.Drawing.Size(51, 13);
             this.lblActionSequenceComment.TabIndex = 14;
@@ -200,17 +201,17 @@
             this.txtActionSequenceComment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtActionSequenceComment.Location = new System.Drawing.Point(105, 32);
+            this.txtActionSequenceComment.Location = new System.Drawing.Point(111, 41);
             this.txtActionSequenceComment.Name = "txtActionSequenceComment";
-            this.txtActionSequenceComment.Size = new System.Drawing.Size(348, 20);
+            this.txtActionSequenceComment.Size = new System.Drawing.Size(329, 20);
             this.txtActionSequenceComment.TabIndex = 15;
             // 
             // btnMoveUp
             // 
             this.btnMoveUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMoveUp.Location = new System.Drawing.Point(459, 58);
+            this.btnMoveUp.Location = new System.Drawing.Point(446, 114);
             this.btnMoveUp.Name = "btnMoveUp";
-            this.btnMoveUp.Size = new System.Drawing.Size(161, 22);
+            this.btnMoveUp.Size = new System.Drawing.Size(83, 22);
             this.btnMoveUp.TabIndex = 17;
             this.btnMoveUp.Text = "Move Up";
             this.btnMoveUp.UseVisualStyleBackColor = true;
@@ -219,9 +220,9 @@
             // btnMoveDown
             // 
             this.btnMoveDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMoveDown.Location = new System.Drawing.Point(459, 86);
+            this.btnMoveDown.Location = new System.Drawing.Point(446, 142);
             this.btnMoveDown.Name = "btnMoveDown";
-            this.btnMoveDown.Size = new System.Drawing.Size(161, 22);
+            this.btnMoveDown.Size = new System.Drawing.Size(83, 22);
             this.btnMoveDown.TabIndex = 18;
             this.btnMoveDown.Text = "Move Down";
             this.btnMoveDown.UseVisualStyleBackColor = true;
@@ -230,9 +231,9 @@
             // btnEdit
             // 
             this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEdit.Location = new System.Drawing.Point(459, 114);
+            this.btnEdit.Location = new System.Drawing.Point(446, 170);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(161, 22);
+            this.btnEdit.Size = new System.Drawing.Size(83, 22);
             this.btnEdit.TabIndex = 19;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = true;
@@ -241,9 +242,9 @@
             // btnRemove
             // 
             this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemove.Location = new System.Drawing.Point(459, 142);
+            this.btnRemove.Location = new System.Drawing.Point(446, 198);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(161, 22);
+            this.btnRemove.Size = new System.Drawing.Size(83, 22);
             this.btnRemove.TabIndex = 20;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
@@ -251,8 +252,8 @@
             // 
             // btnAddAction
             // 
-            this.btnAddAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddAction.Location = new System.Drawing.Point(319, 551);
+            this.btnAddAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddAction.Location = new System.Drawing.Point(306, 86);
             this.btnAddAction.Margin = new System.Windows.Forms.Padding(5, 5, 5, 25);
             this.btnAddAction.Name = "btnAddAction";
             this.btnAddAction.Size = new System.Drawing.Size(134, 22);
@@ -263,9 +264,9 @@
             // 
             // lblActionType
             // 
-            this.lblActionType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblActionType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblActionType.AutoSize = true;
-            this.lblActionType.Location = new System.Drawing.Point(12, 556);
+            this.lblActionType.Location = new System.Drawing.Point(16, 91);
             this.lblActionType.Name = "lblActionType";
             this.lblActionType.Size = new System.Drawing.Size(89, 13);
             this.lblActionType.TabIndex = 23;
@@ -273,12 +274,12 @@
             // 
             // cbActionType
             // 
-            this.cbActionType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbActionType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbActionType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbActionType.FormattingEnabled = true;
-            this.cbActionType.Location = new System.Drawing.Point(105, 551);
+            this.cbActionType.Location = new System.Drawing.Point(111, 86);
             this.cbActionType.Name = "cbActionType";
-            this.cbActionType.Size = new System.Drawing.Size(206, 21);
+            this.cbActionType.Size = new System.Drawing.Size(187, 21);
             this.cbActionType.TabIndex = 22;
             // 
             // frm_AddEdit_ActionSequence
@@ -287,7 +288,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnActSeqCancel;
-            this.ClientSize = new System.Drawing.Size(627, 586);
+            this.ClientSize = new System.Drawing.Size(541, 586);
             this.Controls.Add(this.btnAddAction);
             this.Controls.Add(this.lblActionType);
             this.Controls.Add(this.cbActionType);
@@ -303,7 +304,7 @@
             this.Controls.Add(this.lblActionSequenceName);
             this.Controls.Add(this.txtActionSequenceName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(637, 616);
+            this.MinimumSize = new System.Drawing.Size(551, 616);
             this.Name = "frm_AddEdit_ActionSequence";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Action Sequence";

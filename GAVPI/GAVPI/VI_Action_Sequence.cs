@@ -19,13 +19,13 @@ namespace GAVPI
 {
     public class VI_Action_Sequence : VI_TriggerEvent
     {
-        public static List<string> Action_Types = new List<string>(
+        public static List<string> Press_Types = new List<string>(
             new string[] { 
                 "KeyDown", "KeyUp", "KeyPress",
-                "MouseKeyDown","MouseKeyUp","MouseKeyPress",
-                "Wait","Speak",
-                "Data Set","Data Speak","Data Decrement","Data Increment"
+                "MouseKeyDown","MouseKeyUp","MouseKeyPress"
             });
+        //"Wait","Speak",
+                //"Data Set","Data Speak","Data Decrement","Data Increment"
 
         public string name {get; set;}
         public string type { get; set; }
