@@ -48,7 +48,7 @@ namespace GAVPI
         public void populate_fields()
         {
             // Populate initial values for drop down boxes.
-            cbPressType.DataSource  = VI_Action_Sequence.Press_Types;
+            cbPressType.DataSource  = VI_Action_Sequence.PressAction_Types;
             
             // default to keys.
             cbPressValue.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();

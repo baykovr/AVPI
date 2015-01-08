@@ -27,7 +27,7 @@ namespace GAVPI
             new string[] { 
                 "Key/Mouse Press",
                 "Wait",
-                "Speak Text",
+                "Speak Action",
                 "Data Action"
             });
 
@@ -229,19 +229,41 @@ namespace GAVPI
                             ActionSequenceEdited = true;
                             refresh_dgActionSequence();
                         }
-
                         break;
                     }
                 case "Wait":
                     {
+                        frm_AddEdit_TimingAction newTimingAction = new frm_AddEdit_TimingAction();
+                        if( newTimingAction.ShowDialog() == DialogResult.OK)
+                        {
+                            if (newTimingAction.get_action() != null)
+                            {
+                                for (int i = 0; i < newTimingAction.get_times_to_add(); i++)
+                                {
+                                    sequence_to_edit.Add(newTimingAction.get_action());
+                                }
+                            }
+                            ActionSequenceEdited = true;
+                            refresh_dgActionSequence();
+                        }
                         break;
                     }
-                case "Speak Text":
+                case "Speak Action":
                     {
+                        frm_AddEdit_SpeakAction newSpeakTextAction = new frm_AddEdit_SpeakAction();
+                        if (newSpeakTextAction.ShowDialog() == DialogResult.OK)
+                        {
+ 
+                        }
                         break;
                     }
                 case "Data Action":
                     {
+                        frm_AddEdit_DataAction newDataAction = new frm_AddEdit_DataAction();
+                        if (newDataAction.ShowDialog() == DialogResult.OK)
+                        {
+
+                        }
                         break;
                     }
                 default:
@@ -263,26 +285,69 @@ namespace GAVPI
             foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
             {
                 Action action_to_edit = row.DataBoundItem as Action;
+                //Action type, ex: "KeyDown , MouseUp, Wait, Data Increment"
+                string action_type = Type.GetType(action_to_edit.ToString()).Name.ToString();
 
+                //index of action in sequence
                 int index = sequence_to_edit.action_sequence.IndexOf(action_to_edit);
 
-                frm_AddEdit_PressAction newPressAction = new frm_AddEdit_PressAction(action_to_edit);
-                if (newPressAction.ShowDialog() == DialogResult.OK)
+                //Key/KeyPress
+                if (VI_Action_Sequence.PressAction_Types.Contains(action_type))
                 {
-                    // if OK pull out edited action
-                    if (newPressAction.get_action() != null)
+                    frm_AddEdit_PressAction newPressAction = new frm_AddEdit_PressAction(action_to_edit);
+                    if (newPressAction.ShowDialog() == DialogResult.OK)
                     {
-                        sequence_to_edit.action_sequence[index] = newPressAction.get_action();
+                        // if OK pull out edited action
+                        if (newPressAction.get_action() != null)
+                        {
+                            sequence_to_edit.action_sequence[index] = newPressAction.get_action();
+                        }
+                        else
+                        {
+                            MessageBox.Show("WARNING: Press form returned an invalid action.");
+                        }
+                        ActionSequenceEdited = true;
+                        refresh_dgActionSequence();
+                        break;
                     }
-                    else
+                }
+                //Speech 
+                else if (VI_Action_Sequence.SpeechAction_Types.Contains(action_type))
+                {
+                    frm_AddEdit_SpeakAction newSpeakAction = new frm_AddEdit_SpeakAction(action_to_edit);
+                    if (newSpeakAction.ShowDialog() == DialogResult.OK)
                     {
-                        MessageBox.Show("WARNING: Press form returned an invalid action.");
+                        // if OK pull out edited action
+                        if (newSpeakAction.get_action() != null)
+                        {
+                            sequence_to_edit.action_sequence[index] = newSpeakAction.get_action();
+                        }
+                        else
+                        {
+                            MessageBox.Show("WARNING: Press form returned an invalid action.");
+                        }
+                        ActionSequenceEdited = true;
+                        refresh_dgActionSequence();
+                        break;
                     }
 
-                    ActionSequenceEdited = true;
-                    refresh_dgActionSequence();
-                    break; //first item only
                 }
+                //Timing (Waiting)
+                else if (VI_Action_Sequence.TimingAction_Types.Contains(action_type))     
+                {
+ 
+                }
+                //DataActions
+                else if (VI_Action_Sequence.DataAction_Types.Contains(action_type))
+                {
+                }
+                // Unknown
+                else
+                {
+
+                }
+
+                
             }
         }
         private void remove()
@@ -296,8 +361,7 @@ namespace GAVPI
             refresh_dgActionSequence();
         }
         #endregion
-
-        #region Action Selection
+        #region UI Selection
         private void ActionSequenceList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -306,7 +370,7 @@ namespace GAVPI
             }
         }
         #endregion
-        #region Action (RightClick) Context Menu
+        #region Action Context Menu (RightClick)
         private void moveUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             moveup();
@@ -347,13 +411,11 @@ namespace GAVPI
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
             moveup();
-
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
             movedown();
-
         }
         #endregion
     }
