@@ -130,9 +130,11 @@
             // 
             // frm_AddEdit_PressAction
             // 
+            this.AcceptButton = this.btnAdd;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(370, 130);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(364, 122);
             this.Controls.Add(this.chckMultiAdd);
             this.Controls.Add(this.txtTimesToAdd);
             this.Controls.Add(this.btnCancel);

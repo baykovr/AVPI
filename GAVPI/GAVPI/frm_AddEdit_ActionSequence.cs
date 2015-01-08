@@ -148,7 +148,7 @@ namespace GAVPI
                 sequence_to_edit.action_sequence.RemoveAt(index);
                 
                 // Check if the new location is at the front
-                if (index - 1 < 0)
+                if (index - 1 <= 0)
                 {
                     sequence_to_edit.action_sequence.Add(action_to_movedown);
                     
@@ -184,13 +184,13 @@ namespace GAVPI
                 sequence_to_edit.action_sequence.RemoveAt(index);
                 
                 // Check if the new location is at the end
-                if (index + 1 > sequence_to_edit.action_sequence.Count)
+                if (index + 1 >= sequence_to_edit.action_sequence.Count)
                 {
                     sequence_to_edit.action_sequence.Add(action_to_movedown);
                     
                     refresh_dgActionSequence();
 
-                    dgActionSequence.CurrentCell = dgActionSequence.Rows[sequence_to_edit.action_sequence.Count].Cells[0];
+                    dgActionSequence.CurrentCell = dgActionSequence.Rows[dgActionSequence.RowCount-1].Cells[0];
                 }
                 else
                 {
