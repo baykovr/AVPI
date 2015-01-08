@@ -62,6 +62,7 @@ namespace GAVPI
             {
                 txtValue.Text = time_value.ToString();
             }
+            txtTimesToAdd.Text = times_to_add.ToString();
  
         }
 
@@ -126,6 +127,18 @@ namespace GAVPI
 
             this.Close();
 
+        }
+
+        private void chckMultiAdd_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chckMultiAdd.Checked)
+            {
+                txtTimesToAdd.Enabled = true;
+            }
+            else
+            {
+                txtTimesToAdd.Enabled = false;
+            }
         }
     }
 }

@@ -86,6 +86,7 @@
             this.chckMultiAdd.TabIndex = 15;
             this.chckMultiAdd.Text = "Add Multiple Times";
             this.chckMultiAdd.UseVisualStyleBackColor = true;
+            this.chckMultiAdd.CheckedChanged += new System.EventHandler(this.chckMultiAdd_CheckedChanged);
             // 
             // txtTimesToAdd
             // 
@@ -98,8 +99,10 @@
             // 
             // frm_AddEdit_TimingAction
             // 
+            this.AcceptButton = this.btnAdd;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(387, 84);
             this.Controls.Add(this.chckMultiAdd);
             this.Controls.Add(this.txtTimesToAdd);
@@ -111,6 +114,7 @@
             this.MaximumSize = new System.Drawing.Size(403, 122);
             this.MinimumSize = new System.Drawing.Size(403, 122);
             this.Name = "frm_AddEdit_TimingAction";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Timing Action";
             this.ResumeLayout(false);
             this.PerformLayout();
