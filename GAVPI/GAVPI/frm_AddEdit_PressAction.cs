@@ -10,12 +10,26 @@ using System.Windows.Forms;
 
 namespace GAVPI
 {
+    /*
+     * Form must garantee form_action is non-null,
+     * validated and correct on form OK exit.
+     * Otherwise form_action is null
+     */
     public partial class frm_AddEdit_PressAction : Form
     {
-        public Action action_to_add;
 
-        private Action action_to_edit;
+        private Action form_action;
 
+        private int times_to_add;
+
+        public Action get_action()
+        {
+            return form_action;
+        }
+        public int get_times_to_add()
+        {
+            return times_to_add; 
+        }
         public frm_AddEdit_PressAction()
         {
             InitializeComponent();
@@ -26,7 +40,7 @@ namespace GAVPI
         {
             InitializeComponent();
             
-            this.action_to_edit = action;
+            this.form_action = action;
 
             populate_fields();
         }
@@ -39,18 +53,46 @@ namespace GAVPI
             // default to keys.
             cbPressValue.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();
 
-            // default times to add
-            txtTimesToAdd.Text = "1";
+            // default times to add is one time.
+            times_to_add = 1;
 
-            // if editing, select current values of existing action.
-            if (action_to_edit != null)
+            txtTimesToAdd.Text = times_to_add.ToString();
+
+
+            if (form_action != null)
             {
+                // if editing, select current values of existing action
+                cbPressType.SelectedItem  = form_action.type.ToString();
+
+                if (form_action.type.ToString() == "KeyDown" ||
+                    form_action.type.ToString() == "KeyUp" ||
+                    form_action.type.ToString() == "KeyPress")
+                {
+                    cbPressValue.SelectedItem = (Keys)Enum.Parse(typeof(Keys), form_action.value.ToString());
+                }
+                else if (form_action.type.ToString() == "MouseKeyDown" ||
+                    form_action.type.ToString() == "MouseKeyUp" ||
+                    form_action.type.ToString() == "MouseKeyPress")
+                {
+                    cbPressValue.SelectedItem =
+                        (InputManager.Mouse.MouseKeys)Enum.Parse(typeof(InputManager.Mouse.MouseKeys),
+                        form_action.value.ToString());
+                }
+                else
+                {
+                    // Something went wrong, just set default values and throw a warning.
+                    MessageBox.Show("WARNING: Editing could set current values of this action.");
+                }
                 // Hide multiple add (since this is an edit on single item)
-                chckMultiAdd.Visible  = false;
+                chckMultiAdd.Visible = false;
                 txtTimesToAdd.Visible = false;
                 
+                btnAdd.Text = "Edit";
             }
+            else
+            {
  
+            }
         }
 
         // UI Event : Type Drop Down Selection has changed
@@ -82,8 +124,7 @@ namespace GAVPI
         private void btnAdd_Click(object sender, EventArgs e)
         {
             // Validate times to add
-            //// Number of Times to Add particular action
-            int times_to_add = 1;
+            // Number of Times to Add particular action
             if (Int32.TryParse(txtTimesToAdd.Text, out times_to_add))
             {
                 if (times_to_add <= 0)
@@ -94,17 +135,27 @@ namespace GAVPI
             }
             else
             {
-                MessageBox.Show("Times to add value must be a valid integer greater than one. (Max size 32bits)");
+                MessageBox.Show("Times to add value must be a valid integer greater than one.");
                 return;
             }
 
-            // -- 
+            // Build the action from current form values
+            Type new_action_type = Type.GetType(
+                "GAVPI." + cbPressType.SelectedItem.ToString());
+            
+            // Set the form action, overriting it with newly created action object.
+            form_action = (Action)Activator.CreateInstance(
+                new_action_type, cbPressValue.SelectedItem.ToString());
+
+            this.DialogResult = DialogResult.OK;
+
+            this.Close();
 
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            action_to_add = null;
+            form_action = null;
 
             this.DialogResult = DialogResult.Cancel;
 

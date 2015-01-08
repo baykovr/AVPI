@@ -31,13 +31,16 @@ namespace GAVPI
         {
             // if no sequence is passed, a new sequence is created.
             InitializeComponent();
+
             populate_fields();
         }
         public frm_AddEdit_ActionSequence( VI_Action_Sequence action_sequence )
         {
             // Passing an action sequence edits the passed sequence.
             InitializeComponent();
+
             this.sequence_to_edit = action_sequence;
+            
             populate_fields();
         }
         private void populate_fields()
@@ -62,6 +65,8 @@ namespace GAVPI
             }
             else
             {
+                this.sequence_to_edit = new VI_Action_Sequence();
+
                 actions_to_edit = new List<Action>();
             }
 
@@ -135,6 +140,8 @@ namespace GAVPI
 
                 return;
             }
+            
+
             // New Sequence
             if (sequence_to_edit == null)
             {
@@ -260,46 +267,88 @@ namespace GAVPI
 			
             // TODO
 			//this.btnActSeqSave.Enabled = true;
-            
-       // }
 
+        // }
 
-        #region Action Selection
-        private void ActionSequenceList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                dgActionSequence.CurrentCell = dgActionSequence.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            }
-        }
-        #endregion
-        #region Action (RightClick) Context Menu
-        private void moveUpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void moveDownToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ////foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
-            ////{
-            ////    Action singleaction = row.DataBoundItem as Action;
-            ////    action_sequence.Remove(singleaction);
-            ////}
-            ////refresh_editactionsequence();
-        }
-        #endregion
         #region Action Add : Edit : Remove
-        private void btnAddAction_Click(object sender, EventArgs e)
+        // These methods are so because we have right click and button UI event methods
+        // no point in copy/pasting the same thing twice.
+        // UI events simply call these functions.
+        private void moveup()
+        {
+            int index = 0;
+
+            foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
+            {
+                Action action_to_movedown = row.DataBoundItem as Action;
+                
+                index = sequence_to_edit.action_sequence.IndexOf(action_to_movedown);
+                
+                // Check if the current location is at the front
+                if (index == 0)
+                {
+                    break;
+                }
+                sequence_to_edit.action_sequence.RemoveAt(index);
+                
+                // Check if the new location is at the front
+                if (index - 1 < 0)
+                {
+                    sequence_to_edit.action_sequence.Add(action_to_movedown);
+                    
+                    refresh_dgActionSequence();
+                }
+                else
+                {
+                    sequence_to_edit.action_sequence.Insert(index - 1, action_to_movedown);
+                    
+                    refresh_dgActionSequence();
+                    
+                    // Select the item just moved.
+                    dgActionSequence.CurrentCell = dgActionSequence.Rows[index - 1].Cells[0];
+                }
+            }
+            ActionSequenceEdited = true;
+        }
+        private void movedown()
+        {
+            foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
+            {
+                Action action_to_movedown = row.DataBoundItem as Action;
+                
+                //sequence_to_edit.Remove(action_to_remove);
+
+                int index = sequence_to_edit.action_sequence.IndexOf(action_to_movedown);
+                
+                // Check if the current location is at the end
+                if (index == sequence_to_edit.action_sequence.Count)
+                {
+                    break;
+                }
+                sequence_to_edit.action_sequence.RemoveAt(index);
+                
+                // Check if the new location is at the end
+                if (index + 1 > sequence_to_edit.action_sequence.Count)
+                {
+                    sequence_to_edit.action_sequence.Add(action_to_movedown);
+                    
+                    refresh_dgActionSequence();
+
+                    dgActionSequence.CurrentCell = dgActionSequence.Rows[sequence_to_edit.action_sequence.Count].Cells[0];
+                }
+                else
+                {
+                    sequence_to_edit.action_sequence.Insert(index + 1, action_to_movedown);
+
+                    refresh_dgActionSequence();
+
+                    dgActionSequence.CurrentCell = dgActionSequence.Rows[index + 1].Cells[0];
+                }
+            }
+            ActionSequenceEdited = true;
+            
+        }
+        private void add()
         {
             switch (cbActionType.SelectedItem.ToString())
             {
@@ -308,6 +357,19 @@ namespace GAVPI
                         frm_AddEdit_PressAction newPressAction = new frm_AddEdit_PressAction();
                         if (newPressAction.ShowDialog() == DialogResult.OK)
                         {
+                            // if OK pull out edited or new action
+                            if (newPressAction.get_action() != null)
+                            {
+                                // Add Multiple Times (default : 1)
+                                for (int i = 0; i < newPressAction.get_times_to_add(); i++)
+                                {
+                                    sequence_to_edit.Add(newPressAction.get_action());
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("WARNING: Press form returned an invalid action.");
+                            }
                             ActionSequenceEdited = true;
                             refresh_dgActionSequence();
                         }
@@ -332,34 +394,111 @@ namespace GAVPI
                         break;
                     }
             }
-            
+ 
+        }
+        private void edit()
+        {
+            // If for some reason multi select is on, just take the first item 
+            // and show warning.
+
+            //TODO, for multi select just remove the items on OK
+            //and insert # removed copies of edited
+
+            foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
+            {
+                Action action_to_edit = row.DataBoundItem as Action;
+
+                int index = sequence_to_edit.action_sequence.IndexOf(action_to_edit);
+
+                frm_AddEdit_PressAction newPressAction = new frm_AddEdit_PressAction(action_to_edit);
+                if (newPressAction.ShowDialog() == DialogResult.OK)
+                {
+                    // if OK pull out edited action
+                    if (newPressAction.get_action() != null)
+                    {
+                        sequence_to_edit.action_sequence[index] = newPressAction.get_action();
+                    }
+                    else
+                    {
+                        MessageBox.Show("WARNING: Press form returned an invalid action.");
+                    }
+
+                    ActionSequenceEdited = true;
+                    refresh_dgActionSequence();
+                    break; //first item only
+                }
+            }
+        }
+        private void remove()
+        {
+            foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
+            {
+                Action action_to_remove = row.DataBoundItem as Action;
+                sequence_to_edit.Remove(action_to_remove);
+            }
+            ActionSequenceEdited = true;
+            refresh_dgActionSequence();
+        }
+        #endregion
+
+        #region Action Selection
+        private void ActionSequenceList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                dgActionSequence.CurrentCell = dgActionSequence.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            }
+        }
+        #endregion
+        #region Action (RightClick) Context Menu
+        private void moveUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            moveup();
+        }
+
+        private void moveDownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            movedown();
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            edit();
+        }
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            remove();
+        }
+        #endregion
+        #region UI Action Add : Edit : Remove
+        private void btnAddAction_Click(object sender, EventArgs e)
+        {
+            add();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-
+            edit();
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
+            remove();
 
         }
         #endregion
         #region Action Ordering
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
+            moveup();
 
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
+            movedown();
 
         }
         #endregion
-
-        private void dgActionSequence_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 }

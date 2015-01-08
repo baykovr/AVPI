@@ -30,16 +30,28 @@ namespace GAVPI
         public string name {get; set;}
         public string type { get; set; }
         public string comment { get; set; }
-        public string value { get; set; }
+
+        //sequences do not use value, but must have it as part of TriggerEvent interface
+        public string value { get; set; } 
 
         public List<Action> action_sequence;
-        
+
+        public VI_Action_Sequence()
+        {
+            action_sequence = new List<Action>();
+            this.name  = "new sequence";
+            this.type  = this.GetType().Name;
+            this.value = null;
+            this.comment = "";
+        }
+
         public VI_Action_Sequence(string name)
         {
             action_sequence = new List<Action>();
             this.name = name;
             this.type = this.GetType().Name;
             this.value = null;
+            this.comment = "";
         }
         public List<Action> get_Action_sequence()
         {

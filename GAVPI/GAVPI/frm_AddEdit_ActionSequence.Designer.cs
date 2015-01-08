@@ -167,6 +167,7 @@
             this.dgActionSequence.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgActionSequence.GridColor = System.Drawing.Color.White;
             this.dgActionSequence.Location = new System.Drawing.Point(12, 114);
+            this.dgActionSequence.MultiSelect = false;
             this.dgActionSequence.Name = "dgActionSequence";
             this.dgActionSequence.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -181,7 +182,6 @@
             this.dgActionSequence.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgActionSequence.Size = new System.Drawing.Size(428, 430);
             this.dgActionSequence.TabIndex = 11;
-            this.dgActionSequence.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgActionSequence_CellContentClick);
             this.dgActionSequence.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ActionSequenceList_CellMouseDown);
             // 
             // lblActionSequenceComment
