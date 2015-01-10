@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Drawing;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,23 +8,28 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ComponentModel;
 using TrivialLogging;
+using TrivialMRUMenu;
+using System.Text;
+using System.Reflection;
 
 namespace GAVPI
 {
     static class GAVPI
     {
 
-        //  The application's system-wide unique ID to facilitate single-instancing (see Mutex, later).
+        //  The application's title, and a system-wide unique ID to facilitate single-instancing (see Mutex,
+        //  later).
+       
+        const string APPLICATION_TITLE = "GAVPI";
 
-        const string APPLICATION_ID = "Global\\" + "{c3ab185c-d7f7-4bf9-bc81-0f0e93d52ac3}";
-        
+        const string APPLICATION_ID = "Global\\" + "{c3ab185c-d7f7-4bf9-bc81-0f0e93d52ac3}";       
+
         //  A message sent via IPC to an existing application instance.
 
         public static int WM_OPEN_EXISTING_INSTANCE;
         
-        //
-        //  The application global configuration settings, voice recognition grammar and voice recognition engine.
-        //
+        //  The application global configuration settings, voice recognition grammar and voice recognition
+        //  engine.
 
         public static VI_Settings vi_settings;
         public static VI_Profile vi_profile;
@@ -33,9 +39,27 @@ namespace GAVPI
         private static frmGAVPI MainForm;
         private static frmProfile ProfileEditor;
 
-        //  Our running Log...
+        //  Our running Log and the Most Recently Used Profile list.
 
         public static Logging< string > Log;
+
+        private static MRU ProfileMRU;
+
+        //  We maintain a system tray icon and context menu...
+        
+        private static NotifyIcon sysTrayIcon;
+        private static ContextMenu sysTrayMenu;
+
+        //  Our system tray context menu items are declared for convenience.  If we add or remove items at some
+        //  point, let's reflect that here.
+
+        private static int OPEN_PROFILE_MENU_ITEM   = 1;
+        private static int MODIFY_PROFILE_MENU_ITEM = 2;
+        private static int OPEN_LOG_MENU_ITEM       = 4;
+        private static int LISTEN_MENU_ITEM         = 6;
+        private static int STOP_LISTENING_MENU_ITEM = 7;
+        
+
 
         /// <summary>
         /// The main entry point for the application.
@@ -52,7 +76,7 @@ namespace GAVPI
 
                 Log = new Logging< string >( GAVPI.OnLogMessage );
 
-            } catch(Exception e) { throw; }
+            } catch( Exception ) { throw; }
 
             vi_settings = new VI_Settings();
             vi_profile = new VI_Profile( null );
@@ -108,9 +132,49 @@ namespace GAVPI
 
             }  //  if()
 
-            MainForm = new frmGAVPI();
+            //
+            //  A system tray icon and associated menu offers an alternative UI, providing the key functionality
+            //  of the application in a convenient menu.
+            //
+            //  So, let's set the Tray Icon's tooltip name, use an instance of the application's icon (from the
+            //  project's resources, and provide a handler for when a user double-clicks the system tray icon.
 
-            Application.Run( MainForm );
+            sysTrayIcon = new NotifyIcon();
+
+            sysTrayIcon.Icon  = Properties.Resources.gavpi;
+            sysTrayIcon.Visible = true;
+            sysTrayIcon.DoubleClick += new System.EventHandler( OnDoubleClickIcon );
+            sysTrayIcon.Text = APPLICATION_TITLE;
+
+            //  Our system tray icon's context menu consists of items that may be enabled or disabled depending
+            //  on the available workflow.  By default, however, their initial states should be as declared.
+
+            sysTrayMenu = new ContextMenu();
+
+            //  Our MRU menu.  We'll add it to the top of the system tray icon's context menu.
+
+            ProfileMRU = new MRU( "Recent", OnMRUListItem );
+            
+            sysTrayMenu.MenuItems.Add( ProfileMRU.GetMenu() );
+            sysTrayMenu.MenuItems.Add( "Open Profile", LoadProfile );
+            sysTrayMenu.MenuItems.Add( "Modify", OpenProfileEditor ).Enabled = false;
+            sysTrayMenu.MenuItems.Add( "-" );
+            sysTrayMenu.MenuItems.Add( "Show Log", OpenMainWindow );
+            sysTrayMenu.MenuItems.Add( "-" );
+            sysTrayMenu.MenuItems.Add( "Listen", StartListening ).Enabled = false;
+            sysTrayMenu.MenuItems.Add( "Stop", StopListening ).Enabled = false;
+            sysTrayMenu.MenuItems.Add( "-" );
+            sysTrayMenu.MenuItems.Add( "Exit", Exit );
+
+            //  And now we can attach the menu to the system tray icon.
+
+            sysTrayIcon.ContextMenu = sysTrayMenu;
+
+            //  Now let's load the MRU items before running the application propper.
+
+            ProfileMRU.Deserialize();
+
+            Application.Run();
 
             //  We don't want the garbage collector to think our Mutex is up for grabs before we close the program,
             //  so let's protect it.
@@ -124,6 +188,47 @@ namespace GAVPI
 
 
         //
+        //  static private void Exit( object, EventArgs )
+        //
+        //  Our application exit routine, conveniently wrapped up in an event handler object (making it idea
+        //  for calling from a UI element).
+        //
+
+        static private void Exit( object SelectedMenuItem, EventArgs e )
+        {
+
+            if( vi_profile.IsEdited() ) NotifyUnsavedChanges();
+
+            //  Let's serialise the MRU before oblivion.
+
+            ProfileMRU.Serialize();
+
+            //  And get rid of the system tray icon.
+
+            sysTrayIcon.Dispose();
+
+            Application.Exit();
+
+        }  //  static private void Exit( object, EventArgs )
+
+
+
+        //
+        //  static private void OnDoubleClickIcon( object, EventArgs )
+        //
+        //  When the system tray icon is double-click by the user, let's display the main window.
+        //
+
+        static private void OnDoubleClickIcon( object sender, EventArgs e )
+        {
+
+            OpenMainWindow( sysTrayMenu.MenuItems[ OPEN_LOG_MENU_ITEM ], null );
+            
+        }  //   static private void OnDoubleClickIcon( object, EventArgs )
+
+
+
+        //
         //  static public void OnLogMessage( string )
         //
         //  Our logging class accepts OnLogMessage as a callback function, where we request that frmGAVPI update
@@ -133,38 +238,80 @@ namespace GAVPI
         static public void OnLogMessage( string loggedMessage )
         {
 
-            if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
-                MainForm.RefreshUI( null );              
+            if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 ) MainForm.RefreshUI( null );              
             
         }  //  static public void OnLogMessage( string )
 
 
-        
+
         //
-        //  static public bool StartListening()
+        //  static public void OnMRUListItem( MRU.MRUItem )
         //
-        //  Returning boolean success or failure, StartListening() attempts to establish command recognition.
+        //  Our MRU management class accepts OnMRUListItem as a callback function, informing the user of the
+        //  MRU item that was selected.  An object of type MRU.MRUItem is passed as the only argument.
         //
 
-        static public bool StartListening()
+        static public void OnMRUListItem( MRU.MRUItem item )
+        {
+        
+           LoadProfile( ( string ) item.ItemData );
+
+        }  //  static public void OnMRUListItem( MRU.MRUItem )
+
+
+
+        //
+        //  static public string GetStatusString()
+        //
+        //  Build a string based on the state of the voice recognition engine, the loaded profile and its
+        //  edited state.  This string is typically displayed within the status bar of prominent forms, like
+        //  frmGAVPI and frmProfile.
+        //
+
+        static public string GetStatusString()
+        {                  
+        
+            return ( vi.IsListening ? "LISTENING:" : "NOT LISTENING:" ) + " " +
+                   ( vi_profile.IsEdited() ? " [UNSAVED] " : " " ) +
+                   Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() );
+        
+        }  //  static public string GetStatusString()
+
+        
+
+        //
+        //  static public void StartListening()
+        //
+        //  StartListening() attempts to establish command recognition.
+        //
+
+        static public void StartListening( object SelectedMenuItem, EventArgs e )
         {
 
-            //  If we're not already listening on voice commands, try to start listening (this is a sanity check
-            //  that we shouldn't need, but to hell with it)...
+            //  If we're not already listening on voice commands, try to start listening (this is a sanity
+            //  check that we shouldn't need, but to hell with it)...
 
-            if( vi.IsListening ) return true;
-
-            if( !vi.load_listen() ) return false;
+            if( vi.IsListening || !vi.load_listen() ) return;
             
             //  Update the main form's UI to reflect the listening state.
 
             if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
-                MainForm.RefreshUI( "LISTENING:" + ( vi_profile.IsEdited() ? " [UNSAVED] " : " " ) +
-                    Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );
-
-            return true;
+                MainForm.RefreshUI( GetStatusString() );
             
-        }  //  static public bool StartListening()
+            //  ...And mirror the state in the system tray menu...
+
+            sysTrayMenu.MenuItems[ LISTEN_MENU_ITEM ].Enabled = false;
+            sysTrayMenu.MenuItems[ STOP_LISTENING_MENU_ITEM ].Enabled = true;
+
+            //  ...Then disable the option to modify the Profile from the system tray...
+
+            sysTrayMenu.MenuItems[ MODIFY_PROFILE_MENU_ITEM ].Enabled = false;
+
+            //  ...While conveniently changing the icon.
+
+            sysTrayIcon.Icon = Properties.Resources.gavpi_listening;          
+
+        }  //  static public void StartListening()
 
 
 
@@ -175,7 +322,7 @@ namespace GAVPI
         //  stops listening for spoken commands.
         //
 
-        static public void StopListening()
+        static public void StopListening( object SelectedMenuItem, EventArgs e )
         {
 
             if( !vi.IsListening ) return;
@@ -188,27 +335,100 @@ namespace GAVPI
             //  Update the main form to reflect the stopped state...
 
             if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
-                MainForm.RefreshUI( "NOT LISTENING:" + ( vi_profile.IsEdited() ? " [UNSAVED] " : " " ) + 
-                    Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );               
+                MainForm.RefreshUI( GetStatusString() );               
+
+            //  Update the system tray menu to reflect the state...
+
+            sysTrayMenu.MenuItems[ LISTEN_MENU_ITEM ].Enabled = true;
+            sysTrayMenu.MenuItems[ STOP_LISTENING_MENU_ITEM ].Enabled = false;
+
+            //  ...And enable to option to edit the Profile from the system tray...
+
+            sysTrayMenu.MenuItems[ MODIFY_PROFILE_MENU_ITEM ].Enabled = true;
+
+            //  ...Then finish up by returning the system tray icon to the application's default.
+
+            sysTrayIcon.Icon = Properties.Resources.gavpi;
 
         }  //  static public void StopListening()
 
 
 
         //
-        //  static public void OpenProfileEditor
+        //  static public void OpenMainWindow( object, EventArgs )
         //
-        //  While not absolutely necessary at the moment, this method is the prefered way of instantiating the
-        //  Profile Editing form frmProfile.
+        //  A convenient sanity-checking method for opening the main window.
         //
 
-        static public void OpenProfileEditor()
+        static public void OpenMainWindow( object SelectedMenuItem, EventArgs e )
+        {
+
+            MainForm = new frmGAVPI();
+
+            if( MainForm == null ) return;
+           
+            //  Let's disable the system tray menu item that allows a user to open the main window (since it
+            //  will already be open.
+
+            sysTrayMenu.MenuItems[ OPEN_LOG_MENU_ITEM ].Enabled = false;
+
+            MainForm.ShowDialog();
+
+            CloseMainForm();
+
+        }  //  static public void OpenMainWindow( object, EventArgs )
+
+
+
+        //
+        //  static public void CloseMainForm()
+        //
+        //  CloseMainForm() is the sanity-checking preferred way of programmatically closing the main form
+        //  window when opened by a call to OpenMainWindow().
+        //
+
+        static public void CloseMainForm()
+        {
+        
+            if( MainForm == null ) return;
+        
+            MainForm.Dispose();
+
+            MainForm = null;
+
+            sysTrayMenu.MenuItems[ OPEN_LOG_MENU_ITEM ].Enabled = true;
+
+        }  //  static public void CloseMainForm()
+
+
+
+        //
+        //  static public void OpenProfileEditor
+        //
+        //  This method is the prefered way of instantiating the Profile editing form, frmProfile.
+        //
+
+        static public void OpenProfileEditor( object SelectedMenuItem, EventArgs e )
         {
 
             ProfileEditor = new frmProfile();
 
             if( ProfileEditor == null ) return;
             
+            //  For now, at least, stop listening if the Profile is in danger of being edited.
+
+            StopListening( null, null );
+
+            //  We don't want the user to be able to open two instances of the Profile editing form, so let's
+            //  disable the system tray menu item.
+
+            sysTrayMenu.MenuItems[ MODIFY_PROFILE_MENU_ITEM ].Enabled = false;
+
+            //  And we don't want the user to be able to listen on commands while we're editing the Profile (at
+            //  least yet)...
+
+            sysTrayMenu.MenuItems[ LISTEN_MENU_ITEM ].Enabled = false;
+
             ProfileEditor.ShowDialog();
 
             CloseProfileEditor();
@@ -222,8 +442,8 @@ namespace GAVPI
         //
         //  static public void CloseProfileEditor()
         //
-        //  CloseProfileEditor is the sanity-checking prefered way of closing the Profile editor form (frmProfile)
-        //  when opened via OpenProfileEditor().
+        //  CloseProfileEditor is the sanity-checking prefered way of closing the Profile editor form
+        //  (frmProfile) when opened via OpenProfileEditor().
         //
 
         static public void CloseProfileEditor()
@@ -234,6 +454,14 @@ namespace GAVPI
             ProfileEditor.Dispose();
 
             ProfileEditor = null;
+
+            //  Let's allow the user to open the Profile editor from within the system tray's menu once more.
+
+            sysTrayMenu.MenuItems[ MODIFY_PROFILE_MENU_ITEM ].Enabled = true;
+
+            //  And let's also allow the user to commence listening on voice recognition commands.
+
+            sysTrayMenu.MenuItems[ LISTEN_MENU_ITEM ].Enabled = true;
 
         }  //  static public void CloseProfileEditor()
 
@@ -272,33 +500,102 @@ namespace GAVPI
         //
         //  A convenient centralised method returning boolean success or failure, LoadProfile directs vi_profile
         //  to read a Profile from disk while ensuring that any currently open form reflects the opened Profile
-        //  status in its UI.  This method considers whether a currently open Profile has been edited yet remains
-        //  unsaved, offering the opportunity to persist the Profile.
+        //  status in its UI.  This method considers whether a currently open Profile has unsaved edits, offering
+        //  the opportunity to persist the Profile.
         //
         //  LoadProfile returns boolean success or failure.
+        //
+
+        static public bool LoadProfile( string filename )
+        {
+          
+            //  Offer to persist any unsaved Profile edits...
+
+            if( vi_profile.IsEdited() && NotifyUnsavedChanges() == false ) return false;
+
+            //  Present the user with a File Open Dialog through which they may choose a Profile to load.
+            
+            if( filename == null ) using( OpenFileDialog profile_dialog = new OpenFileDialog() ) {
+
+                //  Give the Dialog a title and then establish a filter to hide anything that isn't an XML
+                //  file by default.
+
+                profile_dialog.Title = "Select a Profile to open";
+                profile_dialog.Filter = "Profiles (*.XML)|*.XML|All Files (*.*)|*.*";
+                profile_dialog.RestoreDirectory = true;
+
+                if ( profile_dialog.ShowDialog() == DialogResult.Cancel ) return false;
+
+                //  Save the loaded Profile's filename for convenience sake.
+
+                filename = profile_dialog.FileName;
+
+            }  //  if()... using()...
+            
+            //  Attempt to load the given Profile...
+
+            if( !vi_profile.load_profile( filename ) ) return false;
+
+            //  Clear the log before requesting frmGAVPI refresh its UI otherwise the ListBox may remain
+            //  populated.
+
+            Log.Clear();            
+            
+            if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
+                MainForm.RefreshUI( GetStatusString() );
+                
+            if( Application.OpenForms.OfType<frmProfile>().Count() > 0 )
+                ProfileEditor.RefreshUI( GetStatusString() );
+
+            //  Let's enable or disable specific system tray menu items to reflect the application's state,
+            //  and the viable workflow.  Finish by updating the system tray icon's tooltip to reflect the
+            //  loaded Profile.
+
+            sysTrayMenu.MenuItems[ MODIFY_PROFILE_MENU_ITEM ].Enabled = true;
+            
+            sysTrayMenu.MenuItems[ LISTEN_MENU_ITEM ].Enabled = true;
+            sysTrayMenu.MenuItems[ STOP_LISTENING_MENU_ITEM ].Enabled = false;
+
+            sysTrayIcon.Text = APPLICATION_TITLE + ": " +
+                Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() );
+
+            //  And now we can add the loaded Profile to the MRU list.
+
+            ProfileMRU.Add( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ),
+                vi_profile.GetProfileFilename() );
+
+            return true;
+
+        }  //  static public bool LoadProfile()
+
+
+
+        //
+        //  static public void LoadProfile( object, EventArgs )
+        //
+        //  An overloaded instance of LoadProfile( string ), suitable as a menu item click handler.
+        //
+
+        static public void LoadProfile( object SelectedMenuItem, EventArgs e )
+        {
+
+            LoadProfile( null );
+        
+        }  //  static public void LoadProfile( object, EventArgs )
+
+
+
+        //
+        //  static public bool LoadProfile()
+        //
+        //  An overloaded instance of LoadProfile( string ) ideally suited for untargetted Profile loading.
         //
 
         static public bool LoadProfile()
         {
 
-            //  Offer to persist any unsaved Profile edits...
-
-            if (vi_profile.IsEdited() && NotifyUnsavedChanges() == false) return false;
-
-            if( !vi_profile.load_profile() ) return false;
-
-            //  Clear the log before requesting frmGAVPI refresh its UI otherwise the ListBox may remain populated.
-
-            Log.Clear();            
-            
-            if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
-                MainForm.RefreshUI( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );
-                
-            if( Application.OpenForms.OfType<frmProfile>().Count() > 0 )
-                ProfileEditor.RefreshUI( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );
-
-            return true;
-
+            return LoadProfile( null );
+        
         }  //  static public bool LoadProfile()
 
 
@@ -319,7 +616,8 @@ namespace GAVPI
 
             using( SaveFileDialog dialog = new SaveFileDialog() ) {
 
-                //  Give the Dialog a title then establish a default filter to hide anything that isn't an XML file.
+                //  Give the Dialog a title then establish a default filter to hide anything that isn't an XML
+                //  file.
 
                 dialog.Title = "Save your Profile as...";
                 dialog.Filter = "Profiles (*.XML)|*.XML|All Files (*.*)|*.*";
@@ -327,6 +625,16 @@ namespace GAVPI
                 dialog.RestoreDirectory = true;
 
                 if( dialog.ShowDialog() == DialogResult.Cancel ) return false;
+                
+                //  Let's update the system tray icon's tooltip text to reflect the name of the Profile.
+
+                sysTrayIcon.Text = APPLICATION_TITLE + ": " +
+                    Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() );
+               
+                //  And then add the saved Profile to the MRU list.
+
+                ProfileMRU.Add( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ),
+                    vi_profile.GetProfileFilename() );
 
                 return vi_profile.save_profile( dialog.FileName ) ? true : false;
 
@@ -348,6 +656,11 @@ namespace GAVPI
 
             if( vi_profile.IsEmpty() ) return false;
 
+            //  Let's add the saved Profile to the MRU list.
+
+            ProfileMRU.Add( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ),
+                vi_profile.GetProfileFilename() );
+
             return vi_profile.save_profile( vi_profile.GetProfileFilename() ) ? true : false;
 
         }  //  static public bool SaveProfile()
@@ -357,8 +670,9 @@ namespace GAVPI
         //
         //  static public bool NewProfile()
         //
-        //  A convenient stub to vi_profile.NewProfile, returning a boolean value for success or failure.  This
-        //  method offers the user an opportunity to persist an existing Profile if there are unsaved edits.
+        //  A convenient stub to vi_profile.NewProfile, returning a boolean value for success or failure.
+        //  This method offers the user an opportunity to persist an existing Profile if there are unsaved
+        //  edits.
         //
 
         static public bool NewProfile()
@@ -366,12 +680,15 @@ namespace GAVPI
 
             if( vi_profile.IsEdited() && !NotifyUnsavedChanges() ) return false;
 
-            //  Clear the log before requesting frmGAVPI refresh its UI otherwise the ListBox may remain populated.
+            //  Clear the log before requesting frmGAVPI refresh its UI otherwise the ListBox may remain
+            //  unpopulated.
 
             Log.Clear();
 
             if( Application.OpenForms.OfType<frmGAVPI>().Count() > 0 )
-                MainForm.RefreshUI( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ) );
+                MainForm.RefreshUI( GetStatusString() );
+
+            sysTrayMenu.MenuItems[ MODIFY_PROFILE_MENU_ITEM ].Enabled = true;
 
             return vi_profile.NewProfile() ? true : false;
             

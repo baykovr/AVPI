@@ -106,6 +106,7 @@
       <DependentUpon>frmPhraseTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging.cs" />
+    <Compile Include="MRUMenu.cs" />
     <Compile Include="VI_Data.cs" />
     <Compile Include="VI_DB.cs" />
     <Compile Include="VI_Profile.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -166,6 +168,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="gavpi-listening.ico" />
     <Content Include="gavpi.ico" />
   </ItemGroup>
   <ItemGroup>

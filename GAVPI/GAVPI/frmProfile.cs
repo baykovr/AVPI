@@ -39,8 +39,7 @@ namespace GAVPI
 
             //  Reflect the Profile's current state in the Status Bar...
 
-            btmStatusProfile.Text = ( GAVPI.vi_profile.IsEdited() ? "[UNSAVED] " : "") +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );           
+            btmStatusProfile.Text = GAVPI.GetStatusString();          
 
         }  //  private void frmProfile_Load()
 
@@ -327,7 +326,7 @@ namespace GAVPI
 
             if( !GAVPI.NewProfile() ) return;
 
-            RefreshUI( "[UNSAVED] " + Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() ) );
+            RefreshUI( GAVPI.GetStatusString() );
 
             //  The Profile hasn't been edited, so there are no changes to save, therefore let's disable the
             //  File menu's Save As and Save buttons for now.
@@ -385,8 +384,7 @@ namespace GAVPI
 
 			this.saveAsToolStripMenuItem.Enabled = true;
 
-            btmStatusProfile.Text = "[UNSAVED] " +
-                Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() );
+            btmStatusProfile.Text = GAVPI.GetStatusString();
 
 		}  //  private void ProfileEdited()
 
