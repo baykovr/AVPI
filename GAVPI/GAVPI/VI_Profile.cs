@@ -28,8 +28,13 @@ namespace GAVPI
 
         public SpeechSynthesizer synth;
 
-        public List<VI_Trigger> Profile_Triggers;
 
+        // TODO : This would of made a lot of sense a long time ago, since we enforce 
+        // unique names anyway...
+        //public Dictionary<string, VI_Trigger> Profile_Triggers;
+        //public Dictionary<string, VI_Action_Sequence> Profile_ActionSequences;
+
+        public List<VI_Trigger> Profile_Triggers;
         public List<VI_Action_Sequence> Profile_ActionSequences;
 
         public VI_DB ProfileDB;
@@ -40,15 +45,16 @@ namespace GAVPI
             {
                 Profile_Triggers = new List<VI_Trigger>();
                 Profile_ActionSequences = new List<VI_Action_Sequence>();
-                
+                ProfileDB = new VI_DB();
+
 
                 synth = new SpeechSynthesizer(); //used by action Speak
 
                 if (filename != null) 
                 { 
                     load_profile( filename );
-                    
-                }
+
+            }
 
             }
             catch (Exception profile_err)
@@ -101,9 +107,21 @@ namespace GAVPI
                 return false;
             }
         }
-
         #endregion
 
+        #region Action Sequence Validation Functions
+        public bool isActionSequenceNameTaken(string name_to_check)
+        {
+            if (Profile_ActionSequences.Find(aseq => aseq.name == name_to_check) != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        #endregion
         //
         //  public bool NewProfile()
         //
@@ -131,7 +149,7 @@ namespace GAVPI
 
         public bool load_profile( string filename )
         {
-            
+
             if( filename == null ) return false;
 
             //  Reset any states...
@@ -241,6 +259,10 @@ namespace GAVPI
                 }
             }
 			
+            // Load Database Components
+            // DB will parse out the VI_DB tag, allong with its children.
+            ProfileDB = new VI_DB(filename);
+
 			//
 			//  We have successfully loaded the Profile, so retain the Profile's filename for future reference...
 			//

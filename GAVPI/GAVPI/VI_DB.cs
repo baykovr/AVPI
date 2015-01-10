@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace GAVPI
 {
@@ -16,11 +17,10 @@ namespace GAVPI
          * (However we keep the db in a seperate file)
          */
         public string DBFilename;
-        private Dictionary<string, VI_Data> DB;
-
+        public Dictionary<string, VI_Data> DB;
         public VI_DB()
-        { 
-            /*careful here*/
+        {
+            DB = new Dictionary<string, VI_Data>();
         }
         public VI_DB(string filename)
         {
@@ -30,27 +30,45 @@ namespace GAVPI
         #region FileIO
         public void load()
         {
-            XmlDocument dbxml = new XmlDocument();
-            try
+            if (String.IsNullOrEmpty(DBFilename))
             {
-                dbxml.Load(DBFilename);
+                throw new Exception("No database filename specified");
+            }
+            else
+            {
+                this.load(DBFilename);
+            }
 
-                // Attempt to parse and load
-                if (dbxml.DocumentElement.Name != "gavpidb")
-                {
-                    throw new Exception("Malformed settings file expected first tag gavpidb got,"
-                    + dbxml.DocumentElement.Name);
-                }
-                XmlNodeList dbxml_elements = dbxml.DocumentElement.ChildNodes;
-                foreach (XmlNode element in dbxml_elements)
-                {
-                    /*populate dictionary*/
-                }
-            }
-            catch (Exception loading_err)
-            {
-                /*Not good.*/
-            }
+           
+        }
+        public void load(string filename)
+        {
+            //sample code
+            //gavpi_root.Add(new XElement("Student",
+            //           new XElement("FirstName", "David"),
+            //           new XElement("LastName", "Smith")));
+
+            //XmlDocument dbxml = new XmlDocument();
+            //try
+            //{
+            //    dbxml.Load(DBFilename);
+
+            //    // Attempt to parse and load
+            //    if (dbxml.DocumentElement.Name != "gavpidb")
+            //    {
+            //        throw new Exception("Malformed settings file expected first tag gavpidb got,"
+            //        + dbxml.DocumentElement.Name);
+            //    }
+            //    XmlNodeList dbxml_elements = dbxml.DocumentElement.ChildNodes;
+            //    foreach (XmlNode element in dbxml_elements)
+            //    {
+            //        /*populate dictionary*/
+            //    }
+            //}
+            //catch (Exception loading_err)
+            //{
+            //    /*Not good.*/
+            //}
         }
         public void save()
         {
@@ -111,6 +129,12 @@ namespace GAVPI
                 return false; 
             }
 
+        }
+        #endregion
+        #region Validation
+        public bool isDataNameTaken(string name_to_check)
+        {
+            return DB.ContainsKey(name_to_check);
         }
         #endregion
     }

@@ -46,7 +46,7 @@
             // lblSettingsRecognizerLang
             // 
             this.lblSettingsRecognizerLang.AutoSize = true;
-            this.lblSettingsRecognizerLang.Location = new System.Drawing.Point(12, 37);
+            this.lblSettingsRecognizerLang.Location = new System.Drawing.Point(12, 9);
             this.lblSettingsRecognizerLang.Name = "lblSettingsRecognizerLang";
             this.lblSettingsRecognizerLang.Size = new System.Drawing.Size(146, 13);
             this.lblSettingsRecognizerLang.TabIndex = 0;
@@ -55,7 +55,7 @@
             // btnSettingsSave
             // 
             this.btnSettingsSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettingsSave.Location = new System.Drawing.Point(252, 238);
+            this.btnSettingsSave.Location = new System.Drawing.Point(255, 198);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsSave.TabIndex = 2;
@@ -67,17 +67,18 @@
             // 
             this.btnSettingsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSettingsCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnSettingsCancel.Location = new System.Drawing.Point(333, 238);
+            this.btnSettingsCancel.Location = new System.Drawing.Point(336, 198);
             this.btnSettingsCancel.Name = "btnSettingsCancel";
             this.btnSettingsCancel.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsCancel.TabIndex = 3;
             this.btnSettingsCancel.Text = "Cancel";
             this.btnSettingsCancel.UseVisualStyleBackColor = true;
+            this.btnSettingsCancel.Click += new System.EventHandler(this.btnSettingsCancel_Click);
             // 
             // lblSettingsSpeechSynthesizer
             // 
             this.lblSettingsSpeechSynthesizer.AutoSize = true;
-            this.lblSettingsSpeechSynthesizer.Location = new System.Drawing.Point(12, 77);
+            this.lblSettingsSpeechSynthesizer.Location = new System.Drawing.Point(12, 49);
             this.lblSettingsSpeechSynthesizer.Name = "lblSettingsSpeechSynthesizer";
             this.lblSettingsSpeechSynthesizer.Size = new System.Drawing.Size(101, 13);
             this.lblSettingsSpeechSynthesizer.TabIndex = 5;
@@ -89,15 +90,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSettingsSynthesizer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSettingsSynthesizer.FormattingEnabled = true;
-            this.cbSettingsSynthesizer.Location = new System.Drawing.Point(226, 74);
+            this.cbSettingsSynthesizer.Location = new System.Drawing.Point(226, 46);
             this.cbSettingsSynthesizer.Name = "cbSettingsSynthesizer";
-            this.cbSettingsSynthesizer.Size = new System.Drawing.Size(182, 21);
+            this.cbSettingsSynthesizer.Size = new System.Drawing.Size(185, 21);
             this.cbSettingsSynthesizer.TabIndex = 6;
             // 
             // lblSettingsSpeechRecordingDevice
             // 
             this.lblSettingsSpeechRecordingDevice.AutoSize = true;
-            this.lblSettingsSpeechRecordingDevice.Location = new System.Drawing.Point(12, 117);
+            this.lblSettingsSpeechRecordingDevice.Location = new System.Drawing.Point(12, 89);
             this.lblSettingsSpeechRecordingDevice.Name = "lblSettingsSpeechRecordingDevice";
             this.lblSettingsSpeechRecordingDevice.Size = new System.Drawing.Size(93, 13);
             this.lblSettingsSpeechRecordingDevice.TabIndex = 7;
@@ -109,9 +110,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSettingsRecordingDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSettingsRecordingDevice.FormattingEnabled = true;
-            this.cbSettingsRecordingDevice.Location = new System.Drawing.Point(226, 114);
+            this.cbSettingsRecordingDevice.Location = new System.Drawing.Point(226, 86);
             this.cbSettingsRecordingDevice.Name = "cbSettingsRecordingDevice";
-            this.cbSettingsRecordingDevice.Size = new System.Drawing.Size(182, 21);
+            this.cbSettingsRecordingDevice.Size = new System.Drawing.Size(185, 21);
             this.cbSettingsRecordingDevice.TabIndex = 8;
             // 
             // cbSettingsLanguage
@@ -120,9 +121,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSettingsLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSettingsLanguage.FormattingEnabled = true;
-            this.cbSettingsLanguage.Location = new System.Drawing.Point(226, 34);
+            this.cbSettingsLanguage.Location = new System.Drawing.Point(226, 6);
             this.cbSettingsLanguage.Name = "cbSettingsLanguage";
-            this.cbSettingsLanguage.Size = new System.Drawing.Size(182, 21);
+            this.cbSettingsLanguage.Size = new System.Drawing.Size(185, 21);
             this.cbSettingsLanguage.TabIndex = 1;
             // 
             // cbSettingsPushToTalkMode
@@ -131,15 +132,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSettingsPushToTalkMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSettingsPushToTalkMode.FormattingEnabled = true;
-            this.cbSettingsPushToTalkMode.Location = new System.Drawing.Point(226, 154);
+            this.cbSettingsPushToTalkMode.Location = new System.Drawing.Point(226, 126);
             this.cbSettingsPushToTalkMode.Name = "cbSettingsPushToTalkMode";
-            this.cbSettingsPushToTalkMode.Size = new System.Drawing.Size(182, 21);
+            this.cbSettingsPushToTalkMode.Size = new System.Drawing.Size(185, 21);
             this.cbSettingsPushToTalkMode.TabIndex = 10;
             // 
             // lblSettingsPushToTalkMode
             // 
             this.lblSettingsPushToTalkMode.AutoSize = true;
-            this.lblSettingsPushToTalkMode.Location = new System.Drawing.Point(12, 157);
+            this.lblSettingsPushToTalkMode.Location = new System.Drawing.Point(12, 129);
             this.lblSettingsPushToTalkMode.Name = "lblSettingsPushToTalkMode";
             this.lblSettingsPushToTalkMode.Size = new System.Drawing.Size(100, 13);
             this.lblSettingsPushToTalkMode.TabIndex = 9;
@@ -151,15 +152,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSettingsPushToTalkKey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSettingsPushToTalkKey.FormattingEnabled = true;
-            this.cbSettingsPushToTalkKey.Location = new System.Drawing.Point(226, 194);
+            this.cbSettingsPushToTalkKey.Location = new System.Drawing.Point(226, 166);
             this.cbSettingsPushToTalkKey.Name = "cbSettingsPushToTalkKey";
-            this.cbSettingsPushToTalkKey.Size = new System.Drawing.Size(182, 21);
+            this.cbSettingsPushToTalkKey.Size = new System.Drawing.Size(185, 21);
             this.cbSettingsPushToTalkKey.TabIndex = 12;
             // 
             // lblSettingsPushToTalkKey
             // 
             this.lblSettingsPushToTalkKey.AutoSize = true;
-            this.lblSettingsPushToTalkKey.Location = new System.Drawing.Point(12, 197);
+            this.lblSettingsPushToTalkKey.Location = new System.Drawing.Point(12, 169);
             this.lblSettingsPushToTalkKey.Name = "lblSettingsPushToTalkKey";
             this.lblSettingsPushToTalkKey.Size = new System.Drawing.Size(91, 13);
             this.lblSettingsPushToTalkKey.TabIndex = 11;
@@ -171,7 +172,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnSettingsCancel;
-            this.ClientSize = new System.Drawing.Size(420, 273);
+            this.ClientSize = new System.Drawing.Size(423, 233);
             this.Controls.Add(this.cbSettingsPushToTalkKey);
             this.Controls.Add(this.lblSettingsPushToTalkKey);
             this.Controls.Add(this.cbSettingsPushToTalkMode);
@@ -185,7 +186,7 @@
             this.Controls.Add(this.cbSettingsLanguage);
             this.Controls.Add(this.lblSettingsRecognizerLang);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(430, 247);
+            this.MinimumSize = new System.Drawing.Size(433, 263);
             this.Name = "frmSettings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";

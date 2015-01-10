@@ -19,26 +19,55 @@ namespace GAVPI
 {
     public class VI_Action_Sequence : VI_TriggerEvent
     {
-        public static List<string> Action_Types = new List<string>(
+        // These type lists are used to populate ui elements,
+        // their (array string) value must match the class name specified bellow, ex : Action : Data_Set
+        // this is particularly important since the string will be cast to a class instance later.
+
+        public static List<string> PressAction_Types = new List<string>(
             new string[] { 
                 "KeyDown", "KeyUp", "KeyPress",
-                "MouseKeyDown","MouseKeyUp","MouseKeyPress",
-                "Wait","Speak"
+                "MouseKeyDown","MouseKeyUp","MouseKeyPress"
             });
+        public static List<string> SpeechAction_Types = new List<string>(
+            new string[] { 
+               "Speak",
+               "Speak_Data"
+            });
+        public static List<string> TimingAction_Types = new List<string>(
+            new string[] { 
+               "Wait"
+            });
+        public static List<string> DataAction_Types = new List<string>(
+            new string[] { 
+               "Data_Set","Data_Decrement","Data_Increment"
+            });
+                
 
         public string name {get; set;}
         public string type { get; set; }
         public string comment { get; set; }
+
+        //sequences do not use value, but must have it as part of TriggerEvent interface
         public string value { get; set; }
+
         public List<Action> action_sequence;
         
+        public VI_Action_Sequence()
+        {
+            action_sequence = new List<Action>();
+            this.name  = "new sequence";
+            this.type  = this.GetType().Name;
+            this.value = null;
+            this.comment = "";
+        }
 
         public VI_Action_Sequence(string name)
         {
             action_sequence = new List<Action>();
             this.name = name;
             this.type = this.GetType().Name;
-            this.value = "none";
+            this.value = null;
+            this.comment = "";
         }
         public List<Action> get_Action_sequence()
         {
@@ -189,4 +218,58 @@ namespace GAVPI
             }
         }
     }
+    #region Data Actions
+    public partial class Data_Decrement : Action 
+    {
+        public Data_Decrement( VI_Data data, string value) : base(value) 
+        {
+           
+ 
+        }
+        public override void run()
+        {
+            
+        }
+    }
+    public partial class Data_Increment : Action
+    {
+        public Data_Increment(VI_Data data, string value)
+            : base(value)
+        {
+
+
+        }
+        public override void run()
+        {
+
+        }
+    }
+    public partial class Data_Set : Action
+    {
+        public Data_Set(VI_Data data, string value)
+            : base(value)
+        {
+
+
+        }
+        public override void run()
+        {
+
+        }
+    }
+    public partial class Data_Speak : Action
+    {
+        public Data_Speak(VI_Data data, string value)
+            : base(value)
+        {
+
+
+        }
+        public override void run()
+        {
+
+        }
+    }
+
+#endregion
 }

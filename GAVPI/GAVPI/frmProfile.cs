@@ -20,6 +20,8 @@ namespace GAVPI
 
             refresh_dgTriggers();
             refresh_dgActionSequences();
+            refresh_dgDatabase();
+            refresh_dgTriggerEvents();
         }
 
         //
@@ -46,14 +48,20 @@ namespace GAVPI
         private void refresh_dgTriggers()
         {
             dgTriggers.DataSource = null;
-            dgTriggers.DataSource = GAVPI.vi_profile.Profile_Triggers.ToArray();
+            dgTriggers.DataSource = GAVPI.vi_profile.Profile_Triggers.ToList();
 
         }
         private void refresh_dgActionSequences()
         {
             dgActionSequences.DataSource = null;
-            dgActionSequences.DataSource = GAVPI.vi_profile.Profile_ActionSequences.ToArray();
+            dgActionSequences.DataSource = GAVPI.vi_profile.Profile_ActionSequences.ToList();
         }
+        private void refresh_dgDatabase()
+        {
+            dgDatabase.DataSource = null;
+            dgDatabase.DataSource = GAVPI.vi_profile.ProfileDB.DB.Values.ToList();
+        }
+
         private void refresh_dgTriggerEvents()
         {
             List<VI_TriggerEvent> dg_data_trigger_events = new List<VI_TriggerEvent>();
@@ -70,7 +78,7 @@ namespace GAVPI
                 }
             }
             dgTriggerEvents.DataSource = null;
-            dgTriggerEvents.DataSource = dg_data_trigger_events.ToArray();
+            dgTriggerEvents.DataSource = dg_data_trigger_events.ToList();
         }
         private void dgTriggers_SelectionChanged(object sender, EventArgs e)
         {
@@ -90,7 +98,7 @@ namespace GAVPI
             {
                 //In this case an Action_Sequence is added to a Trigger's TriggerEvents List
                 VI_TriggerEvent event_to_add = row.DataBoundItem as VI_TriggerEvent;
-                frmAddtoTriggerEvent newAddtoTriggerEvent = new frmAddtoTriggerEvent( event_to_add );
+                frm_Add_to_TriggerEvent newAddtoTriggerEvent = new frm_Add_to_TriggerEvent( event_to_add );
              	
 				if( newAddtoTriggerEvent.ShowDialog() == DialogResult.OK ) ProfileEdited();
             }
@@ -100,7 +108,7 @@ namespace GAVPI
         // Add New Action Sequence (top menu)
         private void addNewToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            frmActionSequence newActionSequence = new frmActionSequence();
+            frm_AddEdit_ActionSequence newActionSequence = new frm_AddEdit_ActionSequence();
 			
             if( newActionSequence.ShowDialog() == DialogResult.OK ) ProfileEdited();
             
@@ -111,7 +119,7 @@ namespace GAVPI
         // Add New Action Sequence from Context
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            frmActionSequence newActionSequence = new frmActionSequence();
+            frm_AddEdit_ActionSequence newActionSequence = new frm_AddEdit_ActionSequence();
 			
             if( newActionSequence.ShowDialog() == DialogResult.OK ) ProfileEdited();
             
@@ -127,7 +135,7 @@ namespace GAVPI
             foreach (DataGridViewRow row in this.dgActionSequences.SelectedRows)
             {
                 VI_Action_Sequence sequence_to_edit = row.DataBoundItem as VI_Action_Sequence;
-                frmActionSequence newActionSequence = new frmActionSequence( sequence_to_edit );
+                frm_AddEdit_ActionSequence newActionSequence = new frm_AddEdit_ActionSequence( sequence_to_edit );
 				
 				if( newActionSequence.ShowDialog() == DialogResult.OK ) ProfileEdited();				
 				
@@ -173,7 +181,7 @@ namespace GAVPI
             {
                 // In this case it is a Trigger -> Trigger addition
                 VI_TriggerEvent event_to_add = row.DataBoundItem as VI_TriggerEvent;
-                frmAddtoTriggerEvent newAddtoTriggerEvent = new frmAddtoTriggerEvent( event_to_add );
+                frm_Add_to_TriggerEvent newAddtoTriggerEvent = new frm_Add_to_TriggerEvent( event_to_add );
                 
 				if( newAddtoTriggerEvent.ShowDialog() == DialogResult.OK ) ProfileEdited();
 				
@@ -182,7 +190,7 @@ namespace GAVPI
         }
         private void phraseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmPhraseTrigger newTrigger = new frmPhraseTrigger();
+            frm_AddEdit_PhraseTrigger newTrigger = new frm_AddEdit_PhraseTrigger();
             
 			if( newTrigger.ShowDialog() == DialogResult.OK ) {
 			
@@ -207,7 +215,7 @@ namespace GAVPI
                 VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
                 if (selected_trigger != null)
                 {
-                    frmPhraseTrigger newTrigger = new frmPhraseTrigger( selected_trigger );
+                    frm_AddEdit_PhraseTrigger newTrigger = new frm_AddEdit_PhraseTrigger( selected_trigger );
 					
                     if( newTrigger.ShowDialog() == DialogResult.OK ) {
 
@@ -422,6 +430,7 @@ namespace GAVPI
             refresh_dgActionSequences();
             refresh_dgTriggers();
             refresh_dgTriggerEvents();
+            refresh_dgDatabase();
 
             btmStatusProfile.Text = Status;
 
@@ -437,7 +446,7 @@ namespace GAVPI
 
         private void phraseToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            frmPhraseTrigger newTrigger = new frmPhraseTrigger();
+            frm_AddEdit_PhraseTrigger newTrigger = new frm_AddEdit_PhraseTrigger();
 
             if (newTrigger.ShowDialog() == DialogResult.OK)
             {
@@ -448,6 +457,66 @@ namespace GAVPI
 
             }  //  if()
         }
+
+        #region Database Context Strip
+        
+        // Add DataItem
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frm_AddEdit_Data newData = new frm_AddEdit_Data();
+
+            if (newData.ShowDialog() == DialogResult.OK)
+            {
+                ProfileEdited();
+                refresh_dgDatabase();
+            }  //  if()
+
+            refresh_dgDatabase();
+        }
+
+        // Edit DataItem
+        private void editToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (dgDatabase.MultiSelect == true)
+            {
+                throw new NotImplementedException("Editing mutliple data items at once is unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgDatabase.SelectedRows)
+            {
+                VI_Data selected_data = row.DataBoundItem as VI_Data;
+                if (selected_data != null)
+                {
+                    frm_AddEdit_Data newData = new frm_AddEdit_Data(selected_data);
+                    if (newData.ShowDialog() == DialogResult.OK)
+                    {
+                        ProfileEdited();
+                        refresh_dgDatabase();
+                    }  //  if()
+                }
+            }
+        }
+
+        // Delete DataItem
+        private void deleteToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            if (dgDatabase.MultiSelect == true)
+            {
+                throw new NotImplementedException("Editing mutliple data items at once is unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgDatabase.SelectedRows)
+            {
+                VI_Data selected_data = row.DataBoundItem as VI_Data;
+                if (selected_data != null)
+                {
+                    GAVPI.vi_profile.ProfileDB.Remove(selected_data);
+                    ProfileEdited();
+                    refresh_dgDatabase();
+                }
+            }
+        }
+        #endregion
+
+       
     }
 
 }

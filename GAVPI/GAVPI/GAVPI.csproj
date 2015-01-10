@@ -75,17 +75,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmActionSequence.cs">
+    <Compile Include="frm_AddEdit_ActionSequence.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmActionSequence.Designer.cs">
-      <DependentUpon>frmActionSequence.cs</DependentUpon>
+    <Compile Include="frm_AddEdit_ActionSequence.Designer.cs">
+      <DependentUpon>frm_AddEdit_ActionSequence.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAddtoTriggerEvent.cs">
+    <Compile Include="frm_AddEdit_DataAction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddtoTriggerEvent.Designer.cs">
-      <DependentUpon>frmAddtoTriggerEvent.cs</DependentUpon>
+    <Compile Include="frm_AddEdit_DataAction.Designer.cs">
+      <DependentUpon>frm_AddEdit_DataAction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_AddEdit_PressAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_AddEdit_PressAction.Designer.cs">
+      <DependentUpon>frm_AddEdit_PressAction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_AddEdit_SpeakAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_AddEdit_SpeakAction.Designer.cs">
+      <DependentUpon>frm_AddEdit_SpeakAction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_AddEdit_TimingAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_AddEdit_TimingAction.Designer.cs">
+      <DependentUpon>frm_AddEdit_TimingAction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_Add_to_TriggerEvent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Add_to_TriggerEvent.Designer.cs">
+      <DependentUpon>frm_Add_to_TriggerEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_AddEdit_Data.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_AddEdit_Data.Designer.cs">
+      <DependentUpon>frm_AddEdit_Data.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_AddEdit_LogicalTrigger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_AddEdit_LogicalTrigger.Designer.cs">
+      <DependentUpon>frm_AddEdit_LogicalTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="frmProfile.cs">
       <SubType>Form</SubType>
@@ -99,11 +135,11 @@
     <Compile Include="frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmPhraseTrigger.cs">
+    <Compile Include="frm_AddEdit_PhraseTrigger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPhraseTrigger.Designer.cs">
-      <DependentUpon>frmPhraseTrigger.cs</DependentUpon>
+    <Compile Include="frm_AddEdit_PhraseTrigger.Designer.cs">
+      <DependentUpon>frm_AddEdit_PhraseTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging.cs" />
     <Compile Include="MRUMenu.cs" />
@@ -124,15 +160,33 @@
     <Compile Include="VI_Trigger.cs" />
     <Compile Include="VI_TriggerEvent.cs" />
     <Compile Include="Win32_APIs.cs" />
-    <EmbeddedResource Include="frmActionSequence.resx">
-      <DependentUpon>frmActionSequence.cs</DependentUpon>
+    <EmbeddedResource Include="frm_AddEdit_ActionSequence.resx">
+      <DependentUpon>frm_AddEdit_ActionSequence.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddtoTriggerEvent.resx">
-      <DependentUpon>frmAddtoTriggerEvent.cs</DependentUpon>
+    <EmbeddedResource Include="frm_AddEdit_Data.resx">
+      <DependentUpon>frm_AddEdit_Data.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_AddEdit_DataAction.resx">
+      <DependentUpon>frm_AddEdit_DataAction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_AddEdit_PressAction.resx">
+      <DependentUpon>frm_AddEdit_PressAction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_AddEdit_SpeakAction.resx">
+      <DependentUpon>frm_AddEdit_SpeakAction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_AddEdit_TimingAction.resx">
+      <DependentUpon>frm_AddEdit_TimingAction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Add_to_TriggerEvent.resx">
+      <DependentUpon>frm_Add_to_TriggerEvent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGAVPI.resx">
       <DependentUpon>frmGAVPI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_AddEdit_LogicalTrigger.resx">
+      <DependentUpon>frm_AddEdit_LogicalTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmProfile.resx">
       <DependentUpon>frmProfile.cs</DependentUpon>
@@ -140,8 +194,8 @@
     <EmbeddedResource Include="frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPhraseTrigger.resx">
-      <DependentUpon>frmPhraseTrigger.cs</DependentUpon>
+    <EmbeddedResource Include="frm_AddEdit_PhraseTrigger.resx">
+      <DependentUpon>frm_AddEdit_PhraseTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
