@@ -174,6 +174,8 @@ namespace GAVPI
 
             ProfileMRU.Deserialize();
 
+            if( Properties.Settings.Default.ShowGAVPI ) OpenMainWindow( null, null );
+
             Application.Run();
 
             //  We don't want the garbage collector to think our Mutex is up for grabs before we close the program,
@@ -202,6 +204,10 @@ namespace GAVPI
             //  Let's serialise the MRU before oblivion.
 
             ProfileMRU.Serialize();
+
+            //  And persist any of the settings.
+
+            Properties.Settings.Default.Save();
 
             //  And get rid of the system tray icon.
 

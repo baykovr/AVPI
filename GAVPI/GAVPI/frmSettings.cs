@@ -83,12 +83,20 @@ namespace GAVPI
             vi_settings.pushtotalk_key  = cbSettingsPushToTalkKey.SelectedItem.ToString();
 
             vi_settings.save_settings();
+
+            Properties.Settings.Default.Save();
+
             this.Close();
         }
 
         private void btnSettingsCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void StartUpShowMainWindow_CheckedChanged( object sender, EventArgs e ) {
+
+
         }
         
     }

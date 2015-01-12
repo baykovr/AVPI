@@ -41,6 +41,7 @@
             this.lblSettingsPushToTalkMode = new System.Windows.Forms.Label();
             this.cbSettingsPushToTalkKey = new System.Windows.Forms.ComboBox();
             this.lblSettingsPushToTalkKey = new System.Windows.Forms.Label();
+            this.StartUpShowMainWindow = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblSettingsRecognizerLang
@@ -55,7 +56,7 @@
             // btnSettingsSave
             // 
             this.btnSettingsSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettingsSave.Location = new System.Drawing.Point(255, 198);
+            this.btnSettingsSave.Location = new System.Drawing.Point(255, 254);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsSave.TabIndex = 2;
@@ -67,7 +68,7 @@
             // 
             this.btnSettingsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSettingsCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnSettingsCancel.Location = new System.Drawing.Point(336, 198);
+            this.btnSettingsCancel.Location = new System.Drawing.Point(336, 254);
             this.btnSettingsCancel.Name = "btnSettingsCancel";
             this.btnSettingsCancel.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsCancel.TabIndex = 3;
@@ -166,13 +167,27 @@
             this.lblSettingsPushToTalkKey.TabIndex = 11;
             this.lblSettingsPushToTalkKey.Text = "Push-To-Talk key";
             // 
+            // StartUpShowMainWindow
+            // 
+            this.StartUpShowMainWindow.AutoSize = true;
+            this.StartUpShowMainWindow.Checked = global::GAVPI.Properties.Settings.Default.ShowGAVPI;
+            this.StartUpShowMainWindow.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GAVPI.Properties.Settings.Default, "ShowGAVPI", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.StartUpShowMainWindow.Location = new System.Drawing.Point(15, 208);
+            this.StartUpShowMainWindow.Name = "StartUpShowMainWindow";
+            this.StartUpShowMainWindow.Size = new System.Drawing.Size(227, 17);
+            this.StartUpShowMainWindow.TabIndex = 13;
+            this.StartUpShowMainWindow.Text = "Show the main window when GAVPI starts";
+            this.StartUpShowMainWindow.UseVisualStyleBackColor = true;
+            this.StartUpShowMainWindow.CheckedChanged += new System.EventHandler(this.StartUpShowMainWindow_CheckedChanged);
+            // 
             // frmSettings
             // 
             this.AcceptButton = this.btnSettingsSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnSettingsCancel;
-            this.ClientSize = new System.Drawing.Size(423, 233);
+            this.ClientSize = new System.Drawing.Size(423, 289);
+            this.Controls.Add(this.StartUpShowMainWindow);
             this.Controls.Add(this.cbSettingsPushToTalkKey);
             this.Controls.Add(this.lblSettingsPushToTalkKey);
             this.Controls.Add(this.cbSettingsPushToTalkMode);
@@ -209,5 +224,6 @@
         private System.Windows.Forms.Label lblSettingsPushToTalkMode;
         private System.Windows.Forms.ComboBox cbSettingsPushToTalkKey;
         private System.Windows.Forms.Label lblSettingsPushToTalkKey;
+        private System.Windows.Forms.CheckBox StartUpShowMainWindow;
     }
 }
