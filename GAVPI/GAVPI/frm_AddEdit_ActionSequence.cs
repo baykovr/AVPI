@@ -444,6 +444,27 @@ namespace GAVPI
         }
         #endregion
 
+        #region UI : Element Refreshing : dgActionSequence
+        private void refresh_dgActionSequence()
+        {
+            if (sequence_to_edit != null)
+            {
+                dgActionSequence.DataSource = null;
+                dgActionSequence.DataSource = sequence_to_edit.action_sequence.ToList();
+            }
+        }
+        #endregion
+
+        #region UI : Elemenet Click Events : dgActionSequence
+        private void ActionSequenceList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                dgActionSequence.CurrentCell = dgActionSequence.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            }
+        }
+        #endregion
+
         #region UI : Buttons Presses : Save : Cancel
         private void btnActSeqSave_Click(object sender, EventArgs e)
         {
@@ -471,7 +492,6 @@ namespace GAVPI
             else
             {
                 //Name is not taken, add it in.
-
                 sequence_to_edit.name = aseq_name;
                 sequence_to_edit.comment = aseq_comment;
 
@@ -486,27 +506,6 @@ namespace GAVPI
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
-        }
-        #endregion
-
-        #region UI : Element Refreshing : dgActionSequence
-        private void refresh_dgActionSequence()
-        {
-            if (sequence_to_edit != null)
-            {
-                dgActionSequence.DataSource = null;
-                dgActionSequence.DataSource = sequence_to_edit.action_sequence.ToList();
-            }
-        }
-        #endregion
-
-        #region UI : Elemenet Click Events : dgActionSequence
-        private void ActionSequenceList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                dgActionSequence.CurrentCell = dgActionSequence.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            }
         }
         #endregion
     }
