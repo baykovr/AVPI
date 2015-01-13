@@ -48,10 +48,10 @@ namespace GAVPI
         public string comment { get; set; }
 
         //sequences do not use value, but must have it as part of TriggerEvent interface
-        public string value { get; set; } 
+        public string value { get; set; }
 
         public List<Action> action_sequence;
-
+        
         public VI_Action_Sequence()
         {
             action_sequence = new List<Action>();

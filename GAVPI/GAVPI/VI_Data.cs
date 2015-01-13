@@ -55,7 +55,7 @@ namespace GAVPI
             MethodInfo method = thisType.GetMethod("validate");
             bool result = (bool)method.Invoke(null, new string[]{ value });
             return result;
-        }
+    }
     }
     public partial class VI_INT : VI_Data
     {
@@ -96,7 +96,7 @@ namespace GAVPI
             if (validate(value))
             {
                 return int.Parse(value);
-            }
+    }
             else
             {
                 return null;
@@ -142,7 +142,7 @@ namespace GAVPI
             if (validate(value))
             {
                 return float.Parse(value);
-            }
+    }
             else
             {
                 return null;

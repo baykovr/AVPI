@@ -28,7 +28,7 @@ namespace GAVPI
 
         public SpeechSynthesizer synth;
 
-       
+
         // TODO : This would of made a lot of sense a long time ago, since we enforce 
         // unique names anyway...
         //public Dictionary<string, VI_Trigger> Profile_Triggers;
@@ -47,12 +47,14 @@ namespace GAVPI
                 Profile_ActionSequences = new List<VI_Action_Sequence>();
                 ProfileDB = new VI_DB();
 
+
                 synth = new SpeechSynthesizer(); //used by action Speak
 
                 if (filename != null) 
                 { 
-                    load_profile();
-                }
+                    load_profile( filename );
+
+            }
 
             }
             catch (Exception profile_err)
@@ -145,31 +147,10 @@ namespace GAVPI
 
         }  //  public bool NewProfile()
 
-
-        public bool load_profile()
+        public bool load_profile( string filename )
         {
 
-            string filename;
-
-            //
-            //  Present the user with a File Open Dialog through which they may choose a Profile to load.
-            //
-
-            using( OpenFileDialog profile_dialog = new OpenFileDialog() ) {
-
-                //  Give the Dialog a title and then establish a filter to hide anything that isn't an XML file by default.
-
-                profile_dialog.Title = "Select a Profile to open";
-                profile_dialog.Filter = "Profiles (*.XML)|*.XML|All Files (*.*)|*.*";
-                profile_dialog.RestoreDirectory = true;
-
-                if ( profile_dialog.ShowDialog() == DialogResult.Cancel ) return false;
-
-                //  Save the loaded Profile's filename for convenience sake.
-
-                filename = profile_dialog.FileName;
-
-            }
+            if( filename == null ) return false;
 
             //  Reset any states...
 
