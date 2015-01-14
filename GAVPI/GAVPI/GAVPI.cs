@@ -38,6 +38,7 @@ namespace GAVPI
 
         private static frmGAVPI MainForm;
         private static frmProfile ProfileEditor;
+        private static frmSettings SettingsForm;
 
         //  Our running Log and the Most Recently Used Profile list.
 
@@ -58,6 +59,7 @@ namespace GAVPI
         private static int OPEN_LOG_MENU_ITEM       = 4;
         private static int LISTEN_MENU_ITEM         = 6;
         private static int STOP_LISTENING_MENU_ITEM = 7;
+        private static int OPEN_SETTINGS_MENU_ITEM  = 8;
         
 
 
@@ -164,6 +166,8 @@ namespace GAVPI
             sysTrayMenu.MenuItems.Add( "Listen", StartListening ).Enabled = false;
             sysTrayMenu.MenuItems.Add( "Stop", StopListening ).Enabled = false;
             sysTrayMenu.MenuItems.Add( "-" );
+            sysTrayMenu.MenuItems.Add( "Settings", OpenSettings);
+            sysTrayMenu.MenuItems.Add( "-" );
             sysTrayMenu.MenuItems.Add( "Exit", Exit );
 
             //  And now we can attach the menu to the system tray icon.
@@ -175,7 +179,7 @@ namespace GAVPI
             ProfileMRU.Deserialize();
 
             if( Properties.Settings.Default.ShowGAVPI ) OpenMainWindow( null, null );
-
+            
             Application.Run();
 
             //  We don't want the garbage collector to think our Mutex is up for grabs before we close the program,
@@ -470,6 +474,33 @@ namespace GAVPI
             sysTrayMenu.MenuItems[ LISTEN_MENU_ITEM ].Enabled = true;
 
         }  //  static public void CloseProfileEditor()
+
+
+
+        //
+        //  static private void OpenSettings()
+        //
+        //
+        //
+
+        static public void OpenSettings( object SelectedMenuItem, EventArgs e )
+        {
+
+            //  If the Settings form is already open, bring it to the front...
+
+            if( SettingsForm != null ) { 
+            
+                SettingsForm.TopMost = true;
+
+                return;
+
+            }  //  if()
+                        
+            SettingsForm = new frmSettings( vi_settings );
+            
+            SettingsForm.Show();               
+        
+        }  //  static private void OpenSettings()
 
 
 

@@ -171,6 +171,7 @@
             // 
             this.StartUpShowMainWindow.AutoSize = true;
             this.StartUpShowMainWindow.Checked = global::GAVPI.Properties.Settings.Default.ShowGAVPI;
+            this.StartUpShowMainWindow.CheckState = System.Windows.Forms.CheckState.Checked;
             this.StartUpShowMainWindow.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GAVPI.Properties.Settings.Default, "ShowGAVPI", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.StartUpShowMainWindow.Location = new System.Drawing.Point(15, 208);
             this.StartUpShowMainWindow.Name = "StartUpShowMainWindow";
@@ -185,6 +186,7 @@
             this.AcceptButton = this.btnSettingsSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.CancelButton = this.btnSettingsCancel;
             this.ClientSize = new System.Drawing.Size(423, 289);
             this.Controls.Add(this.StartUpShowMainWindow);
@@ -203,7 +205,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(433, 263);
             this.Name = "frmSettings";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";
             this.ResumeLayout(false);
             this.PerformLayout();

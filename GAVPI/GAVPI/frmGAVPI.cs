@@ -156,8 +156,9 @@ namespace GAVPI
         #region Settings
         private void mainStripSettings_Click(object sender, EventArgs e)
         {
-            frmSettings modSettingsFrm = new frmSettings( GAVPI.vi_settings );
-            modSettingsFrm.ShowDialog();
+           
+            GAVPI.OpenSettings( sender, e );
+
         }
         #endregion
 
