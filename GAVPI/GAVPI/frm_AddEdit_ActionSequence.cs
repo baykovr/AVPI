@@ -228,8 +228,6 @@ namespace GAVPI
                 {
 
                 }
-
-                
             }
         }
         #endregion
@@ -296,6 +294,8 @@ namespace GAVPI
                 }
                 ActionSequenceEdited = true;
                 refresh_dgActionSequence();
+                // Bring Selection back to edited element
+                dgActionSequence.CurrentCell = dgActionSequence.Rows[index].Cells[0];
             }
         }
 
@@ -332,6 +332,8 @@ namespace GAVPI
                 }
                 ActionSequenceEdited = true;
                 refresh_dgActionSequence();
+                // Bring Selection back to edited element
+                dgActionSequence.CurrentCell = dgActionSequence.Rows[index].Cells[0];
             }
         }
 
@@ -366,6 +368,9 @@ namespace GAVPI
                 }
                 ActionSequenceEdited = true;
                 refresh_dgActionSequence();
+
+                // Bring Selection back to edited element
+                dgActionSequence.CurrentCell = dgActionSequence.Rows[index].Cells[0];
             }
         }
         #endregion

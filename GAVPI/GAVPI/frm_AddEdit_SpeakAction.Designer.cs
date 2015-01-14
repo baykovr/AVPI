@@ -49,6 +49,7 @@
             this.chckMultiAdd.TabIndex = 21;
             this.chckMultiAdd.Text = "Add Multiple Times";
             this.chckMultiAdd.UseVisualStyleBackColor = true;
+            this.chckMultiAdd.CheckedChanged += new System.EventHandler(this.chckMultiAdd_CheckedChanged);
             // 
             // txtTimesToAdd
             // 
@@ -69,6 +70,7 @@
             this.btnCancel.TabIndex = 19;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnAdd
             // 
@@ -79,6 +81,7 @@
             this.btnAdd.TabIndex = 18;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // lblSpeak
             // 
@@ -136,6 +139,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(398, 222);
             this.Name = "frm_AddEdit_SpeakAction";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Speak Action";
             this.ResumeLayout(false);
             this.PerformLayout();
