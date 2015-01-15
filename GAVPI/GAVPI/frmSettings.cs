@@ -98,6 +98,14 @@ namespace GAVPI
 
 
         }
+
+        private void AutoLoadProfiles_CheckedChanged( object sender, EventArgs e )
+        {
+
+            if( AutoLoadProfiles.Checked ) GAVPI.EnableAutoOpenProfile( sender, e );
+            else GAVPI.DisableAutoOpenProfile( sender, e );
+
+        }
         
     }
 }

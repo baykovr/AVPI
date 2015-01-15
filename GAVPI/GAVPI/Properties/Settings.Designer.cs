@@ -34,5 +34,29 @@ namespace GAVPI.Properties {
                 this["ShowGAVPI"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableAutoOpenProfile {
+            get {
+                return ((bool)(this["EnableAutoOpenProfile"]));
+            }
+            set {
+                this["EnableAutoOpenProfile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableAutoListen {
+            get {
+                return ((bool)(this["EnableAutoListen"]));
+            }
+            set {
+                this["EnableAutoListen"] = value;
+            }
+        }
     }
 }
