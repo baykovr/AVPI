@@ -75,9 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frm_AddEdit_ActionSequence.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="frm_AddEdit_ActionSequence.cs" />
     <Compile Include="frm_AddEdit_ActionSequence.Designer.cs">
       <DependentUpon>frm_AddEdit_ActionSequence.cs</DependentUpon>
     </Compile>
