@@ -34,8 +34,8 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.lblSpeak = new System.Windows.Forms.Label();
-            this.cbSpeechType = new System.Windows.Forms.ComboBox();
             this.cbSpeechValue = new System.Windows.Forms.ComboBox();
+            this.cbSpeechType = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -43,7 +43,7 @@
             // 
             this.chckMultiAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chckMultiAdd.AutoSize = true;
-            this.chckMultiAdd.Location = new System.Drawing.Point(12, 159);
+            this.chckMultiAdd.Location = new System.Drawing.Point(12, 114);
             this.chckMultiAdd.Name = "chckMultiAdd";
             this.chckMultiAdd.Size = new System.Drawing.Size(115, 17);
             this.chckMultiAdd.TabIndex = 21;
@@ -55,7 +55,7 @@
             // 
             this.txtTimesToAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtTimesToAdd.Enabled = false;
-            this.txtTimesToAdd.Location = new System.Drawing.Point(134, 157);
+            this.txtTimesToAdd.Location = new System.Drawing.Point(134, 112);
             this.txtTimesToAdd.Name = "txtTimesToAdd";
             this.txtTimesToAdd.Size = new System.Drawing.Size(72, 20);
             this.txtTimesToAdd.TabIndex = 20;
@@ -64,7 +64,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(293, 157);
+            this.btnCancel.Location = new System.Drawing.Point(297, 112);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(83, 23);
             this.btnCancel.TabIndex = 19;
@@ -75,7 +75,7 @@
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(212, 157);
+            this.btnAdd.Location = new System.Drawing.Point(216, 112);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 18;
@@ -92,27 +92,30 @@
             this.lblSpeak.TabIndex = 16;
             this.lblSpeak.Text = "Speak Item Type";
             // 
-            // cbSpeechType
-            // 
-            this.cbSpeechType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbSpeechType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSpeechType.FormattingEnabled = true;
-            this.cbSpeechType.Location = new System.Drawing.Point(103, 70);
-            this.cbSpeechType.Name = "cbSpeechType";
-            this.cbSpeechType.Size = new System.Drawing.Size(273, 21);
-            this.cbSpeechType.TabIndex = 23;
-            // 
             // cbSpeechValue
             // 
-            this.cbSpeechValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.cbSpeechValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSpeechValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSpeechValue.FormattingEnabled = true;
-            this.cbSpeechValue.Location = new System.Drawing.Point(103, 25);
+            this.cbSpeechValue.Location = new System.Drawing.Point(103, 70);
             this.cbSpeechValue.Name = "cbSpeechValue";
-            this.cbSpeechValue.Size = new System.Drawing.Size(273, 21);
-            this.cbSpeechValue.TabIndex = 24;
+            this.cbSpeechValue.Size = new System.Drawing.Size(277, 21);
+            this.cbSpeechValue.TabIndex = 23;
+            // 
+            // cbSpeechType
+            // 
+            this.cbSpeechType.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbSpeechType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSpeechType.FormattingEnabled = true;
+            this.cbSpeechType.Location = new System.Drawing.Point(103, 25);
+            this.cbSpeechType.Name = "cbSpeechType";
+            this.cbSpeechType.Size = new System.Drawing.Size(277, 21);
+            this.cbSpeechType.TabIndex = 24;
+            this.cbSpeechType.SelectedIndexChanged += new System.EventHandler(this.cbSpeechType_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -127,17 +130,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(388, 192);
+            this.ClientSize = new System.Drawing.Size(392, 147);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.cbSpeechValue);
             this.Controls.Add(this.cbSpeechType);
+            this.Controls.Add(this.cbSpeechValue);
             this.Controls.Add(this.chckMultiAdd);
             this.Controls.Add(this.txtTimesToAdd);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.lblSpeak);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(398, 222);
+            this.MinimumSize = new System.Drawing.Size(402, 177);
             this.Name = "frm_AddEdit_SpeakAction";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Speak Action";
@@ -153,8 +156,8 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Label lblSpeak;
-        private System.Windows.Forms.ComboBox cbSpeechType;
         private System.Windows.Forms.ComboBox cbSpeechValue;
+        private System.Windows.Forms.ComboBox cbSpeechType;
         private System.Windows.Forms.Label label2;
     }
 }

@@ -465,7 +465,10 @@ namespace GAVPI
         {
             if (e.Button == MouseButtons.Right)
             {
-                dgActionSequence.CurrentCell = dgActionSequence.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (dgActionSequence.RowCount > 0)
+                {
+                    dgActionSequence.CurrentCell = dgActionSequence.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                }
             }
         }
         #endregion

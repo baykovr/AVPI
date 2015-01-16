@@ -51,7 +51,6 @@ namespace GAVPI
         }
         #endregion
 
-
         #region UI : Populate 
         private void populate_fields()
         {
@@ -68,6 +67,7 @@ namespace GAVPI
             // New Action
             else
             {
+                cbSpeechType.DataSource = VI_Action_Sequence.SpeechAction_Types;
                 
             }
 
@@ -76,7 +76,7 @@ namespace GAVPI
         }
         #endregion
 
-        #region UI : Button Presses : Add/Edit : Cancel
+        #region UI : Press Events : Add/Edit : Cancel : Drop Down
         private void btnAdd_Click(object sender, EventArgs e)
         {
             // TODO
@@ -86,6 +86,32 @@ namespace GAVPI
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void cbSpeechType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            refresh_comboboxes();
+        }
+        #endregion
+
+        #region UI : Refresh
+        private void refresh_comboboxes()
+        {
+            if (cbSpeechType.Text == "Speak")
+            {
+                cbSpeechValue.DropDownStyle = ComboBoxStyle.Simple;
+                cbSpeechValue.Text = String.Empty;
+            }
+            else if (cbSpeechType.Text == "Speak_Data")
+            {
+                cbSpeechValue.DropDownStyle = ComboBoxStyle.DropDownList;
+                cbSpeechValue.DataSource = GAVPI.vi_profile.ProfileDB.DB.Keys.ToList();
+            }
+            else
+            {
+                //unsupported type!
+                MessageBox.Show("Warning : Unsupported speak action type!");
+            }
         }
         #endregion
 
