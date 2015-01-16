@@ -175,18 +175,11 @@ namespace GAVPI
 			
 				profile_xml.Load(filename);
 				
-			} catch( XmlException exception ) {
-			
-				MessageBox.Show( "There appears to be a problem with the Profile you have chosen.\n\n" +
-				                 "It may not been an actual Profile, or it may have become corrupted.",
-								 "I cannot load the Profile",
-								 MessageBoxButtons.OK,
-								 MessageBoxIcon.Exclamation,
-		                         MessageBoxDefaultButton.Button1 );
+			} catch( Exception ) {
 			
 				return false;
-				
-			}
+
+            }
 				
             //Check first element tag
             if (profile_xml.DocumentElement.Name != "gavpi") {

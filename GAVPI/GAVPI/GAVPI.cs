@@ -280,13 +280,18 @@ namespace GAVPI
         //  static public void OnMRUListItem( MRU.MRUItem )
         //
         //  Our MRU management class accepts OnMRUListItem as a callback function, informing the user of the
-        //  MRU item that was selected.  An object of type MRU.MRUItem is passed as the only argument.
+        //  MRU item that was selected.  An object of type MRU.MRUItem is passed as the only argument.  If the
+        //  associated Profile cannot be opened it will be removed from the MRU list.
         //
 
         static public void OnMRUListItem( MRU.MRUItem item )
         {
-        
-           LoadProfile( ( string ) item.ItemData );
+
+            if( !LoadProfile( ( string ) item.ItemData ) ) {
+
+                ProfileMRU.Remove( item.ItemText );
+
+            }  //  if()
 
         }  //  static public void OnMRUListItem( MRU.MRUItem )
 
@@ -734,7 +739,20 @@ namespace GAVPI
             
             //  Attempt to load the given Profile...
 
-            if( !vi_profile.load_profile( filename ) ) return false;
+            if( !vi_profile.load_profile( filename ) ) {
+             
+				MessageBox.Show( "There appears to be a problem with the Profile you have chosen.\n\n" +
+				                 "The Profile may have been moved or deleted, or it may not be an\n" +
+                                 "actual Profile. It may even have become corrupted. Please check\n" +
+                                 "the Profile by attempting to open it in the Profile Editor.",
+								 "I cannot open the Profile",
+								 MessageBoxButtons.OK,
+								 MessageBoxIcon.Exclamation,
+		                         MessageBoxDefaultButton.Button1 );		   
+
+                return false;
+
+            }  //  if()
 
             //  Clear the log before requesting frmGAVPI refresh its UI otherwise the ListBox may remain
             //  populated.
