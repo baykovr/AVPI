@@ -26,6 +26,11 @@ namespace GAVPI
 
         private bool UnsavedProfileChanges = false;
 
+        //  Finally, and optionally, load this Profile's process association.  If this Profile is associated with
+        //  a process, this Profile will be automatically loaded whenever the process starts.
+
+        private string AssociatedProcess;
+
         public SpeechSynthesizer synth;
 
 
@@ -142,6 +147,7 @@ namespace GAVPI
 
             UnsavedProfileChanges = false;
             ProfileFilename = null;
+            AssociatedProcess = null;
 
             return true;
 
@@ -169,18 +175,11 @@ namespace GAVPI
 			
 				profile_xml.Load(filename);
 				
-			} catch( XmlException exception ) {
-			
-				MessageBox.Show( "There appears to be a problem with the Profile you have chosen.\n\n" +
-				                 "It may not been an actual Profile, or it may have become corrupted.",
-								 "I cannot load the Profile",
-								 MessageBoxButtons.OK,
-								 MessageBoxIcon.Exclamation,
-		                         MessageBoxDefaultButton.Button1 );
+			} catch( Exception ) {
 			
 				return false;
-				
-			}
+
+            }
 				
             //Check first element tag
             if (profile_xml.DocumentElement.Name != "gavpi") {
@@ -190,8 +189,13 @@ namespace GAVPI
             XmlNodeList profile_xml_elements = profile_xml.DocumentElement.ChildNodes;
             foreach (XmlNode element in profile_xml_elements)
             {
-                if (element.Name == "VI_Action_Sequence")
-                {
+
+                if( element.Name == "AssociatedProcess" ) {
+
+                    AssociatedProcess = element.InnerText;
+
+                } else if (element.Name == "VI_Action_Sequence") {
+
                     VI_Action_Sequence ack_frm_file;
                     ack_frm_file = new VI_Action_Sequence(element.Attributes.GetNamedItem("name").Value);
                     ack_frm_file.type = element.Attributes.GetNamedItem("type").Value;
@@ -332,6 +336,10 @@ namespace GAVPI
                 writer.WriteStartDocument();
                 writer.WriteStartElement("gavpi");
 
+                writer.WriteStartElement( "AssociatedProcess" );
+                writer.WriteString( AssociatedProcess );
+                writer.WriteEndElement();
+
                 foreach (VI_Action_Sequence ack_seq in Profile_ActionSequences)
                 {
                     writer.WriteStartElement("VI_Action_Sequence");
@@ -455,6 +463,37 @@ namespace GAVPI
             return ProfileFilename;
 
         }  //  public string GetProfileFilename()
+
+
+
+        //
+        //  public string GetAssociatedProcess()
+        //
+        //  Get the executable that this Profile will be automatically associated with.
+        //
+
+        public string GetAssociatedProcess()
+        {
+        
+            return AssociatedProcess;
+        
+        }  //  public string GetAssociatedProcess()
+
+
+
+        //
+        //  public void SetAssociatedProcess( string )
+        //
+        //  Associate the loaded Profile with an executable that the user has chosen.  If enabled within GAVPI,
+        //  this Profile will automatically load when the executable loads.
+        //
+
+        public void SetAssociatedProcess( string processName )
+        {
+        
+            AssociatedProcess = processName;
+        
+        }  //  public void SetAssociatedProcess( string )
 
     }
 }

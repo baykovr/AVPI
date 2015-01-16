@@ -43,6 +43,10 @@ namespace GAVPI
 
             btmStatusProfile.Text = GAVPI.GetStatusString();          
 
+            //  ...And display the name of an associated executable in the relevant text box.
+
+            AssociatedProcessTextBox.Text = GAVPI.vi_profile.GetAssociatedProcess();
+
         }  //  private void frmProfile_Load()
 
         private void refresh_dgTriggers()
@@ -516,6 +520,59 @@ namespace GAVPI
         }
         #endregion
 
+
+
+        //
+        //  private void AssociatedProcessButton_Click( object, EventArgs )
+        //
+        //
+        //
+
+        private void AssociatedProcessButton_Click( object sender, EventArgs e )
+        {
+
+            //  Select the executable whose process we may listen out for.
+
+            using( OpenFileDialog dialog = new OpenFileDialog() ) {
+
+                //  Give the Dialog a title then establish a default filter to hide anything that isn't
+                //  an executable.
+
+                dialog.Title = "Select an Application...";
+                dialog.Filter = "Executables (*.EXE)|*.EXE|All Files (*.*)|*.*";
+
+                dialog.RestoreDirectory = true;
+
+                if( dialog.ShowDialog() == DialogResult.Cancel ) return;
+               
+                //  Add it to the text box.
+            
+                AssociatedProcessTextBox.Text = dialog.FileName;
+
+            }  //  using()
+
+        }  //  private void AssociatedProcessButton_Click( object, EventArgs )
+
+
+
+        //
+        //
+        //
+        //
+        //
+
+        private void AssociatedProcessTextBox_TextChanged( object sender, EventArgs e )
+        {
+           
+            //  Assign the content of the TextBox to the Profile.
+
+            GAVPI.vi_profile.SetAssociatedProcess( AssociatedProcessTextBox.Text );
+
+            //  Consider this Profile edited.
+
+           // ProfileEdited();
+
+        }
        
     }
 

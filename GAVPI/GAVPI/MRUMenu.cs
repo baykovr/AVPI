@@ -62,7 +62,7 @@ namespace TrivialMRUMenu
         //  MAX_MRU_ITEMS is ZERO-BASED, so therefore it supports 1 additional item to the maximum presented.
         //
 
-        const int MAX_MRU_ITEMS = 2;
+        const int MAX_MRU_ITEMS = 9;
 
         const string MRU_FILENAME = "MRU.lst";
 
@@ -118,7 +118,13 @@ namespace TrivialMRUMenu
        
             //  Persistence is futile if our MRU list is empty...
 
-            if( MRUMenu.MenuItems.Count == 0 ) return false;
+            if( MRUMenu.MenuItems.Count == 0 ) {
+                                
+                File.Delete( MRU_FILENAME );
+
+                return false;
+
+            }
 
             try {
 			
@@ -193,7 +199,7 @@ namespace TrivialMRUMenu
 
 
 
-         //
+        //
         //  public MenuItem GetMenu()
         //
         //  To facilite incorporating the MRU menu into a user interface, a call to GetMRU() will return the
@@ -226,13 +232,8 @@ namespace TrivialMRUMenu
                 //  If the named item is already in the list we'll remove it.  This may seem redundant, but
                 //  it will be added to the top of the list later - exactly where it should be.
 
-                foreach( MenuItem item in MRUMenu.MenuItems ) if( item.Text == mruItemName ) {
-                        
-                    MRUMenu.MenuItems.Remove( item );
+                Remove( mruItemName );
 
-                    break;
-
-                }
 
                 //  If we'll have reached the maximum allowed size of the MRU list by adding this item then
                 //  let's make room for it by removing the last item in the list.
@@ -256,6 +257,36 @@ namespace TrivialMRUMenu
 
 
         //
+        //  public void Remove()
+        //
+        //  Remove the named item from the MRU list, disabling the MRU menu if it becomes empty.
+        //
+
+        public void Remove( string itemTitle )
+        {
+        
+
+            foreach( MenuItem item in MRUMenu.MenuItems ) if( item.Text == itemTitle ) {
+                        
+                MRUMenu.MenuItems.Remove( item );
+
+                break;
+
+            }
+
+            //  If the MRU list is empty, disable the MRU menu item.
+
+            if( MRUMenu.MenuItems.Count == 0 ) MRUMenu.Enabled = false;
+
+            //  Serialise the changes.
+
+            Serialize();
+
+        }  //  public void Remove()
+
+
+
+        //
         //  public void Clear()
         //
         //  An option to clear the MRU list may be useful, so here it is...
@@ -267,6 +298,8 @@ namespace TrivialMRUMenu
             MRUMenu.MenuItems.Clear();
 
             MRUMenu.Enabled = false;
+
+            Serialize();
 
         }  //  public void Clear()
 
@@ -301,13 +334,13 @@ namespace TrivialMRUMenu
 
             public object ItemData;
             public string ItemText;
-
+ 
             public MRUItem( string itemText, object itemData )
             {
         
                 ItemText = itemText;
                 ItemData = itemData;
-
+ 
             }  //  public MRUItem( string, object )
 
         }  //  class MRUItem

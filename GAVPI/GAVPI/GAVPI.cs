@@ -11,18 +11,23 @@ using TrivialLogging;
 using TrivialMRUMenu;
 using System.Text;
 using System.Reflection;
+using System.Management;
+using System.Diagnostics;
+using System.Xml;
 
 namespace GAVPI
 {
     static class GAVPI
     {
 
-        //  The application's title, and a system-wide unique ID to facilitate single-instancing (see Mutex,
-        //  later).
+        //  The application's title, a system-wide unique ID to facilitate single-instancing (see Mutex,
+        //  later), and an XML Path to easily extract specific information from GAVPI Profile XML documents.
        
         const string APPLICATION_TITLE = "GAVPI";
 
         const string APPLICATION_ID = "Global\\" + "{c3ab185c-d7f7-4bf9-bc81-0f0e93d52ac3}";       
+
+        const string ASSOCIATED_PROCESS_XML_PATH = "/gavpi/AssociatedProcess";
 
         //  A message sent via IPC to an existing application instance.
 
@@ -38,12 +43,19 @@ namespace GAVPI
 
         private static frmGAVPI MainForm;
         private static frmProfile ProfileEditor;
+        private static frmSettings SettingsForm;
 
         //  Our running Log and the Most Recently Used Profile list.
 
         public static Logging< string > Log;
 
         private static MRU ProfileMRU;
+        
+        private static ManagementEventWatcher EventWatcher;
+        private static WqlEventQuery EventQuery;
+
+        private static Dictionary< string, string > AssociatedProcesses = new 
+            Dictionary< string, string >();
 
         //  We maintain a system tray icon and context menu...
         
@@ -58,6 +70,7 @@ namespace GAVPI
         private static int OPEN_LOG_MENU_ITEM       = 4;
         private static int LISTEN_MENU_ITEM         = 6;
         private static int STOP_LISTENING_MENU_ITEM = 7;
+        private static int OPEN_SETTINGS_MENU_ITEM  = 8;
         
 
 
@@ -164,6 +177,8 @@ namespace GAVPI
             sysTrayMenu.MenuItems.Add( "Listen", StartListening ).Enabled = false;
             sysTrayMenu.MenuItems.Add( "Stop", StopListening ).Enabled = false;
             sysTrayMenu.MenuItems.Add( "-" );
+            sysTrayMenu.MenuItems.Add( "Settings", OpenSettings);
+            sysTrayMenu.MenuItems.Add( "-" );
             sysTrayMenu.MenuItems.Add( "Exit", Exit );
 
             //  And now we can attach the menu to the system tray icon.
@@ -174,9 +189,20 @@ namespace GAVPI
 
             ProfileMRU.Deserialize();
 
+            //  Let's commence monitoring process startup and automatically open Profiles if any have been
+            //  associated with an executable.
+
+            if( Properties.Settings.Default.EnableAutoOpenProfile ) EnableAutoOpenProfile( null, null );
+
+            //  And display the main window upon start if specified in the configuration.
+
             if( Properties.Settings.Default.ShowGAVPI ) OpenMainWindow( null, null );
 
-            Application.Run();
+            Application.Run();          
+
+            //  If we're monitoring process startup, let's stop doing so.
+
+            if( Properties.Settings.Default.EnableAutoOpenProfile ) DisableAutoOpenProfile( null, null );
 
             //  We don't want the garbage collector to think our Mutex is up for grabs before we close the program,
             //  so let's protect it.
@@ -254,15 +280,161 @@ namespace GAVPI
         //  static public void OnMRUListItem( MRU.MRUItem )
         //
         //  Our MRU management class accepts OnMRUListItem as a callback function, informing the user of the
-        //  MRU item that was selected.  An object of type MRU.MRUItem is passed as the only argument.
+        //  MRU item that was selected.  An object of type MRU.MRUItem is passed as the only argument.  If the
+        //  associated Profile cannot be opened it will be removed from the MRU list.
         //
 
         static public void OnMRUListItem( MRU.MRUItem item )
         {
-        
-           LoadProfile( ( string ) item.ItemData );
+
+            if( !LoadProfile( ( string ) item.ItemData ) ) {
+
+                ProfileMRU.Remove( item.ItemText );
+
+            }  //  if()
 
         }  //  static public void OnMRUListItem( MRU.MRUItem )
+
+
+
+        //
+        //  static private void EnableAutoOpenProfile( object, EventArgs )
+        //
+        //  One of the features of GAVPI is that of associating a Profile with an executable file (whether
+        //  an application, game, etc) and having that Profile automatically loaded whenever that executable
+        //  is ran.  To facilitate this, a node is allocated within a Profile that holds the fully qualified
+        //  filename of an associated executable; these associations are collated at initial GAVPI startup,
+        //  and the assumption is made that all Profiles are stored within the Profiles sub-folder in which
+        //  GAVPI resides.  We then request the Operating System inform GAVPI when a process starts, and via
+        //  an event handler - OnProcessStarted() - we determine if the process is an associated process.
+        //  If so, we automatically load the relevant Profile.  So...
+        //
+
+        static public void EnableAutoOpenProfile( object sender, EventArgs e )
+        {
+                   
+            //  If we're already watching out for processes opening then let's not do so again...
+
+            if( EventWatcher != null ) return;
+
+            //  Get the path to the running instance of GAVPI, and from there expand it with the Profiles
+            //  sub-folder.
+
+            string ProfilePath = new Uri( System.IO.Path.GetDirectoryName( 
+                System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase ) ).LocalPath + "\\Profiles";
+            
+            XmlDocument Profile = new XmlDocument();
+           
+            //  Enumerate the XML Profiles within the sub-folder, extracting the filename of a user-chosen
+            //  executable whose process startup we may monitor.  Exceptions are likely limited to badly formed
+            //  XML - or some other data with an .XML extension.
+
+            foreach( string ProfileFilename in Directory.EnumerateFiles( ProfilePath, "*.xml" ) ) {
+
+                try {
+                
+                    Profile.Load( ProfileFilename );
+                    
+                    XmlNode AssociatedProcess = Profile.SelectSingleNode( ASSOCIATED_PROCESS_XML_PATH );
+                
+                    //  We'll store the executable's filename within a key/value Dictionary for later
+                    //  scruitiny (see OnProcessStarted(), later).
+
+                    if( AssociatedProcess != null && AssociatedProcess.InnerText != null )
+                        AssociatedProcesses.Add( AssociatedProcess.InnerText, ProfileFilename );
+
+                } catch( Exception ) { break; }               
+
+            }  //  foreach()
+
+            //  We can now establish and start a Management Event watcher, asking it to inform us when a
+            //  process starts (we'll compare the process specifics with a list of processes we should
+            //  automatically load a related Profile for).
+
+            EventWatcher = null;
+            EventQuery = null;          
+        
+            try {
+    		
+                EventQuery = new WqlEventQuery();
+    		    EventQuery.EventClassName = "Win32_ProcessStartTrace";
+    		    
+                EventWatcher = new ManagementEventWatcher( EventQuery );
+    		    EventWatcher.EventArrived += new EventArrivedEventHandler( OnProcessStarted );
+
+                //  We've told the Management Event watcher that we're insterestd in processes starting, so
+                //  let's set it in motion.
+
+    		    EventWatcher.Start();
+    		                
+            } catch( Exception ) {}   	        
+        
+        }  //  static private void EnableAutoOpenProfile( object, EventArgs )
+
+
+
+        //
+        //  static private void DisableAutoOpenProfile( object, EventArgs )
+        //
+        //  Stop watching for the startup of processes.
+        //
+
+        static public void DisableAutoOpenProfile( object sender, EventArgs e )
+        {
+       
+            //  If we're not monitoring process starts, let's not go any further.
+
+            if( EventWatcher == null ) return;
+
+            try {
+                
+                //  We no longer need the services of our Management Event watcher...
+
+                EventWatcher.Stop();
+        
+            } catch( Exception) { }       
+        
+        }  //  static private void DisableAutoOpenProfile( object, EventArgs )
+
+
+
+        //
+        //  static private void OnProcessStarted( object, EventArrivedEventArgs )
+        //
+        //  Receive an event containing process-relevant information whenever a process is started.
+        //
+
+        static private void OnProcessStarted( object sender, EventArrivedEventArgs managementEvent )
+        {
+
+            string Filename = null;
+
+            //  Let's attempt to get the fully qualified filename of the newly started process.  If the call
+            //  to GetProcessById() throws an exception it is likely because we received an event relating to
+            //  a process that is has stopped (hence the process ID will be an invalid argument).
+
+            try { 
+
+                Filename = Process.GetProcessById(  Convert.ToInt32( managementEvent
+                              .NewEvent.Properties[ "ProcessID" ].Value ) ).MainModule.FileName;
+
+            } catch( Exception ) { return; }
+
+            //  If the filename of the newly started process exists within our dictionary of processes to watch
+            //  out for, load the related Profile...
+
+            if( Filename != null && AssociatedProcesses.ContainsKey( Filename ) ) {
+
+                LoadProfile( AssociatedProcesses[ Filename ] );
+
+                //  If the user has selected the option to automatically begin Listening, in Settings, let's
+                //  begin Listening...
+
+                if( Properties.Settings.Default.EnableAutoListen ) StartListening( null, null );
+
+            }  //  if()
+
+        }  //  static private void ProcessStarted( object, EventArrivedEventArgs )
 
 
 
@@ -474,6 +646,33 @@ namespace GAVPI
 
 
         //
+        //  static private void OpenSettings()
+        //
+        //  Open the Settings window.
+        //
+
+        static public void OpenSettings( object SelectedMenuItem, EventArgs e )
+        {
+
+            //  If the Settings form is already open, bring it to the front...
+
+            if( Application.OpenForms.OfType< frmSettings >().Count() > 0 ) {
+
+                SettingsForm.TopMost = true;
+
+                return;
+
+            }  //  if()
+                        
+            SettingsForm = new frmSettings( vi_settings );
+            
+            SettingsForm.Show();               
+        
+        }  //  static private void OpenSettings()
+
+
+
+        //
         //  static private bool NotifyUnsavedChanges()
         //
         //  NotifyUnsavedChanges is employed by any method that acts destructively on an existing Profile with
@@ -540,7 +739,20 @@ namespace GAVPI
             
             //  Attempt to load the given Profile...
 
-            if( !vi_profile.load_profile( filename ) ) return false;
+            if( !vi_profile.load_profile( filename ) ) {
+             
+				MessageBox.Show( "There appears to be a problem with the Profile you have chosen.\n\n" +
+				                 "The Profile may have been moved or deleted, or it may not be an\n" +
+                                 "actual Profile. It may even have become corrupted. Please check\n" +
+                                 "the Profile by attempting to open it in the Profile Editor.",
+								 "I cannot open the Profile",
+								 MessageBoxButtons.OK,
+								 MessageBoxIcon.Exclamation,
+		                         MessageBoxDefaultButton.Button1 );		   
+
+                return false;
+
+            }  //  if()
 
             //  Clear the log before requesting frmGAVPI refresh its UI otherwise the ListBox may remain
             //  populated.

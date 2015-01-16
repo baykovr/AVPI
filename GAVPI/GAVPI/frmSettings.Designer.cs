@@ -41,6 +41,8 @@
             this.lblSettingsPushToTalkMode = new System.Windows.Forms.Label();
             this.cbSettingsPushToTalkKey = new System.Windows.Forms.ComboBox();
             this.lblSettingsPushToTalkKey = new System.Windows.Forms.Label();
+            this.AutoLoadProfiles = new System.Windows.Forms.CheckBox();
+            this.AutomaticallyListen = new System.Windows.Forms.CheckBox();
             this.StartUpShowMainWindow = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
@@ -56,7 +58,7 @@
             // btnSettingsSave
             // 
             this.btnSettingsSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettingsSave.Location = new System.Drawing.Point(255, 254);
+            this.btnSettingsSave.Location = new System.Drawing.Point(255, 289);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsSave.TabIndex = 2;
@@ -68,7 +70,7 @@
             // 
             this.btnSettingsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSettingsCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnSettingsCancel.Location = new System.Drawing.Point(336, 254);
+            this.btnSettingsCancel.Location = new System.Drawing.Point(336, 289);
             this.btnSettingsCancel.Name = "btnSettingsCancel";
             this.btnSettingsCancel.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsCancel.TabIndex = 3;
@@ -167,10 +169,36 @@
             this.lblSettingsPushToTalkKey.TabIndex = 11;
             this.lblSettingsPushToTalkKey.Text = "Push-To-Talk key";
             // 
+            // AutoLoadProfiles
+            // 
+            this.AutoLoadProfiles.AutoSize = true;
+            this.AutoLoadProfiles.Checked = global::GAVPI.Properties.Settings.Default.EnableAutoOpenProfile;
+            this.AutoLoadProfiles.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GAVPI.Properties.Settings.Default, "EnableAutoOpenProfile", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.AutoLoadProfiles.Location = new System.Drawing.Point(15, 232);
+            this.AutoLoadProfiles.Name = "AutoLoadProfiles";
+            this.AutoLoadProfiles.Size = new System.Drawing.Size(365, 17);
+            this.AutoLoadProfiles.TabIndex = 14;
+            this.AutoLoadProfiles.Text = "If a Profile is associated with a game or application, open it automatically";
+            this.AutoLoadProfiles.UseVisualStyleBackColor = true;
+            this.AutoLoadProfiles.CheckedChanged += new System.EventHandler(this.AutoLoadProfiles_CheckedChanged);
+            // 
+            // AutomaticallyListen
+            // 
+            this.AutomaticallyListen.AutoSize = true;
+            this.AutomaticallyListen.Checked = global::GAVPI.Properties.Settings.Default.EnableAutoListen;
+            this.AutomaticallyListen.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GAVPI.Properties.Settings.Default, "EnableAutoListen", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.AutomaticallyListen.Location = new System.Drawing.Point(34, 256);
+            this.AutomaticallyListen.Name = "AutomaticallyListen";
+            this.AutomaticallyListen.Size = new System.Drawing.Size(332, 17);
+            this.AutomaticallyListen.TabIndex = 15;
+            this.AutomaticallyListen.Text = "If a Profile is automatically opened, begin Listening for commands";
+            this.AutomaticallyListen.UseVisualStyleBackColor = true;
+            // 
             // StartUpShowMainWindow
             // 
             this.StartUpShowMainWindow.AutoSize = true;
             this.StartUpShowMainWindow.Checked = global::GAVPI.Properties.Settings.Default.ShowGAVPI;
+            this.StartUpShowMainWindow.CheckState = System.Windows.Forms.CheckState.Checked;
             this.StartUpShowMainWindow.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::GAVPI.Properties.Settings.Default, "ShowGAVPI", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.StartUpShowMainWindow.Location = new System.Drawing.Point(15, 208);
             this.StartUpShowMainWindow.Name = "StartUpShowMainWindow";
@@ -185,8 +213,11 @@
             this.AcceptButton = this.btnSettingsSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.CancelButton = this.btnSettingsCancel;
-            this.ClientSize = new System.Drawing.Size(423, 289);
+            this.ClientSize = new System.Drawing.Size(423, 324);
+            this.Controls.Add(this.AutomaticallyListen);
+            this.Controls.Add(this.AutoLoadProfiles);
             this.Controls.Add(this.StartUpShowMainWindow);
             this.Controls.Add(this.cbSettingsPushToTalkKey);
             this.Controls.Add(this.lblSettingsPushToTalkKey);
@@ -203,7 +234,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(433, 263);
             this.Name = "frmSettings";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -225,5 +256,7 @@
         private System.Windows.Forms.ComboBox cbSettingsPushToTalkKey;
         private System.Windows.Forms.Label lblSettingsPushToTalkKey;
         private System.Windows.Forms.CheckBox StartUpShowMainWindow;
+        private System.Windows.Forms.CheckBox AutoLoadProfiles;
+        private System.Windows.Forms.CheckBox AutomaticallyListen;
     }
 }
