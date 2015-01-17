@@ -31,7 +31,7 @@ namespace GAVPI
         public static List<string> SpeechAction_Types = new List<string>(
             new string[] { 
                "Speak",
-               "Speak_Data"
+               "Data_Speak"
             });
         public static List<string> TimingAction_Types = new List<string>(
             new string[] { 
@@ -113,6 +113,10 @@ namespace GAVPI
 
         public abstract void run();
 
+        public Action()
+        {
+            this.type = this.GetType().Name;
+        }
         public Action(string value)
         {
             this.value = value;
@@ -259,14 +263,30 @@ namespace GAVPI
     }
     public partial class Data_Speak : Action
     {
-        public Data_Speak(VI_Data data, string value)
-            : base(value)
+        SpeechSynthesizer Profile_Synthesis;
+        VI_Data data;
+        public Data_Speak(SpeechSynthesizer Profile_Synthesis, VI_Data data)
         {
-
-
+            this.Profile_Synthesis = Profile_Synthesis;
+            this.data  = data;
+            this.value = data.value.ToString();
         }
+
+        //public ValueType 
         public override void run()
         {
+            try
+            {
+                Profile_Synthesis.SpeakAsync(data.value.ToString()); //magic
+            }
+            catch (Exception synth_err)
+            {
+                MessageBox.Show("Speech Profile_Synthesis Err : " + synth_err.Message, "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation,
+                    MessageBoxDefaultButton.Button1);
+            }
+
 
         }
     }

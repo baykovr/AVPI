@@ -59,27 +59,105 @@ namespace GAVPI
 
             txtTimesToAdd.Text = times_to_add.ToString();
 
+            cbSpeechType.DataSource = VI_Action_Sequence.SpeechAction_Types;
+
             // Editing an existing action
             if (form_action != null)
             {
+                chckMultiAdd.Visible = false;
+                txtTimesToAdd.Visible = false;
+                btnAdd.Text = "Edit";
+
+                refresh_comboboxes();
+
+                cbSpeechType.SelectedText = form_action.type;
+                
+                
+                ////cbSpeechValue.SelectedText
+                ////TODO
+                //if (form_action.type == "Speak")
+                //{
+ 
+                //}
+                //else if (form_action.type == "Data_Speak")
+                //{
+                    
+
+                //}
+                //else
+                //{
+ 
+                //}
 
             }
             // New Action
             else
             {
-                cbSpeechType.DataSource = VI_Action_Sequence.SpeechAction_Types;
+                
                 
             }
-
-            //cbSpeechType
-            //cb
         }
         #endregion
 
         #region UI : Press Events : Add/Edit : Cancel : Drop Down
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            // TODO
+            // Validate times to add
+            // Number of Times to Add particular action
+            if (Int32.TryParse(txtTimesToAdd.Text, out times_to_add))
+            {
+                if (times_to_add <= 0)
+                {
+                    MessageBox.Show("Times to add value cannot be less than or equal to 0.");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Times to add value must be a valid integer greater than one.");
+                return;
+            }
+
+            // Validate Combobox value
+            if (String.IsNullOrWhiteSpace(cbSpeechValue.Text))
+            {
+                MessageBox.Show("Value cannot be blank.");
+                return;
+            }
+            else if (String.IsNullOrWhiteSpace(cbSpeechValue.Text))
+            {
+                MessageBox.Show("Value cannot be blank.");
+                return;
+            }
+
+
+            // Build the action from current form values
+            Type new_action_type = Type.GetType(
+                "GAVPI." + cbSpeechType.SelectedItem.ToString());
+
+            // Set the form action, overriting it with newly created action object.
+            if (cbSpeechType.Text == "Speak")
+            {
+                // Simple uses text property for value
+                form_action = (Action)Activator.CreateInstance(
+                new_action_type, GAVPI.vi_profile.synth, cbSpeechValue.Text);
+               
+            }
+            else if (cbSpeechType.Text == "Data_Speak")
+            {
+                form_action = (Action)Activator.CreateInstance(
+                new_action_type, GAVPI.vi_profile.synth, GAVPI.vi_profile.ProfileDB.DB[cbSpeechValue.Text]);
+               
+            }
+            else
+            {
+                //unsupported type!
+                MessageBox.Show("Warning : Unsupported speak action type!");
+            }
+
+            this.DialogResult = DialogResult.OK;
+
+            this.Close();
 
         }
         private void btnCancel_Click(object sender, EventArgs e)
@@ -102,7 +180,7 @@ namespace GAVPI
                 cbSpeechValue.DropDownStyle = ComboBoxStyle.Simple;
                 cbSpeechValue.Text = String.Empty;
             }
-            else if (cbSpeechType.Text == "Speak_Data")
+            else if (cbSpeechType.Text == "Data_Speak")
             {
                 cbSpeechValue.DropDownStyle = ComboBoxStyle.DropDownList;
                 cbSpeechValue.DataSource = GAVPI.vi_profile.ProfileDB.DB.Keys.ToList();

@@ -53,7 +53,7 @@ namespace GAVPI
         }
         #endregion
 
-        #region Logic : UI Processing Methods : Move Up/Down Add : Edit : Remove
+        #region Logic : UI Processing Methods : Move Up/Down : Add : Edit : Remove
         // These methods are invoked by UI click/press events
         // They processes the current state the UI elements and 
         // invoke the appropriate ProcessForm Method
@@ -273,20 +273,20 @@ namespace GAVPI
                 // if OK pull out edited or new action
                 if (newPressAction.get_action() != null)
                 {
-                    // Add Multiple Times (default : 1)
-                    for (int i = 0; i < newPressAction.get_times_to_add(); i++)
-                    {
                         // Called by Add
                         if (edit_action == null)
                         {
-                            sequence_to_edit.Add(newPressAction.get_action());
+                            // Insert number of times specified by the form
+                            for (int i = 0; i < newPressAction.get_times_to_add(); i++)
+                            {
+                                sequence_to_edit.Add(newPressAction.get_action());
+                            }
                         }
                         // Called by Edit
                         else
                         {
                             sequence_to_edit.action_sequence[index] = newPressAction.get_action();
                         }
-                    }
                 }
                 else
                 {
@@ -310,21 +310,28 @@ namespace GAVPI
             {
                 newSpeakAction  = new frm_AddEdit_SpeakAction(edit_action);
             }
-           
+
+            // On form OK we have changes (either new or edited action)
             if (newSpeakAction.ShowDialog() == DialogResult.OK)
             {
+                // Make sure the returned action is sane
                 if (newSpeakAction.get_action() != null)
                 {
-                    // Called by Add
-                    if (edit_action == null)
-                    {
-                        sequence_to_edit.Add(newSpeakAction.get_action());
-                    }
-                    // Called by Edit
-                    else 
-                    {
-                        sequence_to_edit.action_sequence[index] = newSpeakAction.get_action();
-                    }
+                        // Called by Add
+                        if (edit_action == null)
+                        {
+                            // Insert number of times specified by the form
+                            for (int i = 0; i < newSpeakAction.get_times_to_add(); i++)
+                            {
+                                sequence_to_edit.Add(newSpeakAction.get_action());
+                            }
+                        }
+                        // Called by Edit
+                        else
+                        {
+                            // Replace the current action with the new from the form
+                            sequence_to_edit.action_sequence[index] = newSpeakAction.get_action();
+                        }
                 }
                 else
                 {
@@ -354,17 +361,17 @@ namespace GAVPI
             {
                 if (newTimingAction.get_action() != null)
                 {
-                    for (int i = 0; i < newTimingAction.get_times_to_add(); i++)
-                    {
                         if (edit_action == null)
                         {
-                            sequence_to_edit.Add(newTimingAction.get_action());
+                            for (int i = 0; i < newTimingAction.get_times_to_add(); i++)
+                            {
+                                sequence_to_edit.Add(newTimingAction.get_action());
+                            }
                         }
                         else
                         {
                             sequence_to_edit.action_sequence[index] = newTimingAction.get_action();
                         }
-                    }
                 }
                 ActionSequenceEdited = true;
                 refresh_dgActionSequence();

@@ -46,7 +46,7 @@
             this.chckMultiAdd.Location = new System.Drawing.Point(12, 114);
             this.chckMultiAdd.Name = "chckMultiAdd";
             this.chckMultiAdd.Size = new System.Drawing.Size(115, 17);
-            this.chckMultiAdd.TabIndex = 21;
+            this.chckMultiAdd.TabIndex = 3;
             this.chckMultiAdd.Text = "Add Multiple Times";
             this.chckMultiAdd.UseVisualStyleBackColor = true;
             this.chckMultiAdd.CheckedChanged += new System.EventHandler(this.chckMultiAdd_CheckedChanged);
@@ -58,7 +58,7 @@
             this.txtTimesToAdd.Location = new System.Drawing.Point(134, 112);
             this.txtTimesToAdd.Name = "txtTimesToAdd";
             this.txtTimesToAdd.Size = new System.Drawing.Size(72, 20);
-            this.txtTimesToAdd.TabIndex = 20;
+            this.txtTimesToAdd.TabIndex = 4;
             // 
             // btnCancel
             // 
@@ -67,7 +67,7 @@
             this.btnCancel.Location = new System.Drawing.Point(297, 112);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(83, 23);
-            this.btnCancel.TabIndex = 19;
+            this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -78,7 +78,7 @@
             this.btnAdd.Location = new System.Drawing.Point(216, 112);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnAdd.TabIndex = 18;
+            this.btnAdd.TabIndex = 5;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -102,7 +102,7 @@
             this.cbSpeechValue.Location = new System.Drawing.Point(103, 70);
             this.cbSpeechValue.Name = "cbSpeechValue";
             this.cbSpeechValue.Size = new System.Drawing.Size(277, 21);
-            this.cbSpeechValue.TabIndex = 23;
+            this.cbSpeechValue.TabIndex = 2;
             // 
             // cbSpeechType
             // 
@@ -114,7 +114,7 @@
             this.cbSpeechType.Location = new System.Drawing.Point(103, 25);
             this.cbSpeechType.Name = "cbSpeechType";
             this.cbSpeechType.Size = new System.Drawing.Size(277, 21);
-            this.cbSpeechType.TabIndex = 24;
+            this.cbSpeechType.TabIndex = 1;
             this.cbSpeechType.SelectedIndexChanged += new System.EventHandler(this.cbSpeechType_SelectedIndexChanged);
             // 
             // label2
@@ -128,8 +128,10 @@
             // 
             // frm_AddEdit_SpeakAction
             // 
+            this.AcceptButton = this.btnAdd;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(392, 147);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbSpeechType);
