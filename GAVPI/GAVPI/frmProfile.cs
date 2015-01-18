@@ -120,7 +120,7 @@ namespace GAVPI
 
         #endregion
         
-        #region UI : Context Menu
+        #region UI : Context Menu (Right Click Menu)
         #region Action Sequences Context
         // Add Action Sequence to Existing Trigger
         private void taddtoeventToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -291,8 +291,41 @@ namespace GAVPI
 
         }
         #endregion
+    
+        #region Trigger Events Context
+        private void deleteToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (dgTriggerEvents.MultiSelect == true)
+            {
+                throw new NotImplementedException("Editing mutliple triggers at once is unsupported.");
+            }
+            VI_Trigger selected_trigger = null;
+            foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
+            {
+                 selected_trigger = row.DataBoundItem as VI_Trigger;
+            }
+            if (selected_trigger != null)
+            {
+                foreach (DataGridViewRow row in this.dgTriggerEvents.SelectedRows)
+                {
+                    VI_TriggerEvent selected_event = row.DataBoundItem as VI_TriggerEvent;
+                    if (selected_event != null)
+                    {
+                        //Remove Event
+                        selected_trigger.Remove(selected_event);
+                        
+                    }
+                }
+            }
+			
+			ProfileEdited();
+			
+            refresh_dgTriggers();
+            refresh_dgTriggerEvents();
+        }
+        #endregion
 
-        #region Database Context Strip
+        #region Database Context
         
         // Add DataItem
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
@@ -352,39 +385,6 @@ namespace GAVPI
 
         #endregion
         
-        #region Trigger Events
-        private void deleteToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            if (dgTriggerEvents.MultiSelect == true)
-            {
-                throw new NotImplementedException("Editing mutliple triggers at once is unsupported.");
-            }
-            VI_Trigger selected_trigger = null;
-            foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
-            {
-                 selected_trigger = row.DataBoundItem as VI_Trigger;
-            }
-            if (selected_trigger != null)
-            {
-                foreach (DataGridViewRow row in this.dgTriggerEvents.SelectedRows)
-                {
-                    VI_TriggerEvent selected_event = row.DataBoundItem as VI_TriggerEvent;
-                    if (selected_event != null)
-                    {
-                        //Remove Event
-                        selected_trigger.Remove(selected_event);
-                        
-                    }
-                }
-            }
-			
-			ProfileEdited();
-			
-            refresh_dgTriggers();
-            refresh_dgTriggerEvents();
-        }
-        #endregion
-
         #region File
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
