@@ -49,17 +49,20 @@ namespace GAVPI
 
         }  //  private void frmProfile_Load()
 
+        #region UI : Element Refreshing
+
         private void refresh_dgTriggers()
         {
             dgTriggers.DataSource = null;
             dgTriggers.DataSource = GAVPI.vi_profile.Profile_Triggers.ToList();
-
         }
+
         private void refresh_dgActionSequences()
         {
             dgActionSequences.DataSource = null;
             dgActionSequences.DataSource = GAVPI.vi_profile.Profile_ActionSequences.ToList();
         }
+
         private void refresh_dgDatabase()
         {
             dgDatabase.DataSource = null;
@@ -77,20 +80,48 @@ namespace GAVPI
                     foreach (VI_TriggerEvent trigger_event in selected_trigger.TriggerEvents)
                     {
                         dg_data_trigger_events.Add(trigger_event);
- 
+
                     }
                 }
             }
             dgTriggerEvents.DataSource = null;
             dgTriggerEvents.DataSource = dg_data_trigger_events.ToList();
         }
+        #endregion
+
+        #region UI : Events : RightClick
+        
         private void dgTriggers_SelectionChanged(object sender, EventArgs e)
         {
             refresh_dgTriggerEvents();
         }
 
+        private void ActionSequences_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (dgActionSequences.RowCount > 0)
+                {
+                    dgActionSequences.CurrentCell = dgActionSequences.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                }
+            }
+        }
 
-        #region ActionSequences Context
+        private void Triggers_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (dgTriggers.RowCount > 0)
+                {
+                    dgTriggers.CurrentCell = dgTriggers.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                }
+            }
+        }
+
+        #endregion
+        
+        #region UI : Context Menu
+        #region Action Sequences Context
         // Add Action Sequence to Existing Trigger
         private void taddtoeventToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -261,6 +292,65 @@ namespace GAVPI
         }
         #endregion
 
+        #region Database Context Strip
+        
+        // Add DataItem
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frm_AddEdit_Data newData = new frm_AddEdit_Data();
+
+            if (newData.ShowDialog() == DialogResult.OK)
+            {
+                ProfileEdited();
+                refresh_dgDatabase();
+            }  //  if()
+
+            refresh_dgDatabase();
+        }
+
+        // Edit DataItem
+        private void editToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (dgDatabase.MultiSelect == true)
+            {
+                throw new NotImplementedException("Editing mutliple data items at once is unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgDatabase.SelectedRows)
+            {
+                VI_Data selected_data = row.DataBoundItem as VI_Data;
+                if (selected_data != null)
+                {
+                    frm_AddEdit_Data newData = new frm_AddEdit_Data(selected_data);
+                    if (newData.ShowDialog() == DialogResult.OK)
+                    {
+                        ProfileEdited();
+                        refresh_dgDatabase();
+                    }  //  if()
+                }
+            }
+        }
+
+        // Delete DataItem
+        private void deleteToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            if (dgDatabase.MultiSelect == true)
+            {
+                throw new NotImplementedException("Editing mutliple data items at once is unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgDatabase.SelectedRows)
+            {
+                VI_Data selected_data = row.DataBoundItem as VI_Data;
+                if (selected_data != null)
+                {
+                    GAVPI.vi_profile.ProfileDB.Remove(selected_data);
+                    ProfileEdited();
+                    refresh_dgDatabase();
+                }
+            }
+        }
+        #endregion
+
+        #endregion
         
         #region Trigger Events
         private void deleteToolStripMenuItem2_Click(object sender, EventArgs e)
@@ -294,6 +384,7 @@ namespace GAVPI
             refresh_dgTriggerEvents();
         }
         #endregion
+
         #region File
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -363,8 +454,6 @@ namespace GAVPI
             MessageBox.Show("Nothing here yet");
         }
 
-
-
         //
         //  private void ProfileEdited()
 		//
@@ -400,21 +489,6 @@ namespace GAVPI
 
 		}  //  private void ProfileEdited()
 
-        private void ActionSequences_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if(e.Button == MouseButtons.Right)
-            {
-                this.dgActionSequences.CurrentCell = this.dgActionSequences.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            }
-        }
-
-        private void Triggers_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                this.dgTriggers.CurrentCell = this.dgTriggers.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            }
-        }
         
 
 
@@ -462,63 +536,7 @@ namespace GAVPI
             }  //  if()
         }
 
-        #region Database Context Strip
         
-        // Add DataItem
-        private void addToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frm_AddEdit_Data newData = new frm_AddEdit_Data();
-
-            if (newData.ShowDialog() == DialogResult.OK)
-            {
-                ProfileEdited();
-                refresh_dgDatabase();
-            }  //  if()
-
-            refresh_dgDatabase();
-        }
-
-        // Edit DataItem
-        private void editToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            if (dgDatabase.MultiSelect == true)
-            {
-                throw new NotImplementedException("Editing mutliple data items at once is unsupported.");
-            }
-            foreach (DataGridViewRow row in this.dgDatabase.SelectedRows)
-            {
-                VI_Data selected_data = row.DataBoundItem as VI_Data;
-                if (selected_data != null)
-                {
-                    frm_AddEdit_Data newData = new frm_AddEdit_Data(selected_data);
-                    if (newData.ShowDialog() == DialogResult.OK)
-                    {
-                        ProfileEdited();
-                        refresh_dgDatabase();
-                    }  //  if()
-                }
-            }
-        }
-
-        // Delete DataItem
-        private void deleteToolStripMenuItem3_Click(object sender, EventArgs e)
-        {
-            if (dgDatabase.MultiSelect == true)
-            {
-                throw new NotImplementedException("Editing mutliple data items at once is unsupported.");
-            }
-            foreach (DataGridViewRow row in this.dgDatabase.SelectedRows)
-            {
-                VI_Data selected_data = row.DataBoundItem as VI_Data;
-                if (selected_data != null)
-                {
-                    GAVPI.vi_profile.ProfileDB.Remove(selected_data);
-                    ProfileEdited();
-                    refresh_dgDatabase();
-                }
-            }
-        }
-        #endregion
 
 
 
