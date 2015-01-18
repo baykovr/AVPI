@@ -209,6 +209,7 @@
             this.logicalToolStripMenuItem.Name = "logicalToolStripMenuItem";
             this.logicalToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.logicalToolStripMenuItem.Text = "Logical";
+            this.logicalToolStripMenuItem.Click += new System.EventHandler(this.logicalToolStripMenuItem_Click);
             // 
             // stripProfileActionSequence
             // 
@@ -339,7 +340,7 @@
             this.toolStripSeparator2,
             this.addtoeventToolStripMenuItem1});
             this.contextProfileTriggers.Name = "contextProfileTriggers";
-            this.contextProfileTriggers.Size = new System.Drawing.Size(171, 98);
+            this.contextProfileTriggers.Size = new System.Drawing.Size(171, 120);
             // 
             // newStripMenuItem
             // 
@@ -353,15 +354,16 @@
             // phraseToolStripMenuItem1
             // 
             this.phraseToolStripMenuItem1.Name = "phraseToolStripMenuItem1";
-            this.phraseToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.phraseToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.phraseToolStripMenuItem1.Text = "Phrase";
             this.phraseToolStripMenuItem1.Click += new System.EventHandler(this.phraseToolStripMenuItem1_Click);
             // 
             // logicalToolStripMenuItem1
             // 
             this.logicalToolStripMenuItem1.Name = "logicalToolStripMenuItem1";
-            this.logicalToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.logicalToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.logicalToolStripMenuItem1.Text = "Logical";
+            this.logicalToolStripMenuItem1.Click += new System.EventHandler(this.logicalToolStripMenuItem1_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -632,7 +634,7 @@
             this.tabPageData.Location = new System.Drawing.Point(4, 22);
             this.tabPageData.Name = "tabPageData";
             this.tabPageData.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageData.Size = new System.Drawing.Size(760, 555);
+            this.tabPageData.Size = new System.Drawing.Size(864, 555);
             this.tabPageData.TabIndex = 1;
             this.tabPageData.Text = "Data";
             this.tabPageData.UseVisualStyleBackColor = true;
