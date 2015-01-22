@@ -85,8 +85,6 @@ namespace GAVPI
                      */
                     try
                     {
-                        
-
                         if (VI_Data.validate(data_type, data_value))
                         {
                             // ex: GAVPI.VI_INT 
@@ -120,53 +118,66 @@ namespace GAVPI
             // Case 2: Existing item (edit mode)
             else
             {
-                GAVPI.vi_profile.ProfileDB.Remove(data_to_edit);
+                data_to_edit.type = cbDataType.SelectedItem.ToString();
+                data_to_edit.comment = data_comment;
 
-                if (GAVPI.vi_profile.ProfileDB.isDataNameTaken(data_name))
+                // Now cast, this is necessary if the type has changed.
+                try
                 {
-                    MessageBox.Show("A data element with this name already exists.");
-                    GAVPI.vi_profile.ProfileDB.Insert(data_to_edit);
-                    return;
-                }
-                else
-                {
-                    data_to_edit.name = data_name;
-                    data_to_edit.type = cbDataType.SelectedItem.ToString();
-                    data_to_edit.comment = data_comment;
+                    Type new_data_type = Type.GetType(data_type);
 
-                    try
+                    if (VI_Data.validate(data_type, data_value))
                     {
-                        Type new_data_type = Type.GetType(data_type);
+                        // ex: GAVPI.VI_INT 
+                        Type thisType = Type.GetType(data_type);
 
-                        if (VI_Data.validate(data_type, data_value))
-                        {
-                            // ex: GAVPI.VI_INT 
-                            Type thisType = Type.GetType(data_type);
+                        // (ToObject) is static method which will cast a string value to 
+                        // the appropriate value type.
+                        MethodInfo method = thisType.GetMethod("ToObject");
 
-                            // (ToObject) is static method which will cast a string value to 
-                            // the appropriate value type.
-                            MethodInfo method = thisType.GetMethod("ToObject");
+                        // invokes the static method, cast_data_value will match value of VI_Data, ex: VI_INT.value is an int
+                        object cast_data_value = method.Invoke(null, new string[] { data_value });
 
-                            // invokes the static method, cast_data_value will match value of VI_Data, ex: VI_INT.value is an int
-                            object cast_data_value = method.Invoke(null, new string[] { data_value });
+                        data_to_edit.value = cast_data_value;
 
-                            data_to_edit.value = cast_data_value;
-
-                            //object data_instance = Activator.CreateInstance(new_data_type, data_name, cast_data_value, data_comment);
-                            //GAVPI.vi_profile.ProfileDB.Insert((VI_Data)data_instance);
-
-                            GAVPI.vi_profile.ProfileDB.Insert(data_to_edit);
-                        }
-                        else
-                        {
-                            invalid_data_value_msg(data_value);
-                            return;
-                        }
+                        //object data_instance = Activator.CreateInstance(new_data_type, data_name, cast_data_value, data_comment);
+                        //GAVPI.vi_profile.ProfileDB.Insert((VI_Data)data_instance);
                     }
-                    catch
+                    else
                     {
                         invalid_data_value_msg(data_value);
                         return;
+                    }
+                }
+                catch
+                {
+                    invalid_data_value_msg(data_value);
+                    return;
+                }
+
+
+                if (data_to_edit.name == data_name)
+                {
+                    // The current data element name is unchanged.
+                    GAVPI.vi_profile.ProfileDB.DB[data_name] = data_to_edit;
+                }
+                else
+                {
+                    // The name has been changed, check if the name is taken.
+                    if (GAVPI.vi_profile.ProfileDB.isDataNameTaken(data_name))
+                    {
+                        // Name is taken.
+                        MessageBox.Show("A data element with this name already exists.");
+                        return;
+                    }
+                    else
+                    {
+                        // There is no way to edit the key, remove the old entry and make a new one.
+
+                        // BUG : Will the Action update...?
+                        GAVPI.vi_profile.ProfileDB.DB.Remove(data_name);
+                        data_to_edit.name = data_name;
+                        GAVPI.vi_profile.ProfileDB.Insert(data_to_edit);
                     }
                 }
             }
