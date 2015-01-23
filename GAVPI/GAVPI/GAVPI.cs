@@ -51,11 +51,16 @@ namespace GAVPI
 
         private static MRU ProfileMRU;
         
-        private static ManagementEventWatcher EventWatcher;
-        private static WqlEventQuery EventQuery;
+        //  GAVPI may, optionally, automatically load a Profile when a specified process has started, and commence
+        //  Listening (stopping Listening automatically if the process is stopped).  We maintain a dictionary of
+        //  values associated with the fully qualified filename of the process as the key, and a pair consisting
+        //  an integer describing a process ID and the associated Profile filename.
 
-        private static Dictionary< string, string > AssociatedProcesses = new 
-            Dictionary< string, string >();
+        private static ManagementEventWatcher ProcessStartWatcher;
+        private static ManagementEventWatcher ProcessStopWatcher;
+        
+        private static Dictionary< string, ProcessItem >
+            AssociatedProcesses = new Dictionary< string, ProcessItem >();
 
         //  We maintain a system tray icon and context menu...
         
@@ -315,7 +320,7 @@ namespace GAVPI
                    
             //  If we're already watching out for processes opening then let's not do so again...
 
-            if( EventWatcher != null ) return;
+            if( ProcessStartWatcher != null ) return;
 
             //  Get the path to the running instance of GAVPI, and from there expand it with the Profiles
             //  sub-folder.
@@ -341,33 +346,33 @@ namespace GAVPI
                     //  scruitiny (see OnProcessStarted(), later).
 
                     if( AssociatedProcess != null && AssociatedProcess.InnerText != null )
-                        AssociatedProcesses.Add( AssociatedProcess.InnerText, ProfileFilename );
+                        AssociatedProcesses.Add( AssociatedProcess.InnerText, new ProcessItem( 0, ProfileFilename ) );
 
                 } catch( Exception ) { break; }               
 
             }  //  foreach()
 
-            //  We can now establish and start a Management Event watcher, asking it to inform us when a
-            //  process starts (we'll compare the process specifics with a list of processes we should
-            //  automatically load a related Profile for).
+            //  We can now establish and start two Management Event watchers, that inform us when processes
+            //  start and stop.
 
-            EventWatcher = null;
-            EventQuery = null;          
-        
+            ProcessStartWatcher = null;              
+            ProcessStopWatcher = null;
+
             try {
     		
-                EventQuery = new WqlEventQuery();
-    		    EventQuery.EventClassName = "Win32_ProcessStartTrace";
-    		    
-                EventWatcher = new ManagementEventWatcher( EventQuery );
-    		    EventWatcher.EventArrived += new EventArrivedEventHandler( OnProcessStarted );
+                ProcessStartWatcher = new ManagementEventWatcher( "SELECT * FROM Win32_ProcessStartTrace" );
+    		    ProcessStartWatcher.EventArrived += new EventArrivedEventHandler( OnProcessStarted );
 
-                //  We've told the Management Event watcher that we're insterestd in processes starting, so
-                //  let's set it in motion.
+                ProcessStopWatcher = new ManagementEventWatcher( "SELECT * FROM Win32_ProcessStopTrace" );
+                ProcessStopWatcher.EventArrived += new EventArrivedEventHandler( OnProcessStopped );
 
-    		    EventWatcher.Start();
-    		                
-            } catch( Exception ) {}   	        
+                //  We've told the Management Event watchers that we're insterestd in processes starting and
+                //  stopping, so let's set them in motion.
+
+    		    ProcessStartWatcher.Start();
+    		    ProcessStopWatcher.Start();           
+ 
+            } catch( Exception ) { return; }   	        
         
         }  //  static private void EnableAutoOpenProfile( object, EventArgs )
 
@@ -382,17 +387,18 @@ namespace GAVPI
         static public void DisableAutoOpenProfile( object sender, EventArgs e )
         {
        
-            //  If we're not monitoring process starts, let's not go any further.
+            //  If we're not monitoring process starts/stops, let's not go any further.
 
-            if( EventWatcher == null ) return;
+            if( ProcessStartWatcher == null || ProcessStopWatcher == null ) return;
 
             try {
                 
-                //  We no longer need the services of our Management Event watcher...
+                //  We no longer need the services of our Management Event watchers...
 
-                EventWatcher.Stop();
-        
-            } catch( Exception) { }       
+                ProcessStartWatcher.Stop();
+                ProcessStopWatcher.Stop();
+
+            } catch( Exception) { return; }       
         
         }  //  static private void DisableAutoOpenProfile( object, EventArgs )
 
@@ -401,40 +407,85 @@ namespace GAVPI
         //
         //  static private void OnProcessStarted( object, EventArrivedEventArgs )
         //
-        //  Receive an event containing process-relevant information whenever a process is started.
+        //  Receive an event containing process-relevant information whenever a process is started.  If the process
+        //  fully qualified filename has been associated with a Profile, we load the Profile and commence Listening.
         //
 
         static private void OnProcessStarted( object sender, EventArrivedEventArgs managementEvent )
         {
+            
+            string ProcessFilename = null;
 
-            string Filename = null;
+            Int32 ProcessID;
 
-            //  Let's attempt to get the fully qualified filename of the newly started process.  If the call
-            //  to GetProcessById() throws an exception it is likely because we received an event relating to
-            //  a process that is has stopped (hence the process ID will be an invalid argument).
+            //  Let's attempt to get both the process ID and the fully qualified filename of the newly started
+            //  process. 
 
             try { 
 
-                Filename = Process.GetProcessById(  Convert.ToInt32( managementEvent
-                              .NewEvent.Properties[ "ProcessID" ].Value ) ).MainModule.FileName;
+                ProcessID = Convert.ToInt32( managementEvent.NewEvent.Properties[ "ProcessID" ].Value );
+
+                //  If the extracted process ID exists within the list of running processes, let's get its
+                //  filename...
+
+                if( Process.GetProcesses().Any( x => x.Id == ProcessID ) )
+                    ProcessFilename = Process.GetProcessById( ProcessID ).MainModule.FileName;
 
             } catch( Exception ) { return; }
 
             //  If the filename of the newly started process exists within our dictionary of processes to watch
-            //  out for, load the related Profile...
+            //  out for...
 
-            if( Filename != null && AssociatedProcesses.ContainsKey( Filename ) ) {
+            if( ProcessFilename != null && AssociatedProcesses.ContainsKey( ProcessFilename ) ) {
 
-                LoadProfile( AssociatedProcesses[ Filename ] );
+                //  ...Save the ProcessID for later (we'll watch out for it stopping at some point)...
 
-                //  If the user has selected the option to automatically begin Listening, in Settings, let's
-                //  begin Listening...
+                AssociatedProcesses[ ProcessFilename ].ProcessID = ProcessID;
+
+                //  ...And load the associated Profile:
+
+                LoadProfile( AssociatedProcesses[ ProcessFilename ].AssociatedProfile );
+
+                //  If the user has selected the option to automatically begin Listening then let's do that...
 
                 if( Properties.Settings.Default.EnableAutoListen ) StartListening( null, null );
 
             }  //  if()
 
         }  //  static private void ProcessStarted( object, EventArrivedEventArgs )
+
+
+
+        //
+        //  static private void OnProcessStopped( object, EventArrivedEventArgs )
+        //
+        //  Receive an event containing process-relevant information whenever a process is stopped and, if that process
+        //  ID caused GAVPI to start Listening on voice commands via OnProcessStarted() then stop Listening.
+        //
+
+        static private void OnProcessStopped( object sender, EventArrivedEventArgs managementEvent )
+        {
+            
+            Int32 ProcessID;
+
+            //  Let's attempt to get the process ID of the process that we've been informed has stopped executing, and
+            //  see if an associated process with the same ID has been added to our list.  If the ID is in our list then
+            //  when this process began execution it caused GAVPI (if auto-listen is enabled) to start Listening on
+            //  voice commands.
+
+            try { 
+
+                ProcessID = Convert.ToInt32( managementEvent.NewEvent.Properties[ "ProcessID" ].Value );
+
+                //  If the process ID exists within our dictionary of processes to watch out for then let's stop
+                //  Listening...
+                    
+                foreach( ProcessItem item in AssociatedProcesses.Values )
+                    if( item.ProcessID == ProcessID ) StopListening( null, null );
+                
+            } catch( Exception ) { return; }
+
+        }  //  static private void ProcessStopped( object, EventArrivedEventArgs )
 
 
 
@@ -913,5 +964,32 @@ namespace GAVPI
         }  //  static public bool NewProfile()
 
     }  //  static class GAVPI
+
+
+
+    //
+    //  class ProcessItem
+    //
+    //  We maintain a list of processes that have GAVPI Profiles associated with their filenames, which may cause
+    //  the Profile to automatically load and GAVPI to begin listening.  The ProcessItem class notes associated
+    //  Profile to facilitate auto-loading and auto-listening, and the process's process ID to compare against
+    //  stopped processes (allowing us to stop listening when a process we were listening on terminates).
+    //
+
+    class ProcessItem
+    {
+
+        public Int32 ProcessID;
+        public string AssociatedProfile;
+
+        public ProcessItem( Int32 processID, string associatedProfile )
+        {
+    
+            ProcessID = processID;
+            AssociatedProfile = associatedProfile;
+    
+        }  //  public ProcessItem( Int32, string )
+
+    }  //  class ProcessItem
 
 }
