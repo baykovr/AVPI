@@ -155,24 +155,6 @@ namespace GAVPI
         #region UI : Context Menus (Right Click Menus)
 
         #region Triggers Context
-        // Add Trigger to TriggerEvent
-        private void addtoeventToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (dgTriggers.MultiSelect == true)
-            {
-                throw new NotImplementedException("Adding multiple triggers at once is unsupported.");
-            }
-            foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
-            {
-                // In this case it is a Trigger -> Trigger addition
-                VI_TriggerEvent event_to_add = row.DataBoundItem as VI_TriggerEvent;
-                frm_Add_to_TriggerEvent newAddtoTriggerEvent = new frm_Add_to_TriggerEvent( event_to_add );
-                
-				if( newAddtoTriggerEvent.ShowDialog() == DialogResult.OK ) ProfileEdited();
-				
-            }
-            refresh_dgTriggerEvents();
-        }
 
         // New Phrase Trigger
         private void phraseToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -246,6 +228,25 @@ namespace GAVPI
                 }
             }
 
+        }
+
+        // Add Trigger to TriggerEvent
+        private void addtoeventToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (dgTriggers.MultiSelect == true)
+            {
+                throw new NotImplementedException("Adding multiple triggers at once is unsupported.");
+            }
+            foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
+            {
+                // In this case it is a Trigger -> Trigger addition
+                VI_TriggerEvent event_to_add = row.DataBoundItem as VI_TriggerEvent;
+                frm_Add_to_TriggerEvent newAddtoTriggerEvent = new frm_Add_to_TriggerEvent(event_to_add);
+
+                if (newAddtoTriggerEvent.ShowDialog() == DialogResult.OK) ProfileEdited();
+
+            }
+            refresh_dgTriggerEvents();
         }
         #endregion
 

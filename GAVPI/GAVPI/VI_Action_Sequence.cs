@@ -265,11 +265,12 @@ namespace GAVPI
     {
         SpeechSynthesizer Profile_Synthesis;
         VI_Data data;
+
         public Data_Speak(SpeechSynthesizer Profile_Synthesis, VI_Data data)
         {
             this.Profile_Synthesis = Profile_Synthesis;
             this.data  = data;
-            this.value = data.value.ToString();
+            this.value = data.value.ToString(); 
         }
 
         //public ValueType 

@@ -154,6 +154,7 @@ namespace GAVPI
                     invalid_data_value_msg(data_value);
                     return;
                 }
+                // end-cast
 
 
                 if (data_to_edit.name == data_name)
@@ -174,7 +175,7 @@ namespace GAVPI
                     {
                         // There is no way to edit the key, remove the old entry and make a new one.
 
-                        // BUG : Will the Action update...?
+                        // BUG : Action.value will not be updated automatically here
                         GAVPI.vi_profile.ProfileDB.DB.Remove(data_name);
                         data_to_edit.name = data_name;
                         GAVPI.vi_profile.ProfileDB.Insert(data_to_edit);
