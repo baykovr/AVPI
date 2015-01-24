@@ -160,12 +160,8 @@ namespace GAVPI
 
             //  Reset any states...
 
-            UnsavedProfileChanges = false;
+            NewProfile();
 
-            //Clean Current
-            Profile_Triggers = new List<VI_Trigger>();
-            Profile_ActionSequences = new List<VI_Action_Sequence>();
-            //Constructor will catch.
             XmlDocument profile_xml = new XmlDocument();
 			
 			//  Let's ensure that the user has actually selected a well-formed XML document for us to navigate as

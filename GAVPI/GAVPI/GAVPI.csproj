@@ -144,6 +144,7 @@
     </Compile>
     <Compile Include="Logging.cs" />
     <Compile Include="MRUMenu.cs" />
+    <Compile Include="ProcessMonitor.cs" />
     <Compile Include="VI_Data.cs" />
     <Compile Include="VI_DB.cs" />
     <Compile Include="VI_Profile.cs" />
