@@ -7,16 +7,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ComponentModel;
-using TrivialLogging;
-using TrivialMRUMenu;
 using System.Text;
 using System.Reflection;
-using System.Management;
-using System.Diagnostics;
 using System.Xml;
+
+using TrivialLogging;
+using TrivialMRUMenu;
+using TrivialProcessMonitor;
 
 namespace GAVPI
 {
+
     static class GAVPI
     {
 
@@ -51,16 +52,18 @@ namespace GAVPI
 
         private static MRU ProfileMRU;
         
-        //  GAVPI may, optionally, automatically load a Profile when a specified process has started, and commence
-        //  Listening (stopping Listening automatically if the process is stopped).  We maintain a dictionary of
-        //  values associated with the fully qualified filename of the process as the key, and a pair consisting
-        //  an integer describing a process ID and the associated Profile filename.
+        //
+        //  GAVPI may, optionally, automatically load a Profile when a specified process has started, and
+        //  commence Listening (stopping Listening automatically if the process is stopped).  We maintain
+        //  a dictionary consisting of the fully qualified filename of the executable whose startup we may
+        //  detect as the key, and the Profile's filename we may associate with the executable as a value.
+        //
+        //  The AssociatedProcessMonitor object, when started, will issue callbacks when executables run
+        //  or terminate, providing relevant information.
+        //
 
-        private static ManagementEventWatcher ProcessStartWatcher;
-        private static ManagementEventWatcher ProcessStopWatcher;
-        
-        private static Dictionary< string, ProcessItem >
-            AssociatedProcesses = new Dictionary< string, ProcessItem >();
+        private static ProcessMonitor AssociatedProcessMonitor;
+        private static Dictionary< string, string > AssociatedProfiles = new Dictionary< string, string >();
 
         //  We maintain a system tray icon and context menu...
         
@@ -195,7 +198,7 @@ namespace GAVPI
             ProfileMRU.Deserialize();
 
             //  Let's commence monitoring process startup and automatically open Profiles if any have been
-            //  associated with an executable.
+            //  associated with an executable and the option to do so has been set.
 
             if( Properties.Settings.Default.EnableAutoOpenProfile ) EnableAutoOpenProfile( null, null );
 
@@ -292,11 +295,7 @@ namespace GAVPI
         static public void OnMRUListItem( MRU.MRUItem item )
         {
 
-            if( !LoadProfile( ( string ) item.ItemData ) ) {
-
-                ProfileMRU.Remove( item.ItemText );
-
-            }  //  if()
+            if( !LoadProfile( ( string ) item.ItemData ) ) ProfileMRU.Remove( item.ItemText );
 
         }  //  static public void OnMRUListItem( MRU.MRUItem )
 
@@ -311,17 +310,12 @@ namespace GAVPI
         //  filename of an associated executable; these associations are collated at initial GAVPI startup,
         //  and the assumption is made that all Profiles are stored within the Profiles sub-folder in which
         //  GAVPI resides.  We then request the Operating System inform GAVPI when a process starts, and via
-        //  an event handler - OnProcessStarted() - we determine if the process is an associated process.
-        //  If so, we automatically load the relevant Profile.  So...
+        //  a trivial process monitor with callbacks.
         //
 
         static public void EnableAutoOpenProfile( object sender, EventArgs e )
         {
                    
-            //  If we're already watching out for processes opening then let's not do so again...
-
-            if( ProcessStartWatcher != null ) return;
-
             //  Get the path to the running instance of GAVPI, and from there expand it with the Profiles
             //  sub-folder.
 
@@ -332,7 +326,7 @@ namespace GAVPI
            
             //  Enumerate the XML Profiles within the sub-folder, extracting the filename of a user-chosen
             //  executable whose process startup we may monitor.  Exceptions are likely limited to badly formed
-            //  XML - or some other data with an .XML extension.
+            //  XML - or some other kind of data but with an .XML extension.
 
             foreach( string ProfileFilename in Directory.EnumerateFiles( ProfilePath, "*.xml" ) ) {
 
@@ -345,35 +339,24 @@ namespace GAVPI
                     //  We'll store the executable's filename within a key/value Dictionary for later
                     //  scruitiny (see OnProcessStarted(), later).
 
-                    if( AssociatedProcess != null && AssociatedProcess.InnerText != null )
-                        AssociatedProcesses.Add( AssociatedProcess.InnerText, new ProcessItem( 0, ProfileFilename ) );
+                    if( AssociatedProcess != null && AssociatedProcess.InnerText != null ) 
+                        AssociatedProfiles.Add( AssociatedProcess.InnerText, ProfileFilename );
 
                 } catch( Exception ) { break; }               
 
             }  //  foreach()
 
-            //  We can now establish and start two Management Event watchers, that inform us when processes
-            //  start and stop.
+            //  Now, if we have any Profiles associated with an executable, let's start listening out for
+            //  running instances of those executables.
 
-            ProcessStartWatcher = null;              
-            ProcessStopWatcher = null;
+            if( AssociatedProfiles.Count != 0 ) { 
 
-            try {
-    		
-                ProcessStartWatcher = new ManagementEventWatcher( "SELECT * FROM Win32_ProcessStartTrace" );
-    		    ProcessStartWatcher.EventArrived += new EventArrivedEventHandler( OnProcessStarted );
+                AssociatedProcessMonitor = new ProcessMonitor( OnProcessStarted, OnProcessStopped );
 
-                ProcessStopWatcher = new ManagementEventWatcher( "SELECT * FROM Win32_ProcessStopTrace" );
-                ProcessStopWatcher.EventArrived += new EventArrivedEventHandler( OnProcessStopped );
+                AssociatedProcessMonitor.Start();
 
-                //  We've told the Management Event watchers that we're insterestd in processes starting and
-                //  stopping, so let's set them in motion.
+            }  //  if()
 
-    		    ProcessStartWatcher.Start();
-    		    ProcessStopWatcher.Start();           
- 
-            } catch( Exception ) { return; }   	        
-        
         }  //  static private void EnableAutoOpenProfile( object, EventArgs )
 
 
@@ -387,105 +370,60 @@ namespace GAVPI
         static public void DisableAutoOpenProfile( object sender, EventArgs e )
         {
        
-            //  If we're not monitoring process starts/stops, let's not go any further.
-
-            if( ProcessStartWatcher == null || ProcessStopWatcher == null ) return;
-
-            try {
-                
-                //  We no longer need the services of our Management Event watchers...
-
-                ProcessStartWatcher.Stop();
-                ProcessStopWatcher.Stop();
-
-            } catch( Exception) { return; }       
+            AssociatedProcessMonitor.Stop();    
         
         }  //  static private void DisableAutoOpenProfile( object, EventArgs )
 
 
 
         //
-        //  static private void OnProcessStarted( object, EventArrivedEventArgs )
+        //  static private void OnProcessStarted( Int32, string )
         //
         //  Receive an event containing process-relevant information whenever a process is started.  If the process
-        //  fully qualified filename has been associated with a Profile, we load the Profile and commence Listening.
+        //  fully qualified filename has been associated with a Profile, we load the Profile and optionally commence
+        //  Listening.
         //
 
-        static private void OnProcessStarted( object sender, EventArrivedEventArgs managementEvent )
+        static private void OnProcessStarted( Int32 processID, string processFilename )
         {
-            
-            string ProcessFilename = null;
 
-            Int32 ProcessID;
+            //  If the process isn't one we have previously recognised as being associated with a Profile then go no
+            //  further, otherwise load the associated Profile if it isn't already loaded and, if the user opted to
+            //  automatically Listen on the Profile, begin listening...
 
-            //  Let's attempt to get both the process ID and the fully qualified filename of the newly started
-            //  process. 
+            if( !AssociatedProfiles.ContainsKey( processFilename ) ) return;
 
-            try { 
+            if( vi.IsListening ) StopListening( null, null );
 
-                ProcessID = Convert.ToInt32( managementEvent.NewEvent.Properties[ "ProcessID" ].Value );
-
-                //  If the extracted process ID exists within the list of running processes, let's get its
-                //  filename...
-
-                if( Process.GetProcesses().Any( x => x.Id == ProcessID ) )
-                    ProcessFilename = Process.GetProcessById( ProcessID ).MainModule.FileName;
-
-            } catch( Exception ) { return; }
-
-            //  If the filename of the newly started process exists within our dictionary of processes to watch
-            //  out for...
-
-            if( ProcessFilename != null && AssociatedProcesses.ContainsKey( ProcessFilename ) ) {
-
-                //  ...Save the ProcessID for later (we'll watch out for it stopping at some point)...
-
-                AssociatedProcesses[ ProcessFilename ].ProcessID = ProcessID;
-
-                //  ...And load the associated Profile:
-
-                LoadProfile( AssociatedProcesses[ ProcessFilename ].AssociatedProfile );
-
-                //  If the user has selected the option to automatically begin Listening then let's do that...
-
-                if( Properties.Settings.Default.EnableAutoListen ) StartListening( null, null );
-
-            }  //  if()
-
-        }  //  static private void ProcessStarted( object, EventArrivedEventArgs )
-
-
-
-        //
-        //  static private void OnProcessStopped( object, EventArrivedEventArgs )
-        //
-        //  Receive an event containing process-relevant information whenever a process is stopped and, if that process
-        //  ID caused GAVPI to start Listening on voice commands via OnProcessStarted() then stop Listening.
-        //
-
-        static private void OnProcessStopped( object sender, EventArrivedEventArgs managementEvent )
-        {
-            
-            Int32 ProcessID;
-
-            //  Let's attempt to get the process ID of the process that we've been informed has stopped executing, and
-            //  see if an associated process with the same ID has been added to our list.  If the ID is in our list then
-            //  when this process began execution it caused GAVPI (if auto-listen is enabled) to start Listening on
-            //  voice commands.
-
-            try { 
-
-                ProcessID = Convert.ToInt32( managementEvent.NewEvent.Properties[ "ProcessID" ].Value );
-
-                //  If the process ID exists within our dictionary of processes to watch out for then let's stop
-                //  Listening...
-                    
-                foreach( ProcessItem item in AssociatedProcesses.Values )
-                    if( item.ProcessID == ProcessID ) StopListening( null, null );
+            if( vi_profile.GetProfileFilename() != AssociatedProfiles[ processFilename ] )
+                LoadProfile( AssociatedProfiles[ processFilename ] );
                 
-            } catch( Exception ) { return; }
+            if( Properties.Settings.Default.EnableAutoListen ) StartListening( null, null );
 
-        }  //  static private void ProcessStopped( object, EventArrivedEventArgs )
+        }  //  static private void OnProcessStarted( Int32, string )
+
+
+
+        //
+        //  static private void OnProcessStopped( Int32, string )
+        //
+        //  Receive an event containing process-relevant information whenever a process is stopped.  If that process
+        //  caused GAVPI to start Listening on voice commands via OnProcessStarted() then stop Listening.
+        //
+
+        static private void OnProcessStopped( Int32 processID, string processFilename )
+        {
+
+            //  If the process is one whose running and terminated states we are tracking and auto-listen is enabled,
+            //  stop Listening.
+
+            if( vi.IsListening &&
+                processFilename != null &&
+                AssociatedProfiles.ContainsKey( processFilename ) && 
+                Properties.Settings.Default.EnableAutoListen &&
+                vi_profile.GetProfileFilename() == AssociatedProfiles[ processFilename ] ) StopListening( null, null );
+
+        }  //  static private void OnProcessStopped( Int32, string )
 
 
 
@@ -503,7 +441,7 @@ namespace GAVPI
             return ( vi.IsListening ? "LISTENING:" : "NOT LISTENING:" ) + " " +
                    ( vi_profile.IsEdited() ? " [UNSAVED] " : " " ) +
                    Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() );
-        
+
         }  //  static public string GetStatusString()
 
         
