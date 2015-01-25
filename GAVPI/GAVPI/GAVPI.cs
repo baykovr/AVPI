@@ -208,10 +208,6 @@ namespace GAVPI
 
             Application.Run();          
 
-            //  If we're monitoring process startup, let's stop doing so.
-
-            if( Properties.Settings.Default.EnableAutoOpenProfile ) DisableAutoOpenProfile( null, null );
-
             //  We don't want the garbage collector to think our Mutex is up for grabs before we close the program,
             //  so let's protect it.
 
@@ -238,6 +234,10 @@ namespace GAVPI
             //  Let's serialise the MRU before oblivion.
 
             ProfileMRU.Serialize();
+
+            //  If we're monitoring process startup, let's stop doing so.
+
+            if( Properties.Settings.Default.EnableAutoOpenProfile ) DisableAutoOpenProfile( null, null );
 
             //  And persist any of the settings.
 
@@ -340,22 +340,18 @@ namespace GAVPI
                     //  scruitiny (see OnProcessStarted(), later).
 
                     if( AssociatedProcess != null && AssociatedProcess.InnerText != null ) 
-                        AssociatedProfiles.Add( AssociatedProcess.InnerText, ProfileFilename );
+                        AddAutoOpenProfile( AssociatedProcess.InnerText, ProfileFilename );
 
                 } catch( Exception ) { break; }               
 
             }  //  foreach()
 
-            //  Now, if we have any Profiles associated with an executable, let's start listening out for
-            //  running instances of those executables.
+            //  We'll start the process monitor whether we have a associations to monitor since associations may
+            //  be added at runtime via frmProfile.
 
-            if( AssociatedProfiles.Count != 0 ) { 
+            AssociatedProcessMonitor = new ProcessMonitor( OnProcessStarted, OnProcessStopped );
 
-                AssociatedProcessMonitor = new ProcessMonitor( OnProcessStarted, OnProcessStopped );
-
-                AssociatedProcessMonitor.Start();
-
-            }  //  if()
+            AssociatedProcessMonitor.Start();
 
         }  //  static private void EnableAutoOpenProfile( object, EventArgs )
 
@@ -373,6 +369,41 @@ namespace GAVPI
             AssociatedProcessMonitor.Stop();    
         
         }  //  static private void DisableAutoOpenProfile( object, EventArgs )
+
+
+
+        //
+        //  static public void AddAutoOpenProfile( string, string )
+        //
+        //  Associated an executable with a given Profile.
+        //
+
+        static public void AddAutoOpenProfile( string executableFilename, string profileFilename )
+        {
+        
+            //  If profile already exits in list, remove it (we'll replace it).  Then add the association.
+
+            RemoveAutoOpenProfile( profileFilename );
+
+            AssociatedProfiles.Add( executableFilename, profileFilename );
+        
+        }  //  static public void AddAutoOpenProfile( string executableFilename, string profileFilename )
+
+
+
+        //
+        //  static public void RemoveAutoOpenProfile( string )
+        //
+        //  Remove an executable associated with the given profile Filename.
+        //
+
+        static public void RemoveAutoOpenProfile( string profileFilename )
+        {
+        
+            if( AssociatedProfiles.ContainsValue( profileFilename ) )
+                AssociatedProfiles.Remove( AssociatedProfiles.First( x => x.Value == profileFilename ).Key );
+        
+        }  //  static public void RemoveAutoOpenProfile( string profileFilename )
 
 
 
