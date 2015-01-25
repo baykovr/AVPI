@@ -69,6 +69,9 @@ namespace GAVPI
             cbSettingsSynthesizer.SelectedItem     = vi_settings.voice_info;
             cbSettingsPushToTalkMode.SelectedItem  = vi_settings.pushtotalk_mode;
             cbSettingsPushToTalkKey.SelectedItem   = vi_settings.pushtotalk_key;
+  
+            AutomaticallyListen.Enabled = AutoLoadProfiles.Checked ? true : false;
+
             // TODO
             // unhandled recording devices
             //cbSettingsRecordingDevice.SelectedItem =
@@ -94,16 +97,26 @@ namespace GAVPI
             this.Close();
         }
 
-        private void StartUpShowMainWindow_CheckedChanged( object sender, EventArgs e ) {
-
-
-        }
+        private void StartUpShowMainWindow_CheckedChanged( object sender, EventArgs e ) {}
 
         private void AutoLoadProfiles_CheckedChanged( object sender, EventArgs e )
         {
 
-            if( AutoLoadProfiles.Checked ) GAVPI.EnableAutoOpenProfile( sender, e );
-            else GAVPI.DisableAutoOpenProfile( sender, e );
+            if( AutoLoadProfiles.Checked ) {
+              
+                AutomaticallyListen.Enabled = true;
+                GAVPI.EnableAutoOpenProfile( sender, e );
+
+            } else {
+
+                AutomaticallyListen.Enabled = false;                
+                GAVPI.DisableAutoOpenProfile( sender, e );
+
+            }
+
+        }
+
+        private void AutomaticallyListen_CheckedChanged( object sender, EventArgs e ) {
 
         }
         
