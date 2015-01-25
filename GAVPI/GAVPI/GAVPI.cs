@@ -322,6 +322,10 @@ namespace GAVPI
             string ProfilePath = new Uri( System.IO.Path.GetDirectoryName( 
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase ) ).LocalPath + "\\Profiles";
             
+            //  If there isn't a Profiles directory within the directory GAVPI was launched from, go no further.
+
+            if( !Directory.Exists( ProfilePath ) ) return;
+
             XmlDocument Profile = new XmlDocument();
            
             //  Enumerate the XML Profiles within the sub-folder, extracting the filename of a user-chosen
@@ -747,7 +751,16 @@ namespace GAVPI
 
                 profile_dialog.Title = "Select a Profile to open";
                 profile_dialog.Filter = "Profiles (*.XML)|*.XML|All Files (*.*)|*.*";
-                profile_dialog.RestoreDirectory = true;
+
+                //  Try get the path to a directory within GAVPI's own directory called "Profiles", and make that
+                //  the default directory in the OpenFileDialog.
+
+                string GAVPIPath = new Uri( System.IO.Path.GetDirectoryName( 
+                    System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase ) ).LocalPath;
+
+                if( Directory.Exists( GAVPIPath + "\\Profiles" ) ) GAVPIPath += "\\Profiles";
+
+                profile_dialog.InitialDirectory = GAVPIPath;
 
                 if ( profile_dialog.ShowDialog() == DialogResult.Cancel ) return false;
 
