@@ -571,7 +571,7 @@
             this.AssociatedProcessTextBox.Name = "AssociatedProcessTextBox";
             this.AssociatedProcessTextBox.Size = new System.Drawing.Size(683, 20);
             this.AssociatedProcessTextBox.TabIndex = 5;
-            this.AssociatedProcessTextBox.TextChanged += new System.EventHandler(this.AssociatedProcessTextBox_TextChanged);
+            this.AssociatedProcessTextBox.TextChanged += new System.EventHandler( this.AssociatedProcessTextBox_TextChanged );
             // 
             // AssociatedProcessLabel
             // 

@@ -556,18 +556,15 @@ namespace GAVPI
             btmStatusProfile.Text = GAVPI.GetStatusString();
 
 		}  //  private void ProfileEdited()
-
         
-
-
-        
-
 
 
         //
         //  private void AssociatedProcessButton_Click( object, EventArgs )
         //
-        //
+        //  Provide the opportunity for the user to select an external executable to associate with this Profile via
+        //  an OpenFileDialog.  Startup and termination of the executable may be monitored and the associated Profile
+        //  loaded automatically.
         //
 
         private void AssociatedProcessButton_Click( object sender, EventArgs e )
@@ -591,6 +588,10 @@ namespace GAVPI
             
                 AssociatedProcessTextBox.Text = dialog.FileName;
 
+                //  And refer to the text box event handler.
+
+                AssociatedProcessTextBox_TextChanged( sender, e );
+
             }  //  using()
 
         }  //  private void AssociatedProcessButton_Click( object, EventArgs )
@@ -598,26 +599,30 @@ namespace GAVPI
 
 
         //
+        //  private void AssociatedProcessTextBox_LostFocus( object, EventArgs )
         //
-        //
-        //
+        //  If the user manually edits the content of the associated process filename text box, acknowledge
+        //  those changes.
         //
 
         private void AssociatedProcessTextBox_TextChanged( object sender, EventArgs e )
         {
            
-            //  Assign the content of the TextBox to the Profile.
+            //  Assign the content of the TextBox to the Profile. CHECK TO MAKE SURE OLD ONE IS REMOVED!
+
+            if( GAVPI.vi_profile.GetAssociatedProcess() == AssociatedProcessTextBox.Text ) return;
 
             GAVPI.vi_profile.SetAssociatedProcess( AssociatedProcessTextBox.Text );
+            
+            //  Add to the process tracker (infers removal of a prior instance).
+
+            GAVPI.AddAutoOpenProfile( AssociatedProcessTextBox.Text, GAVPI.vi_profile.GetProfileFilename() );
 
             //  Consider this Profile edited.
 
-           // ProfileEdited();
+            ProfileEdited();
 
-        }
-
-        
-
+        }  //  private void AssociatedProcessTextBox_LostFocus( object, EventArgs )
 
     }
 

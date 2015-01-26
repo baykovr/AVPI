@@ -332,9 +332,13 @@ namespace GAVPI
                 writer.WriteStartDocument();
                 writer.WriteStartElement("gavpi");
 
-                writer.WriteStartElement( "AssociatedProcess" );
-                writer.WriteString( AssociatedProcess );
-                writer.WriteEndElement();
+                if( AssociatedProcess != null ) {
+
+                    writer.WriteStartElement( "AssociatedProcess" );
+                    writer.WriteString( AssociatedProcess );
+                    writer.WriteEndElement();
+
+                }  //  if()
 
                 foreach (VI_Action_Sequence ack_seq in Profile_ActionSequences)
                 {
