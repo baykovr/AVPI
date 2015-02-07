@@ -396,10 +396,12 @@ namespace GAVPI
             {
                 txtActionSequenceName.Text = sequence_to_edit.name;
 
-                dgActionSequence.DataSource = sequence_to_edit.action_sequence.ToList();
-
                 // TODO : Hack 
                 // 
+
+                dgActionSequence.DataSource = sequence_to_edit.action_sequence.ToList();
+
+                
 
                 txtActionSequenceComment.Text = sequence_to_edit.comment;
             }

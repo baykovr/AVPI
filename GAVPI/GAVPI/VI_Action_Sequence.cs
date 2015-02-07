@@ -109,7 +109,7 @@ namespace GAVPI
     public abstract class Action
     {
         public string type { get; set; }
-        public string value { get; set; }
+        public abstract string value { get; set; }
 
         public abstract void run();
 
@@ -127,7 +127,12 @@ namespace GAVPI
     {
         public KeyDown(string value) : base(value)
         {
-
+            this.value = value;
+        }
+        public override string value
+        {
+            get { return value; }
+            set { this.value = value; }
         }
         public override void run()
         {
@@ -138,6 +143,12 @@ namespace GAVPI
     {
         public KeyUp(string value): base(value)
         {
+            this.value = value;
+        }
+        public override string value
+        {
+            get { return value; }
+            set { this.value = value; }
         }
         public override void run()
         {
@@ -148,7 +159,12 @@ namespace GAVPI
     {
         public KeyPress(string value): base(value)
         {
-           
+            this.value = value;
+        }
+        public override string value
+        {
+            get { return value; }
+            set { this.value = value; }
         }
         public override void run()
         {
@@ -160,7 +176,12 @@ namespace GAVPI
     {
         public MouseKeyDown(string value): base(value)
         {
-            
+            this.value = value;
+        }
+        public override string value
+        {
+            get { return value; }
+            set { this.value = value; }
         }
         public override void run()
         {
@@ -171,7 +192,12 @@ namespace GAVPI
     {
         public MouseKeyUp(string value) : base(value)
         {
-           
+            this.value = value;
+        }
+        public override string value
+        {
+            get { return value; }
+            set { this.value = value; }
         }
         public override void run()
         {
@@ -182,6 +208,12 @@ namespace GAVPI
     {
         public MouseKeyPress(string value) : base(value)
         {
+            this.value = value;
+        }
+        public override string value
+        {
+            get { return value; }
+            set { this.value = value; }
         }
         public override void run()
         {
@@ -192,6 +224,12 @@ namespace GAVPI
     {
         public Wait(string value) : base(value)
         {
+            this.value = value;
+        }
+        public override string value
+        {
+            get { return value; }
+            set { this.value = value; }
         }
         public override void run()
         {
@@ -206,6 +244,12 @@ namespace GAVPI
         public Speak(SpeechSynthesizer Profile_Synthesis, string value) : base(value)
         {
             this.Profile_Synthesis = Profile_Synthesis;
+            this.value = value;
+        }
+        public override string value
+        {
+            get { return value; }
+            set { this.value = value; }
         }
         public override void run()
         {
@@ -225,10 +269,15 @@ namespace GAVPI
     #region Data Actions
     public partial class Data_Decrement : Action 
     {
+        VI_Data data;
         public Data_Decrement( VI_Data data, string value) : base(value) 
         {
-           
- 
+            this.value = value;
+        }
+        public override string value
+        {
+            get { return data.value.ToString(); }
+            set { this.value = value; }
         }
         public override void run()
         {
@@ -237,11 +286,16 @@ namespace GAVPI
     }
     public partial class Data_Increment : Action
     {
+        VI_Data data;
         public Data_Increment(VI_Data data, string value)
             : base(value)
         {
-
-
+            this.value = value;
+        }
+        public override string value
+        {
+            get { return data.value.ToString(); }
+            set { this.value = value; }
         }
         public override void run()
         {
@@ -250,11 +304,18 @@ namespace GAVPI
     }
     public partial class Data_Set : Action
     {
+        VI_Data data;
         public Data_Set(VI_Data data, string value)
             : base(value)
         {
+            this.value = value;
 
 
+        }
+        public override string value
+        {
+            get { return data.value.ToString(); }
+            set { this.value = value; }
         }
         public override void run()
         {
@@ -270,7 +331,12 @@ namespace GAVPI
         {
             this.Profile_Synthesis = Profile_Synthesis;
             this.data  = data;
-            this.value = data.value.ToString(); 
+            //this.value = data.value.ToString();
+        }
+        public override string value
+        {
+            get { return data.value.ToString(); }
+            set { this.value = value; }
         }
 
         //public ValueType 
