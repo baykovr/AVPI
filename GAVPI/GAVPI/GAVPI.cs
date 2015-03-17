@@ -689,8 +689,8 @@ namespace GAVPI
             }  //  if()
                         
             SettingsForm = new frmSettings( vi_settings );
-            
-            SettingsForm.Show();               
+
+            SettingsForm.ShowDialog();            
         
         }  //  static private void OpenSettings()
 
