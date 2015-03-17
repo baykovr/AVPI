@@ -131,8 +131,7 @@ namespace GAVPI
         }
         public override string value
         {
-            get;
-            set;
+            get;set;
         }
         public override void run()
         {

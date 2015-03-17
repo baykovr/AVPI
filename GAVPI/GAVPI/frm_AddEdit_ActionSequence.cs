@@ -474,7 +474,7 @@ namespace GAVPI
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (dgActionSequence.RowCount > 0)
+                if (dgActionSequence.RowCount > 0 && e.RowIndex > 0)
                 {
                     dgActionSequence.CurrentCell = dgActionSequence.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 }
