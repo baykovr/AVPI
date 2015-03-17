@@ -131,8 +131,8 @@ namespace GAVPI
         }
         public override string value
         {
-            get { return value; }
-            set { this.value = value; }
+            get;
+            set;
         }
         public override void run()
         {
@@ -147,8 +147,8 @@ namespace GAVPI
         }
         public override string value
         {
-            get { return value; }
-            set { this.value = value; }
+            get;
+            set;
         }
         public override void run()
         {
@@ -163,8 +163,8 @@ namespace GAVPI
         }
         public override string value
         {
-            get { return value; }
-            set { this.value = value; }
+            get;
+            set;
         }
         public override void run()
         {
@@ -180,8 +180,8 @@ namespace GAVPI
         }
         public override string value
         {
-            get { return value; }
-            set { this.value = value; }
+            get;
+            set;
         }
         public override void run()
         {
@@ -196,8 +196,8 @@ namespace GAVPI
         }
         public override string value
         {
-            get { return value; }
-            set { this.value = value; }
+            get;
+            set;
         }
         public override void run()
         {
@@ -212,8 +212,8 @@ namespace GAVPI
         }
         public override string value
         {
-            get { return value; }
-            set { this.value = value; }
+            get;
+            set;
         }
         public override void run()
         {
@@ -228,8 +228,8 @@ namespace GAVPI
         }
         public override string value
         {
-            get { return value; }
-            set { this.value = value; }
+            get;
+            set;
         }
         public override void run()
         {
@@ -248,8 +248,8 @@ namespace GAVPI
         }
         public override string value
         {
-            get { return value; }
-            set { this.value = value; }
+            get;
+            set;
         }
         public override void run()
         {
@@ -309,8 +309,6 @@ namespace GAVPI
             : base(value)
         {
             this.value = value;
-
-
         }
         public override string value
         {
