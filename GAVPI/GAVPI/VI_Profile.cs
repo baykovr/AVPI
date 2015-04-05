@@ -58,8 +58,7 @@ namespace GAVPI
                 if (filename != null) 
                 { 
                     load_profile( filename );
-
-            }
+                }
 
             }
             catch (Exception profile_err)
@@ -167,14 +166,13 @@ namespace GAVPI
 			//  Let's ensure that the user has actually selected a well-formed XML document for us to navigate as
 			//  opposed to - oh, I don't know: a picture of their cat?
 			
-			try {
-			
-				profile_xml.Load(filename);
-				
-			} catch( Exception ) {
-			
+			try 
+            {
+				profile_xml.Load(filename);	
+			} 
+            catch( Exception ) 
+            {
 				return false;
-
             }
 				
             //Check first element tag
@@ -185,13 +183,12 @@ namespace GAVPI
             XmlNodeList profile_xml_elements = profile_xml.DocumentElement.ChildNodes;
             foreach (XmlNode element in profile_xml_elements)
             {
-
-                if( element.Name == "AssociatedProcess" ) {
-
+                if( element.Name == "AssociatedProcess" ) 
+                {
                     AssociatedProcess = element.InnerText;
-
-                } else if (element.Name == "VI_Action_Sequence") {
-
+                } 
+                else if (element.Name == "VI_Action_Sequence") 
+                {
                     VI_Action_Sequence ack_frm_file;
                     ack_frm_file = new VI_Action_Sequence(element.Attributes.GetNamedItem("name").Value);
                     ack_frm_file.type = element.Attributes.GetNamedItem("type").Value;
@@ -259,16 +256,19 @@ namespace GAVPI
                 }
             }
 			
-            // Load Database Components
-            // DB will parse out the VI_DB tag, allong with its children.
-            ProfileDB = new VI_DB(filename);
+            
 
 			//
 			//  We have successfully loaded the Profile, so retain the Profile's filename for future reference...
 			//
-			
 			ProfileFilename = filename;
-			
+
+            // Load Database Components
+            // DB will parse out the VI_DB tag, allong with its children.
+            
+            // TODO
+            //ProfileDB = new VI_DB(filename);
+
 			return true;
 			
         }  //  public void load_profile()
@@ -374,6 +374,12 @@ namespace GAVPI
                    }
                     writer.WriteEndElement();
                 }
+
+                if (ProfileDB != null)
+                {
+                    ProfileDB.save(writer);
+                }
+
 
                 writer.WriteEndElement();
                 writer.WriteEndDocument();

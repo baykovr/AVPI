@@ -70,32 +70,35 @@ namespace GAVPI
             //    /*Not good.*/
             //}
         }
-        public void save()
+        //public void save()
+        //{
+        //    if (String.IsNullOrEmpty(DBFilename))
+        //    {
+        //        throw new Exception("No database filename specified");
+        //    }
+        //    else
+        //    {
+        //        this.save(DBFilename);
+        //    }
+        //}
+        public void save(XmlWriter writer)
         {
-            if (String.IsNullOrEmpty(DBFilename))
-            {
-                throw new Exception("No database filename specified");
-            }
-            else
-            {
-                this.save(DBFilename);
-            }
-        }
-        public void save(string filename)
-        {
-            XmlWriterSettings dbxml = new XmlWriterSettings();
-            dbxml.Indent = true;
-            XmlWriter writer = XmlWriter.Create(filename, dbxml);
-            writer.WriteStartDocument();
-            writer.WriteStartElement("gavpidb");
+            // VI_Profile will call save with writer
+            // after writing the rest of the profile data to writer.
+
             writer.WriteStartElement("VI_DB");
 
-
-
+            foreach (KeyValuePair<string, VI_Data> data in DB)
+            {
+                writer.WriteStartElement("VI_Data");
+                    writer.WriteAttributeString("name", data.Key);
+                    writer.WriteAttributeString("type",   data.Value.type);
+                    writer.WriteAttributeString("value",  data.Value.value.ToString());
+                    writer.WriteAttributeString("comment",data.Value.comment);
+                writer.WriteEndElement();
+            }
             writer.WriteEndElement();
-            writer.WriteEndDocument();
             writer.Flush();
-            writer.Close();
         }
         #endregion
         #region Insert/Remove
