@@ -248,11 +248,26 @@ namespace GAVPI
                             trig_frm_file.Add(newMetaTrigger);
                         }
                     }
+                    
                     // Malformed xml or double load, need to switch to dictionaries tbh
+                    // agreed, but there are enough things to do atm 04.07.15
                     if (!Profile_Triggers.Any(trig=>trig.name == trig_frm_file.name))
                     { 
                         Profile_Triggers.Add(trig_frm_file); 
                     }
+                }
+                else if (element.Name == "VI_DB")
+                {
+                    // Hand reader to DB
+                    if (ProfileDB != null)
+                    {
+                        ProfileDB.load(element);
+                    }
+
+                }
+                else
+                {
+                    // Unhandled element type.
                 }
             }
 			

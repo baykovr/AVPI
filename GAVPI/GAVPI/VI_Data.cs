@@ -50,11 +50,18 @@ namespace GAVPI
         }
         public static bool validate(string type, string value)
         {
-            /* This is practically magic.*/
-            Type thisType = Type.GetType(type);
-            MethodInfo method = thisType.GetMethod("validate");
-            bool result = (bool)method.Invoke(null, new string[]{ value });
-            return result;
+            if (type != null)
+            {
+                Type thisType = Type.GetType(type);
+                MethodInfo method = thisType.GetMethod("validate");
+                bool result = (bool)method.Invoke(null, new string[] { value });
+                return result;
+            }
+            else
+            {
+                //type is not set
+                return false;
+            }
     }
     }
     public partial class VI_INT : VI_Data
@@ -96,7 +103,7 @@ namespace GAVPI
             if (validate(value))
             {
                 return int.Parse(value);
-    }
+            }
             else
             {
                 return null;
@@ -142,7 +149,7 @@ namespace GAVPI
             if (validate(value))
             {
                 return float.Parse(value);
-    }
+            }
             else
             {
                 return null;
