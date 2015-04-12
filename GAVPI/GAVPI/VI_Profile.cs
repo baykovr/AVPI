@@ -204,11 +204,30 @@ namespace GAVPI
                         {
                             action_instance = Activator.CreateInstance(new_action_type,this.synth, action_value);
                         }
+                        // Look Up Data Value in DB
+                        else if (action_type == "Data_Speak")
+                        {
+                            // action_value is the db key, the data element name
+                            if (ProfileDB.DB.ContainsKey(action_value))
+                            {
+                                action_instance = Activator.CreateInstance(new_action_type, this.synth, 
+                                    (VI_Data)ProfileDB.DB[action_value]);
+                            }
+                            else
+                            {
+                                action_instance = null;
+                                MessageBox.Show("Warning : unknown data element " + action_value);
+                            }
+                        }
                         else
                         {
                             action_instance = Activator.CreateInstance(new_action_type, action_value);
                         }
-                        ack_frm_file.Add((Action)action_instance);
+
+                        if (action_instance != null)
+                        {
+                            ack_frm_file.Add((Action)action_instance);
+                        }
                     }
                     if (!Profile_ActionSequences.Any(ack => ack.name == ack_frm_file.name))
                     {
@@ -263,26 +282,18 @@ namespace GAVPI
                     {
                         ProfileDB.load(element);
                     }
-
                 }
                 else
                 {
-                    // Unhandled element type.
+                    throw new Exception("Malformed profile file, unexpected element "
+                    + element.Name);
                 }
-            }
-			
-            
+            }          
 
 			//
 			//  We have successfully loaded the Profile, so retain the Profile's filename for future reference...
 			//
 			ProfileFilename = filename;
-
-            // Load Database Components
-            // DB will parse out the VI_DB tag, allong with its children.
-            
-            // TODO
-            //ProfileDB = new VI_DB(filename);
 
 			return true;
 			
@@ -355,6 +366,20 @@ namespace GAVPI
 
                 }  //  if()
 
+                /* Always write the database elements at the top of the profile (file) 
+                 * this is because related action sequences will call database elements by reference (name)
+                 * as such the db elements must be read, loaded and ready to query from the profile 
+                 * Robert (04.12.15)*/
+
+                if (ProfileDB != null)
+                {
+                    ProfileDB.save(writer);
+                }
+                else
+                {
+                    // No associated database, TODO : log warning
+                }
+
                 foreach (VI_Action_Sequence ack_seq in Profile_ActionSequences)
                 {
                     writer.WriteStartElement("VI_Action_Sequence");
@@ -389,12 +414,6 @@ namespace GAVPI
                    }
                     writer.WriteEndElement();
                 }
-
-                if (ProfileDB != null)
-                {
-                    ProfileDB.save(writer);
-                }
-
 
                 writer.WriteEndElement();
                 writer.WriteEndDocument();

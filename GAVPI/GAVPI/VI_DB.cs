@@ -30,17 +30,7 @@ namespace GAVPI
             DB = new Dictionary<string, VI_Data>();
         }
         #region FileIO
-        //public void load()
-        //{
-        //    if (string.isnullorempty(dbfilename))
-        //    {
-        //        throw new exception("no database filename specified");
-        //    }
-        //    else
-        //    {
-        //        this.load(dbfilename);
-        //    }
-        //}
+
         public void load(XmlNode db_elements)
         {
             try
@@ -84,9 +74,6 @@ namespace GAVPI
 
         public void save(XmlWriter writer)
         {
-            // VI_Profile will call save with writer
-            // after writing the rest of the profile data to writer.
-
             writer.WriteStartElement("VI_DB");
 
             foreach (KeyValuePair<string, VI_Data> data in DB)

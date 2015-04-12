@@ -321,6 +321,11 @@ namespace GAVPI
     }
     public partial class Data_Speak : Action
     {
+        /* Data Speak's value is the data elements key (it's name)
+         * however on invocation it will query data.value for the actual
+         * value. (in other words we access the value by reference)
+         * Robert (04.12.15)
+         */
         SpeechSynthesizer Profile_Synthesis;
         VI_Data data;
 
@@ -328,12 +333,12 @@ namespace GAVPI
         {
             this.Profile_Synthesis = Profile_Synthesis;
             this.data  = data;
-            //this.value = data.value.ToString();
         }
+
         public override string value
         {
-            get { return data.value.ToString(); }
-            set { this.value = value; }
+            get { return data.name; }
+            set { this.value = data.name; }
         }
 
         //public ValueType 
@@ -341,7 +346,7 @@ namespace GAVPI
         {
             try
             {
-                Profile_Synthesis.SpeakAsync(data.value.ToString()); //magic
+                Profile_Synthesis.SpeakAsync(data.value.ToString());
             }
             catch (Exception synth_err)
             {
