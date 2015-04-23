@@ -1,6 +1,6 @@
-![logo-goes-here](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi.png)
+![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi.png)
 
-### [GAVPI](https://baykovr.github.io/gavpi.html) Alpha v0.04
+### Alpha v0.04
 
 12/18/2014 Latest build [available directly here](https://github.com/baykovr/AVPI/releases/download/v0.04/GAVPI_v0.04.zip)
 
