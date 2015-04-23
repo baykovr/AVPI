@@ -244,8 +244,15 @@ namespace GAVPI
             Properties.Settings.Default.Save();
 
             //  And get rid of the system tray icon.
-
-            sysTrayIcon.Dispose();
+            if (sysTrayIcon != null)
+            {
+                // strackoverflow tip:
+                // trayicon must be set to null in order to keep it from lingering in the tray.
+                // Robert (04.23.15)
+                sysTrayIcon.Visible = false;
+                sysTrayIcon.Dispose();
+                sysTrayIcon = null;
+            }
 
             Application.Exit();
 
@@ -369,6 +376,12 @@ namespace GAVPI
 
         static public void DisableAutoOpenProfile( object sender, EventArgs e )
         {
+            // A quick fix. Found that sometimes the process monitor is null in testings
+            // Robert (04.23.15)
+            if (AssociatedProcessMonitor == null)
+            {
+                AssociatedProcessMonitor = new ProcessMonitor(OnProcessStarted, OnProcessStopped); 
+            }
        
             AssociatedProcessMonitor.Stop();    
         
@@ -944,6 +957,22 @@ namespace GAVPI
             return vi_profile.NewProfile() ? true : false;
             
         }  //  static public bool NewProfile()
+
+        //
+        // static public void ShowTrayMessage(string msg)
+        //
+        // Display a message pop up bubble over the system tray icon
+        // (if it is availalble)
+        //
+        static public void ShowTrayMessage(string tittle, string msg)
+        {
+            if (sysTrayIcon != null)
+            {
+                sysTrayIcon.BalloonTipTitle = tittle;
+                sysTrayIcon.BalloonTipText = msg;
+                sysTrayIcon.ShowBalloonTip(2);
+            }
+        }
 
     }  //  static class GAVPI
 

@@ -93,6 +93,7 @@ namespace GAVPI
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+            GAVPI.ShowTrayMessage("GAVPI", "is still running, close it from the tray.");
         }
         
         #endregion
