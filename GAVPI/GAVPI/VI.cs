@@ -87,7 +87,7 @@ namespace GAVPI
 				MessageBox.Show( "Have you connected a microphone to this computer?\n\n" +
                                  "Please ensure that you have successfull connected and configured\n" +
                                  "your microphone before trying again.",
-								 "I cannot hear you!",
+                                 "I cannot hear you! (" + exception.Message+")",
 								 MessageBoxButtons.OK,
 								 MessageBoxIcon.Exclamation,
 		                         MessageBoxDefaultButton.Button1 );
@@ -98,8 +98,6 @@ namespace GAVPI
 
 			vi_sre.RecognizeAsync(RecognizeMode.Multiple);
 
-			//  TODO:
-			//  Push-to-Talk keyboard hook.  Unimplemented.
 			try {
 
 				KeyboardHook.KeyDown += pushtotalk_keyDownHook;
@@ -112,7 +110,8 @@ namespace GAVPI
 				//  InputManager library, which we rely upon, has issues with .Net 4.5 and throws an Overflow exception.
 				//  We'll catch it here and pretty much let it go for now (since Push-to-Talk isn't implemented yet)
 				//  with the intent of resolving it later.
-			
+			    
+                // Now that push to talk _is_ implemented what the hell do we do.
 			}
 
             if( GAVPI.vi_settings.pushtotalk_mode != "Hold" && GAVPI.vi_settings.pushtotalk_mode != "PressOnce")
