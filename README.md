@@ -1,13 +1,12 @@
 ![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi.png)
 
-### Alpha v0.04
+### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/latest)  : Alpha v0.04 : 12/18/2014
 
-12/18/2014 Latest build [available directly here](https://github.com/baykovr/AVPI/releases/download/v0.04/GAVPI_v0.04.zip)
-
-[ (Release Notes) ]
-(https://github.com/baykovr/AVPI/releases/latest) 
+Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/v0.04/GAVPI_v0.04.zip)
 
 You should run gavpi as administrator for it work properly in most games. (right click run as...)
+
+*** 
 
 #### About
 
@@ -18,9 +17,13 @@ You can:
 + Create profiles for different games or applications.
 + Enjoy the program for free.
 
+***
+
 #### Installation
 
 Just extract and run the exe.
+
+***
 
 #### Usage
 
