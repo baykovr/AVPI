@@ -164,12 +164,13 @@ namespace GAVPI
                     }
                 case "Data Action":
                     {
-                        //TODO
-                        frm_AddEdit_DataAction newDataAction = new frm_AddEdit_DataAction();
-                        if (newDataAction.ShowDialog() == DialogResult.OK)
-                        {
+                        // TODO
+                        MessageBox.Show("This feature is not ready yet.");
+                        //frm_AddEdit_DataAction newDataAction = new frm_AddEdit_DataAction();
+                        //if (newDataAction.ShowDialog() == DialogResult.OK)
+                        //{
 
-                        }
+                        //}
                         break;
                     }
                 default:
