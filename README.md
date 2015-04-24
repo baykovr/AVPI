@@ -27,7 +27,7 @@ Just extract and run the exe.
 
 #### Usage
 
-![main](https://cloud.githubusercontent.com/assets/6128886/3487757/17659892-04a0-11e4-9e81-0e9356861113.PNG)
+![main](https://raw.githubusercontent.com/baykovr/AVPI/master/img/main.PNG)
 
 ##### Profile
 The profile is broken down into three sections.
