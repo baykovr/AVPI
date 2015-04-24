@@ -59,6 +59,10 @@ Profiles are stored in XML format and can be edited by hand in any text editor w
 
 ### Settings
 
+The settings allow you to change which voice pack and localization gavpi will use. Microsoft fully supports recognition in several languages, English is tested the most however.
+
+Additionally you can configure push to talk, useful if you're dealing with chatter or ambient noise.
+
 ![settings](https://raw.githubusercontent.com/baykovr/AVPI/master/img/settings.png)
 
 ###### Thanks and have fun, if it works that is.
