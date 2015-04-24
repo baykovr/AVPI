@@ -103,7 +103,7 @@ namespace GAVPI
 				KeyboardHook.KeyDown += pushtotalk_keyDownHook;
 				KeyboardHook.KeyUp += pushtotalk_keyUpHook;
 				KeyboardHook.InstallHook();
-				
+		    
 			} catch( OverflowException exception ) {
 			
 				//  TODO:
