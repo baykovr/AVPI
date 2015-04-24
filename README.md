@@ -6,6 +6,9 @@ Download link for latest build [direct](https://github.com/baykovr/AVPI/releases
 
 You should run gavpi as administrator for it work properly in most games. (right click run as...)
 
+If you're having trouble finding the correct keys, they are labeled by microsofts specification directly. For example the right alt key is RMenu. These will be renamed in the future for clarity, the mapping values follow can be found here
+[Key Name Mappings](https://msdn.microsoft.com/en-us/library/system.windows.forms.keys%28v=vs.110%29.aspx)
+
 *** 
 
 #### About
