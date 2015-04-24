@@ -36,9 +36,7 @@ The profile is broken down into three sections.
 
 An action sequence is composed of sequential "actions", one of keyboard or mouse press/down/up, wait or speak. The key or mouse presses are carried out at direct input level which is equivalent to your physical key presses. Action sequences are carried out very quickly, in some cases near instantly so it is helpful to use the wait (milliseconds) command if an application is failing to registered presses.
 
-Note that Key/Mouse Down action's will hold a specific key until an Up or Press action.
-
-![action_sequence](https://cloud.githubusercontent.com/assets/6128886/3487783/8164d18e-04a2-11e4-8f9f-46318d1a06be.PNG)
+![action_sequence](https://raw.githubusercontent.com/baykovr/AVPI/master/img/actionsequenceeditor.PNG)
 
 ##### 2. Trigger 
 
