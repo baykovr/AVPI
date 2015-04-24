@@ -61,8 +61,6 @@ I know its annoying, but you need to load your profile each time the application
 
 ### Settings
 
-Settings are untested, since I only have en-us and one voice synthesizer to choose from. None the less it is included as requested but not verified to function properly. 
-
-![settings](https://cloud.githubusercontent.com/assets/6128886/3487803/750a8976-04a5-11e4-879e-c2393485907e.PNG)
+![settings](https://raw.githubusercontent.com/baykovr/AVPI/master/img/settings.png)
 
 ###### Thanks and have fun, if it works that is.
