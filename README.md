@@ -1,8 +1,8 @@
 ![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi.png)
 
-### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/latest)  : Alpha v0.04 : 12/18/2014
+### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/latest)  : Alpha v0.05 : 04/23/15
 
-Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/v0.04/GAVPI_v0.04.zip)
+Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/0.05/GAVPI_v0.05.zip)
 
 You should run gavpi as administrator for it work properly in most games. (right click run as...)
 
