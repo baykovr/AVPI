@@ -55,7 +55,7 @@ The events can be multiple Action Sequences or other Triggers, in this way an yo
 
 ##### Saving/Loading
 
-I know its annoying, but you need to load your profile each time the application starts for now. Profiles are stored in XML format and can be edited by hand in any text editor which supports it. You can also load profiles made by other people. I will be making a few profiles for myself which will be available on the main project [page](https://github.com/baykovr/AVPI).
+Profiles are stored in XML format and can be edited by hand in any text editor which supports it. You can also load profiles made by other people. Additionally you can store simple variables usint the database. Today you can use gavpi's speech to read them out, saving you some time. But in the future you'll have access to boolean logic and updating at run time, watch out.
 
 ### Settings
 
