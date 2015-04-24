@@ -27,7 +27,7 @@ Just extract and run the exe.
 
 #### Usage
 
-![main](https://cloud.githubusercontent.com/assets/6128886/3487757/17659892-04a0-11e4-9e81-0e9356861113.PNG)
+![main](https://raw.githubusercontent.com/baykovr/AVPI/master/img/main.PNG)
 
 ##### Profile
 The profile is broken down into three sections.
@@ -36,9 +36,7 @@ The profile is broken down into three sections.
 
 An action sequence is composed of sequential "actions", one of keyboard or mouse press/down/up, wait or speak. The key or mouse presses are carried out at direct input level which is equivalent to your physical key presses. Action sequences are carried out very quickly, in some cases near instantly so it is helpful to use the wait (milliseconds) command if an application is failing to registered presses.
 
-Note that Key/Mouse Down action's will hold a specific key until an Up or Press action.
-
-![action_sequence](https://cloud.githubusercontent.com/assets/6128886/3487783/8164d18e-04a2-11e4-8f9f-46318d1a06be.PNG)
+![action_sequence](https://raw.githubusercontent.com/baykovr/AVPI/master/img/actionsequenceeditor.PNG)
 
 ##### 2. Trigger 
 
@@ -61,8 +59,6 @@ I know its annoying, but you need to load your profile each time the application
 
 ### Settings
 
-Settings are untested, since I only have en-us and one voice synthesizer to choose from. None the less it is included as requested but not verified to function properly. 
-
-![settings](https://cloud.githubusercontent.com/assets/6128886/3487803/750a8976-04a5-11e4-879e-c2393485907e.PNG)
+![settings](https://raw.githubusercontent.com/baykovr/AVPI/master/img/settings.png)
 
 ###### Thanks and have fun, if it works that is.
