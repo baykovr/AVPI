@@ -1,4 +1,4 @@
-![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi.png)
+![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi-logo.png)
 
 ### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/latest)  : Alpha v0.05 : 04/23/15
 
