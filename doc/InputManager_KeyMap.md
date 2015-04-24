@@ -1,3 +1,5 @@
+The following is a raw dump of input managers key code values. We do not have the actual source, to the best of my knowledge but we have this.
+        
         //     The bitmask to extract modifiers from a key value.
         Modifiers = -65536,
         //
