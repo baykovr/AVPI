@@ -10,7 +10,7 @@ You should run gavpi as administrator for it work properly in most games. (right
 
 #### About
 
-GAVPI is an open source alternative to VoiceAttack, a popular speech recognition key bind tool. Using gavpi you can execute repetitive or complex tasks using your voice.
+GAVPI is an open source alternative to VoiceAttack, a popular speech recognition key bind tool. Using gavpi you can execute repetitive or complex tasks using your voice. It can be used with any application, since it's equivilent to pressing your mouse/keyboard.
 
 You can:
 + Bind a set of action sequences (mouse/keyboard presses or text-to-speech events) to arbitrary phrases.
