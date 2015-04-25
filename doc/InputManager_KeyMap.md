@@ -1,4 +1,6 @@
 The following is a raw dump of input managers key code values. We do not have the actual source, to the best of my knowledge but we have this.
+
+You can also find a reference in a pretty format here : https://msdn.microsoft.com/en-us/library/system.windows.forms.keys%28v=vs.110%29.aspx
         
         //     The bitmask to extract modifiers from a key value.
         Modifiers = -65536,
