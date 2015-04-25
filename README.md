@@ -14,7 +14,7 @@ These will be renamed in the future for clarity, for the time being here is a [r
 
 #### About
 
-GAVPI is an open source alternative to VoiceAttack, a popular speech recognition key bind tool. Using gavpi you can execute repetitive or complex tasks using your voice. It can be used with any application, since it's equivilent to pressing your mouse/keyboard.
+GAVPI is an open source alternative voice command software a speech recognition to key bind tool. Using gavpi you can execute repetitive or complex tasks using your voice. It can be used with any application, since it's equivilent to pressing your mouse/keyboard.
 
 You can:
 + Bind a set of action sequences (mouse/keyboard presses or text-to-speech events) to arbitrary phrases.
