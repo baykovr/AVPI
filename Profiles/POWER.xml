@@ -1,5 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <gavpi>
+  <VI_DB />
   <VI_Action_Sequence name="say_complete" type="VI_Action_Sequence" comment="">
     <Action type="Speak" value="complete" />
   </VI_Action_Sequence>
@@ -161,35 +162,159 @@
     <Action type="KeyPress" value="NumPad2" />
     <Action type="KeyPress" value="NumPad2" />
   </VI_Action_Sequence>
+  <VI_Action_Sequence name="Say_Landing" type="VI_Action_Sequence" comment="">
+    <Action type="Speak" value="Landing Mode Activated" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="lights" type="VI_Action_Sequence" comment="">
+    <Action type="KeyPress" value="O" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="Near_target" type="VI_Action_Sequence" comment="speech">
+    <Action type="Speak" value="Target Locked" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="missile_target" type="VI_Action_Sequence" comment="hybrid input test">
+    <Action type="MouseKeyPress" value="Middle" />
+    <Action type="Speak" value="Missile Lock" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="firing" type="VI_Action_Sequence" comment="testing">
+    <Action type="Speak" value="Firing" />
+    <Action type="MouseKeyDown" value="Right" />
+    <Action type="Wait" value="5000" />
+    <Action type="MouseKeyUp" value="Right" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="Countermeasure" type="VI_Action_Sequence" comment="Eh I guess it is useful enough">
+    <Action type="KeyPress" value="Z" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="Friendly_tag_aquire" type="VI_Action_Sequence" comment="Should work, need to try">
+    <Action type="KeyPress" value="H" />
+    <Action type="KeyPress" value="G" />
+    <Action type="Speak" value="Friendly Tagged" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="Match_Speed" type="VI_Action_Sequence" comment="Useful!">
+    <Action type="KeyPress" value="M" />
+    <Action type="Speak" value="Matching Target Speed" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="Landing" type="VI_Action_Sequence" comment="full auto landing sequence">
+    <Action type="KeyPress" value="N" />
+    <Action type="KeyPress" value="M" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="top_speed" type="VI_Action_Sequence" comment="full speed ahead captain">
+    <Action type="Speak" value="affirmative captain" />
+    <Action type="KeyDown" value="Shift" />
+    <Action type="KeyDown" value="W" />
+    <Action type="Wait" value="5000" />
+    <Action type="KeyUp" value="ShiftKey" />
+    <Action type="KeyUp" value="W" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="full_stop" type="VI_Action_Sequence" comment="probably tweak the values depending on ship">
+    <Action type="Speak" value="Full stop" />
+    <Action type="KeyDown" value="S" />
+    <Action type="Wait" value="5000" />
+    <Action type="KeyUp" value="S" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="Fire_missile" type="VI_Action_Sequence" comment="Test firing mechanics">
+    <Action type="Speak" value="Missile Away" />
+    <Action type="MouseKeyDown" value="Middle" />
+    <Action type="Wait" value="2000" />
+    <Action type="MouseKeyUp" value="Middle" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="target_basic" type="VI_Action_Sequence" comment="button imput">
+    <Action type="KeyPress" value="T" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="Decouple" type="VI_Action_Sequence" comment="Holds key down, sister to recouple input">
+    <Action type="KeyDown" value="Capital" />
+    <Action type="Speak" value="DeCoupled" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="recouple" type="VI_Action_Sequence" comment="see decouple">
+    <Action type="KeyUp" value="Capital" />
+    <Action type="Speak" value="Re coupled" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="Focus_mode" type="VI_Action_Sequence" comment="Honestly no idea how this happened">
+    <Action type="KeyDown" value="Alt" />
+    <Action type="KeyPress" value="L" />
+  </VI_Action_Sequence>
+  <VI_Action_Sequence name="Ejection" type="VI_Action_Sequence" comment="exactly what it is">
+    <Action type="Speak" value="Goodbye captain" />
+    <Action type="Wait" value="1000" />
+    <Action type="KeyPress" value="RMenu" />
+    <Action type="KeyPress" value="L" />
+  </VI_Action_Sequence>
   <VI_Trigger name="power g1" value="weapons" type="VI_Phrase" comment="">
-    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="PWR_bottom_to_g1" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="PWR_bottom_to_g1" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="" comment="" />
   </VI_Trigger>
   <VI_Trigger name="power g2" value="avionics" type="VI_Phrase" comment="">
-    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="PWR_bottom_to_g2" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="PWR_bottom_to_g2" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="" comment="" />
   </VI_Trigger>
   <VI_Trigger name="power g3" value="shields" type="VI_Phrase" comment="">
-    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="" comment="" />
   </VI_Trigger>
   <VI_Trigger name="center" value="center" type="VI_Phrase" comment="">
-    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="PWR_bottom_to_center" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="none" comment="" />
-    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="none" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="SEL_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="PWR_to_bottom" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="PWR_bottom_to_center" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="NAV_power" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="toggle lights" value="lights" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="say_complete" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="nearest target" value="nearest target" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="target_basic" type="VI_Action_Sequence" value="" comment="" />
+    <VI_TriggerEvent name="Near_target" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="missile target" value="lock missile" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="missile_target" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="missile fire" value="fire missile" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="Fire_missile" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="firing" value="fire main guns" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="firing" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="tag friendly" value="tag friendly" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="Friendly_tag_aquire" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="countermeasure" value="launch countermeasure" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="Countermeasure" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="match enemy speed" value="match enemy speed" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="Match_Speed" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="toggle automatic landing mode" value="landing mode" type="VI_Phrase" comment="testing">
+    <VI_TriggerEvent name="Landing" type="VI_Action_Sequence" value="" comment="testing" />
+    <VI_TriggerEvent name="Say_Landing" type="VI_Action_Sequence" value="" comment="testing" />
+  </VI_Trigger>
+  <VI_Trigger name="full speed ahead" value="full speed ahead" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="top_speed" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="full stop" value="full stop" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="full_stop" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="decouple" value="decouple flight" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="Decouple" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="recouple" value="recouple flight" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="recouple" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="advanced targeting" value="advanced targeting" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="Focus_mode" type="VI_Action_Sequence" value="" comment="" />
+  </VI_Trigger>
+  <VI_Trigger name="emergency eject" value="activate emergency ejection" type="VI_Phrase" comment="">
+    <VI_TriggerEvent name="Ejection" type="VI_Action_Sequence" value="" comment="" />
   </VI_Trigger>
 </gavpi>
