@@ -361,5 +361,31 @@ namespace GAVPI
         }
     }
 
+    // Paused working on this, since we need MP3 support, no just WAV
+    //public partial class Play_WAV : Action
+    //{
+    //    System.Media.SoundPlayer wav;
+
+    //    public Play_WAV(string filename)
+    //    {
+    //        this.value = filename;
+    //        wav = new System.Media.SoundPlayer(this.value);
+    //    }
+
+    //    public override void run()
+    //    {
+    //        //Quick and unoptimized no bug checking.
+    //        try
+    //        {
+    //            wav.Play();
+    //            wav.Dispose();
+    //        }
+    //        catch(Exception e)
+    //        {
+    //            // TODO : Notify no file found or error.
+    //        }
+    //    }
+    //}
+
 #endregion
 }

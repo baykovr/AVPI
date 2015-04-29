@@ -45,9 +45,17 @@ namespace GAVPI
 		//  an exception occur that cannot be resolved within the method.  load_listen() will return Boolean TRUE upon
 		//  success.
 		//
-		
+		// Optimizations : 04.28.15
+        // 
         public bool load_listen()
         {
+            // Don't allocate anything if we have no phrases to hook.
+            if ( GAVPI.vi_profile.Profile_Triggers!= null && 
+                 GAVPI.vi_profile.Profile_Triggers.Count == 0)
+            {
+                MessageBox.Show("You need to add at least one Trigger");
+                return false;
+            }
 
             vi_syn = GAVPI.vi_profile.synth;
             vi_syn.SelectVoice( GAVPI.vi_settings.voice_info );
@@ -58,32 +66,29 @@ namespace GAVPI
             phrases_grammar.Culture = GAVPI.vi_settings.recognizer_info;
 
             List<string> glossory = new List<string>();
-
+            
+            // Add trigger phrases to glossory of voice recognition engine.
             foreach (VI_Phrase trigger in GAVPI.vi_profile.Profile_Triggers)
             {
                 glossory.Add(trigger.value);
             }
-            if (glossory.Count == 0)
-            {
-                MessageBox.Show("You need to add at least one Trigger");
-                return false;
-            }
-            phrases_grammar.Append(new Choices(glossory.ToArray()));
 
+
+            phrases_grammar.Append(new Choices(glossory.ToArray()));
 			vi_sre.LoadGrammar(new Grammar(phrases_grammar));
-			//set event function
-			vi_sre.SpeechRecognized += phraseRecognized;
+
+			// event function hook
+			vi_sre.SpeechRecognized          += phraseRecognized;
 			vi_sre.SpeechRecognitionRejected += _recognizer_SpeechRecognitionRejected;
 
-			try {
-
+			try 
+            {
 				vi_sre.SetInputToDefaultAudioDevice();
-
-			} catch( InvalidOperationException exception ) {
-			
+			} 
+            catch( InvalidOperationException exception ) 
+            {
 				//  For the time being, we're only catching failures to address an input device (typically a
 				//  microphone).
-			
 				MessageBox.Show( "Have you connected a microphone to this computer?\n\n" +
                                  "Please ensure that you have successfull connected and configured\n" +
                                  "your microphone before trying again.",
@@ -93,25 +98,25 @@ namespace GAVPI
 		                         MessageBoxDefaultButton.Button1 );
 			
 				return false;
-			
 			}
 
 			vi_sre.RecognizeAsync(RecognizeMode.Multiple);
 
-			try {
-
+			try 
+            {
+                // Install Push to talk key hooks.
 				KeyboardHook.KeyDown += pushtotalk_keyDownHook;
 				KeyboardHook.KeyUp += pushtotalk_keyUpHook;
 				KeyboardHook.InstallHook();
 		    
-			} catch( OverflowException exception ) {
-			
+			} 
+            catch( OverflowException exception ) 
+            {
 				//  TODO:
 				//  InputManager library, which we rely upon, has issues with .Net 4.5 and throws an Overflow exception.
 				//  We'll catch it here and pretty much let it go for now (since Push-to-Talk isn't implemented yet)
-				//  with the intent of resolving it later.
-			    
-                // Now that push to talk _is_ implemented what the hell do we do.
+				//  with the intent of resolving it later.    
+                //  Now that push to talk _is_ implemented what the hell do we do.
 			}
 
             if( GAVPI.vi_settings.pushtotalk_mode != "Hold" && GAVPI.vi_settings.pushtotalk_mode != "PressOnce")
@@ -147,8 +152,6 @@ namespace GAVPI
             {
                 string recognized_value = e.Result.Text;
 
-                UpdateStatusLog( recognized_value.ToString() );
-
                 //predicates are cool
                 GAVPI.vi_profile.Profile_Triggers.Find(trigger => trigger.value == recognized_value).run();
                 //equivilent code below
@@ -159,6 +162,9 @@ namespace GAVPI
                 //        phrase.run(); // Fire events
                 //    }
                 //}
+
+                // Update the log after the action is run, since UpdateStatus is a blocking method.
+                UpdateStatusLog(recognized_value.ToString());
             }
 
         }
@@ -171,10 +177,13 @@ namespace GAVPI
 
         void KeyboardHook_KeyDown(int vkCode)
         {
+            if (pushtotalk_keyIsDown == true)
+                { return; }
+            // Only check if pushtotalk_keyIsDown is false
+            // aka : pptKey is not down
             if (((Keys)vkCode).ToString() == GAVPI.vi_settings.pushtotalk_key)
             {
-                if (pushtotalk_keyIsDown == false)
-                {
+                //if (pushtotalk_keyIsDown == false)
                     if ( GAVPI.vi_settings.pushtotalk_mode == "Hold")
                     {
                         pushtotalk_active = true;
@@ -193,16 +202,22 @@ namespace GAVPI
                             UpdateStatusLog( "Stop Listening" );
                         }
                     }
+                    else
+                    {
+                        // TODO : Log warning, someone edited settings code 
+                        // but did not update the hooks here.
+                    }
                     pushtotalk_keyIsDown = true;
-                }
             }
         }
         void KeyboardHook_KeyUp(int vkCode)
         {
+            if (pushtotalk_keyIsDown == false)
+                { return; }
+            
             if (((Keys)vkCode).ToString() == GAVPI.vi_settings.pushtotalk_key)
             {
-                if (pushtotalk_keyIsDown == true)
-                {
+                //if (pushtotalk_keyIsDown == true)
                     if (GAVPI.vi_settings.pushtotalk_mode == "Hold")
                     {
                         pushtotalk_keyIsDown = false;
@@ -214,7 +229,11 @@ namespace GAVPI
                     {
                         pushtotalk_keyIsDown = false;
                     }
-                }
+                    else
+                    {
+                        // TODO : Log warning, someone edited settings code 
+                        // but did not update the hooks here.
+                    }
             }
         }
 

@@ -13,7 +13,6 @@ namespace GAVPI
 {
     public partial class frmGAVPI : Form
     {
-        string BUILD_VERSION = "GAVPI Alpha 0.05 04.23.15";
 
         public frmGAVPI()
         {
@@ -179,7 +178,7 @@ namespace GAVPI
 
         private void mainStripAbout_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(BUILD_VERSION);
+            MessageBox.Show(GAVPI.BUILD_VERSION);
         }
 
 
