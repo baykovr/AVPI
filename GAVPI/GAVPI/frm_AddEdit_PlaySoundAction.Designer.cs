@@ -1,6 +1,6 @@
 ﻿namespace GAVPI
 {
-    partial class frm_AddEdit_SpeakAction
+    partial class frm_AddEdit_PlaySoundAction
     {
         /// <summary>
         /// Required designer variable.
@@ -28,15 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_AddEdit_SpeakAction));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_AddEdit_PlaySoundAction));
             this.chckMultiAdd = new System.Windows.Forms.CheckBox();
             this.txtTimesToAdd = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.lblSpeak = new System.Windows.Forms.Label();
-            this.cbSpeechValue = new System.Windows.Forms.ComboBox();
-            this.cbSpeechType = new System.Windows.Forms.ComboBox();
-
+            this.lblSoundFile = new System.Windows.Forms.Label();
+            this.btnChooseFile = new System.Windows.Forms.Button();
+            this.txtFilePath = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // chckMultiAdd
@@ -83,59 +82,51 @@
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // lblSpeak
+            // lblSoundFile
             // 
-            this.lblSpeak.AutoSize = true;
-            this.lblSpeak.Location = new System.Drawing.Point(9, 28);
-            this.lblSpeak.Name = "lblSpeak";
-            this.lblSpeak.Size = new System.Drawing.Size(88, 13);
-            this.lblSpeak.TabIndex = 16;
-            this.lblSpeak.Text = "Speak Item Type";
+            this.lblSoundFile.AutoSize = true;
+            this.lblSoundFile.Location = new System.Drawing.Point(9, 47);
+            this.lblSoundFile.Name = "lblSoundFile";
+            this.lblSoundFile.Size = new System.Drawing.Size(57, 13);
+            this.lblSoundFile.TabIndex = 25;
+            this.lblSoundFile.Text = "Sound File";
             // 
-            // cbSpeechValue
+            // btnChooseFile
             // 
-            this.cbSpeechValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbSpeechValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSpeechValue.FormattingEnabled = true;
-            this.cbSpeechValue.Location = new System.Drawing.Point(103, 70);
-            this.cbSpeechValue.Name = "cbSpeechValue";
-            this.cbSpeechValue.Size = new System.Drawing.Size(277, 21);
-            this.cbSpeechValue.TabIndex = 2;
+            this.btnChooseFile.Location = new System.Drawing.Point(297, 42);
+            this.btnChooseFile.Name = "btnChooseFile";
+            this.btnChooseFile.Size = new System.Drawing.Size(83, 23);
+            this.btnChooseFile.TabIndex = 27;
+            this.btnChooseFile.Text = "Select File";
+            this.btnChooseFile.UseVisualStyleBackColor = true;
+            this.btnChooseFile.Click += new System.EventHandler(this.btnChooseFile_Click);
             // 
-            // cbSpeechType
+            // txtFilePath
             // 
-            this.cbSpeechType.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbSpeechType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSpeechType.FormattingEnabled = true;
-            this.cbSpeechType.Location = new System.Drawing.Point(103, 25);
-            this.cbSpeechType.Name = "cbSpeechType";
-            this.cbSpeechType.Size = new System.Drawing.Size(277, 21);
-            this.cbSpeechType.TabIndex = 1;
-            this.cbSpeechType.SelectedIndexChanged += new System.EventHandler(this.cbSpeechType_SelectedIndexChanged);
-
-            // frm_AddEdit_SpeakAction
+            this.txtFilePath.Location = new System.Drawing.Point(72, 44);
+            this.txtFilePath.Name = "txtFilePath";
+            this.txtFilePath.Size = new System.Drawing.Size(219, 20);
+            this.txtFilePath.TabIndex = 28;
+            // 
+            // frm_AddEdit_PlaySoundAction
             // 
             this.AcceptButton = this.btnAdd;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(392, 147);
-            this.Controls.Add(this.cbSpeechType);
-            this.Controls.Add(this.cbSpeechValue);
+            this.Controls.Add(this.txtFilePath);
+            this.Controls.Add(this.btnChooseFile);
+            this.Controls.Add(this.lblSoundFile);
             this.Controls.Add(this.chckMultiAdd);
             this.Controls.Add(this.txtTimesToAdd);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.lblSpeak);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(402, 177);
-            this.Name = "frm_AddEdit_SpeakAction";
+            this.Name = "frm_AddEdit_PlaySoundAction";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Speak Action";
+            this.Text = "Play Sound Action";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -147,9 +138,8 @@
         private System.Windows.Forms.TextBox txtTimesToAdd;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Label lblSpeak;
-        private System.Windows.Forms.ComboBox cbSpeechValue;
-        private System.Windows.Forms.ComboBox cbSpeechType;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblSoundFile;
+        private System.Windows.Forms.Button btnChooseFile;
+        private System.Windows.Forms.TextBox txtFilePath;
     }
 }

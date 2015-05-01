@@ -11,11 +11,6 @@ using System.Windows.Forms;
 
 namespace GAVPI
 {   
-    // TODO :
-    // When editing the name of a sequence
-    // since we remove and then add()
-    // the new name will be inserted at the end of the list..
-    // changing the order in profile form.
 
     public partial class frm_AddEdit_ActionSequence : Form
     {
@@ -30,6 +25,7 @@ namespace GAVPI
                 "Key/Mouse Press",
                 "Timing",
                 "Speak Action",
+                "PlaySound Action",
                 "Data Action"
             });
         #endregion
@@ -153,13 +149,18 @@ namespace GAVPI
                     }
                 case "Timing":
                     {
-                        ProcessForm_TimingAction(null, 0);
+                        ProcessForm_AddEditTimingAction(null, 0);
                         break;
                     }
                 case "Speak Action":
                     {
                         //TODO
                         ProcessForm_AddEditSpeechAction(null, 0);
+                        break;
+                    }
+                case "PlaySound Action":
+                    {
+                        ProcessForm_AddEditPlaySoundAction(null, 0);
                         break;
                     }
                 case "Data Action":
@@ -214,10 +215,16 @@ namespace GAVPI
                     ProcessForm_AddEditSpeechAction(action_to_edit, index);
                     break;
                 }
-                //Timing (Waiting)
-                else if (VI_Action_Sequence.TimingAction_Types.Contains(action_type))     
+                // Play Sound
+                else if (VI_Action_Sequence.PlaySoundAction_Types.Contains(action_type))
                 {
-                    ProcessForm_TimingAction(action_to_edit, index);
+                    ProcessForm_AddEditPlaySoundAction(action_to_edit, index);
+                    break;
+                }
+                //Timing (Waiting)
+                else if (VI_Action_Sequence.TimingAction_Types.Contains(action_type))
+                {
+                    ProcessForm_AddEditTimingAction(action_to_edit, index);
                     break;
                 }
                 //DataActions
@@ -292,6 +299,7 @@ namespace GAVPI
                 else
                 {
                     MessageBox.Show("WARNING: Press form returned an invalid action.");
+                    return;
                 }
                 ActionSequenceEdited = true;
                 refresh_dgActionSequence();
@@ -337,6 +345,7 @@ namespace GAVPI
                 else
                 {
                     MessageBox.Show("WARNING: Press form returned an invalid action.");
+                    return;
                 }
                 ActionSequenceEdited = true;
                 refresh_dgActionSequence();
@@ -345,13 +354,59 @@ namespace GAVPI
             }
         }
 
-        private void ProcessForm_TimingAction(Action edit_action,int index)
+        private void ProcessForm_AddEditPlaySoundAction(Action edit_action, int index)
+        {
+            frm_AddEdit_PlaySoundAction newPlaySoundAction;
+            if (edit_action == null)
+            {
+                newPlaySoundAction = new frm_AddEdit_PlaySoundAction();
+            }
+            else
+            {
+                newPlaySoundAction = new frm_AddEdit_PlaySoundAction(edit_action);
+            }
+
+            // On form OK we have changes (either new or edited action)
+            if (newPlaySoundAction.ShowDialog() == DialogResult.OK)
+            {
+                // Make sure the returned action is sane
+                if (newPlaySoundAction.get_action() != null)
+                {
+                    // Called by Add
+                    if (edit_action == null)
+                    {
+                        // Insert number of times specified by the form
+                        for (int i = 0; i < newPlaySoundAction.get_times_to_add(); i++)
+                        {
+                            sequence_to_edit.Add(newPlaySoundAction.get_action());
+                        }
+                    }
+                    // Called by Edit
+                    else
+                    {
+                        // Replace the current action with the new from the form
+                        sequence_to_edit.action_sequence[index] = newPlaySoundAction.get_action();
+                    }
+                }
+                // form returned null action
+                else
+                {
+                    MessageBox.Show("WARNING: Press form returned an invalid action.");
+                    return;
+                }
+                ActionSequenceEdited = true;
+                refresh_dgActionSequence();
+                // Bring Selection back to edited element
+                dgActionSequence.CurrentCell = dgActionSequence.Rows[index].Cells[0];
+            }
+        }
+
+        private void ProcessForm_AddEditTimingAction(Action edit_action,int index)
         {
             frm_AddEdit_TimingAction newTimingAction;
             if(edit_action == null)
             {
                 newTimingAction = new frm_AddEdit_TimingAction();
-
             }
             else
             {
@@ -362,17 +417,22 @@ namespace GAVPI
             {
                 if (newTimingAction.get_action() != null)
                 {
-                        if (edit_action == null)
+                    if (edit_action == null)
+                    {
+                        for (int i = 0; i < newTimingAction.get_times_to_add(); i++)
                         {
-                            for (int i = 0; i < newTimingAction.get_times_to_add(); i++)
-                            {
-                                sequence_to_edit.Add(newTimingAction.get_action());
-                            }
+                            sequence_to_edit.Add(newTimingAction.get_action());
                         }
-                        else
-                        {
-                            sequence_to_edit.action_sequence[index] = newTimingAction.get_action();
-                        }
+                    }
+                    else
+                    {
+                        sequence_to_edit.action_sequence[index] = newTimingAction.get_action();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("WARNING: Press form returned an invalid action.");
+                    return;
                 }
                 ActionSequenceEdited = true;
                 refresh_dgActionSequence();

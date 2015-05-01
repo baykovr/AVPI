@@ -33,6 +33,10 @@ namespace GAVPI
                "Speak",
                "Data_Speak"
             });
+        public static List<string> PlaySoundAction_Types = new List<string>(
+            new string[] {
+                "Play_Sound"
+            });
         public static List<string> TimingAction_Types = new List<string>(
             new string[] { 
                "Wait"
@@ -41,7 +45,7 @@ namespace GAVPI
             new string[] { 
                "Data_Set","Data_Decrement","Data_Increment"
             });
-                
+              
 
         public string name {get; set;}
         public string type { get; set; }
@@ -265,6 +269,44 @@ namespace GAVPI
             }
         }
     }
+    #region PlaySound Actions
+    // More formats support
+    public partial class Play_Sound : Action
+    {
+        WMPLib.WindowsMediaPlayer player;
+        public Play_Sound(string filename)
+        {
+            // a common way of doing this, thanks stackoverflow.
+            this.value = filename;
+            try
+            {
+                player = new WMPLib.WindowsMediaPlayer();
+            }
+            catch (Exception e)
+            {
+                // TODO : Notify error.
+            }
+        }
+        public override string value
+        {
+            get;
+            set;
+        }
+        public override void run()
+        {
+            try
+            {
+                player.URL = this.value;
+                player.controls.play();
+            }
+            catch (Exception e)
+            {
+                // TODO : Notify error.
+            }
+        }
+    }
+    #endregion
+
     #region Data Actions
     public partial class Data_Decrement : Action 
     {
@@ -361,7 +403,7 @@ namespace GAVPI
         }
     }
 
-    // Paused working on this, since we need MP3 support, no just WAV
+    // Simple WAV implementation taken from AVPI
     //public partial class Play_WAV : Action
     //{
     //    System.Media.SoundPlayer wav;
@@ -369,20 +411,27 @@ namespace GAVPI
     //    public Play_WAV(string filename)
     //    {
     //        this.value = filename;
-    //        wav = new System.Media.SoundPlayer(this.value);
+    //        try
+    //        {
+    //            wav = new System.Media.SoundPlayer(this.value);
+    //        }
+    //        catch (Exception e)
+    //        {
+    //            // TODO : Notify error.
+    //        }
     //    }
 
     //    public override void run()
     //    {
-    //        //Quick and unoptimized no bug checking.
+    //        //Quick and easy.
     //        try
     //        {
-    //            wav.Play();
+    //            wav.Play(); //async
     //            wav.Dispose();
     //        }
-    //        catch(Exception e)
+    //        catch (Exception e)
     //        {
-    //            // TODO : Notify no file found or error.
+    //            // TODO : Notify error.
     //        }
     //    }
     //}
