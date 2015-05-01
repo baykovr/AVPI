@@ -1,8 +1,9 @@
 ![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi-logo.png)
 
-### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/latest)  : Alpha v0.06 : 04/28/15
+### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/latest)  : Alpha v0.07 : 04/30/15
+Highlight : Added support to play sound files (aka voice packs).
 
-Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/0.06/GAVPI_v0.06.zip)
+Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/0.07/GAVPI_v0.07.zip)
 
 You should run gavpi as administrator for it work properly in most games. (right click run as...)
 
