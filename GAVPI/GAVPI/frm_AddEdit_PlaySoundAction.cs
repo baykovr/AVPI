@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -57,10 +58,17 @@ namespace GAVPI
         {
             //default times to add is one time
             times_to_add = 1;
-
             txtTimesToAdd.Text = times_to_add.ToString();
 
             //cbSpeechType.DataSource = VI_Action_Sequence.SpeechAction_Types;
+            
+            // Fill out the output devices cb.
+            // Note, if a device goes missing (unplugged) after population we will just fall back to default.
+            for (int deviceId = 0; deviceId < WaveOut.DeviceCount; deviceId++)
+            {
+                var capabilities = WaveOut.GetCapabilities(deviceId);
+                cbOutputDevices.Items.Add(capabilities.ProductName);
+            }
 
             // Editing an existing action
             if (form_action != null)
@@ -69,6 +77,7 @@ namespace GAVPI
                 txtTimesToAdd.Visible = false;
                 btnAdd.Text = "Edit";
                 txtFilePath.Text = form_action.value;
+
 
             }
             // New Action
@@ -157,6 +166,8 @@ namespace GAVPI
             }
         }
         #endregion
+
+       
 
     }
 }

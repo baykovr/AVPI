@@ -36,13 +36,15 @@
             this.lblSoundFile = new System.Windows.Forms.Label();
             this.btnChooseFile = new System.Windows.Forms.Button();
             this.txtFilePath = new System.Windows.Forms.TextBox();
+            this.lblOutputDevice = new System.Windows.Forms.Label();
+            this.cbOutputDevices = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // chckMultiAdd
             // 
             this.chckMultiAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chckMultiAdd.AutoSize = true;
-            this.chckMultiAdd.Location = new System.Drawing.Point(12, 114);
+            this.chckMultiAdd.Location = new System.Drawing.Point(12, 173);
             this.chckMultiAdd.Name = "chckMultiAdd";
             this.chckMultiAdd.Size = new System.Drawing.Size(115, 17);
             this.chckMultiAdd.TabIndex = 3;
@@ -54,7 +56,7 @@
             // 
             this.txtTimesToAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtTimesToAdd.Enabled = false;
-            this.txtTimesToAdd.Location = new System.Drawing.Point(134, 112);
+            this.txtTimesToAdd.Location = new System.Drawing.Point(134, 171);
             this.txtTimesToAdd.Name = "txtTimesToAdd";
             this.txtTimesToAdd.Size = new System.Drawing.Size(72, 20);
             this.txtTimesToAdd.TabIndex = 4;
@@ -63,7 +65,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(297, 112);
+            this.btnCancel.Location = new System.Drawing.Point(360, 171);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(83, 23);
             this.btnCancel.TabIndex = 6;
@@ -74,7 +76,7 @@
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(216, 112);
+            this.btnAdd.Location = new System.Drawing.Point(279, 171);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 5;
@@ -93,9 +95,9 @@
             // 
             // btnChooseFile
             // 
-            this.btnChooseFile.Location = new System.Drawing.Point(297, 42);
+            this.btnChooseFile.Location = new System.Drawing.Point(328, 42);
             this.btnChooseFile.Name = "btnChooseFile";
-            this.btnChooseFile.Size = new System.Drawing.Size(83, 23);
+            this.btnChooseFile.Size = new System.Drawing.Size(115, 23);
             this.btnChooseFile.TabIndex = 27;
             this.btnChooseFile.Text = "Select File";
             this.btnChooseFile.UseVisualStyleBackColor = true;
@@ -103,10 +105,28 @@
             // 
             // txtFilePath
             // 
-            this.txtFilePath.Location = new System.Drawing.Point(72, 44);
+            this.txtFilePath.Location = new System.Drawing.Point(91, 44);
             this.txtFilePath.Name = "txtFilePath";
             this.txtFilePath.Size = new System.Drawing.Size(219, 20);
             this.txtFilePath.TabIndex = 28;
+            // 
+            // lblOutputDevice
+            // 
+            this.lblOutputDevice.AutoSize = true;
+            this.lblOutputDevice.Location = new System.Drawing.Point(9, 97);
+            this.lblOutputDevice.Name = "lblOutputDevice";
+            this.lblOutputDevice.Size = new System.Drawing.Size(76, 13);
+            this.lblOutputDevice.TabIndex = 29;
+            this.lblOutputDevice.Text = "Output Device";
+            // 
+            // cbOutputDevices
+            // 
+            this.cbOutputDevices.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbOutputDevices.FormattingEnabled = true;
+            this.cbOutputDevices.Location = new System.Drawing.Point(91, 94);
+            this.cbOutputDevices.Name = "cbOutputDevices";
+            this.cbOutputDevices.Size = new System.Drawing.Size(219, 21);
+            this.cbOutputDevices.TabIndex = 30;
             // 
             // frm_AddEdit_PlaySoundAction
             // 
@@ -114,7 +134,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(392, 147);
+            this.ClientSize = new System.Drawing.Size(455, 206);
+            this.Controls.Add(this.cbOutputDevices);
+            this.Controls.Add(this.lblOutputDevice);
             this.Controls.Add(this.txtFilePath);
             this.Controls.Add(this.btnChooseFile);
             this.Controls.Add(this.lblSoundFile);
@@ -123,7 +145,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAdd);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(402, 177);
+            this.MinimumSize = new System.Drawing.Size(430, 235);
             this.Name = "frm_AddEdit_PlaySoundAction";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Play Sound Action";
@@ -141,5 +163,7 @@
         private System.Windows.Forms.Label lblSoundFile;
         private System.Windows.Forms.Button btnChooseFile;
         private System.Windows.Forms.TextBox txtFilePath;
+        private System.Windows.Forms.Label lblOutputDevice;
+        private System.Windows.Forms.ComboBox cbOutputDevices;
     }
 }

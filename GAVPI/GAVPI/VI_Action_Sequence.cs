@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Speech.Synthesis;
 using InputManager;
+using NAudio.Wave;
 
 /*
  * A single action is composed of 
@@ -108,7 +109,7 @@ namespace GAVPI
       *  Mouse up/down/press
       *  Wait 
       *  ...add your own
-      *  ie: public partial class PlaySound() ...
+      *  ig: public partial class PlaySound() ...
      */
     public abstract class Action
     {
@@ -273,14 +274,23 @@ namespace GAVPI
     // More formats support
     public partial class Play_Sound : Action
     {
-        WMPLib.WindowsMediaPlayer player;
+        // Optional : WMP
+        // WMPLib.WindowsMediaPlayer player;
+        
+        IWavePlayer waveOutDevice;
+        AudioFileReader audioFileReader;
+
         public Play_Sound(string filename)
         {
-            // a common way of doing this, thanks stackoverflow.
             this.value = filename;
             try
             {
-                player = new WMPLib.WindowsMediaPlayer();
+                // Optional : WMP
+                // player = new WMPLib.WindowsMediaPlayer();
+                waveOutDevice = new WaveOut();
+                
+                audioFileReader = new AudioFileReader(filename);
+                waveOutDevice.Init(audioFileReader);
             }
             catch (Exception e)
             {
@@ -296,8 +306,10 @@ namespace GAVPI
         {
             try
             {
-                player.URL = this.value;
-                player.controls.play();
+                // Optional : WMP
+                // player.URL = this.value;
+                // player.controls.play();
+                waveOutDevice.Play();
             }
             catch (Exception e)
             {
