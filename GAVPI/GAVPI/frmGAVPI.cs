@@ -52,7 +52,7 @@ namespace GAVPI
 
         private void frmGAVPI_FormClosing( object sender, FormClosingEventArgs e )
         {
-
+            Application.Exit();
 
         }  //  private void frmGAVPI_FormClosing
 
