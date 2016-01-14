@@ -178,30 +178,28 @@ namespace GAVPI
         }
 
         // Edit Trigger
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (dgTriggers.MultiSelect == true)
-            {
+        private void editToolStripMenuItem_Click(object sender, EventArgs e) {
+            EditTrigger();
+        }
+
+        private void EditTrigger() {
+            if (dgTriggers.MultiSelect == true) {
                 throw new NotImplementedException("Editing mutliple triggers at once is unsupported.");
             }
-            foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
-            {
+            foreach (DataGridViewRow row in this.dgTriggers.SelectedRows) {
                 VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
-                if (selected_trigger != null)
-                {
-                    frm_AddEdit_PhraseTrigger newTrigger = new frm_AddEdit_PhraseTrigger( selected_trigger );
-					
-                    if( newTrigger.ShowDialog() == DialogResult.OK ) {
+                if (selected_trigger != null) {
+                    frm_AddEdit_PhraseTrigger newTrigger = new frm_AddEdit_PhraseTrigger(selected_trigger);
 
+                    if (newTrigger.ShowDialog() == DialogResult.OK) {
                         ProfileEdited();
-										
-						refresh_dgTriggers();
-						
-					}  //  if()
+
+                        refresh_dgTriggers();
+                    } //  if()
                 }
             }
-
         }
+
         // Delete Trigger
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -323,23 +321,24 @@ namespace GAVPI
 			refresh_dgActionSequences();
         }
         // Edit Action Sequence
-        private void editToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (dgActionSequences.MultiSelect == true)
-            {
+        private void editToolStripMenuItem1_Click(object sender, EventArgs e) {
+            EditActionSequence();
+        }
+
+        private void EditActionSequence() {
+            if (dgActionSequences.MultiSelect == true) {
                 throw new NotImplementedException("Editing multiple sequences at once is unsupported.");
             }
-            foreach (DataGridViewRow row in this.dgActionSequences.SelectedRows)
-            {
+            foreach (DataGridViewRow row in this.dgActionSequences.SelectedRows) {
                 VI_Action_Sequence sequence_to_edit = row.DataBoundItem as VI_Action_Sequence;
-                frm_AddEdit_ActionSequence newActionSequence = new frm_AddEdit_ActionSequence( sequence_to_edit );
-				
-				if( newActionSequence.ShowDialog() == DialogResult.OK ) ProfileEdited();				
-				
+                frm_AddEdit_ActionSequence newActionSequence = new frm_AddEdit_ActionSequence(sequence_to_edit);
+
+                if (newActionSequence.ShowDialog() == DialogResult.OK) ProfileEdited();
             }
             refresh_dgActionSequences();
             refresh_dgTriggerEvents();
         }
+
         // Delete Action Sequence
         private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -624,6 +623,13 @@ namespace GAVPI
 
         }  //  private void AssociatedProcessTextBox_LostFocus( object, EventArgs )
 
+        private void dgActionSequences_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) {
+            EditActionSequence();
+        }
+
+        private void dgTriggers_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) {
+            EditTrigger();
+        }
     }
 
 }
