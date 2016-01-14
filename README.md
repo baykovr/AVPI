@@ -1,5 +1,7 @@
 ![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi-logo.png)
 
+Poll, suggest a new name for gavpi? http://goo.gl/forms/H2uVS3pD6f  take a second to vote.
+
 ### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/latest)  : Alpha v0.07 : 04/30/15
 Highlight : Added support to play sound files (aka voice packs).
 
