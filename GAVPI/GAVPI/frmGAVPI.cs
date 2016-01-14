@@ -52,18 +52,25 @@ namespace GAVPI
 
         private void frmGAVPI_FormClosing( object sender, FormClosingEventArgs e )
         {
-            Application.Exit();
+            if (GAVPI.IsFirstClose)
+            {
+                GAVPI.sysTrayIcon.BalloonTipTitle = "GAVPI is still running.";
+                GAVPI.sysTrayIcon.BalloonTipText =
+                    "The GAVPI application is still listening in the background and can be accessed from the system tray.";
+                GAVPI.sysTrayIcon.ShowBalloonTip(5000);
 
+                GAVPI.IsFirstClose = false;
+            }
         }  //  private void frmGAVPI_FormClosing
 
-		//
-		//  loadToolStripMenuItem_Click()
-		//
-		//  A handler for the Load Profile menu item in the File menu, allowing the user to select an existing
+        //
+        //  loadToolStripMenuItem_Click()
+        //
+        //  A handler for the Load Profile menu item in the File menu, allowing the user to select an existing
         //  Binding Definition Profile.  The Binding Definition Profile may be edited and saved within frmProfile.
-		//
-		
-		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        //
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
             //  If we're Listening for voice commands, stop Listening since we may be about to open another
