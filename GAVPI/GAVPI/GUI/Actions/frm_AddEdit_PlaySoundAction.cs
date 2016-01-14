@@ -64,11 +64,13 @@ namespace GAVPI
             
             // Fill out the output devices cb.
             // Note, if a device goes missing (unplugged) after population we will just fall back to default.
+            cbOutputDevices.Items.Add("Default");
             for (int deviceId = 0; deviceId < WaveOut.DeviceCount; deviceId++)
             {
                 var capabilities = WaveOut.GetCapabilities(deviceId);
                 cbOutputDevices.Items.Add(capabilities.ProductName);
             }
+            cbOutputDevices.SelectedIndex = 0;
 
             // Editing an existing action
             if (form_action != null)
@@ -76,9 +78,14 @@ namespace GAVPI
                 chckMultiAdd.Visible = false;
                 txtTimesToAdd.Visible = false;
                 btnAdd.Text = "Edit";
+
+                int deviceID = ((Play_Sound)form_action).getDeviceID();
+
+                if (cbOutputDevices.Items.Count > deviceID)
+                {
+                    cbOutputDevices.SelectedIndex = deviceID;
+                }
                 txtFilePath.Text = form_action.value;
-
-
             }
             // New Action
             else
@@ -121,8 +128,12 @@ namespace GAVPI
             }
 
             Type new_action_type = Type.GetType("GAVPI.Play_Sound");
+
+            // Since we added a "default" entry we need to offset the id's by minus one.
+            int deviceID = cbOutputDevices.SelectedIndex - 1;
+
             form_action = (Action)Activator.CreateInstance(
-                new_action_type, txtFilePath.Text);
+                new_action_type, txtFilePath.Text, deviceID);
 
             this.DialogResult = DialogResult.OK;
 

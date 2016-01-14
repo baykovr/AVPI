@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 using InputManager;
 
-/* Virtual Interface, handles speech/sysnthesis req
+/* Input Engine, handles speech/sysnthesis req
  * can be though of as the engine
  */
 
 namespace GAVPI
 {
-    public class VI
+    public class InputEngine
     {
         SpeechSynthesizer vi_syn;
         SpeechRecognitionEngine vi_sre;
@@ -28,7 +28,7 @@ namespace GAVPI
 
         public bool IsListening = false;
 
-        public VI()
+        public InputEngine()
         {
             pushtotalk_active      = false;
             pushtotalk_keyIsDown   = false;
@@ -154,6 +154,7 @@ namespace GAVPI
 
                 //predicates are cool
                 GAVPI.vi_profile.Profile_Triggers.Find(trigger => trigger.value == recognized_value).run();
+                
                 //equivilent code below
                 //foreach (VI_Phrase phrase in profile.Profile_Triggers)
                 //{
@@ -168,17 +169,13 @@ namespace GAVPI
             }
 
         }
-        private void _recognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
-        {
-
-            UpdateStatusLog( "?" );
-
-        }
+        private void _recognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e) => UpdateStatusLog("?");
 
         void KeyboardHook_KeyDown(int vkCode)
         {
             if (pushtotalk_keyIsDown == true)
                 { return; }
+
             // Only check if pushtotalk_keyIsDown is false
             // aka : pptKey is not down
             if (((Keys)vkCode).ToString() == GAVPI.vi_settings.pushtotalk_key)
@@ -245,13 +242,7 @@ namespace GAVPI
         //  The main Form contains a ListBox showing a running log of all recognised commands and keystrokes,
         //  updated with a log message at each entry.
         //
-
-        private void UpdateStatusLog( string LogMessage )
-        {
-
-            GAVPI.Log.Entry( LogMessage );
-
-        }  //  private void UpdateStatusLog( string )
+        private void UpdateStatusLog( string LogMessage ) => GAVPI.Log.Entry(LogMessage);
 
     }
 }

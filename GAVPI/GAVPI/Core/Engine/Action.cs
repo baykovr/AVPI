@@ -1,116 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Threading;
-using System.Speech.Synthesis;
-using InputManager;
+﻿using InputManager;
 using NAudio.Wave;
+using System;
+using System.Linq;
+using System.Speech.Synthesis;
+using System.Threading;
+using System.Windows.Forms;
+using System.Xml;
 
 /*
- * A single action is composed of 
- * name - the name identifying the action
- * sequence of Actions
- * Actions are carried out sequentially one at time
- */
+*  Arbitrary abstract Action
+*  Currently one of 
+*  Keyboard up/down/press
+*  Mouse up/down/press
+*  Wait 
+*  ...add your own
+*  e.g. public partial class PlaySound() ...
+*/
 
 namespace GAVPI
 {
-    public class VI_Action_Sequence : VI_TriggerEvent
-    {
-        // These type lists are used to populate ui elements,
-        // their (array string) value must match the class name specified bellow, ex : Action : Data_Set
-        // this is particularly important since the string will be cast to a class instance later.
-
-        public static List<string> PressAction_Types = new List<string>(
-            new string[] { 
-                "KeyDown", "KeyUp", "KeyPress",
-                "MouseKeyDown","MouseKeyUp","MouseKeyPress"
-            });
-        public static List<string> SpeechAction_Types = new List<string>(
-            new string[] { 
-               "Speak",
-               "Data_Speak"
-            });
-        public static List<string> PlaySoundAction_Types = new List<string>(
-            new string[] {
-                "Play_Sound"
-            });
-        public static List<string> TimingAction_Types = new List<string>(
-            new string[] { 
-               "Wait"
-            });
-        public static List<string> DataAction_Types = new List<string>(
-            new string[] { 
-               "Data_Set","Data_Decrement","Data_Increment"
-            });
-              
-
-        public string name {get; set;}
-        public string type { get; set; }
-        public string comment { get; set; }
-
-        //sequences do not use value, but must have it as part of TriggerEvent interface
-        public string value { get; set; }
-
-        public List<Action> action_sequence;
-        
-        public VI_Action_Sequence()
-        {
-            action_sequence = new List<Action>();
-            this.name  = "new sequence";
-            this.type  = this.GetType().Name;
-            this.value = null;
-            this.comment = "";
-        }
-
-        public VI_Action_Sequence(string name)
-        {
-            action_sequence = new List<Action>();
-            this.name = name;
-            this.type = this.GetType().Name;
-            this.value = null;
-            this.comment = "";
-        }
-        public List<Action> get_Action_sequence()
-        {
-            return this.action_sequence;
-        }
-        public void set_Action_sequence(List<Action> new_Action_sequence)
-        {
-            this.action_sequence = new_Action_sequence;
-        }
-
-        public void Add(Action new_Action)
-        {
-            action_sequence.Add(new_Action);
-        }
-        public void Remove(Action rm_Action)
-        {
-            action_sequence.Remove(rm_Action);
-        }
-        public void run()
-        {
-            foreach (Action action in action_sequence)
-            {
-                action.run();
-                // A little hotfix for starcitizen, it cant handle going fast.
-                Thread.Sleep(20);
-            }
-        }
-    }
-
-     /*
-      *  Arbitrary abstract Action
-      *  Currently one of 
-      *  Keyboard up/down/press
-      *  Mouse up/down/press
-      *  Wait 
-      *  ...add your own
-      *  ig: public partial class PlaySound() ...
-     */
     public abstract class Action
     {
         public string type { get; set; }
@@ -128,6 +36,7 @@ namespace GAVPI
             this.type = this.GetType().Name;
         }
     }
+
     public partial class KeyDown : Action
     {
         public KeyDown(string value) : base(value)
@@ -136,7 +45,7 @@ namespace GAVPI
         }
         public override string value
         {
-            get;set;
+            get; set;
         }
         public override void run()
         {
@@ -145,7 +54,7 @@ namespace GAVPI
     }
     public partial class KeyUp : Action
     {
-        public KeyUp(string value): base(value)
+        public KeyUp(string value) : base(value)
         {
             this.value = value;
         }
@@ -161,7 +70,7 @@ namespace GAVPI
     }
     public partial class KeyPress : Action
     {
-        public KeyPress(string value): base(value)
+        public KeyPress(string value) : base(value)
         {
             this.value = value;
         }
@@ -178,7 +87,7 @@ namespace GAVPI
 
     public partial class MouseKeyDown : Action
     {
-        public MouseKeyDown(string value): base(value)
+        public MouseKeyDown(string value) : base(value)
         {
             this.value = value;
         }
@@ -255,15 +164,24 @@ namespace GAVPI
             get;
             set;
         }
+
+        /*public static Speak readXML(XmlNode element, SpeechSynthesizer synth)
+        {
+            return (Speak)Activator.CreateInstance(
+                Type.GetType("GAVPI." + element.Attributes.GetNamedItem("type").Value),
+                element.Attributes.GetNamedItem("value").Value
+                );
+        }*/
+
         public override void run()
         {
             try
             {
                 Profile_Synthesis.SpeakAsync(value);
             }
-            catch(Exception synth_err)
+            catch (Exception synth_err)
             {
-                MessageBox.Show("Speech Profile_Synthesis Err : "+synth_err.Message,"Error",
+                MessageBox.Show("Speech Profile_Synthesis Err : " + synth_err.Message, "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Exclamation,
                     MessageBoxDefaultButton.Button1);
@@ -276,27 +194,72 @@ namespace GAVPI
     {
         // Optional : WMP
         // WMPLib.WindowsMediaPlayer player;
-        
-        IWavePlayer waveOutDevice;
-        AudioFileReader audioFileReader;
 
-        public Play_Sound(string filename)
+        IWavePlayer wavePlayer;
+        AudioFileReader audioFileReader;
+        int playBackDeviceID;
+
+        public const int defaultDeviceID = -1;
+        
+        /* Extending actions to multiple values is a job for another day,
+         * for now we will simply serialize the deviceid and filename as such:
+         * ID|filename
+         * Deliminator is | since it is an invalid filename character, if no delim or other error fallback to default device.
+         * */
+        public Play_Sound(string filename,int deviceID)
         {
             this.value = filename;
+            this.playBackDeviceID = deviceID;
+
             try
             {
                 // Optional : WMP
                 // player = new WMPLib.WindowsMediaPlayer();
-                waveOutDevice = new WaveOut();
-                
-                audioFileReader = new AudioFileReader(filename);
-                waveOutDevice.Init(audioFileReader);
+                WaveOut wavout = new WaveOut();
+                wavout.DeviceNumber = playBackDeviceID;
+                wavePlayer = wavout;
+                audioFileReader = new AudioFileReader(this.value);
             }
             catch (Exception e)
             {
                 // TODO : Notify error.
             }
         }
+
+        public int getDeviceID()
+        {
+            return playBackDeviceID;
+        }
+
+        /*
+        * Instead of using an encoding hack, we modify the action parsing/saving cases in the profile code.
+        public static Tuple<int, string> decodeFilename(string encoded_filename)
+        {
+            const char delim = '|';
+            // No delim present, this is probably just the filename from an old profile.
+            if (!encoded_filename.Contains(delim))
+            {
+                return new Tuple<int, string>(defaultDeviceID, encoded_filename);
+            }
+            else
+            {
+                int decodedID;
+                string[] decoded = encoded_filename.Split(delim);
+                if (decoded.Length == 2 && Int32.TryParse(decoded[0], out decodedID))
+                {
+                    return new Tuple<int, string>(decodedID, decoded[1]);
+                }
+                else
+                {
+                    return new Tuple<int, string>(defaultDeviceID, encoded_filename);
+                }
+            }
+        }
+        public static string encodeFilename(int deviceID, string filename)
+        {
+            return deviceID.ToString() + delim + filename;
+        }*/
+
         public override string value
         {
             get;
@@ -309,7 +272,10 @@ namespace GAVPI
                 // Optional : WMP
                 // player.URL = this.value;
                 // player.controls.play();
-                waveOutDevice.Play();
+
+                // Device ID cannot be changed after init, so we will init here in case there is a live update.
+                wavePlayer.Init(audioFileReader);
+                wavePlayer.Play();
             }
             catch (Exception e)
             {
@@ -320,10 +286,10 @@ namespace GAVPI
     #endregion
 
     #region Data Actions
-    public partial class Data_Decrement : Action 
+    public partial class Data_Decrement : Action
     {
         VI_Data data;
-        public Data_Decrement( VI_Data data, string value) : base(value) 
+        public Data_Decrement(VI_Data data, string value) : base(value)
         {
             this.value = value;
         }
@@ -334,7 +300,7 @@ namespace GAVPI
         }
         public override void run()
         {
-            
+
         }
     }
     public partial class Data_Increment : Action
@@ -387,7 +353,7 @@ namespace GAVPI
         public Data_Speak(SpeechSynthesizer Profile_Synthesis, VI_Data data)
         {
             this.Profile_Synthesis = Profile_Synthesis;
-            this.data  = data;
+            this.data = data;
         }
 
         public override string value
@@ -448,5 +414,5 @@ namespace GAVPI
     //    }
     //}
 
-#endregion
+    #endregion
 }

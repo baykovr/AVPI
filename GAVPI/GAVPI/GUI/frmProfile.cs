@@ -122,7 +122,7 @@ namespace GAVPI
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (dgActionSequences.RowCount > 0)
+                if (dgActionSequences.RowCount > 0 && e.RowIndex > 0)
                 {
                     dgActionSequences.CurrentCell = dgActionSequences.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 }
@@ -133,7 +133,7 @@ namespace GAVPI
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (dgTriggers.RowCount > 0)
+                if (dgTriggers.RowCount > 0 && e.RowIndex > 0)
                 {
                     dgTriggers.CurrentCell = dgTriggers.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 }
@@ -144,7 +144,7 @@ namespace GAVPI
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (dgTriggerEvents.RowCount > 0)
+                if (dgTriggerEvents.RowCount > 0 && e.RowIndex > 0)
                 {
                     dgTriggerEvents.CurrentCell = dgTriggerEvents.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 }

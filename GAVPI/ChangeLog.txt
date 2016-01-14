@@ -1,0 +1,6 @@
+01.13.16
+	+ Add support to choose specify device playback by interface.
+		+ You can now specify to play sound over seperate interfaces.
+	+ Allow Actions to utilize fields in addition to type/value.
+	+ Fix right click crash in data grid view of profile editor.
+		

@@ -53,7 +53,7 @@
     </Win32Resource>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>gavpi.ico</ApplicationIcon>
+    <ApplicationIcon>Icons\gavpi.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -82,148 +82,149 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frm_AddEdit_PlaySoundAction.cs">
+    <Compile Include="Core\Engine\Action.cs" />
+    <Compile Include="GUI\Actions\frm_AddEdit_PlaySoundAction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_AddEdit_PlaySoundAction.Designer.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_PlaySoundAction.Designer.cs">
       <DependentUpon>frm_AddEdit_PlaySoundAction.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_AddEdit_ActionSequence.cs">
+    <Compile Include="GUI\frm_AddEdit_ActionSequence.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_AddEdit_ActionSequence.Designer.cs">
+    <Compile Include="GUI\frm_AddEdit_ActionSequence.Designer.cs">
       <DependentUpon>frm_AddEdit_ActionSequence.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_AddEdit_DataAction.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_DataAction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_AddEdit_DataAction.Designer.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_DataAction.Designer.cs">
       <DependentUpon>frm_AddEdit_DataAction.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_AddEdit_PressAction.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_PressAction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_AddEdit_PressAction.Designer.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_PressAction.Designer.cs">
       <DependentUpon>frm_AddEdit_PressAction.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_AddEdit_SpeakAction.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_SpeakAction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_AddEdit_SpeakAction.Designer.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_SpeakAction.Designer.cs">
       <DependentUpon>frm_AddEdit_SpeakAction.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_AddEdit_TimingAction.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_TimingAction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_AddEdit_TimingAction.Designer.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_TimingAction.Designer.cs">
       <DependentUpon>frm_AddEdit_TimingAction.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_Add_to_TriggerEvent.cs">
+    <Compile Include="GUI\frm_Add_to_TriggerEvent.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_Add_to_TriggerEvent.Designer.cs">
+    <Compile Include="GUI\frm_Add_to_TriggerEvent.Designer.cs">
       <DependentUpon>frm_Add_to_TriggerEvent.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_AddEdit_Data.cs">
+    <Compile Include="GUI\frm_AddEdit_Data.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_AddEdit_Data.Designer.cs">
+    <Compile Include="GUI\frm_AddEdit_Data.Designer.cs">
       <DependentUpon>frm_AddEdit_Data.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_AddEdit_LogicalTrigger.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_LogicalTrigger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_AddEdit_LogicalTrigger.Designer.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_LogicalTrigger.Designer.cs">
       <DependentUpon>frm_AddEdit_LogicalTrigger.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmProfile.cs">
+    <Compile Include="GUI\frmProfile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmProfile.Designer.cs">
+    <Compile Include="GUI\frmProfile.Designer.cs">
       <DependentUpon>frmProfile.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmSettings.cs">
+    <Compile Include="GUI\frmSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSettings.Designer.cs">
+    <Compile Include="GUI\frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_AddEdit_PhraseTrigger.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_PhraseTrigger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_AddEdit_PhraseTrigger.Designer.cs">
+    <Compile Include="GUI\Actions\frm_AddEdit_PhraseTrigger.Designer.cs">
       <DependentUpon>frm_AddEdit_PhraseTrigger.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logging.cs" />
-    <Compile Include="MRUMenu.cs" />
-    <Compile Include="ProcessMonitor.cs" />
-    <Compile Include="VI_Data.cs" />
-    <Compile Include="VI_DB.cs" />
-    <Compile Include="VI_Profile.cs" />
-    <Compile Include="frmGAVPI.cs">
+    <Compile Include="Core\Logging.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Util\MRUMenu.cs" />
+    <Compile Include="Util\ProcessMonitor.cs" />
+    <Compile Include="Core\Engine\VI_Data.cs" />
+    <Compile Include="Core\Profile\VI_DB.cs" />
+    <Compile Include="Core\Profile\VI_Profile.cs" />
+    <Compile Include="GUI\frmGAVPI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmGAVPI.Designer.cs">
+    <Compile Include="GUI\frmGAVPI.Designer.cs">
       <DependentUpon>frmGAVPI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GAVPI.cs" />
+    <Compile Include="Core\GAVPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VI.cs" />
-    <Compile Include="VI_Action_Sequence.cs" />
-    <Compile Include="VI_Settings.cs" />
-    <Compile Include="VI_Trigger.cs" />
-    <Compile Include="VI_TriggerEvent.cs" />
-    <Compile Include="Win32_APIs.cs" />
-    <EmbeddedResource Include="frm_AddEdit_PlaySoundAction.resx">
+    <Compile Include="Core\Engine\InputEngine.cs" />
+    <Compile Include="Core\Engine\VI_Action_Sequence.cs" />
+    <Compile Include="Core\Engine\VI_Settings.cs" />
+    <Compile Include="Core\Engine\VI_Trigger.cs" />
+    <Compile Include="Core\Engine\VI_TriggerEvent.cs" />
+    <Compile Include="Util\Win32_APIs.cs" />
+    <EmbeddedResource Include="GUI\Actions\frm_AddEdit_PlaySoundAction.resx">
       <DependentUpon>frm_AddEdit_PlaySoundAction.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_AddEdit_ActionSequence.resx">
+    <EmbeddedResource Include="GUI\frm_AddEdit_ActionSequence.resx">
       <DependentUpon>frm_AddEdit_ActionSequence.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_AddEdit_Data.resx">
+    <EmbeddedResource Include="GUI\frm_AddEdit_Data.resx">
       <DependentUpon>frm_AddEdit_Data.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_AddEdit_DataAction.resx">
+    <EmbeddedResource Include="GUI\Actions\frm_AddEdit_DataAction.resx">
       <DependentUpon>frm_AddEdit_DataAction.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_AddEdit_PressAction.resx">
+    <EmbeddedResource Include="GUI\Actions\frm_AddEdit_PressAction.resx">
       <DependentUpon>frm_AddEdit_PressAction.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_AddEdit_SpeakAction.resx">
+    <EmbeddedResource Include="GUI\Actions\frm_AddEdit_SpeakAction.resx">
       <DependentUpon>frm_AddEdit_SpeakAction.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_AddEdit_TimingAction.resx">
+    <EmbeddedResource Include="GUI\Actions\frm_AddEdit_TimingAction.resx">
       <DependentUpon>frm_AddEdit_TimingAction.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_Add_to_TriggerEvent.resx">
+    <EmbeddedResource Include="GUI\frm_Add_to_TriggerEvent.resx">
       <DependentUpon>frm_Add_to_TriggerEvent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmGAVPI.resx">
+    <EmbeddedResource Include="GUI\frmGAVPI.resx">
       <DependentUpon>frmGAVPI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_AddEdit_LogicalTrigger.resx">
+    <EmbeddedResource Include="GUI\Actions\frm_AddEdit_LogicalTrigger.resx">
       <DependentUpon>frm_AddEdit_LogicalTrigger.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmProfile.resx">
+    <EmbeddedResource Include="GUI\frmProfile.resx">
       <DependentUpon>frmProfile.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSettings.resx">
+    <EmbeddedResource Include="GUI\frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_AddEdit_PhraseTrigger.resx">
+    <EmbeddedResource Include="GUI\Actions\frm_AddEdit_PhraseTrigger.resx">
       <DependentUpon>frm_AddEdit_PhraseTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -239,8 +240,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="gavpi-listening.ico" />
-    <Content Include="gavpi.ico" />
+    <None Include="Icons\gavpi-listening.ico" />
+    <Content Include="Icons\gavpi.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

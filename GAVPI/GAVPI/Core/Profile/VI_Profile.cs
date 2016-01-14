@@ -176,10 +176,12 @@ namespace GAVPI
             }
 				
             //Check first element tag
-            if (profile_xml.DocumentElement.Name != "gavpi") {
+            if (profile_xml.DocumentElement.Name != "gavpi")
+            {
                 throw new Exception("Malformed profile expected first tag gavpi got,"
-                + profile_xml.DocumentElement.Name);
+                    + profile_xml.DocumentElement.Name);
             }
+
             XmlNodeList profile_xml_elements = profile_xml.DocumentElement.ChildNodes;
             foreach (XmlNode element in profile_xml_elements)
             {
@@ -189,46 +191,75 @@ namespace GAVPI
                 } 
                 else if (element.Name == "VI_Action_Sequence") 
                 {
+
                     VI_Action_Sequence ack_frm_file;
                     ack_frm_file = new VI_Action_Sequence(element.Attributes.GetNamedItem("name").Value);
                     ack_frm_file.type = element.Attributes.GetNamedItem("type").Value;
                     ack_frm_file.comment = element.Attributes.GetNamedItem("comment").Value;
                     
+                    // Load actions in action sequence.
                     foreach (XmlNode action in element.ChildNodes)
                     {
                         string action_type = action.Attributes.GetNamedItem("type").Value;
                         string action_value = action.Attributes.GetNamedItem("value").Value;
-                        Type new_action_type = Type.GetType("GAVPI." + action_type );
-                        object action_instance;
-                        if (action_type == "Speak")
-                        {
-                            action_instance = Activator.CreateInstance(new_action_type,this.synth, action_value);
-                        }
-                        // Look Up Data Value in DB
-                        else if (action_type == "Data_Speak")
-                        {
-                            // action_value is the db key, the data element name
-                            if (ProfileDB.DB.ContainsKey(action_value))
-                            {
-                                action_instance = Activator.CreateInstance(new_action_type, this.synth, 
-                                    (VI_Data)ProfileDB.DB[action_value]);
-                            }
-                            else
-                            {
-                                action_instance = null;
-                                MessageBox.Show("Warning : unknown data element " + action_value);
-                            }
-                        }
-                        else
-                        {
-                            action_instance = Activator.CreateInstance(new_action_type, action_value);
-                        }
 
+                        Type new_action_type = Type.GetType("GAVPI." + action_type);
+                        object action_instance;
+
+                        switch (action_type)
+                        {
+                            case "Speak":
+                                {
+                                    action_instance = Activator.CreateInstance(new_action_type,this.synth, action_value);
+                                    break;
+                                }
+                            case "Play_Sound":
+                                {
+                                    int deviceID;
+                                    if (Int32.TryParse(action.Attributes.GetNamedItem("deviceID").Value, out deviceID))
+                                    {
+                                        action_instance = Activator.CreateInstance(new_action_type, action_value, deviceID);
+                                    }
+                                    else
+                                    {
+                                        action_instance = Activator.CreateInstance(new_action_type, action_value, Play_Sound.defaultDeviceID);
+                                    }
+                                    break;
+                                }
+                            case "Data_Speak":
+                                {
+                                    // action_value is the db key, the data element name
+                                    if (ProfileDB.DB.ContainsKey(action_value))
+                                    {
+                                        action_instance = Activator.CreateInstance(new_action_type, this.synth,
+                                            (VI_Data)ProfileDB.DB[action_value]);
+                                    }
+                                    else
+                                    {
+                                        action_instance = null;
+                                        MessageBox.Show("Unknown data element " + action_value, "Warning");
+                                    }
+                                    break;
+                                }
+                            default:
+                                {
+                                    action_instance = Activator.CreateInstance(new_action_type, action_value);
+                                    break;
+                                }
+                        }
                         if (action_instance != null)
                         {
                             ack_frm_file.Add((Action)action_instance);
                         }
-                    }
+                        else
+                        {
+                            // action could not be loaded from xml (malformed)
+                            // TODO : Log warning
+                            //  note, you can't just pop up a dialog since it could possibly spawn dozes (hundreds)
+                            //  instead we need to log warnings and display a summary.
+                        }
+                    } //  /Load actions in action sequence.
+
                     if (!Profile_ActionSequences.Any(ack => ack.name == ack_frm_file.name))
                     {
                         Profile_ActionSequences.Add(ack_frm_file);
@@ -378,6 +409,7 @@ namespace GAVPI
                 else
                 {
                     // No associated database, TODO : log warning
+                    //MessageBox.Show("No database is associated in this profile.","Warning");
                 }
 
                 foreach (VI_Action_Sequence ack_seq in Profile_ActionSequences)
@@ -387,22 +419,41 @@ namespace GAVPI
                     writer.WriteAttributeString("type", ack_seq.type);
                     writer.WriteAttributeString("comment", ack_seq.comment);
 
-                    foreach (Action act in ack_seq.action_sequence)
+                    foreach (Action action in ack_seq.action_sequence)
                     {
                         writer.WriteStartElement("Action");
-                        writer.WriteAttributeString("type", act.type);
-                        writer.WriteAttributeString("value", act.value);
+                        switch (action.type)
+                        {
+                            case "Play_Sound":
+                                {
+
+                                    writer.WriteAttributeString("type", action.type);
+                                    writer.WriteAttributeString("value", action.value);
+                                    writer.WriteAttributeString("deviceID", ( (Play_Sound) action).getDeviceID().ToString() );
+                                    break;
+                                }
+                            default:
+                                {
+                                    writer.WriteAttributeString("type", action.type);
+                                    writer.WriteAttributeString("value", action.value);
+                                    break;
+                                }
+
+                        }
                         writer.WriteEndElement();
                     }
                     writer.WriteEndElement();
                 }
-                foreach (VI_Trigger trig in Profile_Triggers){
+                foreach (VI_Trigger trig in Profile_Triggers)
+                {
                     writer.WriteStartElement("VI_Trigger");
                         writer.WriteAttributeString("name", trig.name);
                         writer.WriteAttributeString("value", trig.value);
                         writer.WriteAttributeString("type", trig.type);
                         writer.WriteAttributeString("comment", trig.comment);
-                        //TriggerEvents (Events which this trigger will cause to happen)
+                   
+                   // TriggerEvents: events which this trigger will raise.
+                   // e.g. trigger is activated by phrase, events are several action sequences invoked.
                    foreach(VI_TriggerEvent trigger_event in trig.TriggerEvents)
                    {
                        writer.WriteStartElement("VI_TriggerEvent");
@@ -426,7 +477,6 @@ namespace GAVPI
                 MessageBox.Show("Error saving to file" + err_saving.Message);
 				
 				return false;
-				
             }
 			
 			//

@@ -42,7 +42,7 @@ namespace GAVPI
         public static VI_Settings vi_settings;
         public static VI_Profile vi_profile;
 
-        public static VI vi;
+        public static InputEngine vi;
 
         private static frmGAVPI MainForm;
         private static frmProfile ProfileEditor;
@@ -104,7 +104,7 @@ namespace GAVPI
             vi_settings = new VI_Settings();
             vi_profile = new VI_Profile( null );
 
-            vi = new VI();
+            vi = new InputEngine();
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -547,7 +547,7 @@ namespace GAVPI
             //  Stop listening on voice commands...
 
             vi.stop_listen();
-            vi = new VI();
+            vi = new InputEngine();
 
             //  Update the main form to reflect the stopped state...
 
