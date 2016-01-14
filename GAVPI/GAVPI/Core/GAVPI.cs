@@ -69,8 +69,9 @@ namespace GAVPI
 
         //  We maintain a system tray icon and context menu...
         
-        private static NotifyIcon sysTrayIcon;
+        public static NotifyIcon sysTrayIcon;
         private static ContextMenu sysTrayMenu;
+        public static bool IsFirstClose = true; //is this the first time the main window has been closed
 
         //  Our system tray context menu items are declared for convenience.  If we add or remove items at some
         //  point, let's reflect that here.
