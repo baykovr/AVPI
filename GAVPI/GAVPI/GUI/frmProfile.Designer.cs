@@ -276,8 +276,8 @@
             this.dgTriggers.AllowUserToAddRows = false;
             this.dgTriggers.AllowUserToDeleteRows = false;
             this.dgTriggers.AllowUserToResizeRows = false;
-            this.dgTriggers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgTriggers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgTriggers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgTriggers.BackgroundColor = System.Drawing.Color.White;
@@ -318,6 +318,7 @@
             this.dgTriggers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgTriggers.Size = new System.Drawing.Size(417, 261);
             this.dgTriggers.TabIndex = 0;
+            this.dgTriggers.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgTriggers_CellMouseDoubleClick);
             this.dgTriggers.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Triggers_CellMouseDown);
             this.dgTriggers.SelectionChanged += new System.EventHandler(this.dgTriggers_SelectionChanged);
             // 
@@ -387,8 +388,8 @@
             this.dgTriggerEvents.AllowUserToAddRows = false;
             this.dgTriggerEvents.AllowUserToDeleteRows = false;
             this.dgTriggerEvents.AllowUserToResizeRows = false;
-            this.dgTriggerEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgTriggerEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgTriggerEvents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgTriggerEvents.BackgroundColor = System.Drawing.Color.White;
@@ -458,8 +459,8 @@
             this.dgActionSequences.AllowUserToAddRows = false;
             this.dgActionSequences.AllowUserToDeleteRows = false;
             this.dgActionSequences.AllowUserToResizeRows = false;
-            this.dgActionSequences.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgActionSequences.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgActionSequences.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgActionSequences.BackgroundColor = System.Drawing.Color.White;
@@ -499,6 +500,7 @@
             this.dgActionSequences.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgActionSequences.Size = new System.Drawing.Size(419, 521);
             this.dgActionSequences.TabIndex = 0;
+            this.dgActionSequences.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgActionSequences_CellMouseDoubleClick);
             this.dgActionSequences.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ActionSequences_CellMouseDown);
             // 
             // contextProfileActionSequences
@@ -547,7 +549,7 @@
             // 
             // AssociatedProcessTextBox
             // 
-            this.AssociatedProcessTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.AssociatedProcessTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AssociatedProcessTextBox.Location = new System.Drawing.Point(105, 30);
             this.AssociatedProcessTextBox.Name = "AssociatedProcessTextBox";
@@ -587,8 +589,8 @@
             // 
             // tabProfile
             // 
-            this.tabProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabProfile.Controls.Add(this.tabPageEvents);
             this.tabProfile.Controls.Add(this.tabPageData);
@@ -625,8 +627,8 @@
             // 
             this.dgDatabase.AllowUserToAddRows = false;
             this.dgDatabase.AllowUserToDeleteRows = false;
-            this.dgDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgDatabase.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgDatabase.BackgroundColor = System.Drawing.Color.White;
