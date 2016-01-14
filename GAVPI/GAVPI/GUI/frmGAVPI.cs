@@ -59,8 +59,16 @@ namespace GAVPI
                     "The GAVPI application is still listening in the background and can be accessed from the system tray.";
                 GAVPI.sysTrayIcon.ShowBalloonTip(5000);
 
+<<<<<<< HEAD
                 GAVPI.IsFirstClose = false;
             }
+=======
+<<<<<<< HEAD:GAVPI/GAVPI/GUI/frmGAVPI.cs
+=======
+                GAVPI.IsFirstClose = false;
+            }
+>>>>>>> 4ef8287f2083c27d4a673aa934f82904e10d6a28:GAVPI/GAVPI/frmGAVPI.cs
+>>>>>>> AdamJamesNaylor-master
         }  //  private void frmGAVPI_FormClosing
 
         //
