@@ -49,9 +49,10 @@ namespace GAVPI
         {
             // Populate initial values for drop down boxes.
             cbPressType.DataSource  = Action_Sequence.PressAction_Types;
-            
+
             // default to keys.
-            cbPressValue.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();
+            // Fixed issue with key names appearing incorrectly, using enum.getvalues returns wrong/duplicate names.
+            cbPressValue.DataSource = Enum.GetNames(typeof(Keys)).ToArray();
 
             // default times to add is one time.
             times_to_add = 1;
