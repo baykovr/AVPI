@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GAVPI
 {
-    public interface VI_TriggerEvent
+    public interface Trigger_Event
     {
        string name { get; set; }
        string type { get; set; }

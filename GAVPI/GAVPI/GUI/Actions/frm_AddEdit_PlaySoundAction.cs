@@ -60,7 +60,7 @@ namespace GAVPI
             times_to_add = 1;
             txtTimesToAdd.Text = times_to_add.ToString();
 
-            //cbSpeechType.DataSource = VI_Action_Sequence.SpeechAction_Types;
+            //cbSpeechType.DataSource = Action_Sequence.SpeechAction_Types;
             
             // Fill out the output devices cb.
             // Note, if a device goes missing (unplugged) after population we will just fall back to default.
@@ -177,8 +177,5 @@ namespace GAVPI
             }
         }
         #endregion
-
-       
-
     }
 }

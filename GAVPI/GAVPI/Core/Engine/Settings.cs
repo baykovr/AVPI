@@ -10,7 +10,7 @@ using System.Xml;
 
 namespace GAVPI
 {
-    public class VI_Settings
+    public class Settings
     {
         /*
          * @default_profile_name
@@ -37,7 +37,7 @@ namespace GAVPI
 
         public System.Globalization.CultureInfo recognizer_info;
 
-        public VI_Settings()
+        public Settings()
         {
             // Default values
             recognizer_info = CultureInfo.CurrentCulture;
@@ -71,7 +71,7 @@ namespace GAVPI
                 XmlNodeList gavpi_settings_elements = gavpi_settings.DocumentElement.ChildNodes;
                 foreach (XmlNode element in gavpi_settings_elements)
                 {
-                    if (element.Name == "VI_Settings")
+                    if (element.Name == "Settings")
                     {
                         // Warning : can be null
                         string xml_default_profile_name = element.Attributes.GetNamedItem("default_profile_name").Value;
@@ -133,7 +133,7 @@ namespace GAVPI
                 writer.WriteStartDocument();
                 writer.WriteStartElement("gavpi");
 
-                writer.WriteStartElement("VI_Settings");
+                writer.WriteStartElement("Settings");
 
                 // Warning : can be null
                 writer.WriteAttributeString("default_profile_name", default_profile_name);

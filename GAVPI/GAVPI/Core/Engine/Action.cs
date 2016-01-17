@@ -280,6 +280,7 @@ namespace GAVPI
             catch (Exception e)
             {
                 // TODO : Notify error.
+                MessageBox.Show("Cannot playback media file " + this.value, "Error");
             }
         }
     }
@@ -288,8 +289,8 @@ namespace GAVPI
     #region Data Actions
     public partial class Data_Decrement : Action
     {
-        VI_Data data;
-        public Data_Decrement(VI_Data data, string value) : base(value)
+        Data data;
+        public Data_Decrement(Data data, string value) : base(value)
         {
             this.value = value;
         }
@@ -305,8 +306,8 @@ namespace GAVPI
     }
     public partial class Data_Increment : Action
     {
-        VI_Data data;
-        public Data_Increment(VI_Data data, string value)
+        Data data;
+        public Data_Increment(Data data, string value)
             : base(value)
         {
             this.value = value;
@@ -323,8 +324,8 @@ namespace GAVPI
     }
     public partial class Data_Set : Action
     {
-        VI_Data data;
-        public Data_Set(VI_Data data, string value)
+        Data data;
+        public Data_Set(Data data, string value)
             : base(value)
         {
             this.value = value;
@@ -348,9 +349,9 @@ namespace GAVPI
          * Robert (04.12.15)
          */
         SpeechSynthesizer Profile_Synthesis;
-        VI_Data data;
+        Data data;
 
-        public Data_Speak(SpeechSynthesizer Profile_Synthesis, VI_Data data)
+        public Data_Speak(SpeechSynthesizer Profile_Synthesis, Data data)
         {
             this.Profile_Synthesis = Profile_Synthesis;
             this.data = data;

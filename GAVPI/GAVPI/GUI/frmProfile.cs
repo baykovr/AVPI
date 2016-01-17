@@ -37,7 +37,7 @@ namespace GAVPI
             //  If we are re-modifying an existing Profile that has pending changes, ensure we re-enable
             //  File->Save and (if the Profile has already been saved - and named) the File->File As menu items.
 
-            if( GAVPI.vi_profile.IsEdited() ) ProfileEdited();
+            if( GAVPI.Profile.IsEdited() ) ProfileEdited();
 
             //  Reflect the Profile's current state in the Status Bar...
 
@@ -45,7 +45,7 @@ namespace GAVPI
 
             //  ...And display the name of an associated executable in the relevant text box.
 
-            AssociatedProcessTextBox.Text = GAVPI.vi_profile.GetAssociatedProcess();
+            AssociatedProcessTextBox.Text = GAVPI.Profile.GetAssociatedProcess();
 
         }  //  private void frmProfile_Load()
 
@@ -76,30 +76,30 @@ namespace GAVPI
         private void refresh_dgTriggers()
         {
             dgTriggers.DataSource = null;
-            dgTriggers.DataSource = GAVPI.vi_profile.Profile_Triggers.ToList();
+            dgTriggers.DataSource = GAVPI.Profile.Profile_Triggers.ToList();
         }
 
         private void refresh_dgActionSequences()
         {
             dgActionSequences.DataSource = null;
-            dgActionSequences.DataSource = GAVPI.vi_profile.Profile_ActionSequences.ToList();
+            dgActionSequences.DataSource = GAVPI.Profile.Profile_ActionSequences.ToList();
         }
 
         private void refresh_dgDatabase()
         {
             dgDatabase.DataSource = null;
-            dgDatabase.DataSource = GAVPI.vi_profile.ProfileDB.DB.Values.ToList();
+            dgDatabase.DataSource = GAVPI.Profile.ProfileDB.DB.Values.ToList();
         }
 
         private void refresh_dgTriggerEvents()
         {
-            List<VI_TriggerEvent> dg_data_trigger_events = new List<VI_TriggerEvent>();
+            List<Trigger_Event> dg_data_trigger_events = new List<Trigger_Event>();
             foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
             {
-                VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
+                Trigger selected_trigger = row.DataBoundItem as Trigger;
                 if (selected_trigger != null)
                 {
-                    foreach (VI_TriggerEvent trigger_event in selected_trigger.TriggerEvents)
+                    foreach (Trigger_Event trigger_event in selected_trigger.TriggerEvents)
                     {
                         dg_data_trigger_events.Add(trigger_event);
 
@@ -187,7 +187,7 @@ namespace GAVPI
                 throw new NotImplementedException("Editing mutliple triggers at once is unsupported.");
             }
             foreach (DataGridViewRow row in this.dgTriggers.SelectedRows) {
-                VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
+                Trigger selected_trigger = row.DataBoundItem as Trigger;
                 if (selected_trigger != null) {
                     frm_AddEdit_PhraseTrigger newTrigger = new frm_AddEdit_PhraseTrigger(selected_trigger);
 
@@ -209,13 +209,13 @@ namespace GAVPI
             }
             foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
             {
-                VI_Trigger selected_trigger = row.DataBoundItem as VI_Trigger;
+                Trigger selected_trigger = row.DataBoundItem as Trigger;
                 if (selected_trigger != null)
                 {
-                    GAVPI.vi_profile.Profile_Triggers.Remove(selected_trigger);
+                    GAVPI.Profile.Profile_Triggers.Remove(selected_trigger);
 
                     // Remove refernces of this trigger from existing triggers
-                    foreach (VI_Trigger existing_trigger in GAVPI.vi_profile.Profile_Triggers)
+                    foreach (Trigger existing_trigger in GAVPI.Profile.Profile_Triggers)
                     {
                         existing_trigger.TriggerEvents.Remove(selected_trigger);
                     }
@@ -238,7 +238,7 @@ namespace GAVPI
             foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
             {
                 // In this case it is a Trigger -> Trigger addition
-                VI_TriggerEvent event_to_add = row.DataBoundItem as VI_TriggerEvent;
+                Trigger_Event event_to_add = row.DataBoundItem as Trigger_Event;
                 frm_Add_to_TriggerEvent newAddtoTriggerEvent = new frm_Add_to_TriggerEvent(event_to_add);
 
                 if (newAddtoTriggerEvent.ShowDialog() == DialogResult.OK) ProfileEdited();
@@ -255,16 +255,16 @@ namespace GAVPI
             {
                 throw new NotImplementedException("Editing mutliple triggers at once is unsupported.");
             }
-            VI_Trigger selected_trigger = null;
+            Trigger selected_trigger = null;
             foreach (DataGridViewRow row in this.dgTriggers.SelectedRows)
             {
-                 selected_trigger = row.DataBoundItem as VI_Trigger;
+                 selected_trigger = row.DataBoundItem as Trigger;
             }
             if (selected_trigger != null)
             {
                 foreach (DataGridViewRow row in this.dgTriggerEvents.SelectedRows)
                 {
-                    VI_TriggerEvent selected_event = row.DataBoundItem as VI_TriggerEvent;
+                    Trigger_Event selected_event = row.DataBoundItem as Trigger_Event;
                     if (selected_event != null)
                     {
                         //Remove Event
@@ -292,7 +292,7 @@ namespace GAVPI
             foreach (DataGridViewRow row in this.dgActionSequences.SelectedRows)
             {
                 //In this case an Action_Sequence is added to a Trigger's TriggerEvents List
-                VI_TriggerEvent event_to_add = row.DataBoundItem as VI_TriggerEvent;
+                Trigger_Event event_to_add = row.DataBoundItem as Trigger_Event;
                 frm_Add_to_TriggerEvent newAddtoTriggerEvent = new frm_Add_to_TriggerEvent( event_to_add );
              	
 				if( newAddtoTriggerEvent.ShowDialog() == DialogResult.OK ) ProfileEdited();
@@ -330,7 +330,7 @@ namespace GAVPI
                 throw new NotImplementedException("Editing multiple sequences at once is unsupported.");
             }
             foreach (DataGridViewRow row in this.dgActionSequences.SelectedRows) {
-                VI_Action_Sequence sequence_to_edit = row.DataBoundItem as VI_Action_Sequence;
+                Action_Sequence sequence_to_edit = row.DataBoundItem as Action_Sequence;
                 frm_AddEdit_ActionSequence newActionSequence = new frm_AddEdit_ActionSequence(sequence_to_edit);
 
                 if (newActionSequence.ShowDialog() == DialogResult.OK) ProfileEdited();
@@ -348,11 +348,11 @@ namespace GAVPI
             }
             foreach (DataGridViewRow row in this.dgActionSequences.SelectedRows)
             {
-                VI_Action_Sequence sequence_to_remove = row.DataBoundItem as VI_Action_Sequence;
-                GAVPI.vi_profile.Profile_ActionSequences.Remove(sequence_to_remove);
+                Action_Sequence sequence_to_remove = row.DataBoundItem as Action_Sequence;
+                GAVPI.Profile.Profile_ActionSequences.Remove(sequence_to_remove);
                 
                 // Remove this event from existing triggers.
-                foreach (VI_Trigger existing_trigger in GAVPI.vi_profile.Profile_Triggers)
+                foreach (Trigger existing_trigger in GAVPI.Profile.Profile_Triggers)
                 {
                     existing_trigger.TriggerEvents.Remove(sequence_to_remove);
                 }
@@ -390,7 +390,7 @@ namespace GAVPI
             }
             foreach (DataGridViewRow row in this.dgDatabase.SelectedRows)
             {
-                VI_Data selected_data = row.DataBoundItem as VI_Data;
+                Data selected_data = row.DataBoundItem as Data;
                 if (selected_data != null)
                 {
                     frm_AddEdit_Data newData = new frm_AddEdit_Data(selected_data);
@@ -412,10 +412,10 @@ namespace GAVPI
             }
             foreach (DataGridViewRow row in this.dgDatabase.SelectedRows)
             {
-                VI_Data selected_data = row.DataBoundItem as VI_Data;
+                Data selected_data = row.DataBoundItem as Data;
                 if (selected_data != null)
                 {
-                    GAVPI.vi_profile.ProfileDB.Remove(selected_data);
+                    GAVPI.Profile.ProfileDB.Remove(selected_data);
                     ProfileEdited();
                     refresh_dgDatabase();
                 }
@@ -461,7 +461,7 @@ namespace GAVPI
 
             if( !GAVPI.SaveProfile() ) return;
 
-            RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() ) );   
+            RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.Profile.GetProfileFilename() ) );   
 
         }
 		
@@ -470,7 +470,7 @@ namespace GAVPI
 
             if( !GAVPI.SaveAsProfile() ) return;
 					
-			RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.vi_profile.GetProfileFilename() ) );          	
+			RefreshUI( Path.GetFileNameWithoutExtension( GAVPI.Profile.GetProfileFilename() ) );          	
 
         }
 
@@ -538,7 +538,7 @@ namespace GAVPI
             //  user, in the Form's status bar, that the Profile is presently unsaved.
 			//
 
-            if( GAVPI.vi_profile.IsEmpty() ) {
+            if( GAVPI.Profile.IsEmpty() ) {
 
                 btmStatusProfile.Text = null;
 
@@ -546,9 +546,9 @@ namespace GAVPI
 
             }
 
-			if( GAVPI.vi_profile.GetProfileFilename() != null ) this.saveToolStripMenuItem.Enabled = true;
+			if( GAVPI.Profile.GetProfileFilename() != null ) this.saveToolStripMenuItem.Enabled = true;
 
-            GAVPI.vi_profile.Edited();
+            GAVPI.Profile.Edited();
 
 			this.saveAsToolStripMenuItem.Enabled = true;
 
@@ -609,13 +609,13 @@ namespace GAVPI
            
             //  Assign the content of the TextBox to the Profile. CHECK TO MAKE SURE OLD ONE IS REMOVED!
 
-            if( GAVPI.vi_profile.GetAssociatedProcess() == AssociatedProcessTextBox.Text ) return;
+            if( GAVPI.Profile.GetAssociatedProcess() == AssociatedProcessTextBox.Text ) return;
 
-            GAVPI.vi_profile.SetAssociatedProcess( AssociatedProcessTextBox.Text );
+            GAVPI.Profile.SetAssociatedProcess( AssociatedProcessTextBox.Text );
             
             //  Add to the process tracker (infers removal of a prior instance).
 
-            GAVPI.AddAutoOpenProfile( AssociatedProcessTextBox.Text, GAVPI.vi_profile.GetProfileFilename() );
+            GAVPI.AddAutoOpenProfile( AssociatedProcessTextBox.Text, GAVPI.Profile.GetProfileFilename() );
 
             //  Consider this Profile edited.
 

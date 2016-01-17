@@ -50,25 +50,25 @@ namespace GAVPI
         public bool load_listen()
         {
             // Don't allocate anything if we have no phrases to hook.
-            if ( GAVPI.vi_profile.Profile_Triggers!= null && 
-                 GAVPI.vi_profile.Profile_Triggers.Count == 0)
+            if ( GAVPI.Profile.Profile_Triggers!= null && 
+                 GAVPI.Profile.Profile_Triggers.Count == 0)
             {
                 MessageBox.Show("You need to add at least one Trigger");
                 return false;
             }
 
-            vi_syn = GAVPI.vi_profile.synth;
-            vi_syn.SelectVoice( GAVPI.vi_settings.voice_info );
-            vi_sre = new SpeechRecognitionEngine( GAVPI.vi_settings.recognizer_info );
+            vi_syn = GAVPI.Profile.synth;
+            vi_syn.SelectVoice( GAVPI.Settings.voice_info );
+            vi_sre = new SpeechRecognitionEngine( GAVPI.Settings.recognizer_info );
 
             GrammarBuilder phrases_grammar = new GrammarBuilder();
             // Grammer must match speech recognition language localization
-            phrases_grammar.Culture = GAVPI.vi_settings.recognizer_info;
+            phrases_grammar.Culture = GAVPI.Settings.recognizer_info;
 
             List<string> glossory = new List<string>();
             
             // Add trigger phrases to glossory of voice recognition engine.
-            foreach (VI_Phrase trigger in GAVPI.vi_profile.Profile_Triggers)
+            foreach (VI_Phrase trigger in GAVPI.Profile.Profile_Triggers)
             {
                 glossory.Add(trigger.value);
             }
@@ -119,7 +119,7 @@ namespace GAVPI
                 //  Now that push to talk _is_ implemented what the hell do we do.
 			}
 
-            if( GAVPI.vi_settings.pushtotalk_mode != "Hold" && GAVPI.vi_settings.pushtotalk_mode != "PressOnce")
+            if( GAVPI.Settings.pushtotalk_mode != "Hold" && GAVPI.Settings.pushtotalk_mode != "PressOnce")
             {
                 pushtotalk_active = true;
             }
@@ -153,7 +153,7 @@ namespace GAVPI
                 string recognized_value = e.Result.Text;
 
                 //predicates are cool
-                GAVPI.vi_profile.Profile_Triggers.Find(trigger => trigger.value == recognized_value).run();
+                GAVPI.Profile.Profile_Triggers.Find(trigger => trigger.value == recognized_value).run();
                 
                 //equivilent code below
                 //foreach (VI_Phrase phrase in profile.Profile_Triggers)
@@ -178,15 +178,15 @@ namespace GAVPI
 
             // Only check if pushtotalk_keyIsDown is false
             // aka : pptKey is not down
-            if (((Keys)vkCode).ToString() == GAVPI.vi_settings.pushtotalk_key)
+            if (((Keys)vkCode).ToString() == GAVPI.Settings.pushtotalk_key)
             {
                 //if (pushtotalk_keyIsDown == false)
-                    if ( GAVPI.vi_settings.pushtotalk_mode == "Hold")
+                    if ( GAVPI.Settings.pushtotalk_mode == "Hold")
                     {
                         pushtotalk_active = true;
                         UpdateStatusLog( "Start Listening" );
                     }
-                    else if ( GAVPI.vi_settings.pushtotalk_mode == "PressOnce")
+                    else if ( GAVPI.Settings.pushtotalk_mode == "PressOnce")
                     {
                         if (pushtotalk_active == false)
                         {
@@ -212,17 +212,17 @@ namespace GAVPI
             if (pushtotalk_keyIsDown == false)
                 { return; }
             
-            if (((Keys)vkCode).ToString() == GAVPI.vi_settings.pushtotalk_key)
+            if (((Keys)vkCode).ToString() == GAVPI.Settings.pushtotalk_key)
             {
                 //if (pushtotalk_keyIsDown == true)
-                    if (GAVPI.vi_settings.pushtotalk_mode == "Hold")
+                    if (GAVPI.Settings.pushtotalk_mode == "Hold")
                     {
                         pushtotalk_keyIsDown = false;
                         pushtotalk_active = false;
 
                         UpdateStatusLog( "Stop Listening" );
                     }
-                    else if (GAVPI.vi_settings.pushtotalk_mode == "PressOnce")
+                    else if (GAVPI.Settings.pushtotalk_mode == "PressOnce")
                     {
                         pushtotalk_keyIsDown = false;
                     }

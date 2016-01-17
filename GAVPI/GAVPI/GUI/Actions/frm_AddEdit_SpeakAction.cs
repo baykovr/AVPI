@@ -59,7 +59,7 @@ namespace GAVPI
 
             txtTimesToAdd.Text = times_to_add.ToString();
 
-            cbSpeechType.DataSource = VI_Action_Sequence.SpeechAction_Types;
+            cbSpeechType.DataSource = Action_Sequence.SpeechAction_Types;
 
             // Editing an existing action
             if (form_action != null)
@@ -140,13 +140,13 @@ namespace GAVPI
             {
                 // Simple uses text property for value
                 form_action = (Action)Activator.CreateInstance(
-                new_action_type, GAVPI.vi_profile.synth, cbSpeechValue.Text);
+                new_action_type, GAVPI.Profile.synth, cbSpeechValue.Text);
                
             }
             else if (cbSpeechType.Text == "Data_Speak")
             {
                 form_action = (Action)Activator.CreateInstance(
-                new_action_type, GAVPI.vi_profile.synth, GAVPI.vi_profile.ProfileDB.DB[cbSpeechValue.Text]);
+                new_action_type, GAVPI.Profile.synth, GAVPI.Profile.ProfileDB.DB[cbSpeechValue.Text]);
                
             }
             else
@@ -183,7 +183,7 @@ namespace GAVPI
             else if (cbSpeechType.Text == "Data_Speak")
             {
                 cbSpeechValue.DropDownStyle = ComboBoxStyle.DropDownList;
-                cbSpeechValue.DataSource = GAVPI.vi_profile.ProfileDB.DB.Keys.ToList();
+                cbSpeechValue.DataSource = GAVPI.Profile.ProfileDB.DB.Keys.ToList();
             }
             else
             {

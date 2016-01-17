@@ -14,7 +14,7 @@ using System.Xml;
 namespace GAVPI
 {
     /*Stage 1: One profile at a time (for now).*/
-    public class VI_Profile
+    public class Profile
     {
         public string name;
 
@@ -36,21 +36,21 @@ namespace GAVPI
 
         // TODO : This would of made a lot of sense a long time ago, since we enforce 
         // unique names anyway...
-        //public Dictionary<string, VI_Trigger> Profile_Triggers;
-        //public Dictionary<string, VI_Action_Sequence> Profile_ActionSequences;
+        //public Dictionary<string, Trigger> Profile_Triggers;
+        //public Dictionary<string, Action_Sequence> Profile_ActionSequences;
 
-        public List<VI_Trigger> Profile_Triggers;
-        public List<VI_Action_Sequence> Profile_ActionSequences;
+        public List<Trigger> Profile_Triggers;
+        public List<Action_Sequence> Profile_ActionSequences;
 
-        public VI_DB ProfileDB;
+        public Database ProfileDB;
 
-        public VI_Profile(string filename)
+        public Profile(string filename)
         {
             try
             {
-                Profile_Triggers = new List<VI_Trigger>();
-                Profile_ActionSequences = new List<VI_Action_Sequence>();
-                ProfileDB = new VI_DB();
+                Profile_Triggers = new List<Trigger>();
+                Profile_ActionSequences = new List<Action_Sequence>();
+                ProfileDB = new Database();
 
 
                 synth = new SpeechSynthesizer(); //used by action Speak
@@ -73,11 +73,11 @@ namespace GAVPI
                /**/ 
             }
         }
-        public void Add_Trigger(VI_Trigger trigger_toAdd)
+        public void Add_Trigger(Trigger trigger_toAdd)
         {
             Profile_Triggers.Add(trigger_toAdd);
         }
-        public void Add_Action_Sequence(VI_Action_Sequence action_sequence_toAdd)
+        public void Add_Action_Sequence(Action_Sequence action_sequence_toAdd)
         {
             Profile_ActionSequences.Add(action_sequence_toAdd);
         }
@@ -139,8 +139,8 @@ namespace GAVPI
             
             //  Instantiate a fresh Profile...
 
-            Profile_Triggers = new List<VI_Trigger>();
-            Profile_ActionSequences = new List<VI_Action_Sequence>();
+            Profile_Triggers = new List<Trigger>();
+            Profile_ActionSequences = new List<Action_Sequence>();
 
             //  And reset any states...
 
@@ -189,11 +189,11 @@ namespace GAVPI
                 {
                     AssociatedProcess = element.InnerText;
                 } 
-                else if (element.Name == "VI_Action_Sequence") 
+                else if (element.Name == "Action_Sequence") 
                 {
 
-                    VI_Action_Sequence ack_frm_file;
-                    ack_frm_file = new VI_Action_Sequence(element.Attributes.GetNamedItem("name").Value);
+                    Action_Sequence ack_frm_file;
+                    ack_frm_file = new Action_Sequence(element.Attributes.GetNamedItem("name").Value);
                     ack_frm_file.type = element.Attributes.GetNamedItem("type").Value;
                     ack_frm_file.comment = element.Attributes.GetNamedItem("comment").Value;
                     
@@ -232,7 +232,7 @@ namespace GAVPI
                                     if (ProfileDB.DB.ContainsKey(action_value))
                                     {
                                         action_instance = Activator.CreateInstance(new_action_type, this.synth,
-                                            (VI_Data)ProfileDB.DB[action_value]);
+                                            (Data)ProfileDB.DB[action_value]);
                                     }
                                     else
                                     {
@@ -265,9 +265,9 @@ namespace GAVPI
                         Profile_ActionSequences.Add(ack_frm_file);
                     }
                 }
-                else if (element.Name == "VI_Trigger")
+                else if (element.Name == "Trigger")
                 {
-                    VI_Trigger trig_frm_file;
+                    Trigger trig_frm_file;
                     string trigger_name = element.Attributes.GetNamedItem("name").Value;
                     string trigger_type = element.Attributes.GetNamedItem("type").Value;
                     string trigger_value = element.Attributes.GetNamedItem("value").Value;
@@ -275,7 +275,7 @@ namespace GAVPI
 
                     Type new_trigger_type = Type.GetType("GAVPI." + trigger_type);
                     object trigger_isntance = trigger_isntance = Activator.CreateInstance(new_trigger_type, trigger_name, trigger_value);
-                    trig_frm_file = (VI_Trigger)trigger_isntance;
+                    trig_frm_file = (Trigger)trigger_isntance;
                     trig_frm_file.comment = trigger_comment;
 
                     // Trigger Events
@@ -284,16 +284,16 @@ namespace GAVPI
                         string event_type = trigger_event.Attributes.GetNamedItem("type").Value;
                         string event_name = trigger_event.Attributes.GetNamedItem("name").Value;
                         string event_value = trigger_event.Attributes.GetNamedItem("value").Value;
-                        if (event_type == "VI_Action_Sequence")
+                        if (event_type == "Action_Sequence")
                         {
                             trig_frm_file.Add(Profile_ActionSequences.Find( ackseq => ackseq.name == event_name));
                         }
                         else if (event_type == "VI_Phrase")
                         {
-                            VI_Trigger newMetaTrigger;
+                            Trigger newMetaTrigger;
                             Type meta_trigger_type = Type.GetType("GAVPI." + event_type);
                             object meta_trigger_isntance = Activator.CreateInstance(meta_trigger_type,event_name, event_value);
-                            newMetaTrigger = (VI_Trigger)meta_trigger_isntance;
+                            newMetaTrigger = (Trigger)meta_trigger_isntance;
 
                             trig_frm_file.Add(newMetaTrigger);
                         }
@@ -306,7 +306,7 @@ namespace GAVPI
                         Profile_Triggers.Add(trig_frm_file); 
                     }
                 }
-                else if (element.Name == "VI_DB")
+                else if (element.Name == "Database")
                 {
                     // Hand reader to DB
                     if (ProfileDB != null)
@@ -316,8 +316,10 @@ namespace GAVPI
                 }
                 else
                 {
+                    /*
                     throw new Exception("Malformed profile file, unexpected element "
                     + element.Name);
+                    */
                 }
             }          
 
@@ -412,9 +414,9 @@ namespace GAVPI
                     //MessageBox.Show("No database is associated in this profile.","Warning");
                 }
 
-                foreach (VI_Action_Sequence ack_seq in Profile_ActionSequences)
+                foreach (Action_Sequence ack_seq in Profile_ActionSequences)
                 {
-                    writer.WriteStartElement("VI_Action_Sequence");
+                    writer.WriteStartElement("Action_Sequence");
                     writer.WriteAttributeString("name", ack_seq.name);
                     writer.WriteAttributeString("type", ack_seq.type);
                     writer.WriteAttributeString("comment", ack_seq.comment);
@@ -444,9 +446,9 @@ namespace GAVPI
                     }
                     writer.WriteEndElement();
                 }
-                foreach (VI_Trigger trig in Profile_Triggers)
+                foreach (Trigger trig in Profile_Triggers)
                 {
-                    writer.WriteStartElement("VI_Trigger");
+                    writer.WriteStartElement("Trigger");
                         writer.WriteAttributeString("name", trig.name);
                         writer.WriteAttributeString("value", trig.value);
                         writer.WriteAttributeString("type", trig.type);
@@ -454,9 +456,9 @@ namespace GAVPI
                    
                    // TriggerEvents: events which this trigger will raise.
                    // e.g. trigger is activated by phrase, events are several action sequences invoked.
-                   foreach(VI_TriggerEvent trigger_event in trig.TriggerEvents)
+                   foreach(Trigger_Event trigger_event in trig.TriggerEvents)
                    {
-                       writer.WriteStartElement("VI_TriggerEvent");
+                       writer.WriteStartElement("Trigger_Event");
                        writer.WriteAttributeString("name", trigger_event.name);
                        writer.WriteAttributeString("type", trigger_event.type);
                        writer.WriteAttributeString("value", trigger_event.value);
@@ -511,9 +513,9 @@ namespace GAVPI
         //
         //  public void Edited()
         //
-        //  Since the Profile maintained within VI_Profile can be edited outside of the class (typically within frmProfile)
-        //  then we need a way for external methods to inform VI_Profile that changes are pending.  Ideally all editing
-        //  would take place within VI_Profile, but that isn't the case, therefore calling VI_Profile.Edited() allows us
+        //  Since the Profile maintained within Profile can be edited outside of the class (typically within frmProfile)
+        //  then we need a way for external methods to inform Profile that changes are pending.  Ideally all editing
+        //  would take place within Profile, but that isn't the case, therefore calling Profile.Edited() allows us
         //  to maintain consistent tracking.
         //
 

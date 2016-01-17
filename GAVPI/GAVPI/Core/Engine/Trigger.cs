@@ -13,7 +13,7 @@ namespace GAVPI
      * can have many action_sequences
      * can have many triggers
      */
-    public abstract class VI_Trigger : VI_TriggerEvent
+    public abstract class Trigger : Trigger_Event
     {
         // Name must be unique
         public string type { get; set; }
@@ -22,23 +22,23 @@ namespace GAVPI
         public string comment { get; set; }
         // Hashset contains trigger/actseq names
         
-        public VI_Profile profile;
+        public Profile profile;
 
-        public List<VI_TriggerEvent>TriggerEvents;
+        public List<Trigger_Event>TriggerEvents;
 
-        public VI_Trigger(string name)
+        public Trigger(string name)
         {
             this.name = name;
             this.type = this.GetType().Name;
 
-            TriggerEvents = new List<VI_TriggerEvent>();
+            TriggerEvents = new List<Trigger_Event>();
         }
 
-        public void Add(VI_TriggerEvent tevent)
+        public void Add(Trigger_Event tevent)
         {
             TriggerEvents.Add(tevent);
         }
-        public bool Remove(VI_TriggerEvent tevent)
+        public bool Remove(Trigger_Event tevent)
         {
             return TriggerEvents.Remove(tevent);
         }
@@ -48,7 +48,7 @@ namespace GAVPI
     }
     // Tigger Types
     // 
-    public partial class VI_Phrase : VI_Trigger
+    public partial class VI_Phrase : Trigger
     {
         public VI_Phrase(string name ,string value) : base(name)
         {
@@ -62,16 +62,16 @@ namespace GAVPI
         }
         public override void run()
         {
-            foreach (VI_TriggerEvent tevent in TriggerEvents)
+            foreach (Trigger_Event tevent in TriggerEvents)
             {
                 tevent.run();
             }
         }
     }
 
-    public partial class VI_Logical : VI_Trigger
+    public partial class VI_Logical : Trigger
     {
-        // Logical trigger compare VI_Data obj
+        // Logical trigger compare Data obj
         // to some value
         // has CONDITION ( < , > , === etc)
         // runs if CONDITION

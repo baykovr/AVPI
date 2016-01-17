@@ -13,7 +13,7 @@ namespace GAVPI
     public partial class frm_AddEdit_PhraseTrigger : Form
     {
      
-        private VI_Trigger trigger_to_edit;
+        private Trigger trigger_to_edit;
 
         public frm_AddEdit_PhraseTrigger()
         {
@@ -21,7 +21,7 @@ namespace GAVPI
             InitializeComponent();
             populate_fields();
         }
-        public frm_AddEdit_PhraseTrigger( VI_Trigger trigger_to_edit )
+        public frm_AddEdit_PhraseTrigger( Trigger trigger_to_edit )
         {
             // Passing a trigger to the contructor edits an existing
             InitializeComponent();
@@ -30,7 +30,7 @@ namespace GAVPI
         }
         private void populate_fields()
         {
-            //cbTriggerType.DataSource = GAVPI.vi_profile.Trigger_Types;
+            //cbTriggerType.DataSource = GAVPI.Profile.Trigger_Types;
             // If trigger to edit is not null, we are editing an existing trigger
             if (trigger_to_edit != null)
             {
@@ -71,7 +71,7 @@ namespace GAVPI
             {
                 // check if name OR value is taken
                 // if not push new trigger into profile
-                if ( GAVPI.vi_profile.isTriggerNameTaken(trigger_name) || GAVPI.vi_profile.isTriggerValueTaken(trigger_value))
+                if ( GAVPI.Profile.isTriggerNameTaken(trigger_name) || GAVPI.Profile.isTriggerValueTaken(trigger_value))
                 {
                     MessageBox.Show("A trigger with this name or value already exisits.");
 										
@@ -84,7 +84,7 @@ namespace GAVPI
                     // TODO logicals
                     Type new_trigger_type = Type.GetType("GAVPI.VI_Phrase");
                     object trigger_instance = Activator.CreateInstance(new_trigger_type, trigger_name, trigger_value, trigger_comment);
-                    GAVPI.vi_profile.Profile_Triggers.Add((VI_Trigger)trigger_instance);
+                    GAVPI.Profile.Profile_Triggers.Add((Trigger)trigger_instance);
                 }
             }
             // Case 2 : Edit existing non-null initialized trigger
@@ -97,12 +97,12 @@ namespace GAVPI
                 // else
                 //  edit current trigger to have new name and value
                 //  push it into profile
-                GAVPI.vi_profile.Profile_Triggers.Remove(trigger_to_edit);
+                GAVPI.Profile.Profile_Triggers.Remove(trigger_to_edit);
 
-                if( GAVPI.vi_profile.isTriggerNameTaken(trigger_name) || GAVPI.vi_profile.isTriggerValueTaken(trigger_value ) )
+                if( GAVPI.Profile.isTriggerNameTaken(trigger_name) || GAVPI.Profile.isTriggerValueTaken(trigger_value ) )
                 {
                     MessageBox.Show("A trigger with this name or value already exisits.");
-                    GAVPI.vi_profile.Profile_Triggers.Add(trigger_to_edit);
+                    GAVPI.Profile.Profile_Triggers.Add(trigger_to_edit);
 									
                     return;
                 }
@@ -111,7 +111,7 @@ namespace GAVPI
                     trigger_to_edit.name = trigger_name;
                     trigger_to_edit.value = trigger_value;
                     trigger_to_edit.comment = trigger_comment;
-                    GAVPI.vi_profile.Profile_Triggers.Add(trigger_to_edit);
+                    GAVPI.Profile.Profile_Triggers.Add(trigger_to_edit);
                 }
             }
 			

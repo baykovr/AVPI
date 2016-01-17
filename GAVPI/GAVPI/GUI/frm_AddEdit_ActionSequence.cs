@@ -18,7 +18,7 @@ namespace GAVPI
 
         public bool ActionSequenceEdited;
 
-        private VI_Action_Sequence sequence_to_edit;
+        private Action_Sequence sequence_to_edit;
 
         public static List<string> Action_Groups = new List<string>(
             new string[] { 
@@ -38,7 +38,7 @@ namespace GAVPI
 
             populate_fields();
         }
-        public frm_AddEdit_ActionSequence( VI_Action_Sequence action_sequence )
+        public frm_AddEdit_ActionSequence( Action_Sequence action_sequence )
         {
             // Passing an action sequence edits the passed sequence.
             InitializeComponent();
@@ -204,31 +204,31 @@ namespace GAVPI
                 // Choose Form Method to Invoke based on type
                 
                 //Key/KeyPress
-                if (VI_Action_Sequence.PressAction_Types.Contains(action_type))
+                if (Action_Sequence.PressAction_Types.Contains(action_type))
                 {
                    ProcessForm_AddEditPressAction(action_to_edit, index);
                    break;
                 }
                 //Speech 
-                else if (VI_Action_Sequence.SpeechAction_Types.Contains(action_type))
+                else if (Action_Sequence.SpeechAction_Types.Contains(action_type))
                 {
                     ProcessForm_AddEditSpeechAction(action_to_edit, index);
                     break;
                 }
                 // Play Sound
-                else if (VI_Action_Sequence.PlaySoundAction_Types.Contains(action_type))
+                else if (Action_Sequence.PlaySoundAction_Types.Contains(action_type))
                 {
                     ProcessForm_AddEditPlaySoundAction(action_to_edit, index);
                     break;
                 }
                 //Timing (Waiting)
-                else if (VI_Action_Sequence.TimingAction_Types.Contains(action_type))
+                else if (Action_Sequence.TimingAction_Types.Contains(action_type))
                 {
                     ProcessForm_AddEditTimingAction(action_to_edit, index);
                     break;
                 }
                 //DataActions
-                else if (VI_Action_Sequence.DataAction_Types.Contains(action_type))
+                else if (Action_Sequence.DataAction_Types.Contains(action_type))
                 {
                 }
                 // Unknown
@@ -465,7 +465,7 @@ namespace GAVPI
             }
             else
             {
-                this.sequence_to_edit = new VI_Action_Sequence();
+                this.sequence_to_edit = new Action_Sequence();
 
                 dgActionSequence.DataSource = new List<Action>();
             }
@@ -558,12 +558,12 @@ namespace GAVPI
             }
 
             //Check if new name is taken, this requires first removing the sequence (in case no changes)
-            GAVPI.vi_profile.Profile_ActionSequences.Remove(sequence_to_edit);
+            GAVPI.Profile.Profile_ActionSequences.Remove(sequence_to_edit);
 
-            if (GAVPI.vi_profile.isActionSequenceNameTaken(aseq_name))
+            if (GAVPI.Profile.isActionSequenceNameTaken(aseq_name))
             {
                 // Reinsert without modifications.
-                GAVPI.vi_profile.Profile_ActionSequences.Add(sequence_to_edit);
+                GAVPI.Profile.Profile_ActionSequences.Add(sequence_to_edit);
                 MessageBox.Show("An action sequence with this name already exists.");
                 return;
             }
@@ -573,7 +573,7 @@ namespace GAVPI
                 sequence_to_edit.name = aseq_name;
                 sequence_to_edit.comment = aseq_comment;
 
-                GAVPI.vi_profile.Profile_ActionSequences.Add(sequence_to_edit);
+                GAVPI.Profile.Profile_ActionSequences.Add(sequence_to_edit);
 
                 ActionSequenceEdited = true;
                 this.DialogResult = DialogResult.OK;

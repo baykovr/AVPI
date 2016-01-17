@@ -13,10 +13,10 @@ namespace GAVPI
      * Alternative approach is to use a tempalte class, this causes some arithmatic 
      * abstraction problems, however..
      */
-    public abstract class VI_Data
+    public abstract class Data
     {
         /*
-         * VI_Data represents a simple data element which we will allow the user to 
+         * Data represents a simple data element which we will allow the user to 
          * manipulate with some primitive functions: set, inc, dec etc.
          * Primary use is for logical triggers which have rely on comparator components.
          * 
@@ -35,7 +35,7 @@ namespace GAVPI
         // Available data types
         public static List<string> Data_Types = new List<string>(
             new string[] { 
-                "VI_INT", "VI_FLOAT", "VI_STRING"
+                "INT", "FLOAT", "STRING"
             });
 
         // Operations (all optional)
@@ -43,7 +43,7 @@ namespace GAVPI
         // inc by val
         // set by val
 
-        public VI_Data(string name,string comment)
+        public Data(string name,string comment)
         {
             this.name = name;
             this.comment = comment;
@@ -64,14 +64,14 @@ namespace GAVPI
             }
     }
     }
-    public partial class VI_INT : VI_Data
+    public partial class INT : Data
     {
         //int value;
-        public VI_INT(string name, int value, string comment)
+        public INT(string name, int value, string comment)
             : base(name,comment)
         {
             this.value = value;
-            this.type = "VI_INT";
+            this.type = "INT";
         }
         public void decrement(int val)
         {
@@ -111,13 +111,13 @@ namespace GAVPI
         }
 
     }
-    public partial class VI_FLOAT : VI_Data
+    public partial class FLOAT : Data
     {
-        public VI_FLOAT(string name, float value, string comment)
+        public FLOAT(string name, float value, string comment)
             : base(name, comment)
         {
             this.value = value;
-            this.type = "VI_FLOAT";
+            this.type = "FLOAT";
         }
         public void decrement(float val)
         {
@@ -156,13 +156,13 @@ namespace GAVPI
             }
         }
     }
-    public partial class VI_STRING : VI_Data
+    public partial class STRING : Data
     {
-        public VI_STRING(string name, string value, string comment)
+        public STRING(string name, string value, string comment)
             : base(name, comment)
         {
             this.value = value;
-            this.type = "VI_STRING";
+            this.type = "STRING";
         }
         public void set(string val)
         {

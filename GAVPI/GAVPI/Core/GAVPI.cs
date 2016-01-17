@@ -39,8 +39,8 @@ namespace GAVPI
         //  The application global configuration settings, voice recognition grammar and voice recognition
         //  engine.
 
-        public static VI_Settings vi_settings;
-        public static VI_Profile vi_profile;
+        public static Settings Settings;
+        public static Profile Profile;
 
         public static InputEngine vi;
 
@@ -102,8 +102,8 @@ namespace GAVPI
 
             } catch( Exception ) { throw; }
 
-            vi_settings = new VI_Settings();
-            vi_profile = new VI_Profile( null );
+            Settings = new Settings();
+            Profile = new Profile( null );
 
             vi = new InputEngine();
             
@@ -232,7 +232,7 @@ namespace GAVPI
         static private void Exit( object SelectedMenuItem, EventArgs e )
         {
 
-            if( vi_profile.IsEdited() ) NotifyUnsavedChanges();
+            if( Profile.IsEdited() ) NotifyUnsavedChanges();
 
             //  Let's serialise the MRU before oblivion.
 
@@ -446,7 +446,7 @@ namespace GAVPI
 
             if( vi.IsListening ) StopListening( null, null );
 
-            if( vi_profile.GetProfileFilename() != AssociatedProfiles[ processFilename ] )
+            if( Profile.GetProfileFilename() != AssociatedProfiles[ processFilename ] )
                 LoadProfile( AssociatedProfiles[ processFilename ] );
                 
             if( Properties.Settings.Default.EnableAutoListen ) StartListening( null, null );
@@ -472,7 +472,7 @@ namespace GAVPI
                 processFilename != null &&
                 AssociatedProfiles.ContainsKey( processFilename ) && 
                 Properties.Settings.Default.EnableAutoListen &&
-                vi_profile.GetProfileFilename() == AssociatedProfiles[ processFilename ] ) StopListening( null, null );
+                Profile.GetProfileFilename() == AssociatedProfiles[ processFilename ] ) StopListening( null, null );
 
         }  //  static private void OnProcessStopped( Int32, string )
 
@@ -490,8 +490,8 @@ namespace GAVPI
         {                  
         
             return ( vi.IsListening ? "LISTENING:" : "NOT LISTENING:" ) + " " +
-                   ( vi_profile.IsEdited() ? " [UNSAVED] " : " " ) +
-                   Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() );
+                   ( Profile.IsEdited() ? " [UNSAVED] " : " " ) +
+                   Path.GetFileNameWithoutExtension( Profile.GetProfileFilename() );
 
         }  //  static public string GetStatusString()
 
@@ -704,7 +704,7 @@ namespace GAVPI
 
             }  //  if()
                         
-            SettingsForm = new frmSettings( vi_settings );
+            SettingsForm = new frmSettings( Settings );
 
             SettingsForm.ShowDialog();            
         
@@ -729,7 +729,7 @@ namespace GAVPI
 
             if( SaveChanges == DialogResult.Yes ) {
 
-                if( vi_profile.GetProfileFilename() == null && !SaveAsProfile() ) return false;
+                if( Profile.GetProfileFilename() == null && !SaveAsProfile() ) return false;
                 else if( !SaveProfile() ) return false;
 
             }  //  if()
@@ -743,7 +743,7 @@ namespace GAVPI
         //
         //  static public bool LoadProfile()
         //
-        //  A convenient centralised method returning boolean success or failure, LoadProfile directs vi_profile
+        //  A convenient centralised method returning boolean success or failure, LoadProfile directs Profile
         //  to read a Profile from disk while ensuring that any currently open form reflects the opened Profile
         //  status in its UI.  This method considers whether a currently open Profile has unsaved edits, offering
         //  the opportunity to persist the Profile.
@@ -756,7 +756,7 @@ namespace GAVPI
           
             //  Offer to persist any unsaved Profile edits...
 
-            if( vi_profile.IsEdited() && NotifyUnsavedChanges() == false ) return false;
+            if( Profile.IsEdited() && NotifyUnsavedChanges() == false ) return false;
 
             //  Present the user with a File Open Dialog through which they may choose a Profile to load.
             
@@ -788,7 +788,7 @@ namespace GAVPI
             
             //  Attempt to load the given Profile...
 
-            if( !vi_profile.load_profile( filename ) ) {
+            if( !Profile.load_profile( filename ) ) {
              
 				MessageBox.Show( "There appears to be a problem with the Profile you have chosen.\n\n" +
 				                 "The Profile may have been moved or deleted, or it may not be an\n" +
@@ -824,12 +824,12 @@ namespace GAVPI
             sysTrayMenu.MenuItems[ STOP_LISTENING_MENU_ITEM ].Enabled = false;
 
             sysTrayIcon.Text = APPLICATION_TITLE + ": " +
-                Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() );
+                Path.GetFileNameWithoutExtension( Profile.GetProfileFilename() );
 
             //  And now we can add the loaded Profile to the MRU list.
 
-            ProfileMRU.Add( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ),
-                vi_profile.GetProfileFilename() );
+            ProfileMRU.Add( Path.GetFileNameWithoutExtension( Profile.GetProfileFilename() ),
+                Profile.GetProfileFilename() );
 
             return true;
 
@@ -873,13 +873,13 @@ namespace GAVPI
         //  Assuming an existing Profile hasn't been previously saved, query the user for a filename then save
         //  the Profile.  Returns a boolean value denoting success or failure.
         //
-        //  This method should be used instead of vi_profile.save_profile which will become DEPRECIATED.
+        //  This method should be used instead of Profile.save_profile which will become DEPRECIATED.
         //
 
         static public bool SaveAsProfile()
         {
 
-            if( vi_profile.IsEmpty() ) return false;
+            if( Profile.IsEmpty() ) return false;
 
             using( SaveFileDialog dialog = new SaveFileDialog() ) {
 
@@ -896,14 +896,14 @@ namespace GAVPI
                 //  Let's update the system tray icon's tooltip text to reflect the name of the Profile.
 
                 sysTrayIcon.Text = APPLICATION_TITLE + ": " +
-                    Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() );
+                    Path.GetFileNameWithoutExtension( Profile.GetProfileFilename() );
                
                 //  And then add the saved Profile to the MRU list.
 
-                ProfileMRU.Add( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ),
-                    vi_profile.GetProfileFilename() );
+                ProfileMRU.Add( Path.GetFileNameWithoutExtension( Profile.GetProfileFilename() ),
+                    Profile.GetProfileFilename() );
 
-                return vi_profile.save_profile( dialog.FileName ) ? true : false;
+                return Profile.save_profile( dialog.FileName ) ? true : false;
 
             }  //  using()           
 
@@ -914,21 +914,21 @@ namespace GAVPI
         //
         //  static public bool SaveProfile()
         //
-        //  Save the Profile as maintained by vi_profile to the existing filename maintained within vi_profile.
+        //  Save the Profile as maintained by Profile to the existing filename maintained within Profile.
         //  Returns a boolean value denoting success or failure.
         //
 
         static public bool SaveProfile()
         {
 
-            if( vi_profile.IsEmpty() ) return false;
+            if( Profile.IsEmpty() ) return false;
 
             //  Let's add the saved Profile to the MRU list.
 
-            ProfileMRU.Add( Path.GetFileNameWithoutExtension( vi_profile.GetProfileFilename() ),
-                vi_profile.GetProfileFilename() );
+            ProfileMRU.Add( Path.GetFileNameWithoutExtension( Profile.GetProfileFilename() ),
+                Profile.GetProfileFilename() );
 
-            return vi_profile.save_profile( vi_profile.GetProfileFilename() ) ? true : false;
+            return Profile.save_profile( Profile.GetProfileFilename() ) ? true : false;
 
         }  //  static public bool SaveProfile()
     
@@ -937,7 +937,7 @@ namespace GAVPI
         //
         //  static public bool NewProfile()
         //
-        //  A convenient stub to vi_profile.NewProfile, returning a boolean value for success or failure.
+        //  A convenient stub to Profile.NewProfile, returning a boolean value for success or failure.
         //  This method offers the user an opportunity to persist an existing Profile if there are unsaved
         //  edits.
         //
@@ -945,7 +945,7 @@ namespace GAVPI
         static public bool NewProfile()
         {
 
-            if( vi_profile.IsEdited() && !NotifyUnsavedChanges() ) return false;
+            if( Profile.IsEdited() && !NotifyUnsavedChanges() ) return false;
 
             //  Clear the log before requesting frmGAVPI refresh its UI otherwise the ListBox may remain
             //  unpopulated.
@@ -957,7 +957,7 @@ namespace GAVPI
 
             sysTrayMenu.MenuItems[ MODIFY_PROFILE_MENU_ITEM ].Enabled = true;
 
-            return vi_profile.NewProfile() ? true : false;
+            return Profile.NewProfile() ? true : false;
             
         }  //  static public bool NewProfile()
 

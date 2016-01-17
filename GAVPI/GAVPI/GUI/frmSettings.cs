@@ -15,12 +15,12 @@ namespace GAVPI
 {
     public partial class frmSettings : Form
     {
-        VI_Settings vi_settings;
-        public frmSettings(VI_Settings vi_settings)
+        Settings Settings;
+        public frmSettings(Settings Settings)
         {
             InitializeComponent();
             MaximizeBox = false;
-            this.vi_settings = vi_settings;
+            this.Settings = Settings;
 
             populate_fields();
 
@@ -56,19 +56,19 @@ namespace GAVPI
             pushtotalk_mode_list.Add("Hold");
             pushtotalk_mode_list.Add("PressOnce");
             cbSettingsPushToTalkMode.DataSource = pushtotalk_mode_list;
-            cbSettingsPushToTalkMode.SelectedItem = vi_settings.pushtotalk_mode;
+            cbSettingsPushToTalkMode.SelectedItem = Settings.pushtotalk_mode;
 
             cbSettingsPushToTalkKey.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();
-            cbSettingsPushToTalkKey.SelectedItem = Enum.Parse(typeof(Keys), vi_settings.pushtotalk_key);
+            cbSettingsPushToTalkKey.SelectedItem = Enum.Parse(typeof(Keys), Settings.pushtotalk_key);
 
         }
 
         private void populate_from_settings()
         {
-            cbSettingsLanguage.SelectedItem        = vi_settings.recognizer_info.Name;
-            cbSettingsSynthesizer.SelectedItem     = vi_settings.voice_info;
-            cbSettingsPushToTalkMode.SelectedItem  = vi_settings.pushtotalk_mode;
-            cbSettingsPushToTalkKey.SelectedItem   = vi_settings.pushtotalk_key;
+            cbSettingsLanguage.SelectedItem        = Settings.recognizer_info.Name;
+            cbSettingsSynthesizer.SelectedItem     = Settings.voice_info;
+            cbSettingsPushToTalkMode.SelectedItem  = Settings.pushtotalk_mode;
+            cbSettingsPushToTalkKey.SelectedItem   = Settings.pushtotalk_key;
   
             AutomaticallyListen.Enabled = AutoLoadProfiles.Checked ? true : false;
 
@@ -80,12 +80,12 @@ namespace GAVPI
 
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
-            vi_settings.recognizer_info = new CultureInfo(cbSettingsLanguage.SelectedItem.ToString());
-            vi_settings.voice_info      = cbSettingsSynthesizer.SelectedItem.ToString();
-            vi_settings.pushtotalk_mode = cbSettingsPushToTalkMode.SelectedItem.ToString();
-            vi_settings.pushtotalk_key  = cbSettingsPushToTalkKey.SelectedItem.ToString();
+            Settings.recognizer_info = new CultureInfo(cbSettingsLanguage.SelectedItem.ToString());
+            Settings.voice_info      = cbSettingsSynthesizer.SelectedItem.ToString();
+            Settings.pushtotalk_mode = cbSettingsPushToTalkMode.SelectedItem.ToString();
+            Settings.pushtotalk_key  = cbSettingsPushToTalkKey.SelectedItem.ToString();
 
-            vi_settings.save_settings();
+            Settings.save_settings();
 
             Properties.Settings.Default.Save();
 

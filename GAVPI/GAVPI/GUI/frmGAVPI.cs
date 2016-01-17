@@ -131,13 +131,13 @@ namespace GAVPI
                 //  Enable both the Listen button and the Profile->Modify menu item if the current Profile is
                 //  populated.
 
-                if( GAVPI.vi_profile.IsEmpty() ) return;
+                if( GAVPI.Profile.IsEmpty() ) return;
                 
                 btnMainListen.Enabled = true;
                 editToolStripMenuItem.Enabled = true;
 
                 //
-                //  VI_Profile takes care of tracking changes and the saved/unsaved state of the current Profile.
+                //  Profile takes care of tracking changes and the saved/unsaved state of the current Profile.
                 //  We can act on this knowledge to update the status in the UI and also inform the user of those
                 //  unsaved changes should they choose a potentially destructive act (exiting the program, opening
                 //  an existing Profile).
@@ -153,7 +153,7 @@ namespace GAVPI
                    MessageBoxIcon.Exclamation,
                    MessageBoxDefaultButton.Button1);
 
-                GAVPI.vi_profile.NewProfile();
+                GAVPI.Profile.NewProfile();
 
             }
 
@@ -225,7 +225,7 @@ namespace GAVPI
 
             //  If a Profile isn't loaded, disable Profile->Modify and the Listen button.
 
-            if( GAVPI.vi_profile.IsEmpty() ) {
+            if( GAVPI.Profile.IsEmpty() ) {
 
                 btnMainListen.Enabled = false;
                 editToolStripMenuItem.Enabled = false;

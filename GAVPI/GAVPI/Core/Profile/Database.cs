@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace GAVPI
 {
-    public class VI_DB
+    public class Database
     {
         /*
          * Since the profile is going to be depended on 
@@ -19,15 +19,15 @@ namespace GAVPI
          * (However we keep the db in a seperate file)
          */
         public string DBFilename;
-        public Dictionary<string, VI_Data> DB;
-        public VI_DB()
+        public Dictionary<string, Data> DB;
+        public Database()
         {
-            DB = new Dictionary<string, VI_Data>();
+            DB = new Dictionary<string, Data>();
         }
-        public VI_DB(string filename)
+        public Database(string filename)
         {
             DBFilename = filename;
-            DB = new Dictionary<string, VI_Data>();
+            DB = new Dictionary<string, Data>();
         }
         #region FileIO
 
@@ -55,7 +55,7 @@ namespace GAVPI
 
                     if (data_entry_instance != null)
                     {
-                        if (!Insert((VI_Data)data_entry_instance))
+                        if (!Insert((Data)data_entry_instance))
                         {
                             // TODO: Log a warning, variable failed to load.
                         }
@@ -74,11 +74,11 @@ namespace GAVPI
 
         public void save(XmlWriter writer)
         {
-            writer.WriteStartElement("VI_DB");
+            writer.WriteStartElement("Database");
 
-            foreach (KeyValuePair<string, VI_Data> data in DB)
+            foreach (KeyValuePair<string, Data> data in DB)
             {
-                writer.WriteStartElement("VI_Data");
+                writer.WriteStartElement("Data");
                     writer.WriteAttributeString("name",   data.Key);
                     writer.WriteAttributeString("type",   data.Value.type);
                     writer.WriteAttributeString("value",  data.Value.value.ToString());
@@ -90,7 +90,7 @@ namespace GAVPI
         }
         #endregion
         #region Insert/Remove
-        public bool Insert(VI_Data data)
+        public bool Insert(Data data)
         {
             if (!DB.ContainsKey(data.name)){
                 DB.Add(data.name,data);
@@ -101,7 +101,7 @@ namespace GAVPI
                 return false;
             }
         }
-        public bool Remove(VI_Data data)
+        public bool Remove(Data data)
         {
             if (DB.ContainsKey(data.name))
             {
@@ -113,7 +113,7 @@ namespace GAVPI
                 return false;
             }
         }
-        public bool Update(VI_Data data)
+        public bool Update(Data data)
         {
             if (DB.ContainsKey(data.name)) 
             {

@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace GAVPI
 {
-    public class VI_Action_Sequence : VI_TriggerEvent
+    public class Action_Sequence : Trigger_Event
     {
         // These type lists are used to populate ui elements,
         // their (array string) value must match the class name specified bellow, ex : Action : Data_Set
@@ -49,7 +49,7 @@ namespace GAVPI
 
         public List<Action> action_sequence;
         
-        public VI_Action_Sequence()
+        public Action_Sequence()
         {
             action_sequence = new List<Action>();
             this.name  = "new sequence";
@@ -58,7 +58,7 @@ namespace GAVPI
             this.comment = "";
         }
 
-        public VI_Action_Sequence(string name)
+        public Action_Sequence(string name)
         {
             action_sequence = new List<Action>();
             this.name = name;
