@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InputManager;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -28,7 +29,7 @@ namespace GAVPI
         }
         public int get_times_to_add()
         {
-            return times_to_add; 
+            return times_to_add;
         }
         public frm_AddEdit_PressAction()
         {
@@ -36,10 +37,11 @@ namespace GAVPI
 
             populate_fields();
         }
+
         public frm_AddEdit_PressAction(Action action)
         {
             InitializeComponent();
-            
+
             this.form_action = action;
 
             populate_fields();
@@ -48,7 +50,7 @@ namespace GAVPI
         public void populate_fields()
         {
             // Populate initial values for drop down boxes.
-            cbPressType.DataSource  = Action_Sequence.PressAction_Types;
+            cbPressType.DataSource = Action_Sequence.PressAction_Types;
 
             // default to keys.
             // Fixed issue with key names appearing incorrectly, using enum.getvalues returns wrong/duplicate names.
@@ -63,7 +65,7 @@ namespace GAVPI
             if (form_action != null)
             {
                 // if editing, select current values of existing action
-                cbPressType.SelectedItem  = form_action.type.ToString();
+                cbPressType.SelectedItem = form_action.type.ToString();
 
                 if (form_action.type.ToString() == "KeyDown" ||
                     form_action.type.ToString() == "KeyUp" ||
@@ -87,12 +89,12 @@ namespace GAVPI
                 // Hide multiple add (since this is an edit on single item)
                 chckMultiAdd.Visible = false;
                 txtTimesToAdd.Visible = false;
-                
+
                 btnAdd.Text = "Edit";
             }
             else
             {
- 
+
             }
         }
 
@@ -105,7 +107,7 @@ namespace GAVPI
                 cbPressType.SelectedItem.ToString() == "KeyPress")
             {
                 // if the cb selected is one of Key then cbvalues values must be keys
-                cbPressValue.DataSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();
+                cbPressValue.DataSource = Enum.GetNames(typeof(Keys)).ToArray();
             }
             else if (
                 cbPressType.SelectedItem.ToString() == "MouseKeyDown" ||
@@ -143,7 +145,7 @@ namespace GAVPI
             // Build the action from current form values
             Type new_action_type = Type.GetType(
                 "GAVPI." + cbPressType.SelectedItem.ToString());
-            
+
             // Set the form action, overriting it with newly created action object.
             form_action = (Action)Activator.CreateInstance(
                 new_action_type, cbPressValue.SelectedItem.ToString());
@@ -174,5 +176,29 @@ namespace GAVPI
                 txtTimesToAdd.Enabled = false;
             }
         }
+
+        private void btnKeyFrmPress_Click(object sender, EventArgs e)
+        {
+            btnKeyFrmPress.Enabled = false;
+            btnKeyFrmPress.Text = "Press Key";
+        }
+
+        // Catch User Key Presses
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ( btnKeyFrmPress.Enabled == false)
+            {
+                cbPressValue.SelectedItem = keyData.ToString();
+
+                btnKeyFrmPress.Enabled = true;
+                btnKeyFrmPress.Text = "From Press";
+
+                return true; // handled key input.
+            }
+
+            // Call the base class
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
     }
 }
