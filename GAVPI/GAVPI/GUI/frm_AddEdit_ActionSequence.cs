@@ -58,31 +58,32 @@ namespace GAVPI
         #region Move Up/Down
         private void moveup()
         {
-            int index = 0;
+            int index;
 
             foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
             {
-                Action action_to_movedown = row.DataBoundItem as Action;
+                Action action_to_moveup = row.DataBoundItem as Action;
                 
-                index = sequence_to_edit.action_sequence.IndexOf(action_to_movedown);
+                index = sequence_to_edit.action_sequence.IndexOf(action_to_moveup);
                 
                 // Check if the current location is at the front
                 if (index == 0)
-                {
-                    break;
-                }
+                    { break;}
+
                 sequence_to_edit.action_sequence.RemoveAt(index);
                 
                 // Check if the new location is at the front
                 if (index - 1 <= 0)
                 {
-                    sequence_to_edit.action_sequence.Add(action_to_movedown);
+                    // insert it at the front of the list
                     
+                    sequence_to_edit.action_sequence.Insert(0, action_to_moveup);
+
                     refresh_dgActionSequence();
                 }
                 else
                 {
-                    sequence_to_edit.action_sequence.Insert(index - 1, action_to_movedown);
+                    sequence_to_edit.action_sequence.Insert(index - 1, action_to_moveup);
                     
                     refresh_dgActionSequence();
                     
@@ -94,26 +95,24 @@ namespace GAVPI
         }
         private void movedown()
         {
+            int index;
             foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
             {
                 Action action_to_movedown = row.DataBoundItem as Action;
-                
-                //sequence_to_edit.Remove(action_to_remove);
 
-                int index = sequence_to_edit.action_sequence.IndexOf(action_to_movedown);
+                index = sequence_to_edit.action_sequence.IndexOf(action_to_movedown);
                 
                 // Check if the current location is at the end
                 if (index == sequence_to_edit.action_sequence.Count)
-                {
-                    break;
-                }
+                    { break; }
+
                 sequence_to_edit.action_sequence.RemoveAt(index);
                 
                 // Check if the new location is at the end
                 if (index + 1 >= sequence_to_edit.action_sequence.Count)
                 {
                     sequence_to_edit.action_sequence.Add(action_to_movedown);
-                    
+
                     refresh_dgActionSequence();
 
                     dgActionSequence.CurrentCell = dgActionSequence.Rows[dgActionSequence.RowCount-1].Cells[0];
@@ -126,6 +125,7 @@ namespace GAVPI
 
                     dgActionSequence.CurrentCell = dgActionSequence.Rows[index + 1].Cells[0];
                 }
+               
             }
             ActionSequenceEdited = true;
         }
