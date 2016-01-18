@@ -13,6 +13,21 @@ If you're having trouble finding the correct keys, they are labeled by microsoft
 
 These will be renamed in the future for clarity, for the time being here is a [reference](https://msdn.microsoft.com/en-us/library/system.windows.forms.keys%28v=vs.110%29.aspx)
 
+### Latest Changes
+
+01.17.16
+
+	* Add ability to select key press from user press (instead of using the drop down you can press they key).
+	* Fix issue with key names not displaying correctly in press action key selection.
+
+01.14.16
+
+	* Added ability to double click items in profile to edit.
+	* Added baloon tip on form close.
+01.13.16
+
+	* Add support to choose specify device playback by interface. You can now specify to play sound over seperate interfaces.
+	* Fix right click crash in data grid view of profile editor.
 *** 
 
 #### About
