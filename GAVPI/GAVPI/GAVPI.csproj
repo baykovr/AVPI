@@ -157,6 +157,12 @@
       <DependentUpon>frm_AddEdit_PhraseTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Logging.cs" />
+    <Compile Include="GUI\Template\frm_AddEdit_TemplateAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Template\frm_AddEdit_TemplateAction.Designer.cs">
+      <DependentUpon>frm_AddEdit_TemplateAction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -219,6 +225,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Actions\frm_AddEdit_PhraseTrigger.resx">
       <DependentUpon>frm_AddEdit_PhraseTrigger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Template\frm_AddEdit_TemplateAction.resx">
+      <DependentUpon>frm_AddEdit_TemplateAction.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

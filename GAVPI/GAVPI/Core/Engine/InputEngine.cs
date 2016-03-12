@@ -169,7 +169,10 @@ namespace GAVPI
             }
 
         }
-        private void _recognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e) => UpdateStatusLog("?");
+        private void _recognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e) 
+        {
+            UpdateStatusLog("?");
+        }
 
         void KeyboardHook_KeyDown(int vkCode)
         {
@@ -242,7 +245,10 @@ namespace GAVPI
         //  The main Form contains a ListBox showing a running log of all recognised commands and keystrokes,
         //  updated with a log message at each entry.
         //
-        private void UpdateStatusLog( string LogMessage ) => GAVPI.Log.Entry(LogMessage);
+        private void UpdateStatusLog(string LogMessage)
+        {
+            GAVPI.Log.Entry(LogMessage);
+        }
 
     }
 }
