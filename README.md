@@ -1,34 +1,21 @@
 ![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi-logo.png)
 
-Poll, suggest a new name for gavpi? http://goo.gl/forms/H2uVS3pD6f  take a second to vote.
+### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/v0.08)  : Alpha v0.08 :03/11/16
+Updates
+* Added ability to press a key for selection in addition to using the drop down for most common keys (Special keys and combination not supported yet).
+* Added ability to select sound device for audio playback (you can also use different audio files on different devices simultaneously).
+* Fixed missing keys from input selection, namely the alt and oem keys.
+* Fixed an issue with profile sequence ordering wrapping around during editing (moving an action up would wrap around to the end of the list).
+* Refactored and organized source code.
 
-### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/latest)  : Alpha v0.07 : 04/30/15
-Highlight : Added support to play sound files (aka voice packs).
+@AdamJamesNaylor
+* Added ability to double click items in profile in order to edit them.
+* Added balloon tool tip to notify the user the program is still running in the background.
 
-Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/0.07/GAVPI_v0.07.zip)
+
+Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/v0.08/GAVPI_0.08.zip)
 
 You should run gavpi as administrator for it work properly in most games. (right click run as...)
-
-If you're having trouble finding the correct keys, they are labeled by microsofts specification directly which is a little different than what you are used to. For example the right alt key is RMenu. 
-
-These will be renamed in the future for clarity, for the time being here is a [reference](https://msdn.microsoft.com/en-us/library/system.windows.forms.keys%28v=vs.110%29.aspx)
-
-### Latest Changes
-
-01.17.16
-
-	* Add ability to select key press from user press (instead of using the drop down you can press they key).
-	* Fix issue with key names not displaying correctly in press action key selection.
-
-01.14.16
-
-	* Added ability to double click items in profile to edit.
-	* Added baloon tip on form close.
-01.13.16
-
-	* Add support to choose specify device playback by interface. You can now specify to play sound over seperate interfaces.
-	* Fix right click crash in data grid view of profile editor.
-*** 
 
 #### About
 
