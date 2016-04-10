@@ -1,7 +1,12 @@
 ![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi-logo.png)
 
-### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/v0.08)  : Alpha v0.08 :03/11/16
+### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/v0.09)  : Alpha v0.09 :04/09/16
 Updates
+0.09
+* Add ability to randomly execute actions from action sequence.
+* Fix backward compatibility issue with profiles created with version (<0.07).
+
+0.08
 * Added ability to press a key for selection in addition to using the drop down for most common keys (Special keys and combination not supported yet).
 * Added ability to select sound device for audio playback (you can also use different audio files on different devices simultaneously).
 * Fixed missing keys from input selection, namely the alt and oem keys.
