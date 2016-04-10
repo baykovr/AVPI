@@ -38,7 +38,10 @@ namespace GAVPI
             new string[] { 
                "Data_Set","Data_Decrement","Data_Increment"
             });
-              
+
+
+        private System.Random rand = new System.Random();
+        public bool random_exec = false;
 
         public string name {get; set;}
         public string type { get; set; }
@@ -85,11 +88,21 @@ namespace GAVPI
         }
         public void run()
         {
-            foreach (Action action in action_sequence)
+            // If set, randomly choose *one* action to execute.
+            if (random_exec)
             {
-                action.run();
-                // A little hotfix for starcitizen, it cant handle going fast.
-                Thread.Sleep(20);
+                int random_index = rand.Next(action_sequence.Count);
+                action_sequence[random_index].run();
+            }
+            // Otherwise, standard sequential execution.
+            else
+            {
+                foreach (Action action in action_sequence)
+                {
+                    action.run();
+                    // A little hotfix for starcitizen, it cant handle going fast.
+                    Thread.Sleep(20);
+                }
             }
         }
     }

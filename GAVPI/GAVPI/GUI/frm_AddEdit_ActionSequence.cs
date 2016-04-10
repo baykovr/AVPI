@@ -462,11 +462,12 @@ namespace GAVPI
                 dgActionSequence.DataSource = sequence_to_edit.action_sequence.ToList();
 
                 txtActionSequenceComment.Text = sequence_to_edit.comment;
+                chkRandomExecution.Checked = sequence_to_edit.random_exec;
             }
+            // Otherwise just init new attributes.
             else
             {
                 this.sequence_to_edit = new Action_Sequence();
-
                 dgActionSequence.DataSource = new List<Action>();
             }
         }
@@ -516,6 +517,10 @@ namespace GAVPI
         private void btnRemove_Click(object sender, EventArgs e)
         {
             remove();
+        }
+        private void chkRandomExecution_CheckedChanged(object sender, EventArgs e)
+        {
+            sequence_to_edit.random_exec = chkRandomExecution.Checked;
         }
         #endregion
 
@@ -586,5 +591,7 @@ namespace GAVPI
             this.Close();
         }
         #endregion
+
+      
     }
 }

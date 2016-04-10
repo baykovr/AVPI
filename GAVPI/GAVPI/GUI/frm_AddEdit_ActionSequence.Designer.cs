@@ -52,6 +52,7 @@
             this.btnAddAction = new System.Windows.Forms.Button();
             this.lblActionType = new System.Windows.Forms.Label();
             this.cbActionType = new System.Windows.Forms.ComboBox();
+            this.chkRandomExecution = new System.Windows.Forms.CheckBox();
             this.stripActionSequence.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgActionSequence)).BeginInit();
             this.SuspendLayout();
@@ -282,6 +283,17 @@
             this.cbActionType.Size = new System.Drawing.Size(187, 21);
             this.cbActionType.TabIndex = 22;
             // 
+            // chkRandomExecution
+            // 
+            this.chkRandomExecution.AutoSize = true;
+            this.chkRandomExecution.Location = new System.Drawing.Point(12, 555);
+            this.chkRandomExecution.Name = "chkRandomExecution";
+            this.chkRandomExecution.Size = new System.Drawing.Size(220, 17);
+            this.chkRandomExecution.TabIndex = 25;
+            this.chkRandomExecution.Text = "Random Action Execution  (One Chosen)";
+            this.chkRandomExecution.UseVisualStyleBackColor = true;
+            this.chkRandomExecution.CheckedChanged += new System.EventHandler(this.chkRandomExecution_CheckedChanged);
+            // 
             // frm_AddEdit_ActionSequence
             // 
             this.AcceptButton = this.btnActSeqSave;
@@ -289,6 +301,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnActSeqCancel;
             this.ClientSize = new System.Drawing.Size(541, 586);
+            this.Controls.Add(this.chkRandomExecution);
             this.Controls.Add(this.btnAddAction);
             this.Controls.Add(this.lblActionType);
             this.Controls.Add(this.cbActionType);
@@ -336,5 +349,6 @@
         private System.Windows.Forms.Button btnAddAction;
         private System.Windows.Forms.Label lblActionType;
         private System.Windows.Forms.ComboBox cbActionType;
+        private System.Windows.Forms.CheckBox chkRandomExecution;
     }
 }

@@ -189,14 +189,25 @@ namespace GAVPI
                 {
                     AssociatedProcess = element.InnerText;
                 } 
-                else if (element.Name == "Action_Sequence") 
+                else if (element.Name.Contains("Action_Sequence"))
                 {
 
                     Action_Sequence ack_frm_file;
                     ack_frm_file = new Action_Sequence(element.Attributes.GetNamedItem("name").Value);
                     ack_frm_file.type = element.Attributes.GetNamedItem("type").Value;
                     ack_frm_file.comment = element.Attributes.GetNamedItem("comment").Value;
-                    
+
+                    // If available, add the random attribute to the action sequence attributes.
+                    try
+                    {
+                            ack_frm_file.random_exec = Convert.ToBoolean(element.Attributes.GetNamedItem("random").Value);
+                    }
+                    catch
+                    {
+                        // Silently ignore the old profile type not having a rando attribute.
+ 
+                    }
+
                     // Load actions in action sequence.
                     foreach (XmlNode action in element.ChildNodes)
                     {
@@ -265,7 +276,7 @@ namespace GAVPI
                         Profile_ActionSequences.Add(ack_frm_file);
                     }
                 }
-                else if (element.Name == "Trigger")
+                else if (element.Name.Contains("Trigger"))
                 {
                     Trigger trig_frm_file;
                     string trigger_name = element.Attributes.GetNamedItem("name").Value;
@@ -284,11 +295,11 @@ namespace GAVPI
                         string event_type = trigger_event.Attributes.GetNamedItem("type").Value;
                         string event_name = trigger_event.Attributes.GetNamedItem("name").Value;
                         string event_value = trigger_event.Attributes.GetNamedItem("value").Value;
-                        if (event_type == "Action_Sequence")
+                        if (event_type.Contains("Action_Sequence"))
                         {
                             trig_frm_file.Add(Profile_ActionSequences.Find( ackseq => ackseq.name == event_name));
                         }
-                        else if (event_type == "VI_Phrase")
+                        else if (event_type.Contains("Phrase"))
                         {
                             Trigger newMetaTrigger;
                             Type meta_trigger_type = Type.GetType("GAVPI." + event_type);
@@ -306,7 +317,7 @@ namespace GAVPI
                         Profile_Triggers.Add(trig_frm_file); 
                     }
                 }
-                else if (element.Name == "Database")
+                else if (element.Name.Contains("Database") || element.Name.Contains("DB") )
                 {
                     // Hand reader to DB
                     if (ProfileDB != null)
@@ -420,6 +431,7 @@ namespace GAVPI
                     writer.WriteAttributeString("name", ack_seq.name);
                     writer.WriteAttributeString("type", ack_seq.type);
                     writer.WriteAttributeString("comment", ack_seq.comment);
+                    writer.WriteAttributeString("random", ack_seq.random_exec.ToString() );
 
                     foreach (Action action in ack_seq.action_sequence)
                     {
