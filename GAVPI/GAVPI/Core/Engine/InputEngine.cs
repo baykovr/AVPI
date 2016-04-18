@@ -18,8 +18,8 @@ namespace GAVPI
 {
     public class InputEngine
     {
-        SpeechSynthesizer vi_syn;
-        SpeechRecognitionEngine vi_sre;
+        SpeechSynthesizer synth;
+        SpeechRecognitionEngine speech_re;
         
         private bool pushtotalk_active;
         private bool pushtotalk_keyIsDown;
@@ -57,9 +57,9 @@ namespace GAVPI
                 return false;
             }
 
-            vi_syn = GAVPI.Profile.synth;
-            vi_syn.SelectVoice( GAVPI.Settings.voice_info );
-            vi_sre = new SpeechRecognitionEngine( GAVPI.Settings.recognizer_info );
+            synth = GAVPI.Profile.synth;
+            synth.SelectVoice( GAVPI.Settings.voice_info );
+            speech_re = new SpeechRecognitionEngine( GAVPI.Settings.recognizer_info );
 
             GrammarBuilder phrases_grammar = new GrammarBuilder();
             // Grammer must match speech recognition language localization
@@ -68,22 +68,22 @@ namespace GAVPI
             List<string> glossory = new List<string>();
             
             // Add trigger phrases to glossory of voice recognition engine.
-            foreach (VI_Phrase trigger in GAVPI.Profile.Profile_Triggers)
+            foreach (Phrase trigger in GAVPI.Profile.Profile_Triggers)
             {
                 glossory.Add(trigger.value);
             }
 
 
             phrases_grammar.Append(new Choices(glossory.ToArray()));
-			vi_sre.LoadGrammar(new Grammar(phrases_grammar));
+			speech_re.LoadGrammar(new Grammar(phrases_grammar));
 
 			// event function hook
-			vi_sre.SpeechRecognized          += phraseRecognized;
-			vi_sre.SpeechRecognitionRejected += _recognizer_SpeechRecognitionRejected;
+			speech_re.SpeechRecognized          += phraseRecognized;
+			speech_re.SpeechRecognitionRejected += _recognizer_SpeechRecognitionRejected;
 
 			try 
             {
-				vi_sre.SetInputToDefaultAudioDevice();
+				speech_re.SetInputToDefaultAudioDevice();
 			} 
             catch( InvalidOperationException exception ) 
             {
@@ -100,7 +100,7 @@ namespace GAVPI
 				return false;
 			}
 
-			vi_sre.RecognizeAsync(RecognizeMode.Multiple);
+			speech_re.RecognizeAsync(RecognizeMode.Multiple);
 
 			try 
             {
@@ -133,11 +133,11 @@ namespace GAVPI
         }
         public void stop_listen()
         {
-            if (vi_sre!=null)
+            if (speech_re!=null)
             {
-                vi_sre.RecognizeAsyncCancel();
-                vi_sre.UnloadAllGrammars();
-                vi_sre.Dispose();
+                speech_re.RecognizeAsyncCancel();
+                speech_re.UnloadAllGrammars();
+                speech_re.Dispose();
             }
             KeyboardHook.UninstallHook();
             KeyboardHook.KeyDown -= pushtotalk_keyDownHook;

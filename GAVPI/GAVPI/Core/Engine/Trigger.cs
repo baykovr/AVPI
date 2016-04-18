@@ -48,13 +48,13 @@ namespace GAVPI
     }
     // Tigger Types
     // 
-    public partial class VI_Phrase : Trigger
+    public partial class Phrase : Trigger
     {
-        public VI_Phrase(string name ,string value) : base(name)
+        public Phrase(string name ,string value) : base(name)
         {
             this.value = value;
         }
-        public VI_Phrase(string name, string value, string comment)
+        public Phrase(string name, string value, string comment)
             : base(name)
         {
             this.value = value;
@@ -69,13 +69,13 @@ namespace GAVPI
         }
     }
 
-    public partial class VI_Logical : Trigger
+    public partial class Logical : Trigger
     {
         // Logical trigger compare Data obj
         // to some value
         // has CONDITION ( < , > , === etc)
         // runs if CONDITION
-        public VI_Logical(string name, string value)
+        public Logical(string name, string value)
             : base(name)
         {
  

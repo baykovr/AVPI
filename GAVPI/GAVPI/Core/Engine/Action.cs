@@ -165,14 +165,6 @@ namespace GAVPI
             set;
         }
 
-        /*public static Speak readXML(XmlNode element, SpeechSynthesizer synth)
-        {
-            return (Speak)Activator.CreateInstance(
-                Type.GetType("GAVPI." + element.Attributes.GetNamedItem("type").Value),
-                element.Attributes.GetNamedItem("value").Value
-                );
-        }*/
-
         public override void run()
         {
             try
@@ -192,7 +184,7 @@ namespace GAVPI
     // More formats support
     public partial class Play_Sound : Action
     {
-        // Optional : WMP
+        // Optional Implementation is via WMP.
         // WMPLib.WindowsMediaPlayer player;
 
         IWavePlayer wavePlayer;
@@ -201,11 +193,6 @@ namespace GAVPI
 
         public const int defaultDeviceID = -1;
         
-        /* Extending actions to multiple values is a job for another day,
-         * for now we will simply serialize the deviceid and filename as such:
-         * ID|filename
-         * Deliminator is | since it is an invalid filename character, if no delim or other error fallback to default device.
-         * */
         public Play_Sound(string filename,int deviceID)
         {
             this.value = filename;
