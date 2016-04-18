@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -102,24 +102,12 @@ namespace GAVPI
 
 			speech_re.RecognizeAsync(RecognizeMode.Multiple);
 
-			try 
-            {
-                // Install Push to talk key hooks.
-				KeyboardHook.KeyDown += pushtotalk_keyDownHook;
-				KeyboardHook.KeyUp += pushtotalk_keyUpHook;
-				KeyboardHook.InstallHook();
-		    
-			} 
-            catch( OverflowException exception ) 
-            {
-				//  TODO:
-				//  InputManager library, which we rely upon, has issues with .Net 4.5 and throws an Overflow exception.
-				//  We'll catch it here and pretty much let it go for now (since Push-to-Talk isn't implemented yet)
-				//  with the intent of resolving it later.    
-                //  Now that push to talk _is_ implemented what the hell do we do.
-			}
+            // Install Push to talk key hooks.
+			KeyboardHook.KeyDown += pushtotalk_keyDownHook;
+			KeyboardHook.KeyUp += pushtotalk_keyUpHook;
+			KeyboardHook.InstallHook();
 
-            if( GAVPI.Settings.pushtotalk_mode != "Hold" && GAVPI.Settings.pushtotalk_mode != "PressOnce")
+            if( GAVPI.Settings.pushtotalk_mode != "Hold" && GAVPI.Settings.pushtotalk_mode != "Toggle" && GAVPI.Settings.pushtotalk_mode != "Single")
             {
                 pushtotalk_active = true;
             }
@@ -166,6 +154,11 @@ namespace GAVPI
 
                 // Update the log after the action is run, since UpdateStatus is a blocking method.
                 UpdateStatusLog(recognized_value.ToString());
+                if (GAVPI.Settings.pushtotalk_mode == "Single")
+                {
+                    pushtotalk_active = false;
+                    UpdateStatusLog( "Stop Listening" );
+                }
             }
 
         }
@@ -189,18 +182,24 @@ namespace GAVPI
                         pushtotalk_active = true;
                         UpdateStatusLog( "Start Listening" );
                     }
-                    else if ( GAVPI.Settings.pushtotalk_mode == "PressOnce")
+                    else if ( GAVPI.Settings.pushtotalk_mode == "Toggle")
                     {
                         if (pushtotalk_active == false)
                         {
                             pushtotalk_active = true;
                             UpdateStatusLog( "Start Listening" );
                         }
-                        else
+                        else 
                         {
                             pushtotalk_active = false;
                             UpdateStatusLog( "Stop Listening" );
                         }
+                    }
+                    else if ( GAVPI.Settings.pushtotalk_mode == "Single")
+                    {
+                        if (pushtotalk_active == false)
+                            UpdateStatusLog( "Start Listening" );
+                        pushtotalk_active = true;
                     }
                     else
                     {
@@ -225,7 +224,7 @@ namespace GAVPI
 
                         UpdateStatusLog( "Stop Listening" );
                     }
-                    else if (GAVPI.Settings.pushtotalk_mode == "PressOnce")
+                    else if (GAVPI.Settings.pushtotalk_mode == "Toggle" || GAVPI.Settings.pushtotalk_mode == "Single")
                     {
                         pushtotalk_keyIsDown = false;
                     }
