@@ -81,7 +81,8 @@ namespace GAVPI
         }
         public override void run()
         {
-            Keyboard.KeyPress( (Keys)Enum.Parse(typeof(Keys), value));
+            Keyboard.KeyDown( (Keys)Enum.Parse(typeof(Keys), value));
+            Keyboard.KeyUp( (Keys)Enum.Parse(typeof(Keys), value));
         }
     }
 

@@ -54,7 +54,8 @@ namespace GAVPI
             List<string> pushtotalk_mode_list = new List<string>();
             pushtotalk_mode_list.Add("Off");
             pushtotalk_mode_list.Add("Hold");
-            pushtotalk_mode_list.Add("PressOnce");
+            pushtotalk_mode_list.Add("Toggle");
+            pushtotalk_mode_list.Add("Single");
             cbSettingsPushToTalkMode.DataSource = pushtotalk_mode_list;
             cbSettingsPushToTalkMode.SelectedItem = Settings.pushtotalk_mode;
 
