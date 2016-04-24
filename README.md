@@ -1,6 +1,7 @@
 ![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi-logo.png)
 
-### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/v0.10)  : Alpha v0.10 :04/23/16
+### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/v0.10)  : Alpha v0.10.1 :04/24/16
+Note: 04/24/16 Hotfix released for v0.10 fixing a phrase trigger bug.
 
 Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/v0.10/GAVPI_v0.10.zip)
 
