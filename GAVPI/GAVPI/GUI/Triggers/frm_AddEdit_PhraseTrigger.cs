@@ -82,7 +82,7 @@ namespace GAVPI
                     // Get type from dropdown and cast to object dynamically
                     //Type new_trigger_type = Type.GetType("GAVPI." + cbTriggerType.SelectedItem.ToString());
                     // TODO logicals
-                    Type new_trigger_type = Type.GetType("GAVPI.VI_Phrase");
+                    Type new_trigger_type = Type.GetType("GAVPI.Phrase");
                     object trigger_instance = Activator.CreateInstance(new_trigger_type, trigger_name, trigger_value, trigger_comment);
                     GAVPI.Profile.Profile_Triggers.Add((Trigger)trigger_instance);
                 }

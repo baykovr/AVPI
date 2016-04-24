@@ -132,10 +132,10 @@
     <Compile Include="GUI\frm_AddEdit_Data.Designer.cs">
       <DependentUpon>frm_AddEdit_Data.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Actions\frm_AddEdit_LogicalTrigger.cs">
+    <Compile Include="GUI\Triggers\frm_AddEdit_LogicalTrigger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Actions\frm_AddEdit_LogicalTrigger.Designer.cs">
+    <Compile Include="GUI\Triggers\frm_AddEdit_LogicalTrigger.Designer.cs">
       <DependentUpon>frm_AddEdit_LogicalTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmProfile.cs">
@@ -150,10 +150,10 @@
     <Compile Include="GUI\frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Actions\frm_AddEdit_PhraseTrigger.cs">
+    <Compile Include="GUI\Triggers\frm_AddEdit_PhraseTrigger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Actions\frm_AddEdit_PhraseTrigger.Designer.cs">
+    <Compile Include="GUI\Triggers\frm_AddEdit_PhraseTrigger.Designer.cs">
       <DependentUpon>frm_AddEdit_PhraseTrigger.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Logging.cs" />
@@ -214,7 +214,7 @@
     <EmbeddedResource Include="GUI\frmGAVPI.resx">
       <DependentUpon>frmGAVPI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Actions\frm_AddEdit_LogicalTrigger.resx">
+    <EmbeddedResource Include="GUI\Triggers\frm_AddEdit_LogicalTrigger.resx">
       <DependentUpon>frm_AddEdit_LogicalTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmProfile.resx">
@@ -223,7 +223,7 @@
     <EmbeddedResource Include="GUI\frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Actions\frm_AddEdit_PhraseTrigger.resx">
+    <EmbeddedResource Include="GUI\Triggers\frm_AddEdit_PhraseTrigger.resx">
       <DependentUpon>frm_AddEdit_PhraseTrigger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Template\frm_AddEdit_TemplateAction.resx">

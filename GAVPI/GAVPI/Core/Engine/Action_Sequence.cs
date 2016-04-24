@@ -36,7 +36,8 @@ namespace GAVPI
             });
         public static List<string> DataAction_Types = new List<string>(
             new string[] { 
-               "Data_Set","Data_Decrement","Data_Increment"
+               "Data_Paste"
+               //"Data_Set","Data_Decrement","Data_Increment"
             });
 
 

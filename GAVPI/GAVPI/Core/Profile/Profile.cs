@@ -13,7 +13,6 @@ using System.Xml;
 
 namespace GAVPI
 {
-    /*Stage 1: One profile at a time (for now).*/
     public class Profile
     {
         public string name;
@@ -85,7 +84,7 @@ namespace GAVPI
         #region Trigger Validation Function
         public bool isTriggerValueTaken(string value_to_check)
         {
-            // Predicate searches for the first match of value to vvalue_to_check
+            // Predicate searches for the first match of value to value_to_check
             // it will return the object (trigger), if its not null then it must exist
             // you could also for loop through all triggers here, runtime O(n)
             if (Profile_Triggers.Find(trigger => trigger.value == value_to_check) != null)
