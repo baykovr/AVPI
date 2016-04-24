@@ -357,36 +357,7 @@ namespace GAVPI
 
                 foreach (Action_Sequence ack_seq in Profile_ActionSequences)
                 {
-                    writer.WriteStartElement("Action_Sequence");
-                    writer.WriteAttributeString("name", ack_seq.name);
-                    writer.WriteAttributeString("type", ack_seq.type);
-                    writer.WriteAttributeString("comment", ack_seq.comment);
-                    writer.WriteAttributeString("random", ack_seq.random_exec.ToString() );
-
-                    foreach (Action action in ack_seq.action_sequence)
-                    {
-                        writer.WriteStartElement("Action");
-                        switch (action.type)
-                        {
-                            case "Play_Sound":
-                                {
-
-                                    writer.WriteAttributeString("type", action.type);
-                                    writer.WriteAttributeString("value", action.value);
-                                    writer.WriteAttributeString("deviceID", ( (Play_Sound) action).getDeviceID().ToString() );
-                                    break;
-                                }
-                            default:
-                                {
-                                    writer.WriteAttributeString("type", action.type);
-                                    writer.WriteAttributeString("value", action.value);
-                                    break;
-                                }
-
-                        }
-                        writer.WriteEndElement();
-                    }
-                    writer.WriteEndElement();
+                    ack_seq.writeXML(writer);
                 }
                 foreach (Trigger trig in Profile_Triggers)
                 {

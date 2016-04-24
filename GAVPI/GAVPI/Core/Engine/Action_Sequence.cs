@@ -83,7 +83,7 @@ namespace GAVPI
             // Init defaults.
             action_sequence = new List<Action>();
 
-            // TODO 
+            // TODO : Remove value and type deps.
             this.type        = this.GetType().Name;
             this.value       = null;
             this.comment     = "";
@@ -117,8 +117,7 @@ namespace GAVPI
                 this.comment = element.Attributes["comment"].Value;
             }
 
-
-            // Process Children
+            #region Process Children Nodes (Actions)
             foreach (XmlNode action in element.ChildNodes)
             {
                 string action_type = action.Attributes.GetNamedItem("type").Value;
@@ -166,14 +165,53 @@ namespace GAVPI
                         action_instance = Activator.CreateInstance(new_action_type, action_value);
                         break;
                     }
+                    
+                }
+                if (action_instance != null)
+                {
+                    action_sequence.Add((Action)action_instance);
+                }
+                else
+                {
+                    // log a malformed action (load from profile).
                 }
             }
+            #endregion
 
         }
         
-        public void writeXML()
+        public void writeXML(XmlWriter writer)
         {
- 
+            writer.WriteStartElement("Action_Sequence");
+            writer.WriteAttributeString("name", this.name);
+            writer.WriteAttributeString("type", this.type);
+            writer.WriteAttributeString("comment", this.comment);
+            writer.WriteAttributeString("random", this.random_exec.ToString());
+
+            foreach (Action action in this.action_sequence)
+            {
+                writer.WriteStartElement("Action");
+                switch (action.type)
+                {
+                    case "Play_Sound":
+                        {
+
+                            writer.WriteAttributeString("type", action.type);
+                            writer.WriteAttributeString("value", action.value);
+                            writer.WriteAttributeString("deviceID", ((Play_Sound)action).getDeviceID().ToString());
+                            break;
+                        }
+                    default:
+                        {
+                            writer.WriteAttributeString("type", action.type);
+                            writer.WriteAttributeString("value", action.value);
+                            break;
+                        }
+
+                }
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
         }
 
         public List<Action> get_Action_sequence()
