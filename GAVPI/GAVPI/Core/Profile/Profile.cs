@@ -197,6 +197,10 @@ namespace GAVPI
                     ack_frm_file.type = element.Attributes.GetNamedItem("type").Value;
                     ack_frm_file.comment = element.Attributes.GetNamedItem("comment").Value;
 
+                    // Add backward comptability.
+                    if (ack_frm_file.type == "VI_Action_Sequence")
+                        { ack_frm_file.type = "Action_Sequence"; }
+
                     // If available, add the random attribute to the action sequence attributes.
                     try
                     {
@@ -283,6 +287,10 @@ namespace GAVPI
                     string trigger_type = element.Attributes.GetNamedItem("type").Value;
                     string trigger_value = element.Attributes.GetNamedItem("value").Value;
                     string trigger_comment= element.Attributes.GetNamedItem("comment").Value;
+
+                    // Add backward compatability with older profiles.
+                    if (trigger_type == "VI_Phrase")
+                        {trigger_type = "Phrase";}
 
                     Type new_trigger_type = Type.GetType("GAVPI." + trigger_type);
                     object trigger_isntance = trigger_isntance = Activator.CreateInstance(new_trigger_type, trigger_name, trigger_value);

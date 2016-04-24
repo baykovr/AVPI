@@ -24,7 +24,7 @@ namespace GAVPI
         //  The application's title, a system-wide unique ID to facilitate single-instancing (see Mutex,
         //  later), and an XML Path to easily extract specific information from GAVPI Profile XML documents.
 
-        public const string BUILD_VERSION = "GAVPI Alpha 0.09 04.09.16";
+        public const string BUILD_VERSION = "GAVPI Alpha 0.10 04.23.16";
 
         const string APPLICATION_TITLE = "GAVPI";
 
