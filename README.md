@@ -1,24 +1,8 @@
 ![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi-logo.png)
 
-### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/v0.09)  : Alpha v0.09 :04/09/16
-Updates
-0.09
-* Add ability to randomly execute actions from action sequence.
-* Fix backward compatibility issue with profiles created with version (<0.07).
+### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/v0.10)  : Alpha v0.10 :04/23/16
 
-0.08
-* Added ability to press a key for selection in addition to using the drop down for most common keys (Special keys and combination not supported yet).
-* Added ability to select sound device for audio playback (you can also use different audio files on different devices simultaneously).
-* Fixed missing keys from input selection, namely the alt and oem keys.
-* Fixed an issue with profile sequence ordering wrapping around during editing (moving an action up would wrap around to the end of the list).
-* Refactored and organized source code.
-
-@AdamJamesNaylor
-* Added ability to double click items in profile in order to edit them.
-* Added balloon tool tip to notify the user the program is still running in the background.
-
-
-Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/v0.08/GAVPI_0.08.zip)
+Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/v0.10/GAVPI_v0.10.zip)
 
 You should run gavpi as administrator for it work properly in most games. (right click run as...)
 
