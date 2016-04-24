@@ -7,16 +7,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 
-/*
-*  Arbitrary abstract Action
-*  Currently one of 
-*  Keyboard up/down/press
-*  Mouse up/down/press
-*  Wait 
-*  ...add your own
-*  e.g. public partial class PlaySound() ...
-*/
-
 namespace GAVPI
 {
     public abstract class Action
@@ -25,6 +15,7 @@ namespace GAVPI
         public abstract string value { get; set; }
 
         public abstract void run();
+        
 
         public Action()
         {

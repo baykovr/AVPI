@@ -29,15 +29,7 @@ namespace GAVPI
         //  a process, this Profile will be automatically loaded whenever the process starts.
 
         private string AssociatedProcess;
-
         public SpeechSynthesizer synth;
-
-
-        // TODO : This would of made a lot of sense a long time ago, since we enforce 
-        // unique names anyway...
-        //public Dictionary<string, Trigger> Profile_Triggers;
-        //public Dictionary<string, Action_Sequence> Profile_ActionSequences;
-
         public List<Trigger> Profile_Triggers;
         public List<Action_Sequence> Profile_ActionSequences;
 
@@ -188,95 +180,26 @@ namespace GAVPI
                 {
                     AssociatedProcess = element.InnerText;
                 } 
+                // Load Action Sequences and their associated Actions.
                 else if (element.Name.Contains("Action_Sequence"))
                 {
-
-                    Action_Sequence ack_frm_file;
-                    ack_frm_file = new Action_Sequence(element.Attributes.GetNamedItem("name").Value);
-                    ack_frm_file.type = element.Attributes.GetNamedItem("type").Value;
-                    ack_frm_file.comment = element.Attributes.GetNamedItem("comment").Value;
-
-                    // Add backward comptability.
-                    if (ack_frm_file.type == "VI_Action_Sequence")
-                        { ack_frm_file.type = "Action_Sequence"; }
-
-                    // If available, add the random attribute to the action sequence attributes.
+                    Action_Sequence ack_frm_file = null;
                     try
                     {
-                            ack_frm_file.random_exec = Convert.ToBoolean(element.Attributes.GetNamedItem("random").Value);
+                        ack_frm_file = new Action_Sequence(element,ProfileDB,this.synth);
+                        // Check if the profile contains any sequences by this name.
+                        if (!Profile_ActionSequences.Any(ack => ack.name == ack_frm_file.name))
+                        {
+                            Profile_ActionSequences.Add(ack_frm_file);
+                        }
+                        else 
+                        {
+                            throw new ArgumentException("An action sequence with this name already exists.");
+                        }
                     }
                     catch
                     {
-                        // Silently ignore the old profile type not having a rando attribute.
- 
-                    }
-
-                    // Load actions in action sequence.
-                    foreach (XmlNode action in element.ChildNodes)
-                    {
-                        string action_type = action.Attributes.GetNamedItem("type").Value;
-                        string action_value = action.Attributes.GetNamedItem("value").Value;
-
-                        Type new_action_type = Type.GetType("GAVPI." + action_type);
-                        object action_instance;
-
-                        switch (action_type)
-                        {
-                            case "Speak":
-                                {
-                                    action_instance = Activator.CreateInstance(new_action_type,this.synth, action_value);
-                                    break;
-                                }
-                            case "Play_Sound":
-                                {
-                                    int deviceID;
-                                    if (Int32.TryParse(action.Attributes.GetNamedItem("deviceID").Value, out deviceID))
-                                    {
-                                        action_instance = Activator.CreateInstance(new_action_type, action_value, deviceID);
-                                    }
-                                    else
-                                    {
-                                        action_instance = Activator.CreateInstance(new_action_type, action_value, Play_Sound.defaultDeviceID);
-                                    }
-                                    break;
-                                }
-                            case "Data_Speak":
-                                {
-                                    // action_value is the db key, the data element name
-                                    if (ProfileDB.DB.ContainsKey(action_value))
-                                    {
-                                        action_instance = Activator.CreateInstance(new_action_type, this.synth,
-                                            (Data)ProfileDB.DB[action_value]);
-                                    }
-                                    else
-                                    {
-                                        action_instance = null;
-                                        MessageBox.Show("Unknown data element " + action_value, "Warning");
-                                    }
-                                    break;
-                                }
-                            default:
-                                {
-                                    action_instance = Activator.CreateInstance(new_action_type, action_value);
-                                    break;
-                                }
-                        }
-                        if (action_instance != null)
-                        {
-                            ack_frm_file.Add((Action)action_instance);
-                        }
-                        else
-                        {
-                            // action could not be loaded from xml (malformed)
-                            // TODO : Log warning
-                            //  note, you can't just pop up a dialog since it could possibly spawn dozes (hundreds)
-                            //  instead we need to log warnings and display a summary.
-                        }
-                    } //  /Load actions in action sequence.
-
-                    if (!Profile_ActionSequences.Any(ack => ack.name == ack_frm_file.name))
-                    {
-                        Profile_ActionSequences.Add(ack_frm_file);
+                        // Log that we are discarding this malformed action sequence.
                     }
                 }
                 else if (element.Name.Contains("Trigger"))

@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Speech.Synthesis;
 using System.Threading;
+using System.Xml;
 
 /*
  * A single action is composed of 
@@ -42,13 +45,11 @@ namespace GAVPI
 
 
         private System.Random rand = new System.Random();
-        public bool random_exec = false;
+        public bool random_exec;
 
         public string name {get; set;}
         public string type { get; set; }
         public string comment { get; set; }
-
-        //sequences do not use value, but must have it as part of TriggerEvent interface
         public string value { get; set; }
 
         public List<Action> action_sequence;
@@ -59,17 +60,122 @@ namespace GAVPI
             this.name  = "new sequence";
             this.type  = this.GetType().Name;
             this.value = null;
+            this.random_exec = false;
             this.comment = "";
         }
 
         public Action_Sequence(string name)
         {
             action_sequence = new List<Action>();
-            this.name = name;
             this.type = this.GetType().Name;
             this.value = null;
             this.comment = "";
+            this.random_exec = false;
+            this.name = name;
         }
+
+        public Action_Sequence(XmlNode element, Database ProfileDB, SpeechSynthesizer synth)
+        {
+           /* An action sequence is composed of an <Action_Sequence> node with several
+            * requred and several optional attributes. 
+            * Nested child nodes are Actions.
+            */
+            // Init defaults.
+            action_sequence = new List<Action>();
+
+            // TODO 
+            this.type        = this.GetType().Name;
+            this.value       = null;
+            this.comment     = "";
+            this.name        = "";
+            this.random_exec = false;
+            
+
+            // Process Action Sequence attributes
+
+            // Load Required Attributes
+            if (element.Attributes["name"] != null)
+            {
+                this.name = element.Attributes["name"].Value;
+            }
+            else
+            {
+                throw new ArgumentNullException("Action_Sequence missing required attribute name.");
+            }
+
+
+            // Load Optional Attributes
+            // random: is this sequence randomly executed.
+            if (element.Attributes["random"] != null)
+            {
+                this.random_exec = Convert.ToBoolean(element.Attributes["random"].Value);
+            }
+
+            // comment: a comment string associated with this sequence.
+            if (element.Attributes["comment"] != null)
+            {
+                this.comment = element.Attributes["comment"].Value;
+            }
+
+
+            // Process Children
+            foreach (XmlNode action in element.ChildNodes)
+            {
+                string action_type = action.Attributes.GetNamedItem("type").Value;
+                string action_value = action.Attributes.GetNamedItem("value").Value;
+
+                Type new_action_type = Type.GetType("GAVPI." + action_type);
+                object action_instance;
+
+                switch (action_type)
+                {
+                    case "Speak":
+                    {
+                        action_instance = Activator.CreateInstance(new_action_type, synth, action_value);
+                        break;
+                    }
+                    case "Play_Sound":
+                    {
+                        int deviceID;
+                        if (Int32.TryParse(action.Attributes.GetNamedItem("deviceID").Value, out deviceID))
+                        {
+                            action_instance = Activator.CreateInstance(new_action_type, action_value, deviceID);
+                        }
+                        else
+                        {
+                            action_instance = Activator.CreateInstance(new_action_type, action_value, Play_Sound.defaultDeviceID);
+                        }
+                        break;
+                    }
+                    case "Data_Speak":
+                    {
+                        // action_value is the db key, the data element name
+                        if (ProfileDB.DB.ContainsKey(action_value))
+                        {
+                            action_instance = Activator.CreateInstance(new_action_type, synth,
+                                (Data)ProfileDB.DB[action_value]);
+                        }
+                        else
+                        {
+                            action_instance = null;
+                        }
+                        break;
+                    }
+                    default:
+                    {
+                        action_instance = Activator.CreateInstance(new_action_type, action_value);
+                        break;
+                    }
+                }
+            }
+
+        }
+        
+        public void writeXML()
+        {
+ 
+        }
+
         public List<Action> get_Action_sequence()
         {
             return this.action_sequence;
@@ -87,6 +193,9 @@ namespace GAVPI
         {
             action_sequence.Remove(rm_Action);
         }
+
+        
+
         public void run()
         {
             // If set, randomly choose *one* action to execute.
