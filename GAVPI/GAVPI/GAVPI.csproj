@@ -132,6 +132,13 @@
     <Compile Include="GUI\frm_AddEdit_Data.Designer.cs">
       <DependentUpon>frm_AddEdit_Data.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Info\Array.cs" />
+    <Compile Include="GUI\Info\frm_ScrollMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Info\frm_ScrollMessageBox.Designer.cs">
+      <DependentUpon>frm_ScrollMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Triggers\frm_AddEdit_LogicalTrigger.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -213,6 +220,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmGAVPI.resx">
       <DependentUpon>frmGAVPI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Info\frm_ScrollMessageBox.resx">
+      <DependentUpon>frm_ScrollMessageBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Triggers\frm_AddEdit_LogicalTrigger.resx">
       <DependentUpon>frm_AddEdit_LogicalTrigger.cs</DependentUpon>

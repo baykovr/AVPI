@@ -44,6 +44,7 @@
             this.RecognizedColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnMainListen = new System.Windows.Forms.Button();
             this.btnMainStop = new System.Windows.Forms.Button();
+            this.viewDebugLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStatStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -81,6 +82,7 @@
             // 
             this.mainStripFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem,
+            this.viewDebugLogToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.mainStripFile.Name = "mainStripFile";
             this.mainStripFile.Size = new System.Drawing.Size(36, 20);
@@ -112,14 +114,14 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.editToolStripMenuItem.Text = "Modify";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.modifyToolStripMenuItem_Click);
             // 
@@ -175,6 +177,13 @@
             this.btnMainStop.UseVisualStyleBackColor = true;
             this.btnMainStop.Click += new System.EventHandler(this.btnMainStop_Click);
             // 
+            // viewDebugLogToolStripMenuItem
+            // 
+            this.viewDebugLogToolStripMenuItem.Name = "viewDebugLogToolStripMenuItem";
+            this.viewDebugLogToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.viewDebugLogToolStripMenuItem.Text = "View Debug Log";
+            this.viewDebugLogToolStripMenuItem.Click += new System.EventHandler(this.viewDebugLogToolStripMenuItem_Click);
+            // 
             // frmGAVPI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -221,6 +230,7 @@
         private System.Windows.Forms.ColumnHeader RecognizedColumn;
         private System.Windows.Forms.ToolStripStatusLabel btmStripStatus;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewDebugLogToolStripMenuItem;
     }
 }
 

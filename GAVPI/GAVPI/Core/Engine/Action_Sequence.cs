@@ -89,7 +89,6 @@ namespace GAVPI
             this.comment     = "";
             this.name        = "";
             this.random_exec = false;
-            
 
             // Process Action Sequence attributes
 
@@ -101,6 +100,7 @@ namespace GAVPI
             else
             {
                 throw new ArgumentNullException("Action_Sequence missing required attribute name.");
+                GAVPI.ProfileDebugLog.Entry("[ ! ] A malformed action sequence was detected and dropped.");
             }
 
 

@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace TrivialLogging
 {
-
-
-
     //
     //  class Logging< T >
     //
@@ -134,7 +131,20 @@ namespace TrivialLogging
             }
             
         }  //  public Array ToArray()
-    
+
+        //
+        // public List<T> ToList()
+        //
+        // Return a List object consisting of logged Entries.
+        public List<T> ToList()
+        {
+            lock (Log)
+            {
+
+                return Log.ToList();
+
+            }
+        } // public List ToList()
 
 
         //

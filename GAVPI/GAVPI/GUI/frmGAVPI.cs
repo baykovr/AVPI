@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GAVPI.GUI.Info;
 
 namespace GAVPI
 {
@@ -281,6 +282,12 @@ namespace GAVPI
         
             base.WndProc( ref message );
 
-        }  //  protected override void WndProc( ref Message )
+        } //  protected override void WndProc( ref Message )
+
+        private void viewDebugLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frm_ScrollMessageBox dbgLog = new frm_ScrollMessageBox( GAVPI.ProfileDebugLog.ToList() );
+            dbgLog.ShowDialog();
+        } 
     }
 }

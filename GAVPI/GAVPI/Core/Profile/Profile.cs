@@ -163,6 +163,7 @@ namespace GAVPI
 			} 
             catch( Exception ) 
             {
+                GAVPI.ProfileDebugLog.Entry("[ ! ] Critical error in profile load detected.");
 				return false;
             }
 				

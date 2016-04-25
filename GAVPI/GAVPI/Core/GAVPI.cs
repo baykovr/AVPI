@@ -49,8 +49,10 @@ namespace GAVPI
         private static frmSettings SettingsForm;
 
         //  Our running Log and the Most Recently Used Profile list.
-
         public static Logging< string > Log;
+
+        //  Profile loading/unload debug log.
+        public static Logging< string > ProfileDebugLog;
 
         private static MRU ProfileMRU;
         
@@ -96,11 +98,15 @@ namespace GAVPI
             //  will be displayed within a ListBox in the main form, frmGAVPI.  We specify a callback method so
             //  that we may inform an already open frmGAVPI to update the ListBox with the log content.
 
+            // Additionally we maintain of a log of profile loading/saving information.
             try { 
 
                 Log = new Logging< string >( GAVPI.OnLogMessage );
 
+                ProfileDebugLog = new Logging<string>();
+
             } catch( Exception ) { throw; }
+
 
             Settings = new Settings();
             Profile = new Profile( null );
