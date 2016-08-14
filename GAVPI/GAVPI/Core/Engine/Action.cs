@@ -363,42 +363,10 @@ namespace GAVPI
         }
     }
 
-    // Simple WAV implementation taken from AVPI
-    //public partial class Play_WAV : Action
-    //{
-    //    System.Media.SoundPlayer wav;
-
-    //    public Play_WAV(string filename)
-    //    {
-    //        this.value = filename;
-    //        try
-    //        {
-    //            wav = new System.Media.SoundPlayer(this.value);
-    //        }
-    //        catch (Exception e)
-    //        {
-    //            // TODO : Notify error.
-    //        }
-    //    }
-
-    //    public override void run()
-    //    {
-    //        //Quick and easy.
-    //        try
-    //        {
-    //            wav.Play(); //async
-    //            wav.Dispose();
-    //        }
-    //        catch (Exception e)
-    //        {
-    //            // TODO : Notify error.
-    //        }
-    //    }
-    //}
-
     #endregion
 
     #region RandomPicker Actions
+    // 
     public partial class Or : Action
     {
         static Random rnd = new Random();
