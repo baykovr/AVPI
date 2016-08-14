@@ -253,6 +253,8 @@ namespace GAVPI
                 // player.controls.play();
 
                 // Device ID cannot be changed after init, so we will init here in case there is a live update.
+                wavePlayer.Pause();
+                audioFileReader.Seek(0, System.IO.SeekOrigin.Begin);
                 wavePlayer.Init(audioFileReader);
                 wavePlayer.Play();
             }
@@ -394,5 +396,29 @@ namespace GAVPI
     //    }
     //}
 
+    #endregion
+
+    #region RandomPicker Actions
+    public partial class Or : Action
+    {
+        static Random rnd = new Random();
+        public Action_Sequence actions;
+        public Or(Action_Sequence actions, string value) : base(value)
+        {
+            this.actions = actions;
+            this.value = value;
+        }
+        public override string value
+        {
+            get;
+            set;
+        }
+
+        public override void run()
+        {
+            int r = rnd.Next(actions.action_sequence.Count);
+            actions.action_sequence[r].run();
+        }
+    }
     #endregion
 }
