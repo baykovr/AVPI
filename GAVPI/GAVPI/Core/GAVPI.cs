@@ -252,12 +252,13 @@ namespace GAVPI
 
             Properties.Settings.Default.Save();
 
+            // Stop listening.
+            StopListening(null, null);
+
             //  And get rid of the system tray icon.
             if (sysTrayIcon != null)
             {
-                // strackoverflow tip:
-                // trayicon must be set to null in order to keep it from lingering in the tray.
-                // Robert (04.23.15)
+                // Tray icon must be set to null in order to keep it from lingering in the tray.
                 sysTrayIcon.Visible = false;
                 sysTrayIcon.Dispose();
                 sysTrayIcon = null;

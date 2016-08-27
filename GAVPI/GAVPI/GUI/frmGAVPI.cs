@@ -53,7 +53,7 @@ namespace GAVPI
 
         private void frmGAVPI_FormClosing( object sender, FormClosingEventArgs e )
         {
-            if (GAVPI.IsFirstClose)
+            if (GAVPI.IsFirstClose && GAVPI.sysTrayIcon != null)
             {
                 GAVPI.sysTrayIcon.BalloonTipTitle = "GAVPI is still running.";
                 GAVPI.sysTrayIcon.BalloonTipText =
