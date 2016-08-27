@@ -174,13 +174,14 @@ namespace GAVPI
         }
     }
     #region PlaySound Actions
-    // More formats support
+
     public partial class Play_Sound : Action
     {
         // Optional Implementation is via WMP.
         // WMPLib.WindowsMediaPlayer player;
 
         IWavePlayer wavePlayer;
+        WaveOut wavout;
         AudioFileReader audioFileReader;
         int playBackDeviceID;
 
@@ -193,9 +194,7 @@ namespace GAVPI
 
             try
             {
-                // Optional : WMP
-                // player = new WMPLib.WindowsMediaPlayer();
-                WaveOut wavout = new WaveOut();
+                wavout = new WaveOut();
                 wavout.DeviceNumber = playBackDeviceID;
                 wavePlayer = wavout;
                 audioFileReader = new AudioFileReader(this.value);
@@ -221,23 +220,39 @@ namespace GAVPI
         {
             try
             {
-                // Optional : WMP
-                // player.URL = this.value;
-                // player.controls.play();
-
                 // Device ID cannot be changed after init, so we will init here in case there is a live update.
                 wavePlayer.Pause();
                 audioFileReader.Seek(0, System.IO.SeekOrigin.Begin);
                 wavePlayer.Init(audioFileReader);
                 wavePlayer.Play();
             }
+
+            catch (NAudio.MmException e)
+            {
+                GAVPI.ProfileDebugLog.Entry("[ ! ] Error Details: " + e.Message);
+                this.LogError();
+
+                // NAudio always throws MmExceptions so we parse from the message for this case.
+                if ( e.Message.Equals("BadDeviceId calling waveOutOpen") )
+                {    
+                    GAVPI.ProfileDebugLog.Entry("[...] Attempting to playback via default device next time.");
+                    
+                    // A little self healing, it's likely that device was unplugged or
+                    // changed in some way since the profie has been loaded.
+                    wavout = new WaveOut();
+                    wavout.DeviceNumber = defaultDeviceID;
+                    wavePlayer = wavout;
+                    audioFileReader = new AudioFileReader(this.value);
+
+                }
+            }
             catch (Exception e)
             {
-                // TODO : Notify error.
                 GAVPI.ProfileDebugLog.Entry("[ ! ] Error Details: " + e.Message);
                 this.LogError();
             }
         }
+
         private void LogError()
         {
             GAVPI.ProfileDebugLog.Entry(
