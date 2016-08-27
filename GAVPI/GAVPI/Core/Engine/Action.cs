@@ -1,6 +1,7 @@
 ﻿using InputManager;
 using NAudio.Wave;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Speech.Synthesis;
 using System.Threading;
@@ -360,6 +361,37 @@ namespace GAVPI
             }
 
 
+        }
+    }
+
+    #endregion
+
+    #region System Action
+    // Resonsible for system calls.
+    public partial class ProcessExec : Action
+    {
+        Process proc = new Process();
+        
+        public ProcessExec(string process,string arguments)
+        {
+
+        }
+
+        public override string value
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override void run()
+        {
+            throw new NotImplementedException();
         }
     }
 

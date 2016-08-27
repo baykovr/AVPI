@@ -277,8 +277,11 @@ namespace GAVPI
 
         static private void OnDoubleClickIcon( object sender, EventArgs e )
         {
-
-            OpenMainWindow( sysTrayMenu.MenuItems[ OPEN_LOG_MENU_ITEM ], null );
+            // Don't spawn multiple main windows on double click.
+            if (sysTrayMenu.MenuItems[OPEN_LOG_MENU_ITEM].Enabled)
+            {
+                OpenMainWindow(sysTrayMenu.MenuItems[OPEN_LOG_MENU_ITEM], null);
+            }
             
         }  //   static private void OnDoubleClickIcon( object, EventArgs )
 
