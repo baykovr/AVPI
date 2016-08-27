@@ -83,7 +83,9 @@ namespace GAVPI
 
                 if (cbOutputDevices.Items.Count > deviceID)
                 {
-                    cbOutputDevices.SelectedIndex = deviceID;
+                    // SelectedIndex starts at value 0, however
+                    // device ID's specified by NAudio start with -1, where -1 is default device.
+                    cbOutputDevices.SelectedIndex = deviceID+1;
                 }
                 txtFilePath.Text = form_action.value;
             }

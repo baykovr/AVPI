@@ -132,7 +132,6 @@
     <Compile Include="GUI\frm_AddEdit_Data.Designer.cs">
       <DependentUpon>frm_AddEdit_Data.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Info\Array.cs" />
     <Compile Include="GUI\Info\frm_ScrollMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>

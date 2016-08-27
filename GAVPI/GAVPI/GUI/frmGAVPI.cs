@@ -287,7 +287,7 @@ namespace GAVPI
         private void viewDebugLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frm_ScrollMessageBox dbgLog = new frm_ScrollMessageBox( GAVPI.ProfileDebugLog.ToList() );
-            dbgLog.ShowDialog();
+            dbgLog.Show();
         } 
     }
 }

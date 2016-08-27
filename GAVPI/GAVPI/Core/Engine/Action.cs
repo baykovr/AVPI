@@ -202,7 +202,8 @@ namespace GAVPI
             }
             catch (Exception e)
             {
-                // TODO : Notify error.
+                GAVPI.ProfileDebugLog.Entry("[ ! ] Error Details: " + e.Message);
+                this.LogError();
             }
         }
 
@@ -210,35 +211,6 @@ namespace GAVPI
         {
             return playBackDeviceID;
         }
-
-        /*
-        * Instead of using an encoding hack, we modify the action parsing/saving cases in the profile code.
-        public static Tuple<int, string> decodeFilename(string encoded_filename)
-        {
-            const char delim = '|';
-            // No delim present, this is probably just the filename from an old profile.
-            if (!encoded_filename.Contains(delim))
-            {
-                return new Tuple<int, string>(defaultDeviceID, encoded_filename);
-            }
-            else
-            {
-                int decodedID;
-                string[] decoded = encoded_filename.Split(delim);
-                if (decoded.Length == 2 && Int32.TryParse(decoded[0], out decodedID))
-                {
-                    return new Tuple<int, string>(decodedID, decoded[1]);
-                }
-                else
-                {
-                    return new Tuple<int, string>(defaultDeviceID, encoded_filename);
-                }
-            }
-        }
-        public static string encodeFilename(int deviceID, string filename)
-        {
-            return deviceID.ToString() + delim + filename;
-        }*/
 
         public override string value
         {
@@ -262,8 +234,17 @@ namespace GAVPI
             catch (Exception e)
             {
                 // TODO : Notify error.
-                MessageBox.Show("Cannot playback media file " + this.value, "Error");
+                GAVPI.ProfileDebugLog.Entry("[ ! ] Error Details: " + e.Message);
+                this.LogError();
             }
+        }
+        private void LogError()
+        {
+            GAVPI.ProfileDebugLog.Entry(
+                String.Format("[ ! ] Error in Play_Sound: File {0}, Device {1}",
+                this.value,this.playBackDeviceID
+                )
+            );
         }
     }
     #endregion

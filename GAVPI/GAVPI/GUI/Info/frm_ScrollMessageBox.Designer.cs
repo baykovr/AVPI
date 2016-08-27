@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_ScrollMessageBox));
             this.lstboxInfo = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
@@ -49,9 +50,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(501, 419);
             this.Controls.Add(this.lstboxInfo);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frm_ScrollMessageBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Information";
+            this.Text = "Debug Log";
             this.ResumeLayout(false);
 
         }

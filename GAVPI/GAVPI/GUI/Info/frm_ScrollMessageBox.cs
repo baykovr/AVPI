@@ -12,7 +12,7 @@ namespace GAVPI.GUI.Info
 {
     public partial class frm_ScrollMessageBox : Form
     {
-        public frm_ScrollMessageBox(List<string> info)
+        public frm_ScrollMessageBox( List<string> info)
         {
             InitializeComponent();
             lstboxInfo.DataSource = info;
