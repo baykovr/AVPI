@@ -140,6 +140,9 @@ namespace GAVPI
             {
                 string recognized_value = e.Result.Text;
 
+                if (!GAVPI.Profile.IsAssociatedProcessFocused())
+                    return;
+
                 //predicates are cool
                 GAVPI.Profile.Profile_Triggers.Find(trigger => trigger.value == recognized_value).run();
                 
