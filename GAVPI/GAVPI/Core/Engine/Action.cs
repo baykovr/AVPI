@@ -276,9 +276,15 @@ namespace GAVPI
 
     public partial class Stop_Sound : Action
     {
+        
+
         public Stop_Sound()
         {
-            //this.value = filename;
+            this.value = "Stop All Playback";
+        }
+        public Stop_Sound(string value)
+        {
+            this.value = value;
         }
 
         public override string value

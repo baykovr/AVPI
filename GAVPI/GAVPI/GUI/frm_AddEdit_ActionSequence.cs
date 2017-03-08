@@ -27,6 +27,7 @@ namespace GAVPI
                 { "Timing",           new List<string> { "Wait" } },
                 { "Speak Action",     new List<string> { "Speak","Data_Speak" } },
                 { "PlaySound Action", new List<string> { "Play_Sound" } },
+                { "StopSound Action", new List<string> { "Stop_Sound" } },
                 { "Data Action",      new List<string> { "Data_Paste" } }
             };
 
@@ -217,6 +218,11 @@ namespace GAVPI
                     case "PlaySound Action":
                     {
                         ProcessForm_AddEditPlaySoundAction(action_to_edit, index);
+                        break;
+                    }
+                    case "StopSound Action":
+                    {
+                        //ProcessForm_AddEditStopSoundAction(action_to_edit, index);
                         break;
                     }
                     case "Data Action":
@@ -450,7 +456,20 @@ namespace GAVPI
 
         private void ProcessForm_AddEditStopSoundAction(Action edit_action, int index)
         {
+            Action stopAction = new Stop_Sound();
+            // Add new action.
+            if (edit_action == null)
+            {
+                sequence_to_edit.Add( stopAction );
+            }
+            // Edit an existing action, in this case nothing since stop_sound has no arguments or values to edit.
+            else
+            { }
 
+            ActionSequenceEdited = true;
+            refresh_dgActionSequence();
+            // Bring Selection back to edited element
+            dgActionSequence.CurrentCell = dgActionSequence.Rows[index].Cells[0];
         }
 
         private void ProcessForm_AddEditTimingAction(Action edit_action,int index)

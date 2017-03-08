@@ -204,6 +204,7 @@ namespace GAVPI
                     catch
                     {
                         // Log that we are discarding this malformed action sequence.
+                        GAVPI.ProfileDebugLog.Entry("Malformed action sequence.");
                     }
                 }
                 else if (element.Name.Contains("Trigger"))
