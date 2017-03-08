@@ -20,14 +20,44 @@ namespace GAVPI
 
         private Action_Sequence sequence_to_edit;
 
-        public static List<string> Action_Groups = new List<string>(
-            new string[] { 
-                "Key/Mouse Press",
-                "Timing",
-                "Speak Action",
-                "PlaySound Action",
-                "Data Action"
-            });
+        public static Dictionary<string, List<string>> ActionGroups
+            = new Dictionary<string, List<string>>() 
+            {
+                { "Key/Mouse Press",  new List<string> { "KeyDown", "KeyUp", "KeyPress","MouseKeyDown","MouseKeyUp","MouseKeyPress"} },
+                { "Timing",           new List<string> { "Wait" } },
+                { "Speak Action",     new List<string> { "Speak","Data_Speak" } },
+                { "PlaySound Action", new List<string> { "Play_Sound" } },
+                { "Data Action",      new List<string> { "Data_Paste" } }
+            };
+
+        // These type lists are used to populate ui elements,
+        // their (array string) value must match the class name specified bellow, ex : Action : Data_Set
+        // this is particularly important since the string will be cast to a class instance later.
+
+        //public static List<string> PressAction_Types = new List<string>(
+        //    new string[] { 
+        //        "KeyDown", "KeyUp", "KeyPress",
+        //        "MouseKeyDown","MouseKeyUp","MouseKeyPress"
+        //    });
+        //public static List<string> SpeechAction_Types = new List<string>(
+        //    new string[] { 
+        //       "Speak",
+        //       "Data_Speak"
+        //    });
+        //public static List<string> PlaySoundAction_Types = new List<string>(
+        //    new string[] {
+        //        "Play_Sound"
+        //    });
+        //public static List<string> TimingAction_Types = new List<string>(
+        //    new string[] { 
+        //       "Wait"
+        //    });
+        //public static List<string> DataAction_Types = new List<string>(
+        //    new string[] { 
+        //       "Data_Paste"
+        //       //"Data_Set","Data_Decrement","Data_Increment"
+        //    });
+
         #endregion
 
         #region Constructors
@@ -56,7 +86,7 @@ namespace GAVPI
         // the ProcessForm Method which in turn spawns the correct form and handles its output.
         
         #region Move Up/Down
-        private void moveup()
+        private void ui_moveup()
         {
             int index;
 
@@ -93,7 +123,7 @@ namespace GAVPI
             }
             ActionSequenceEdited = true;
         }
-        private void movedown()
+        private void ui_movedown()
         {
             int index;
             foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
@@ -132,19 +162,99 @@ namespace GAVPI
         #endregion
         
         #region Add : Edit
-        private void add()
+        private void ui_add()
         {
-            // Add New Action
-            // Switch on Action_Groups
-            // Since some actions utilize the same form
-            // this hides some information from the user
-            // perhaps it is better to just populate the dropdown with all possible actions?
-            // not sure.
+            CreateNewAction( cbActionType.SelectedItem.ToString() );
+        }
+
+        private void ui_edit()
+        {
+            // If for some reason multi select is on, just take the first item 
+            // and a show warning.
+
+            //TODO, for multi select just remove the items on OK
+            //and insert # removed copies of edited
+
+            foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
+            {
+                // Pull Action out of selected DataGridView item
+                Action action_to_edit = row.DataBoundItem as Action;
+
+                //Action type, ex: "KeyDown , MouseUp, Wait, Data Increment"
+                string action_type = Type.GetType(action_to_edit.ToString()).Name.ToString();
+
+                //index of action in sequence
+                int index = sequence_to_edit.action_sequence.IndexOf(action_to_edit);
+
+                string group = "";
+
+                // Choose Form Method to Invoke based on type
+                foreach (KeyValuePair<string, List<string>> action_group in ActionGroups)
+                {
+                    // which group does this action type come from.
+                    if(action_group.Value.Contains(action_type)){
+                        group = action_group.Key;
+                    }
+                }
+
+                switch (group)
+                {
+                    case "Key/Mouse Press":
+                    {
+                        ProcessForm_AddEditPressAction(action_to_edit, index);
+                        break;
+                    }
+                    case "Timing":
+                    {
+                        ProcessForm_AddEditTimingAction(action_to_edit, index);
+                        break;
+                    }
+                    case "Speak Action":
+                    {
+                        ProcessForm_AddEditSpeechAction(action_to_edit, index);
+                        break;
+                    }
+                    case "PlaySound Action":
+                    {
+                        ProcessForm_AddEditPlaySoundAction(action_to_edit, index);
+                        break;
+                    }
+                    case "Data Action":
+                    {
+                        // not implemented.
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
+        }
+        #endregion
+        
+        #region Remove
+        private void ui_remove()
+        {
+            foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
+            {
+                Action action_to_remove = row.DataBoundItem as Action;
+                sequence_to_edit.Remove(action_to_remove);
+            }
+            ActionSequenceEdited = true;
+            refresh_dgActionSequence();
+        }
+        #endregion
+        
+        #endregion
+
+        #region Logic : Forms Invocation Add/Edit
+
+        private void CreateNewAction(string action_group)
+        {
             switch (cbActionType.SelectedItem.ToString())
             {
                 case "Key/Mouse Press":
                     {
-                        ProcessForm_AddEditPressAction(null,0);
+                        ProcessForm_AddEditPressAction(null, 0);
                         break;
                     }
                 case "Timing":
@@ -154,13 +264,18 @@ namespace GAVPI
                     }
                 case "Speak Action":
                     {
-                        //TODO
                         ProcessForm_AddEditSpeechAction(null, 0);
                         break;
                     }
                 case "PlaySound Action":
                     {
                         ProcessForm_AddEditPlaySoundAction(null, 0);
+                        break;
+                    }
+                case "StopSound Action":
+                    {
+
+                        ProcessForm_AddEditStopSoundAction(null, 0);
                         break;
                     }
                 case "Data Action":
@@ -180,87 +295,19 @@ namespace GAVPI
                         break;
                     }
             }
- 
         }
-        private void edit()
-        {
-            // If for some reason multi select is on, just take the first item 
-            // and a show warning.
 
-            //TODO, for multi select just remove the items on OK
-            //and insert # removed copies of edited
-
-            foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
-            {
-                // Pull Action out of selected DataGridView item
-                Action action_to_edit = row.DataBoundItem as Action;
-
-                //Action type, ex: "KeyDown , MouseUp, Wait, Data Increment"
-                string action_type = Type.GetType(action_to_edit.ToString()).Name.ToString();
-
-                //index of action in sequence
-                int index = sequence_to_edit.action_sequence.IndexOf(action_to_edit);
-
-                // Choose Form Method to Invoke based on type
-                
-                //Key/KeyPress
-                if (Action_Sequence.PressAction_Types.Contains(action_type))
-                {
-                   ProcessForm_AddEditPressAction(action_to_edit, index);
-                   break;
-                }
-                //Speech 
-                else if (Action_Sequence.SpeechAction_Types.Contains(action_type))
-                {
-                    ProcessForm_AddEditSpeechAction(action_to_edit, index);
-                    break;
-                }
-                // Play Sound
-                else if (Action_Sequence.PlaySoundAction_Types.Contains(action_type))
-                {
-                    ProcessForm_AddEditPlaySoundAction(action_to_edit, index);
-                    break;
-                }
-                //Timing (Waiting)
-                else if (Action_Sequence.TimingAction_Types.Contains(action_type))
-                {
-                    ProcessForm_AddEditTimingAction(action_to_edit, index);
-                    break;
-                }
-                //DataActions
-                else if (Action_Sequence.DataAction_Types.Contains(action_type))
-                {
-                }
-                // Unknown
-                else
-                {
-
-                }
-            }
-        }
-        #endregion
-        
-        #region Remove
-        private void remove()
-        {
-            foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
-            {
-                Action action_to_remove = row.DataBoundItem as Action;
-                sequence_to_edit.Remove(action_to_remove);
-            }
-            ActionSequenceEdited = true;
-            refresh_dgActionSequence();
-        }
-        #endregion
-        
-        #endregion
-
-        #region Logic : Forms Invocation Add/Edit
         // Form processing invokes handles form creation
         // Once the form exits these functions also handle refreshing/updating UI elements
         // and setting form global variables (such as if we need to save)
-        // @edit_action : can either be an existing action (for editing) or null (create new)
-        // @index       : index of existing action, unused if new action.
+        // @edit_action : either be an existing action (for editing) or null (create new)
+        // @index       : index of existing action in data grid view, unused if new action.
+        private void EditAction(Action action_to_edit, int index)
+        {
+            // HERE
+            // We need to infer the form type automatically based on type of action_to_edit
+            // or have a big switch...
+        }
 
         private void ProcessForm_AddEditPressAction(Action edit_action, int index)
         {
@@ -401,6 +448,11 @@ namespace GAVPI
             }
         }
 
+        private void ProcessForm_AddEditStopSoundAction(Action edit_action, int index)
+        {
+
+        }
+
         private void ProcessForm_AddEditTimingAction(Action edit_action,int index)
         {
             frm_AddEdit_TimingAction newTimingAction;
@@ -447,7 +499,7 @@ namespace GAVPI
         private void populate_fields()
         {
             // Fill combo-box with possible action types.
-            cbActionType.DataSource = Action_Groups; //Used to be ActionSequence.Types (now we group them into forms)
+            cbActionType.DataSource = ActionGroups.Keys.ToList();
 
             // Null the data grid, later we will bind actions to it (as list)
             dgActionSequence.DataSource = null;
@@ -457,11 +509,11 @@ namespace GAVPI
             {
                 txtActionSequenceName.Text = sequence_to_edit.name;
 
-                // TODO : Hack 
-                // 
-                dgActionSequence.DataSource = sequence_to_edit.action_sequence.ToList();
+                // Bind the actions of this sequence as the datasource of the data grid.
+                dgActionSequence.DataSource = sequence_to_edit.action_sequence;
 
                 txtActionSequenceComment.Text = sequence_to_edit.comment;
+
                 chkRandomExecution.Checked = sequence_to_edit.random_exec;
             }
             // Otherwise just init new attributes.
@@ -476,47 +528,47 @@ namespace GAVPI
         #region UI : Context Menu : Move Up/Down : Edit : Remove
         private void moveUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            moveup();
+            ui_moveup();
         }
 
         private void moveDownToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            movedown();
+            ui_movedown();
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            edit();
+            ui_edit();
         }
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            remove();
+            ui_remove();
         }
         #endregion
 
         #region UI : Buttons Presses : Move Up/Down : Add : Edit : Remove
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
-            moveup();
+            ui_moveup();
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
-            movedown();
+            ui_movedown();
         }
         private void btnAddAction_Click(object sender, EventArgs e)
         {
-            add();
+            ui_add();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            edit();
+            ui_edit();
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            remove();
+            ui_remove();
         }
         private void chkRandomExecution_CheckedChanged(object sender, EventArgs e)
         {
@@ -592,6 +644,5 @@ namespace GAVPI
         }
         #endregion
 
-      
     }
 }

@@ -27,10 +27,12 @@ namespace GAVPI
         {
             return form_action;
         }
+
         public int get_times_to_add()
         {
             return times_to_add;
         }
+
         public frm_AddEdit_PressAction()
         {
             InitializeComponent();
@@ -50,7 +52,7 @@ namespace GAVPI
         public void populate_fields()
         {
             // Populate initial values for drop down boxes.
-            cbPressType.DataSource = Action_Sequence.PressAction_Types;
+            cbPressType.DataSource = frm_AddEdit_ActionSequence.ActionGroups["Key/Mouse Press"];
 
             // default to keys.
             // Fixed issue with key names appearing incorrectly, using enum.getvalues returns wrong/duplicate names.
@@ -98,9 +100,9 @@ namespace GAVPI
             }
         }
 
-        // UI Event : Type Drop Down Selection has changed
         private void cbPressType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // UI Event : Type Drop Down Selection has changed
             // Set drop down choices appropriately
             if (cbPressType.SelectedItem.ToString() == "KeyDown" ||
                 cbPressType.SelectedItem.ToString() == "KeyUp" ||
@@ -183,9 +185,9 @@ namespace GAVPI
             btnKeyFrmPress.Text = "Press Key";
         }
 
-        // Catch User Key Presses
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            // Catch User Key Presses
             if ( btnKeyFrmPress.Enabled == false)
             {
                 cbPressValue.SelectedItem = keyData.ToString();

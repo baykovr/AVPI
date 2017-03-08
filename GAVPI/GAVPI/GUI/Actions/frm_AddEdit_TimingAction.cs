@@ -34,6 +34,7 @@ namespace GAVPI
 
             populate_fields();
         }
+
         public frm_AddEdit_TimingAction(Action action)
         {
             InitializeComponent();

@@ -167,12 +167,13 @@ namespace GAVPI
 				return false;
             }
 				
-            //Check first element tag
-            if (profile_xml.DocumentElement.Name != "gavpi")
-            {
-                throw new Exception("Malformed profile expected first tag gavpi got,"
-                    + profile_xml.DocumentElement.Name);
-            }
+            ////Check first element tag
+            // Maybe we should not really care about the root element.
+            //if (profile_xml.DocumentElement.Name != "gavpi")
+            //{
+            //    throw new Exception("Malformed profile expected first tag gavpi got,"
+            //        + profile_xml.DocumentElement.Name);
+            //}
 
             XmlNodeList profile_xml_elements = profile_xml.DocumentElement.ChildNodes;
             foreach (XmlNode element in profile_xml_elements)

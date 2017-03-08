@@ -12,12 +12,13 @@ namespace GAVPI
 {
     public abstract class Action
     {
+
         public string type { get; set; }
+
         public abstract string value { get; set; }
 
         public abstract void run();
         
-
         public Action()
         {
             this.type = this.GetType().Name;
@@ -31,6 +32,7 @@ namespace GAVPI
 
     public partial class KeyDown : Action
     {
+        
         public KeyDown(string value) : base(value)
         {
             this.value = value;
@@ -216,6 +218,15 @@ namespace GAVPI
             get;
             set;
         }
+
+        public void stop()
+        {
+            if (wavePlayer != null)
+            {
+                wavePlayer.Stop();
+            }
+        }
+
         public override void run()
         {
             try
@@ -262,6 +273,36 @@ namespace GAVPI
             );
         }
     }
+
+    public partial class Stop_Sound : Action
+    {
+        public Stop_Sound()
+        {
+            //this.value = filename;
+        }
+
+        public override string value
+        {
+            get;
+            set;
+        }
+
+        public override void run()
+        {
+            foreach (Action_Sequence action_sequence in GAVPI.Profile.Profile_ActionSequences)
+            {
+                foreach (Action action in action_sequence.action_sequence)
+                {
+                    if (action is Play_Sound)
+                    {
+                        Play_Sound test = (Play_Sound)action;
+                        test.stop();   
+                    }
+                }
+            }
+        }
+    }
+
     #endregion
 
     #region Data Actions
@@ -355,8 +396,6 @@ namespace GAVPI
                     MessageBoxIcon.Exclamation,
                     MessageBoxDefaultButton.Button1);
             }
-
-
         }
     }
 

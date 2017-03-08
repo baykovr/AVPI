@@ -59,7 +59,7 @@ namespace GAVPI
 
             txtTimesToAdd.Text = times_to_add.ToString();
 
-            cbSpeechType.DataSource = Action_Sequence.SpeechAction_Types;
+            cbSpeechType.DataSource = frm_AddEdit_ActionSequence.ActionGroups["Speak Action"]; ;
 
             // Editing an existing action
             if (form_action != null)

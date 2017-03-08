@@ -285,8 +285,9 @@
             // 
             // chkRandomExecution
             // 
+            this.chkRandomExecution.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkRandomExecution.AutoSize = true;
-            this.chkRandomExecution.Location = new System.Drawing.Point(12, 555);
+            this.chkRandomExecution.Location = new System.Drawing.Point(12, 557);
             this.chkRandomExecution.Name = "chkRandomExecution";
             this.chkRandomExecution.Size = new System.Drawing.Size(220, 17);
             this.chkRandomExecution.TabIndex = 25;

@@ -71,7 +71,7 @@ namespace TrivialLogging
 
                 Log = new Queue< T >();
 
-            } catch ( Exception e ) { throw; }
+            } catch ( Exception e ) { throw e; }
            
         }  //  public Logging()
 
