@@ -20,6 +20,12 @@ namespace GAVPI
         [DllImport("user32")]
         public static extern bool PostMessage( IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam );
 
+        [DllImport("user32")]
+        public static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
         //  Win32 parameter constants:
 
         public const int HWND_BROADCAST = 0xffff;

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Speech.Synthesis;
 using System.Text;
@@ -487,6 +489,29 @@ namespace GAVPI
         }  //  public string GetAssociatedProcess()
 
 
+        //
+        // public bool IsAssociatedProcessFocused()
+        //
+        // Check if the associated process is currently focused.
+        //
+
+        public bool IsAssociatedProcessFocused()
+        {
+
+            // If we don't have a process associated, skip this check.
+            if (AssociatedProcess == null) return true;
+
+            IntPtr handle = Win32_APIs.GetForegroundWindow();
+            uint pid = 0;
+            Win32_APIs.GetWindowThreadProcessId(handle, out pid);
+            Process proc = Process.GetProcessById((int)pid);
+            String procPath = proc.MainModule.FileName;
+
+            return String.Compare(Path.GetFullPath(procPath),
+                                  Path.GetFullPath(AssociatedProcess),
+                                  StringComparison.InvariantCultureIgnoreCase) == 0;
+
+        } // public bool IsAssocaitedProcessFocused()
 
         //
         //  public void SetAssociatedProcess( string )
