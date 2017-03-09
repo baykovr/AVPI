@@ -1,9 +1,8 @@
 ![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi-logo.png)
 
-### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/v0.10)  : Alpha v0.10.1 :04/24/16
-Note: 04/24/16 Hotfix released for v0.10 fixing a phrase trigger bug.
+### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/17.03.08)  : Build 17.03.08
 
-Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/v0.10/GAVPI_v0.10.zip)
+Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/17.03.08/gavpi-dev-17.03.08.zip)
 
 You should run gavpi as administrator for it work properly in most games. (right click run as...)
 
