@@ -222,7 +222,7 @@ namespace GAVPI
                     }
                     case "StopSound Action":
                     {
-                        //ProcessForm_AddEditStopSoundAction(action_to_edit, index);
+                        // StopSound has no form, albiet it does have a placeholder value.
                         break;
                     }
                     case "Data Action":
@@ -231,6 +231,7 @@ namespace GAVPI
                         break;
                     }
                     default:
+                    GAVPI.ProfileDebugLog.Entry("[ ! ] Selected default group category by name: "+group);
                         break;
                 }
             }

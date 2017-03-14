@@ -264,6 +264,7 @@ namespace GAVPI
         }
 
         public Stop_Sound(string value) : base(value) { }
+
         public override string value
         {
             get;
@@ -292,10 +293,7 @@ namespace GAVPI
     public partial class Data_Decrement : Action
     {
         Data data;
-        public Data_Decrement(Data data, string value) : base(value)
-        {
-            this.value = value;
-        }
+        public Data_Decrement(Data data, string value) : base(value) { }
         public override string value
         {
             get { return data.value.ToString(); }
@@ -309,11 +307,8 @@ namespace GAVPI
     public partial class Data_Increment : Action
     {
         Data data;
-        public Data_Increment(Data data, string value)
-            : base(value)
-        {
-            this.value = value;
-        }
+        public Data_Increment(Data data, string value) : base(value) { }
+
         public override string value
         {
             get { return data.value.ToString(); }
@@ -327,11 +322,7 @@ namespace GAVPI
     public partial class Data_Set : Action
     {
         Data data;
-        public Data_Set(Data data, string value)
-            : base(value)
-        {
-            this.value = value;
-        }
+        public Data_Set(Data data, string value) : base(value) { }
         public override string value
         {
             get { return data.value.ToString(); }
@@ -343,13 +334,13 @@ namespace GAVPI
 
         }
     }
+
+    /* Data Speak's value is the data elements key (it's name)
+     * however on invocation it will query data.value for the actual
+     * value.
+     */
     public partial class Data_Speak : Action
     {
-        /* Data Speak's value is the data elements key (it's name)
-         * however on invocation it will query data.value for the actual
-         * value. (in other words we access the value by reference)
-         * Robert (04.12.15)
-         */
         SpeechSynthesizer Profile_Synthesis;
         Data data;
 
@@ -365,7 +356,6 @@ namespace GAVPI
             set { this.value = data.name; }
         }
 
-        //public ValueType 
         public override void run()
         {
             try
@@ -389,27 +379,17 @@ namespace GAVPI
     public partial class ProcessExec : Action
     {
         Process proc = new Process();
-        
-        public ProcessExec(string proc_name,string args) : base(proc_name)
-        {
 
-        }
+        public ProcessExec(string proc_name) : base(proc_name) { }
 
         public override string value
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get; set ;
         }
 
         public override void run()
         {
-            throw new NotImplementedException();
+            Process.Start(this.value);
         }
     }
 
@@ -470,7 +450,6 @@ namespace GAVPI
         public Or(Action_Sequence actions, string value) : base(value)
         {
             this.actions = actions;
-            this.value = value;
         }
         public override string value
         {
