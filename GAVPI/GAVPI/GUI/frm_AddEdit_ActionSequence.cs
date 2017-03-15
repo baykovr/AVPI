@@ -28,6 +28,7 @@ namespace GAVPI
                 { "Speak Action",     new List<string> { "Speak","Data_Speak" } },
                 { "PlaySound Action", new List<string> { "Play_Sound" } },
                 { "StopSound Action", new List<string> { "Stop_Sound" } },
+                { "Paste Action",     new List<string> { "ClipboardPaste" } },
                 { "Data Action",      new List<string> { "Data_Paste" } }
             };
 
@@ -225,6 +226,11 @@ namespace GAVPI
                         // StopSound has no form, albiet it does have a placeholder value.
                         break;
                     }
+                    case "Paste Action":
+                    {
+                        ProcessForm_AddEditPasteAction(action_to_edit, index);
+                        break;
+                    }
                     case "Data Action":
                     {
                         // not implemented.
@@ -277,6 +283,11 @@ namespace GAVPI
                 case "PlaySound Action":
                     {
                         ProcessForm_AddEditPlaySoundAction(null, 0);
+                        break;
+                    }
+                case "Paste Action":
+                    {
+                        ProcessForm_AddEditPasteAction(null, 0);
                         break;
                     }
                 case "StopSound Action":
@@ -443,6 +454,52 @@ namespace GAVPI
                     }
                 }
                 // form returned null action
+                else
+                {
+                    MessageBox.Show("WARNING: Press form returned an invalid action.");
+                    return;
+                }
+                ActionSequenceEdited = true;
+                refresh_dgActionSequence();
+                // Bring Selection back to edited element
+                dgActionSequence.CurrentCell = dgActionSequence.Rows[index].Cells[0];
+            }
+        }
+
+        private void ProcessForm_AddEditPasteAction(Action edit_action, int index)
+        {
+            frm_AddEdit_PasteAction newPasteAction;
+            if (edit_action == null)
+            {
+                newPasteAction = new frm_AddEdit_PasteAction();
+            }
+            else
+            {
+                newPasteAction = new frm_AddEdit_PasteAction(edit_action);
+            }
+
+            // On form OK we have changes (either new or edited action)
+            if (newPasteAction.ShowDialog() == DialogResult.OK)
+            {
+                // Make sure the returned action is sane
+                if (newPasteAction.get_action() != null)
+                {
+                    // Called by Add
+                    if (edit_action == null)
+                    {
+                        // Insert number of times specified by the form
+                        for (int i = 0; i < newPasteAction.get_times_to_add(); i++)
+                        {
+                            sequence_to_edit.Add(newPasteAction.get_action());
+                        }
+                    }
+                    // Called by Edit
+                    else
+                    {
+                        // Replace the current action with the new from the form
+                        sequence_to_edit.action_sequence[index] = newPasteAction.get_action();
+                    }
+                }
                 else
                 {
                     MessageBox.Show("WARNING: Press form returned an invalid action.");

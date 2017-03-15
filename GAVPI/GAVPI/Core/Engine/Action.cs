@@ -422,19 +422,13 @@ namespace GAVPI
 
         public override string value
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get; set;
         }
 
         public override void run()
         {
-            throw new NotImplementedException();
+            Clipboard.SetText(this.value, TextDataFormat.Text);
+            SendKeys.Send("^V");
         }
     }
 
