@@ -1,8 +1,8 @@
 ![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi-logo.png)
 
-### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/17.03.08)  : Build 17.03.08
+### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/17.03.15)  : Build 17.03.15
 
-Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/17.03.08/gavpi-dev-17.03.08.zip)
+Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/17.03.15/GAVPI_17.03.15.zip)
 
 You should run gavpi as administrator for it work properly in most games. (right click run as...)
 
