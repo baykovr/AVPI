@@ -23,6 +23,7 @@ namespace GAVPI
         {
             this.type = this.GetType().Name;
         }
+
         public Action(string value)
         {
             this.value = value;
@@ -33,25 +34,23 @@ namespace GAVPI
     public partial class KeyDown : Action
     {
         
-        public KeyDown(string value) : base(value)
-        {
-            this.value = value;
-        }
+        public KeyDown(string value) : base(value) { }
+
         public override string value
         {
             get; set;
         }
+
         public override void run()
         {
             Keyboard.KeyDown((Keys)Enum.Parse(typeof(Keys), value));
         }
     }
+
     public partial class KeyUp : Action
     {
-        public KeyUp(string value) : base(value)
-        {
-            this.value = value;
-        }
+        public KeyUp(string value) : base(value) { }
+        
         public override string value
         {
             get;
@@ -64,10 +63,8 @@ namespace GAVPI
     }
     public partial class KeyPress : Action
     {
-        public KeyPress(string value) : base(value)
-        {
-            this.value = value;
-        }
+        public KeyPress(string value) : base(value) { }
+
         public override string value
         {
             get;
@@ -82,10 +79,7 @@ namespace GAVPI
 
     public partial class MouseKeyDown : Action
     {
-        public MouseKeyDown(string value) : base(value)
-        {
-            this.value = value;
-        }
+        public MouseKeyDown(string value) : base(value) { }
         public override string value
         {
             get;
@@ -98,10 +92,7 @@ namespace GAVPI
     }
     public partial class MouseKeyUp : Action
     {
-        public MouseKeyUp(string value) : base(value)
-        {
-            this.value = value;
-        }
+        public MouseKeyUp(string value) : base(value) { }
         public override string value
         {
             get;
@@ -114,10 +105,7 @@ namespace GAVPI
     }
     public partial class MouseKeyPress : Action
     {
-        public MouseKeyPress(string value) : base(value)
-        {
-            this.value = value;
-        }
+        public MouseKeyPress(string value) : base(value) { }
         public override string value
         {
             get;
@@ -130,10 +118,7 @@ namespace GAVPI
     }
     public partial class Wait : Action
     {
-        public Wait(string value) : base(value)
-        {
-            this.value = value;
-        }
+        public Wait(string value) : base(value) { }
         public override string value
         {
             get;
@@ -149,11 +134,12 @@ namespace GAVPI
     public partial class Speak : Action
     {
         SpeechSynthesizer Profile_Synthesis;
+
         public Speak(SpeechSynthesizer Profile_Synthesis, string value) : base(value)
         {
             this.Profile_Synthesis = Profile_Synthesis;
-            this.value = value;
         }
+
         public override string value
         {
             get;
@@ -179,9 +165,6 @@ namespace GAVPI
 
     public partial class Play_Sound : Action
     {
-        // Optional Implementation is via WMP.
-        // WMPLib.WindowsMediaPlayer player;
-
         IWavePlayer wavePlayer;
         WaveOut wavout;
         AudioFileReader audioFileReader;
@@ -189,9 +172,8 @@ namespace GAVPI
 
         public const int defaultDeviceID = -1;
         
-        public Play_Sound(string filename,int deviceID)
+        public Play_Sound(string filename,int deviceID) : base(filename)
         {
-            this.value = filename;
             this.playBackDeviceID = deviceID;
 
             try
@@ -276,16 +258,12 @@ namespace GAVPI
 
     public partial class Stop_Sound : Action
     {
-        
-
         public Stop_Sound()
         {
             this.value = "Stop All Playback";
         }
-        public Stop_Sound(string value)
-        {
-            this.value = value;
-        }
+
+        public Stop_Sound(string value) : base(value) { }
 
         public override string value
         {
@@ -315,10 +293,7 @@ namespace GAVPI
     public partial class Data_Decrement : Action
     {
         Data data;
-        public Data_Decrement(Data data, string value) : base(value)
-        {
-            this.value = value;
-        }
+        public Data_Decrement(Data data, string value) : base(value) { }
         public override string value
         {
             get { return data.value.ToString(); }
@@ -332,11 +307,8 @@ namespace GAVPI
     public partial class Data_Increment : Action
     {
         Data data;
-        public Data_Increment(Data data, string value)
-            : base(value)
-        {
-            this.value = value;
-        }
+        public Data_Increment(Data data, string value) : base(value) { }
+
         public override string value
         {
             get { return data.value.ToString(); }
@@ -350,11 +322,7 @@ namespace GAVPI
     public partial class Data_Set : Action
     {
         Data data;
-        public Data_Set(Data data, string value)
-            : base(value)
-        {
-            this.value = value;
-        }
+        public Data_Set(Data data, string value) : base(value) { }
         public override string value
         {
             get { return data.value.ToString(); }
@@ -366,13 +334,13 @@ namespace GAVPI
 
         }
     }
+
+    /* Data Speak's value is the data elements key (it's name)
+     * however on invocation it will query data.value for the actual
+     * value.
+     */
     public partial class Data_Speak : Action
     {
-        /* Data Speak's value is the data elements key (it's name)
-         * however on invocation it will query data.value for the actual
-         * value. (in other words we access the value by reference)
-         * Robert (04.12.15)
-         */
         SpeechSynthesizer Profile_Synthesis;
         Data data;
 
@@ -388,7 +356,6 @@ namespace GAVPI
             set { this.value = data.name; }
         }
 
-        //public ValueType 
         public override void run()
         {
             try
@@ -408,21 +375,34 @@ namespace GAVPI
     #endregion
 
     #region System Action
-    // Resonsible for system calls.
+    // System calls and actionss.
     public partial class ProcessExec : Action
     {
         Process proc = new Process();
-        
-        public ProcessExec(string process,string arguments)
-        {
 
+        public ProcessExec(string proc_name) : base(proc_name) { }
+
+        public override string value
+        {
+            get; set ;
         }
+
+        public override void run()
+        {
+            Process.Start(this.value);
+        }
+    }
+
+    public partial class ClipboardCopy : Action
+    {
+        public ClipboardCopy(string value) : base(value) { }
 
         public override string value
         {
             get
             {
                 throw new NotImplementedException();
+
             }
             set
             {
@@ -433,6 +413,22 @@ namespace GAVPI
         public override void run()
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public partial class ClipboardPaste : Action
+    {
+        public ClipboardPaste(string value) : base(value) { }
+
+        public override string value
+        {
+            get; set;
+        }
+
+        public override void run()
+        {
+            Clipboard.SetText(this.value, TextDataFormat.Text);
+            SendKeys.Send("^V");
         }
     }
 
@@ -447,7 +443,6 @@ namespace GAVPI
         public Or(Action_Sequence actions, string value) : base(value)
         {
             this.actions = actions;
-            this.value = value;
         }
         public override string value
         {

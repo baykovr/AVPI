@@ -84,6 +84,12 @@
   <ItemGroup>
     <Compile Include="Core\Engine\Action.cs" />
     <Compile Include="Core\Profile\Profile.cs" />
+    <Compile Include="GUI\Actions\frm_AddEdit_PasteAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Actions\frm_AddEdit_PasteAction.Designer.cs">
+      <DependentUpon>frm_AddEdit_PasteAction.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Actions\frm_AddEdit_PlaySoundAction.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,6 +198,9 @@
     <Compile Include="Core\Engine\Trigger.cs" />
     <Compile Include="Core\Engine\TriggerEvent.cs" />
     <Compile Include="Util\Win32_APIs.cs" />
+    <EmbeddedResource Include="GUI\Actions\frm_AddEdit_PasteAction.resx">
+      <DependentUpon>frm_AddEdit_PasteAction.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Actions\frm_AddEdit_PlaySoundAction.resx">
       <DependentUpon>frm_AddEdit_PlaySoundAction.cs</DependentUpon>
     </EmbeddedResource>
