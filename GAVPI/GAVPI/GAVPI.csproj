@@ -11,6 +11,7 @@
     <AssemblyName>GAVPI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +24,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -37,6 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -138,11 +139,11 @@
     <Compile Include="GUI\frm_AddEdit_Data.Designer.cs">
       <DependentUpon>frm_AddEdit_Data.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Info\frm_ScrollMessageBox.cs">
+    <Compile Include="GUI\Info\frm_dbgLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Info\frm_ScrollMessageBox.Designer.cs">
-      <DependentUpon>frm_ScrollMessageBox.cs</DependentUpon>
+    <Compile Include="GUI\Info\frm_dbgLog.Designer.cs">
+      <DependentUpon>frm_dbgLog.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Triggers\frm_AddEdit_LogicalTrigger.cs">
       <SubType>Form</SubType>
@@ -229,8 +230,8 @@
     <EmbeddedResource Include="GUI\frmGAVPI.resx">
       <DependentUpon>frmGAVPI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Info\frm_ScrollMessageBox.resx">
-      <DependentUpon>frm_ScrollMessageBox.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Info\frm_dbgLog.resx">
+      <DependentUpon>frm_dbgLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Triggers\frm_AddEdit_LogicalTrigger.resx">
       <DependentUpon>frm_AddEdit_LogicalTrigger.cs</DependentUpon>

@@ -44,12 +44,10 @@ namespace GAVPI
                 Profile_Triggers = new List<Trigger>();
                 Profile_ActionSequences = new List<Action_Sequence>();
                 ProfileDB = new Database();
-
-
-                synth = new SpeechSynthesizer(); //used by action Speak
+                synth = new SpeechSynthesizer();
 
                 if (filename != null) 
-                { 
+                {
                     load_profile( filename );
                 }
 
@@ -147,8 +145,10 @@ namespace GAVPI
 
         public bool load_profile( string filename )
         {
+            GAVPI.dbg_log.Add("[...] Loading new profile from" + filename);
 
-            if( filename == null ) return false;
+            if (filename == null) 
+                { return false; }
 
             //  Reset any states...
 
@@ -165,7 +165,8 @@ namespace GAVPI
 			} 
             catch( Exception ) 
             {
-                GAVPI.ProfileDebugLog.Entry("[ ! ] Critical error in profile load detected.");
+                GAVPI.dbg_log.Add("[ ! ] Critical error in profile load detected.");
+                
 				return false;
             }
 				
@@ -204,7 +205,7 @@ namespace GAVPI
                     catch
                     {
                         // Log that we are discarding this malformed action sequence.
-                        GAVPI.ProfileDebugLog.Entry("Malformed action sequence.");
+                        GAVPI.Log.Entry("[ ! ] Error in profile malformed action sequence.");
                     }
                 }
                 else if (element.Name.Contains("Trigger"))
@@ -262,10 +263,7 @@ namespace GAVPI
                 }
                 else
                 {
-                    /*
-                    throw new Exception("Malformed profile file, unexpected element "
-                    + element.Name);
-                    */
+                    GAVPI.dbg_log.Add(String.Format("[ ! ] Additional unrecognized element in profile xml, {0}",element.Name));
                 }
             }          
 
@@ -500,7 +498,7 @@ namespace GAVPI
         {
 
             // If we don't have a process associated, skip this check.
-            if (AssociatedProcess == null) return true;
+            if (AssociatedProcess == null || AssociatedProcess.Length == 0) return true;
 
             IntPtr handle = Win32_APIs.GetForegroundWindow();
             uint pid = 0;

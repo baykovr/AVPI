@@ -237,7 +237,7 @@ namespace GAVPI
                         break;
                     }
                     default:
-                    GAVPI.ProfileDebugLog.Entry("[ ! ] Selected default group category by name: "+group);
+                    GAVPI.Log.Entry("[ ! ] ActionSequence editor error bad group hit default case: "+group);
                         break;
                 }
             }

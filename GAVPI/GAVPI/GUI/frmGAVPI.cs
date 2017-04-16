@@ -17,15 +17,10 @@ namespace GAVPI
 
         public frmGAVPI()
         {
-
             InitializeComponent();
-
         }
+
         #region Main form
-        
-
-
-
         //
         //  private void frmGAVPI_Activated( object, System.EventArgs )
         //
@@ -39,9 +34,6 @@ namespace GAVPI
             RefreshUI( null );
 
         }  //  private void frmGAVPI_Activated( object, System.EventArgs )
-
-
-
 
         //
         //  private void frmGAVPI_FormClosing( object, FormClosingEventArgs )
@@ -77,7 +69,7 @@ namespace GAVPI
             //  If we're Listening for voice commands, stop Listening since we may be about to open another
             //  Profile...
 
-            if( GAVPI.vi.IsListening ) btnMainStop_Click( sender, e );
+            if( GAVPI.InputEngine.IsListening ) btnMainStop_Click( sender, e );
 
             //  Attempt to open a Profile and, if successful, enable the Listen button and the Profile->Modify
             //  menu item (these items should both be disabled in the absense of a loaded Profile during
@@ -210,7 +202,7 @@ namespace GAVPI
             //  The UI reflects a different workflow depending on whether it is currently listening on voice
             //  recognition commands or otherwise.
 
-            if( GAVPI.vi.IsListening ) { 
+            if( GAVPI.InputEngine.IsListening ) { 
             
                 btnMainStop.Enabled = true;
 				btnMainListen.Enabled = false;
@@ -286,7 +278,7 @@ namespace GAVPI
 
         private void viewDebugLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frm_ScrollMessageBox dbgLog = new frm_ScrollMessageBox( GAVPI.ProfileDebugLog.ToList() );
+            frm_dbgLog dbgLog = new frm_dbgLog( GAVPI.dbg_log );
             dbgLog.Show();
         } 
     }
