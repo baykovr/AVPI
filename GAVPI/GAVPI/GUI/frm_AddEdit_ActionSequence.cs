@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GAVPI
-{   
+{
 
     public partial class frm_AddEdit_ActionSequence : Form
     {
@@ -21,7 +21,7 @@ namespace GAVPI
         private Action_Sequence sequence_to_edit;
 
         public static Dictionary<string, List<string>> ActionGroups
-            = new Dictionary<string, List<string>>() 
+            = new Dictionary<string, List<string>>()
             {
                 { "Key/Mouse Press",  new List<string> { "KeyDown", "KeyUp", "KeyPress","MouseKeyDown","MouseKeyUp","MouseKeyPress"} },
                 { "Timing",           new List<string> { "Wait" } },
@@ -29,7 +29,8 @@ namespace GAVPI
                 { "PlaySound Action", new List<string> { "Play_Sound" } },
                 { "StopSound Action", new List<string> { "Stop_Sound" } },
                 { "Paste Action",     new List<string> { "ClipboardPaste" } },
-                { "Data Action",      new List<string> { "Data_Paste" } }
+                { "Data Action",      new List<string> { "Data_Paste" } },
+                { "Nest Action",      new List<string> { "Nest" } }
             };
 
         // These type lists are used to populate ui elements,
@@ -70,13 +71,13 @@ namespace GAVPI
 
             populate_fields();
         }
-        public frm_AddEdit_ActionSequence( Action_Sequence action_sequence )
+        public frm_AddEdit_ActionSequence(Action_Sequence action_sequence)
         {
             // Passing an action sequence edits the passed sequence.
             InitializeComponent();
 
             this.sequence_to_edit = action_sequence;
-            
+
             populate_fields();
         }
         #endregion
@@ -86,7 +87,7 @@ namespace GAVPI
         // They processes the current state the UI elements and 
         // invoke the appropriate ProcessForm Method
         // the ProcessForm Method which in turn spawns the correct form and handles its output.
-        
+
         #region Move Up/Down
         private void ui_moveup()
         {
@@ -95,20 +96,20 @@ namespace GAVPI
             foreach (DataGridViewRow row in dgActionSequence.SelectedRows)
             {
                 Action action_to_moveup = row.DataBoundItem as Action;
-                
+
                 index = sequence_to_edit.action_sequence.IndexOf(action_to_moveup);
-                
+
                 // Check if the current location is at the front
                 if (index == 0)
-                    { break;}
+                { break; }
 
                 sequence_to_edit.action_sequence.RemoveAt(index);
-                
+
                 // Check if the new location is at the front
                 if (index - 1 <= 0)
                 {
                     // insert it at the front of the list
-                    
+
                     sequence_to_edit.action_sequence.Insert(0, action_to_moveup);
 
                     refresh_dgActionSequence();
@@ -116,9 +117,9 @@ namespace GAVPI
                 else
                 {
                     sequence_to_edit.action_sequence.Insert(index - 1, action_to_moveup);
-                    
+
                     refresh_dgActionSequence();
-                    
+
                     // Select the item just moved.
                     dgActionSequence.CurrentCell = dgActionSequence.Rows[index - 1].Cells[0];
                 }
@@ -133,13 +134,13 @@ namespace GAVPI
                 Action action_to_movedown = row.DataBoundItem as Action;
 
                 index = sequence_to_edit.action_sequence.IndexOf(action_to_movedown);
-                
+
                 // Check if the current location is at the end
                 if (index == sequence_to_edit.action_sequence.Count)
-                    { break; }
+                { break; }
 
                 sequence_to_edit.action_sequence.RemoveAt(index);
-                
+
                 // Check if the new location is at the end
                 if (index + 1 >= sequence_to_edit.action_sequence.Count)
                 {
@@ -147,7 +148,7 @@ namespace GAVPI
 
                     refresh_dgActionSequence();
 
-                    dgActionSequence.CurrentCell = dgActionSequence.Rows[dgActionSequence.RowCount-1].Cells[0];
+                    dgActionSequence.CurrentCell = dgActionSequence.Rows[dgActionSequence.RowCount - 1].Cells[0];
                 }
                 else
                 {
@@ -157,16 +158,16 @@ namespace GAVPI
 
                     dgActionSequence.CurrentCell = dgActionSequence.Rows[index + 1].Cells[0];
                 }
-               
+
             }
             ActionSequenceEdited = true;
         }
         #endregion
-        
+
         #region Add : Edit
         private void ui_add()
         {
-            CreateNewAction( cbActionType.SelectedItem.ToString() );
+            CreateNewAction(cbActionType.SelectedItem.ToString());
         }
 
         private void ui_edit()
@@ -194,7 +195,8 @@ namespace GAVPI
                 foreach (KeyValuePair<string, List<string>> action_group in ActionGroups)
                 {
                     // which group does this action type come from.
-                    if(action_group.Value.Contains(action_type)){
+                    if (action_group.Value.Contains(action_type))
+                    {
                         group = action_group.Key;
                     }
                 }
@@ -202,48 +204,53 @@ namespace GAVPI
                 switch (group)
                 {
                     case "Key/Mouse Press":
-                    {
-                        ProcessForm_AddEditPressAction(action_to_edit, index);
-                        break;
-                    }
+                        {
+                            ProcessForm_AddEditPressAction(action_to_edit, index);
+                            break;
+                        }
                     case "Timing":
-                    {
-                        ProcessForm_AddEditTimingAction(action_to_edit, index);
-                        break;
-                    }
+                        {
+                            ProcessForm_AddEditTimingAction(action_to_edit, index);
+                            break;
+                        }
                     case "Speak Action":
-                    {
-                        ProcessForm_AddEditSpeechAction(action_to_edit, index);
-                        break;
-                    }
+                        {
+                            ProcessForm_AddEditSpeechAction(action_to_edit, index);
+                            break;
+                        }
                     case "PlaySound Action":
-                    {
-                        ProcessForm_AddEditPlaySoundAction(action_to_edit, index);
-                        break;
-                    }
+                        {
+                            ProcessForm_AddEditPlaySoundAction(action_to_edit, index);
+                            break;
+                        }
                     case "StopSound Action":
-                    {
-                        // StopSound has no form, albiet it does have a placeholder value.
-                        break;
-                    }
+                        {
+                            // StopSound has no form, albiet it does have a placeholder value.
+                            break;
+                        }
                     case "Paste Action":
-                    {
-                        ProcessForm_AddEditPasteAction(action_to_edit, index);
-                        break;
-                    }
+                        {
+                            ProcessForm_AddEditPasteAction(action_to_edit, index);
+                            break;
+                        }
                     case "Data Action":
-                    {
-                        // not implemented.
-                        break;
-                    }
+                        {
+                            // not implemented.
+                            break;
+                        }
+                    case "Nest Action":
+                        {
+                            ProcessForm_AddEditNestAction(action_to_edit, index);
+                            break;
+                        }
                     default:
-                    GAVPI.ProfileDebugLog.Entry("[ ! ] Selected default group category by name: "+group);
+                        GAVPI.ProfileDebugLog.Entry("[ ! ] Selected default group category by name: " + group);
                         break;
                 }
             }
         }
         #endregion
-        
+
         #region Remove
         private void ui_remove()
         {
@@ -256,7 +263,7 @@ namespace GAVPI
             refresh_dgActionSequence();
         }
         #endregion
-        
+
         #endregion
 
         #region Logic : Forms Invocation Add/Edit
@@ -307,6 +314,11 @@ namespace GAVPI
                         //}
                         break;
                     }
+                case "Nest Action":
+                    {
+                        ProcessForm_AddEditNestAction(null, 0);
+                        break;
+                    }
                 default:
                     {
                         MessageBox.Show("WARNING: This action type is not implemented!");
@@ -346,20 +358,20 @@ namespace GAVPI
                 // if OK pull out edited or new action
                 if (newPressAction.get_action() != null)
                 {
-                        // Called by Add
-                        if (edit_action == null)
+                    // Called by Add
+                    if (edit_action == null)
+                    {
+                        // Insert number of times specified by the form
+                        for (int i = 0; i < newPressAction.get_times_to_add(); i++)
                         {
-                            // Insert number of times specified by the form
-                            for (int i = 0; i < newPressAction.get_times_to_add(); i++)
-                            {
-                                sequence_to_edit.Add(newPressAction.get_action());
-                            }
+                            sequence_to_edit.Add(newPressAction.get_action());
                         }
-                        // Called by Edit
-                        else
-                        {
-                            sequence_to_edit.action_sequence[index] = newPressAction.get_action();
-                        }
+                    }
+                    // Called by Edit
+                    else
+                    {
+                        sequence_to_edit.action_sequence[index] = newPressAction.get_action();
+                    }
                 }
                 else
                 {
@@ -376,13 +388,13 @@ namespace GAVPI
         private void ProcessForm_AddEditSpeechAction(Action edit_action, int index)
         {
             frm_AddEdit_SpeakAction newSpeakAction;
-            if(edit_action == null)
+            if (edit_action == null)
             {
                 newSpeakAction = new frm_AddEdit_SpeakAction();
             }
             else
             {
-                newSpeakAction  = new frm_AddEdit_SpeakAction(edit_action);
+                newSpeakAction = new frm_AddEdit_SpeakAction(edit_action);
             }
 
             // On form OK we have changes (either new or edited action)
@@ -391,21 +403,21 @@ namespace GAVPI
                 // Make sure the returned action is sane
                 if (newSpeakAction.get_action() != null)
                 {
-                        // Called by Add
-                        if (edit_action == null)
+                    // Called by Add
+                    if (edit_action == null)
+                    {
+                        // Insert number of times specified by the form
+                        for (int i = 0; i < newSpeakAction.get_times_to_add(); i++)
                         {
-                            // Insert number of times specified by the form
-                            for (int i = 0; i < newSpeakAction.get_times_to_add(); i++)
-                            {
-                                sequence_to_edit.Add(newSpeakAction.get_action());
-                            }
+                            sequence_to_edit.Add(newSpeakAction.get_action());
                         }
-                        // Called by Edit
-                        else
-                        {
-                            // Replace the current action with the new from the form
-                            sequence_to_edit.action_sequence[index] = newSpeakAction.get_action();
-                        }
+                    }
+                    // Called by Edit
+                    else
+                    {
+                        // Replace the current action with the new from the form
+                        sequence_to_edit.action_sequence[index] = newSpeakAction.get_action();
+                    }
                 }
                 else
                 {
@@ -518,7 +530,7 @@ namespace GAVPI
             // Add new action.
             if (edit_action == null)
             {
-                sequence_to_edit.Add( stopAction );
+                sequence_to_edit.Add(stopAction);
             }
             // Edit an existing action, in this case nothing since stop_sound has no arguments or values to edit.
             else
@@ -530,10 +542,10 @@ namespace GAVPI
             dgActionSequence.CurrentCell = dgActionSequence.Rows[index].Cells[0];
         }
 
-        private void ProcessForm_AddEditTimingAction(Action edit_action,int index)
+        private void ProcessForm_AddEditTimingAction(Action edit_action, int index)
         {
             frm_AddEdit_TimingAction newTimingAction;
-            if(edit_action == null)
+            if (edit_action == null)
             {
                 newTimingAction = new frm_AddEdit_TimingAction();
             }
@@ -541,8 +553,8 @@ namespace GAVPI
             {
                 newTimingAction = new frm_AddEdit_TimingAction(edit_action);
             }
-                        
-            if( newTimingAction.ShowDialog() == DialogResult.OK)
+
+            if (newTimingAction.ShowDialog() == DialogResult.OK)
             {
                 if (newTimingAction.get_action() != null)
                 {
@@ -566,6 +578,52 @@ namespace GAVPI
                 ActionSequenceEdited = true;
                 refresh_dgActionSequence();
 
+                // Bring Selection back to edited element
+                dgActionSequence.CurrentCell = dgActionSequence.Rows[index].Cells[0];
+            }
+        }
+
+        private void ProcessForm_AddEditNestAction(Action edit_action, int index)
+        {
+            frm_AddEdit_NestAction newNestAction;
+            if (edit_action == null)
+            {
+                newNestAction = new frm_AddEdit_NestAction();
+            }
+            else
+            {
+                newNestAction = new frm_AddEdit_NestAction(edit_action);
+            }
+
+            // On form OK we have changes (either new or edited action)
+            if (newNestAction.ShowDialog() == DialogResult.OK)
+            {
+                // Make sure the returned action is sane
+                if (newNestAction.get_action() != null)
+                {
+                    // Called by Add
+                    if (edit_action == null)
+                    {
+                        // Insert number of times specified by the form
+                        for (int i = 0; i < newNestAction.get_times_to_add(); i++)
+                        {
+                            sequence_to_edit.Add(newNestAction.get_action());
+                        }
+                    }
+                    // Called by Edit
+                    else
+                    {
+                        // Replace the current action with the new from the form
+                        sequence_to_edit.action_sequence[index] = newNestAction.get_action();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("WARNING: Random form returned an invalid action.");
+                    return;
+                }
+                ActionSequenceEdited = true;
+                refresh_dgActionSequence();
                 // Bring Selection back to edited element
                 dgActionSequence.CurrentCell = dgActionSequence.Rows[index].Cells[0];
             }
