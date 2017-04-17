@@ -191,13 +191,13 @@
             this.addNewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.phraseToolStripMenuItem});
             this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
-            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.addNewToolStripMenuItem.Text = "New";
             // 
             // phraseToolStripMenuItem
             // 
             this.phraseToolStripMenuItem.Name = "phraseToolStripMenuItem";
-            this.phraseToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.phraseToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.phraseToolStripMenuItem.Text = "Phrase";
             this.phraseToolStripMenuItem.Click += new System.EventHandler(this.phraseToolStripMenuItem_Click);
             // 
@@ -259,7 +259,7 @@
             this.splitProfileTriggers.Panel2.Controls.Add(this.lblProfileTriggerEvents);
             this.splitProfileTriggers.Panel2.Controls.Add(this.dgTriggerEvents);
             this.splitProfileTriggers.Size = new System.Drawing.Size(426, 549);
-            this.splitProfileTriggers.SplitterDistance = 260;
+            this.splitProfileTriggers.SplitterDistance = 372;
             this.splitProfileTriggers.TabIndex = 2;
             // 
             // lblProfileTriggers
@@ -276,8 +276,8 @@
             this.dgTriggers.AllowUserToAddRows = false;
             this.dgTriggers.AllowUserToDeleteRows = false;
             this.dgTriggers.AllowUserToResizeRows = false;
-            this.dgTriggers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgTriggers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgTriggers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgTriggers.BackgroundColor = System.Drawing.Color.White;
@@ -316,7 +316,7 @@
             this.dgTriggers.RowHeadersVisible = false;
             this.dgTriggers.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgTriggers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgTriggers.Size = new System.Drawing.Size(417, 261);
+            this.dgTriggers.Size = new System.Drawing.Size(417, 351);
             this.dgTriggers.TabIndex = 0;
             this.dgTriggers.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgTriggers_CellMouseDoubleClick);
             this.dgTriggers.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Triggers_CellMouseDown);
@@ -331,7 +331,7 @@
             this.toolStripSeparator2,
             this.addtoeventToolStripMenuItem1});
             this.contextProfileTriggers.Name = "contextProfileTriggers";
-            this.contextProfileTriggers.Size = new System.Drawing.Size(171, 120);
+            this.contextProfileTriggers.Size = new System.Drawing.Size(171, 98);
             // 
             // newStripMenuItem
             // 
@@ -344,7 +344,7 @@
             // phraseToolStripMenuItem1
             // 
             this.phraseToolStripMenuItem1.Name = "phraseToolStripMenuItem1";
-            this.phraseToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.phraseToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
             this.phraseToolStripMenuItem1.Text = "Phrase";
             this.phraseToolStripMenuItem1.Click += new System.EventHandler(this.phraseToolStripMenuItem1_Click);
             // 
@@ -388,8 +388,8 @@
             this.dgTriggerEvents.AllowUserToAddRows = false;
             this.dgTriggerEvents.AllowUserToDeleteRows = false;
             this.dgTriggerEvents.AllowUserToResizeRows = false;
-            this.dgTriggerEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgTriggerEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgTriggerEvents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgTriggerEvents.BackgroundColor = System.Drawing.Color.White;
@@ -412,7 +412,7 @@
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgTriggerEvents.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgTriggerEvents.GridColor = System.Drawing.Color.White;
-            this.dgTriggerEvents.Location = new System.Drawing.Point(6, 16);
+            this.dgTriggerEvents.Location = new System.Drawing.Point(5, 18);
             this.dgTriggerEvents.Margin = new System.Windows.Forms.Padding(5);
             this.dgTriggerEvents.MultiSelect = false;
             this.dgTriggerEvents.Name = "dgTriggerEvents";
@@ -427,7 +427,7 @@
             this.dgTriggerEvents.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgTriggerEvents.RowHeadersVisible = false;
             this.dgTriggerEvents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgTriggerEvents.Size = new System.Drawing.Size(417, 257);
+            this.dgTriggerEvents.Size = new System.Drawing.Size(417, 143);
             this.dgTriggerEvents.TabIndex = 3;
             this.dgTriggerEvents.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.TriggerEvents_CellMouseDown);
             // 
@@ -459,8 +459,8 @@
             this.dgActionSequences.AllowUserToAddRows = false;
             this.dgActionSequences.AllowUserToDeleteRows = false;
             this.dgActionSequences.AllowUserToResizeRows = false;
-            this.dgActionSequences.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgActionSequences.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgActionSequences.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgActionSequences.BackgroundColor = System.Drawing.Color.White;
@@ -549,7 +549,7 @@
             // 
             // AssociatedProcessTextBox
             // 
-            this.AssociatedProcessTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.AssociatedProcessTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AssociatedProcessTextBox.Location = new System.Drawing.Point(105, 30);
             this.AssociatedProcessTextBox.Name = "AssociatedProcessTextBox";
@@ -589,8 +589,8 @@
             // 
             // tabProfile
             // 
-            this.tabProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.tabProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabProfile.Controls.Add(this.tabPageEvents);
             this.tabProfile.Controls.Add(this.tabPageData);
@@ -627,8 +627,8 @@
             // 
             this.dgDatabase.AllowUserToAddRows = false;
             this.dgDatabase.AllowUserToDeleteRows = false;
-            this.dgDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgDatabase.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgDatabase.BackgroundColor = System.Drawing.Color.White;
