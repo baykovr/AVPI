@@ -185,7 +185,7 @@ namespace GAVPI
             }
             catch (Exception e)
             {
-                GAVPI.ProfileDebugLog.Entry("[ ! ] Error Details: " + e.Message);
+                GAVPI.Log.Entry("[ ! ] Error in Action: " + e.Message);
                 this.LogError();
             }
         }
@@ -222,14 +222,14 @@ namespace GAVPI
 
             catch (NAudio.MmException e)
             {
-                GAVPI.ProfileDebugLog.Entry("[ ! ] Error Details: " + e.Message);
+                GAVPI.Log.Entry("[ ! ] NAudio Sound playback error: " + e.Message);
                 this.LogError();
 
                 // NAudio always throws MmExceptions so we parse from the message for this case.
-                if (e.Message.Equals("BadDeviceId calling waveOutOpen"))
-                {
-                    GAVPI.ProfileDebugLog.Entry("[...] Attempting to playback via default device next time.");
-
+                if ( e.Message.Equals("BadDeviceId calling waveOutOpen") )
+                {    
+                    GAVPI.Log.Entry("[...] Attempting to playback via default device next time.");
+                    
                     // A little self healing, it's likely that device was unplugged or
                     // changed in some way since the profie has been loaded.
                     wavout = new WaveOut();
@@ -241,14 +241,14 @@ namespace GAVPI
             }
             catch (Exception e)
             {
-                GAVPI.ProfileDebugLog.Entry("[ ! ] Error Details: " + e.Message);
+                GAVPI.Log.Entry("[ ! ] General error in audio playback: " + e.Message);
                 this.LogError();
             }
         }
 
         private void LogError()
         {
-            GAVPI.ProfileDebugLog.Entry(
+            GAVPI.Log.Entry(
                 String.Format("[ ! ] Error in Play_Sound: File {0}, Device {1}",
                 this.value, this.playBackDeviceID
                 )
