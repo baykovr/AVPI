@@ -18,18 +18,18 @@ namespace GAVPI
         private System.Random rand = new System.Random();
         public bool random_exec;
 
-        public string name {get; set;}
+        public string name { get; set; }
         public string type { get; set; }
         public string comment { get; set; }
         public string value { get; set; }
 
         public List<Action> action_sequence;
-        
+
         public Action_Sequence()
         {
             action_sequence = new List<Action>();
-            this.name  = "new sequence";
-            this.type  = this.GetType().Name;
+            this.name = "new sequence";
+            this.type = this.GetType().Name;
             this.value = null;
             this.random_exec = false;
             this.comment = "";
@@ -47,18 +47,18 @@ namespace GAVPI
 
         public Action_Sequence(XmlNode element, Database ProfileDB, SpeechSynthesizer synth)
         {
-           /* An action sequence is composed of an <Action_Sequence> node with several
-            * requred and several optional attributes. 
-            * Nested child nodes are Actions.
-            */
+            /* An action sequence is composed of an <Action_Sequence> node with several
+             * requred and several optional attributes. 
+             * Nested child nodes are Actions.
+             */
             // Init defaults.
             action_sequence = new List<Action>();
 
             // TODO : Remove value and type deps.
-            this.type        = this.GetType().Name;
-            this.value       = null;
-            this.comment     = "";
-            this.name        = "";
+            this.type = this.GetType().Name;
+            this.value = null;
+            this.comment = "";
+            this.name = "";
             this.random_exec = false;
 
             // Process Action Sequence attributes
@@ -100,43 +100,48 @@ namespace GAVPI
                 switch (action_type)
                 {
                     case "Speak":
-                    {
-                        action_instance = Activator.CreateInstance(new_action_type, synth, action_value);
-                        break;
-                    }
+                        {
+                            action_instance = Activator.CreateInstance(new_action_type, synth, action_value);
+                            break;
+                        }
                     case "Play_Sound":
-                    {
-                        int deviceID;
-                        if (Int32.TryParse(action.Attributes.GetNamedItem("deviceID").Value, out deviceID))
                         {
-                            action_instance = Activator.CreateInstance(new_action_type, action_value, deviceID);
+                            int deviceID;
+                            if (Int32.TryParse(action.Attributes.GetNamedItem("deviceID").Value, out deviceID))
+                            {
+                                action_instance = Activator.CreateInstance(new_action_type, action_value, deviceID);
+                            }
+                            else
+                            {
+                                action_instance = Activator.CreateInstance(new_action_type, action_value, Play_Sound.defaultDeviceID);
+                            }
+                            break;
                         }
-                        else
-                        {
-                            action_instance = Activator.CreateInstance(new_action_type, action_value, Play_Sound.defaultDeviceID);
-                        }
-                        break;
-                    }
                     case "Data_Speak":
-                    {
-                        // action_value is the db key, the data element name
-                        if (ProfileDB.DB.ContainsKey(action_value))
                         {
-                            action_instance = Activator.CreateInstance(new_action_type, synth,
-                                (Data)ProfileDB.DB[action_value]);
+                            // action_value is the db key, the data element name
+                            if (ProfileDB.DB.ContainsKey(action_value))
+                            {
+                                action_instance = Activator.CreateInstance(new_action_type, synth,
+                                    (Data)ProfileDB.DB[action_value]);
+                            }
+                            else
+                            {
+                                action_instance = null;
+                            }
+                            break;
                         }
-                        else
+                    case "Nest":
                         {
-                            action_instance = null;
+                            action_instance = Activator.CreateInstance(new_action_type, action_value);
+                            break;
                         }
-                        break;
-                    }
                     default:
-                    {
-                        action_instance = Activator.CreateInstance(new_action_type, action_value);
-                        break;
-                    }
-                    
+                        {
+                            action_instance = Activator.CreateInstance(new_action_type, action_value);
+                            break;
+                        }
+
                 }
                 if (action_instance != null)
                 {
@@ -150,7 +155,7 @@ namespace GAVPI
             #endregion
 
         }
-        
+
         public void writeXML(XmlWriter writer)
         {
             writer.WriteStartElement("Action_Sequence");
@@ -203,7 +208,7 @@ namespace GAVPI
             action_sequence.Remove(rm_Action);
         }
 
-        
+
 
         public void run()
         {

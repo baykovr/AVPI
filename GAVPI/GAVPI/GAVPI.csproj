@@ -85,6 +85,12 @@
   <ItemGroup>
     <Compile Include="Core\Engine\Action.cs" />
     <Compile Include="Core\Profile\Profile.cs" />
+    <Compile Include="GUI\Actions\frm_AddEdit_NestAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Actions\frm_AddEdit_NestAction.Designer.cs">
+      <DependentUpon>frm_AddEdit_NestAction.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Actions\frm_AddEdit_PasteAction.cs">
       <SubType>Form</SubType>
     </Compile>

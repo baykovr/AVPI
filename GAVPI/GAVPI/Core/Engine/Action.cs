@@ -18,7 +18,7 @@ namespace GAVPI
         public abstract string value { get; set; }
 
         public abstract void run();
-        
+
         public Action()
         {
             this.type = this.GetType().Name;
@@ -33,7 +33,7 @@ namespace GAVPI
 
     public partial class KeyDown : Action
     {
-        
+
         public KeyDown(string value) : base(value) { }
 
         public override string value
@@ -50,7 +50,7 @@ namespace GAVPI
     public partial class KeyUp : Action
     {
         public KeyUp(string value) : base(value) { }
-        
+
         public override string value
         {
             get;
@@ -72,8 +72,8 @@ namespace GAVPI
         }
         public override void run()
         {
-            Keyboard.KeyDown( (Keys)Enum.Parse(typeof(Keys), value));
-            Keyboard.KeyUp( (Keys)Enum.Parse(typeof(Keys), value));
+            Keyboard.KeyDown((Keys)Enum.Parse(typeof(Keys), value));
+            Keyboard.KeyUp((Keys)Enum.Parse(typeof(Keys), value));
         }
     }
 
@@ -171,8 +171,8 @@ namespace GAVPI
         int playBackDeviceID;
 
         public const int defaultDeviceID = -1;
-        
-        public Play_Sound(string filename,int deviceID) : base(filename)
+
+        public Play_Sound(string filename, int deviceID) : base(filename)
         {
             this.playBackDeviceID = deviceID;
 
@@ -250,7 +250,7 @@ namespace GAVPI
         {
             GAVPI.Log.Entry(
                 String.Format("[ ! ] Error in Play_Sound: File {0}, Device {1}",
-                this.value,this.playBackDeviceID
+                this.value, this.playBackDeviceID
                 )
             );
         }
@@ -280,7 +280,7 @@ namespace GAVPI
                     if (action is Play_Sound)
                     {
                         Play_Sound test = (Play_Sound)action;
-                        test.stop();   
+                        test.stop();
                     }
                 }
             }
@@ -384,7 +384,7 @@ namespace GAVPI
 
         public override string value
         {
-            get; set ;
+            get; set;
         }
 
         public override void run()
@@ -434,15 +434,12 @@ namespace GAVPI
 
     #endregion
 
-    #region RandomPicker Actions
-    // 
-    public partial class Or : Action
+    #region Nest Action
+    public partial class Nest : Action
     {
-        static Random rnd = new Random();
-        public Action_Sequence actions;
-        public Or(Action_Sequence actions, string value) : base(value)
+
+        public Nest(string value) : base(value)
         {
-            this.actions = actions;
         }
         public override string value
         {
@@ -452,8 +449,14 @@ namespace GAVPI
 
         public override void run()
         {
-            int r = rnd.Next(actions.action_sequence.Count);
-            actions.action_sequence[r].run();
+            foreach (Action_Sequence action_sequence in GAVPI.Profile.Profile_ActionSequences)
+            {
+                if (action_sequence.name.Equals(this.value))
+                {
+                    action_sequence.run();
+                    break;
+                }
+            }
         }
     }
     #endregion
