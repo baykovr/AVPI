@@ -83,10 +83,11 @@ namespace GAVPI
                         string xml_pushtotalk_key = element.Attributes.GetNamedItem("pushtotalk_key").Value;
                         string xml_recognizer_info = element.Attributes.GetNamedItem("recognizer_info").Value;
 
-                     if (String.IsNullOrEmpty(xml_voice_info) &&
-                             String.IsNullOrEmpty(xml_pushtotalk_mode) &&
-                             String.IsNullOrEmpty(xml_pushtotalk_key) &&
-                             String.IsNullOrEmpty(xml_recognizer_info))
+
+                        if (String.IsNullOrEmpty(xml_voice_info) &&
+                                String.IsNullOrEmpty(xml_pushtotalk_mode) &&
+                                String.IsNullOrEmpty(xml_pushtotalk_key) &&
+                                String.IsNullOrEmpty(xml_recognizer_info))
                         {
                             throw new Exception("Malformed settings file, some values are null.");
                         }
