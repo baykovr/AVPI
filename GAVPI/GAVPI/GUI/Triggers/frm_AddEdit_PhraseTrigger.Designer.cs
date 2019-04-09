@@ -98,7 +98,7 @@
             this.lblTriggerValue.Name = "lblTriggerValue";
             this.lblTriggerValue.Size = new System.Drawing.Size(184, 13);
             this.lblTriggerValue.TabIndex = 4;
-            this.lblTriggerValue.Text = "Speach Recognition Word or Phrase ";
+            this.lblTriggerValue.Text = "Speech Recognition Word or Phrase ";
             // 
             // lblTriggerComment
             // 
