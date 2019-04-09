@@ -73,33 +73,37 @@ namespace GAVPI
                 {
                     if (element.Name == "Settings")
                     {
-                        // Warning : can be null
+
                         string xml_default_profile_name = element.Attributes.GetNamedItem("default_profile_name").Value;
-                        // Warning : can be null
                         string xml_default_profile_filepath = element.Attributes.GetNamedItem("default_profile_filepath").Value;
-                        
                         string xml_voice_info = element.Attributes.GetNamedItem("voice_info").Value;
                         string xml_pushtotalk_mode = element.Attributes.GetNamedItem("pushtotalk_mode").Value;
                         string xml_pushtotalk_key = element.Attributes.GetNamedItem("pushtotalk_key").Value;
                         string xml_recognizer_info = element.Attributes.GetNamedItem("recognizer_info").Value;
 
-
-                        if (String.IsNullOrEmpty(xml_voice_info) &&
-                                String.IsNullOrEmpty(xml_pushtotalk_mode) &&
-                                String.IsNullOrEmpty(xml_pushtotalk_key) &&
-                                String.IsNullOrEmpty(xml_recognizer_info))
-                        {
-                            throw new Exception("Malformed settings file, some values are null.");
-                        }
-                        else
-                        {
-                            default_profile_name = xml_default_profile_name;
-                            default_profile_filepath = xml_default_profile_filepath;
+                        // If any of these are not specified in settings, we can leave with defaults loaded in Settings constructor.
+                        // This lets us default to an individual's local system locale / available voices.
+                        if (!String.IsNullOrEmpty(xml_voice_info))
                             voice_info = xml_voice_info;
+
+                        if (!String.IsNullOrEmpty(xml_default_profile_name))
+                            default_profile_name = xml_default_profile_name;
+
+                        if (!String.IsNullOrEmpty(xml_default_profile_filepath))
+                            default_profile_filepath = xml_default_profile_filepath;
+
+                        if (!String.IsNullOrEmpty(xml_pushtotalk_mode))
                             pushtotalk_mode = xml_pushtotalk_mode;
+
+                        if (!String.IsNullOrEmpty(xml_pushtotalk_key))
                             pushtotalk_key = xml_pushtotalk_key;
+
+                        if (!String.IsNullOrEmpty(xml_voice_info))
+                            voice_info = xml_voice_info;
+
+                        if (!String.IsNullOrEmpty(xml_recognizer_info))
                             recognizer_info = new System.Globalization.CultureInfo(xml_recognizer_info);
-                        }
+                        
                     }
                     else
                     {
