@@ -1,12 +1,12 @@
 ![GAVPI](https://raw.githubusercontent.com/baykovr/AVPI/master/img/gavpi-logo.png)
 
-### [ Latest Version ] (https://github.com/baykovr/AVPI/releases/tag/17.03.15)  : Build 17.03.15
+## Latest Release - [21.11.01](https://github.com/baykovr/AVPI/releases/tag/21.11.01)
 
-Download link for latest build [direct](https://github.com/baykovr/AVPI/releases/download/17.03.15/GAVPI_17.03.15.zip)
+[Direct Download - GAVPI_21.11.01.zip](https://github.com/baykovr/AVPI/releases/download/21.11.01/GAVPI_21.11.01.zip)
 
-You should run gavpi as administrator for it work properly in most games. (right click run as...)
+_You should run gavpi as administrator for it work properly in most games. (right click run as...)_
 
-#### About
+### About
 
 GAVPI is an open source voice command software / speech recognition key bind tool. Using gavpi you can execute repetitive or complex tasks using your voice. It can be used with any application, since it's equivilent to pressing your mouse/keyboard.
 
