@@ -1,4 +1,5 @@
-﻿using InputManager;
+﻿using GAVPI.GUI.Actions;
+using InputManager;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,13 +24,14 @@ namespace GAVPI
         public static Dictionary<string, List<string>> ActionGroups
             = new Dictionary<string, List<string>>() 
             {
-                { "Key/Mouse Press",  new List<string> { "KeyDown", "KeyUp", "KeyPress","MouseKeyDown","MouseKeyUp","MouseKeyPress"} },
-                { "Timing",           new List<string> { "Wait" } },
-                { "Speak Action",     new List<string> { "Speak","Data_Speak" } },
-                { "PlaySound Action", new List<string> { "Play_Sound" } },
-                { "StopSound Action", new List<string> { "Stop_Sound" } },
-                { "Paste Action",     new List<string> { "ClipboardPaste" } },
-                { "Data Action",      new List<string> { "Data_Paste" } }
+                { "Key/Mouse Press",      new List<string> { "KeyDown", "KeyUp", "KeyPress","MouseKeyDown","MouseKeyUp","MouseKeyPress"} },
+                { "Timing",               new List<string> { "Wait" } },
+                { "Speak Action",         new List<string> { "Speak","Data_Speak" } },
+                { "PlaySound Action",     new List<string> { "Play_Sound" } },
+                { "StopSound Action",     new List<string> { "Stop_Sound" } },
+                { "Paste Action",         new List<string> { "ClipboardPaste" } },
+                { "Data Action",          new List<string> { "Data_Paste" } },
+                { "Process Start Action", new List<string> { "ProcessStart" } }
             };
 
         // These type lists are used to populate ui elements,
@@ -172,7 +174,7 @@ namespace GAVPI
         private void ui_edit()
         {
             // If for some reason multi select is on, just take the first item 
-            // and a show warning.
+            // and show a warning.
 
             //TODO, for multi select just remove the items on OK
             //and insert # removed copies of edited
@@ -236,6 +238,11 @@ namespace GAVPI
                         // not implemented.
                         break;
                     }
+                    case "Process Start Action":
+                     {
+                            ProcessForm_AddEditProcessStartAction(action_to_edit, index);
+                            break;
+                     }
                     default:
                     GAVPI.ProfileDebugLog.Entry("[ ! ] Selected default group category by name: "+group);
                         break;
@@ -305,6 +312,11 @@ namespace GAVPI
                         //{
 
                         //}
+                        break;
+                    }
+                case "Process Start Action":
+                    {
+                        ProcessForm_AddEditProcessStartAction(null, 0);
                         break;
                     }
                 default:
@@ -570,10 +582,45 @@ namespace GAVPI
                 dgActionSequence.CurrentCell = dgActionSequence.Rows[index].Cells[0];
             }
         }
+        private void ProcessForm_AddEditProcessStartAction(Action edit_action, int index)
+        {
+            frm_AddEdit_ProcessStartAction new_ProcessStartAction;
+            if(edit_action == null)
+            {
+                new_ProcessStartAction = new frm_AddEdit_ProcessStartAction();
+            } else
+            {
+                new_ProcessStartAction = new frm_AddEdit_ProcessStartAction(edit_action);
+            }
+            if (new_ProcessStartAction.ShowDialog() == DialogResult.OK)
+            {
+                if (new_ProcessStartAction.get_action() != null)
+                {
+                    if (edit_action == null)
+                    {
+                        sequence_to_edit.Add(new_ProcessStartAction.get_action());
+                    }
+                    else
+                    {
+                        sequence_to_edit.action_sequence[index] = new_ProcessStartAction.get_action();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("WARNING: Press form returned an invalid action.");
+                    return;
+                }
+                ActionSequenceEdited = true;
+                refresh_dgActionSequence();
+
+                // Bring Selection back to edited element
+                dgActionSequence.CurrentCell = dgActionSequence.Rows[index].Cells[0];
+            }
+        }
         #endregion
 
-        #region UI : Populate 
-        private void populate_fields()
+            #region UI : Populate 
+            private void populate_fields()
         {
             // Fill combo-box with possible action types.
             cbActionType.DataSource = ActionGroups.Keys.ToList();

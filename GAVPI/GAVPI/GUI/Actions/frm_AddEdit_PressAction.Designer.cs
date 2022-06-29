@@ -45,9 +45,10 @@
             this.lblPressType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPressType.AutoSize = true;
-            this.lblPressType.Location = new System.Drawing.Point(9, 23);
+            this.lblPressType.Location = new System.Drawing.Point(14, 35);
+            this.lblPressType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPressType.Name = "lblPressType";
-            this.lblPressType.Size = new System.Drawing.Size(60, 13);
+            this.lblPressType.Size = new System.Drawing.Size(87, 20);
             this.lblPressType.TabIndex = 7;
             this.lblPressType.Text = "Press Type";
             // 
@@ -57,9 +58,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbPressType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPressType.FormattingEnabled = true;
-            this.cbPressType.Location = new System.Drawing.Point(76, 20);
+            this.cbPressType.Location = new System.Drawing.Point(114, 31);
+            this.cbPressType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbPressType.Name = "cbPressType";
-            this.cbPressType.Size = new System.Drawing.Size(321, 21);
+            this.cbPressType.Size = new System.Drawing.Size(480, 28);
             this.cbPressType.TabIndex = 1;
             this.cbPressType.SelectedIndexChanged += new System.EventHandler(this.cbPressType_SelectedIndexChanged);
             // 
@@ -68,9 +70,10 @@
             this.lblPressValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPressValue.AutoSize = true;
-            this.lblPressValue.Location = new System.Drawing.Point(35, 54);
+            this.lblPressValue.Location = new System.Drawing.Point(52, 83);
+            this.lblPressValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPressValue.Name = "lblPressValue";
-            this.lblPressValue.Size = new System.Drawing.Size(34, 13);
+            this.lblPressValue.Size = new System.Drawing.Size(50, 20);
             this.lblPressValue.TabIndex = 8;
             this.lblPressValue.Text = "Value";
             // 
@@ -80,18 +83,20 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbPressValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPressValue.FormattingEnabled = true;
-            this.cbPressValue.Location = new System.Drawing.Point(76, 51);
+            this.cbPressValue.Location = new System.Drawing.Point(114, 78);
+            this.cbPressValue.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbPressValue.Name = "cbPressValue";
-            this.cbPressValue.Size = new System.Drawing.Size(224, 21);
+            this.cbPressValue.Size = new System.Drawing.Size(334, 28);
             this.cbPressValue.TabIndex = 2;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(322, 119);
+            this.btnCancel.Location = new System.Drawing.Point(483, 148);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(112, 35);
             this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -100,9 +105,10 @@
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(241, 119);
+            this.btnAdd.Location = new System.Drawing.Point(363, 148);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.Size = new System.Drawing.Size(112, 35);
             this.btnAdd.TabIndex = 3;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -112,18 +118,20 @@
             // 
             this.txtTimesToAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtTimesToAdd.Enabled = false;
-            this.txtTimesToAdd.Location = new System.Drawing.Point(133, 121);
+            this.txtTimesToAdd.Location = new System.Drawing.Point(200, 186);
+            this.txtTimesToAdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTimesToAdd.Name = "txtTimesToAdd";
-            this.txtTimesToAdd.Size = new System.Drawing.Size(64, 20);
+            this.txtTimesToAdd.Size = new System.Drawing.Size(94, 26);
             this.txtTimesToAdd.TabIndex = 12;
             // 
             // chckMultiAdd
             // 
             this.chckMultiAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chckMultiAdd.AutoSize = true;
-            this.chckMultiAdd.Location = new System.Drawing.Point(12, 123);
+            this.chckMultiAdd.Location = new System.Drawing.Point(18, 191);
+            this.chckMultiAdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chckMultiAdd.Name = "chckMultiAdd";
-            this.chckMultiAdd.Size = new System.Drawing.Size(115, 17);
+            this.chckMultiAdd.Size = new System.Drawing.Size(168, 24);
             this.chckMultiAdd.TabIndex = 13;
             this.chckMultiAdd.Text = "Add Multiple Times";
             this.chckMultiAdd.UseVisualStyleBackColor = true;
@@ -133,9 +141,10 @@
             // 
             this.btnKeyFrmPress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnKeyFrmPress.Location = new System.Drawing.Point(306, 51);
+            this.btnKeyFrmPress.Location = new System.Drawing.Point(459, 78);
+            this.btnKeyFrmPress.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnKeyFrmPress.Name = "btnKeyFrmPress";
-            this.btnKeyFrmPress.Size = new System.Drawing.Size(91, 23);
+            this.btnKeyFrmPress.Size = new System.Drawing.Size(136, 35);
             this.btnKeyFrmPress.TabIndex = 14;
             this.btnKeyFrmPress.Text = "From Press";
             this.btnKeyFrmPress.UseVisualStyleBackColor = true;
@@ -144,10 +153,10 @@
             // frm_AddEdit_PressAction
             // 
             this.AcceptButton = this.btnAdd;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(409, 154);
+            this.ClientSize = new System.Drawing.Size(596, 197);
             this.Controls.Add(this.btnKeyFrmPress);
             this.Controls.Add(this.chckMultiAdd);
             this.Controls.Add(this.txtTimesToAdd);
@@ -158,8 +167,9 @@
             this.Controls.Add(this.lblPressType);
             this.Controls.Add(this.cbPressType);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(419, 184);
-            this.MinimumSize = new System.Drawing.Size(419, 184);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximumSize = new System.Drawing.Size(618, 253);
+            this.MinimumSize = new System.Drawing.Size(618, 253);
             this.Name = "frm_AddEdit_PressAction";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Key/Mouse Press Action";

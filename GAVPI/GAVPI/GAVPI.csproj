@@ -96,6 +96,12 @@
     <Compile Include="GUI\Actions\frm_AddEdit_PlaySoundAction.designer.cs">
       <DependentUpon>frm_AddEdit_PlaySoundAction.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Actions\frm_AddEdit_ProcessStartAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Actions\frm_AddEdit_ProcessStartAction.Designer.cs">
+      <DependentUpon>frm_AddEdit_ProcessStartAction.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frm_AddEdit_ActionSequence.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,6 +209,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Actions\frm_AddEdit_PlaySoundAction.resx">
       <DependentUpon>frm_AddEdit_PlaySoundAction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Actions\frm_AddEdit_ProcessStartAction.resx">
+      <DependentUpon>frm_AddEdit_ProcessStartAction.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frm_AddEdit_ActionSequence.resx">
       <DependentUpon>frm_AddEdit_ActionSequence.cs</DependentUpon>
