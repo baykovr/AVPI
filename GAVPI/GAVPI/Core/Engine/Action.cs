@@ -376,11 +376,11 @@ namespace GAVPI
 
     #region System Action
     // System calls and actionss.
-    public partial class ProcessExec : Action
+    public partial class ProcessStart : Action
     {
         Process proc = new Process();
 
-        public ProcessExec(string proc_name) : base(proc_name) { }
+        public ProcessStart(string value) : base(value) { }
 
         public override string value
         {
@@ -389,7 +389,13 @@ namespace GAVPI
 
         public override void run()
         {
-            Process.Start(this.value);
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C " + this.value;
+            process.StartInfo = startInfo;
+            process.Start();
         }
     }
 
